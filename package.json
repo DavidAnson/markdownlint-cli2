@@ -1,0 +1,31 @@
+{
+  "name": "markdownlint-cli2",
+  "version": "0.0.1",
+  "description": "A fast, flexible, configuration-based command line interface for linting Markdown/CommonMark files with the `markdownlint` library",
+  "main": "markdownlint-cli2.js",
+  "author": "David Anson (https://dlaa.me/)",
+  "license": "MIT",
+  "homepage": "https://github.com/DavidAnson/markdownlint-cli2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DavidAnson/markdownlint-cli2.git"
+  },
+  "bugs": "https://github.com/DavidAnson/markdownlint-cli2/issues",
+  "scripts": {
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "keywords": [
+    "markdown",
+    "lint",
+    "cli",
+    "md",
+    "CommonMark",
+    "markdownlint"
+  ]
+}
