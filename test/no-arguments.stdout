@@ -1,0 +1,4 @@
+SYNTAX: markdownlint-cli2 'glob0' ['glob1'] [...] ['globN']
+NOTE: Use single quotes to wrap glob patterns for best performance
+      Single quote wrapping is necessary for negated ('!') patterns
+EXAMPLE: markdownlint-cli2 '**/*.md' '!node_modules'
