@@ -97,12 +97,19 @@ const markdownlintPromise = util.promisify(markdownlint);
   for (const dir in dirInfos) {
     const dirInfo = dirInfos[dir];
     let markdownlintCli2Jsonc = dirInfo.markdownlintCli2Jsonc || {};
-    let parent = null;
-    while (parent = dirInfo.parent) {
+    let parent = dirInfo;
+    while (parent = parent.parent) {
       if (parent.markdownlintCli2Jsonc) {
-        markdownlintCli2Jsonc = { ...parent.markdownlintCli2Jsonc, ...markdownlintCli2Jsonc };
+        const config = {
+          ...parent.markdownlintCli2Jsonc.config,
+          ...markdownlintCli2Jsonc.config
+        };
+        markdownlintCli2Jsonc = {
+          ...parent.markdownlintCli2Jsonc,
+          ...markdownlintCli2Jsonc,
+          config
+        };
       }
-      parent = parent.parent;
     }
     dirInfo.markdownlintCli2Jsonc = markdownlintCli2Jsonc;
   }

@@ -8,24 +8,25 @@ const execa = require("execa");
 const tape = require("tape");
 require("tape-player");
 
-function testCase(name, args, exitCode) {
+function testCase(name, args, exitCode, cwd) {
   tape(name, (test) => {
     test.plan(3);
     Promise.all([
       execa.node(
-        "markdownlint-cli2.js",
+        path.join(__dirname, "..", "markdownlint-cli2.js"),
         args,
         {
+          "cwd": path.join(__dirname, `${cwd || name}`),
           "reject": false,
           "stripFinalNewline": false
         }
       ),
       fs.promises.readFile(
-        path.join(".", "test", `${name}.stdout`),
+        path.join(__dirname, `${name}.stdout`),
         "utf8"
       ),
       fs.promises.readFile(
-        path.join(".", "test", `${name}.stderr`),
+        path.join(__dirname, `${name}.stderr`),
         "utf8"
       )
     ])
@@ -41,5 +42,30 @@ function testCase(name, args, exitCode) {
 testCase(
   "no-arguments",
   [],
+  1,
+  "no-config"
+);
+
+testCase(
+  "all-ok",
+  [ "**/*.md", "**/*.markdown" ],
+  0
+);
+
+testCase(
+  "no-config",
+  [ "**" ],
+  1
+);
+
+testCase(
+  "markdownlint-json",
+  [ "**/*.md" ],
+  1
+);
+
+testCase(
+  "markdownlint-cli2-jsonc",
+  [ "**/*.md" ],
   1
 );
