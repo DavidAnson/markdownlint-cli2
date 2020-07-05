@@ -8,6 +8,8 @@ const execa = require("execa");
 const tape = require("tape");
 require("tape-player");
 
+const crRe = /\r/gu;
+
 function testCase(name, args, exitCode, cwd) {
   tape(name, (test) => {
     test.plan(3);
@@ -33,8 +35,8 @@ function testCase(name, args, exitCode, cwd) {
     .then((results) => {
       const [ child, stdout, stderr ] = results;
       test.equal(child.exitCode, exitCode);
-      test.equal(child.stdout, stdout);
-      test.equal(child.stderr, stderr);
+      test.equal(child.stdout, stdout.replace(crRe, ""));
+      test.equal(child.stderr, stderr.replace(crRe, ""));
     });
   });
 }
