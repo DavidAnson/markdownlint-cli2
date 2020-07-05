@@ -1,0 +1,36 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "extends": [
+    "eslint:all"
+  ],
+  "rules": {
+    "array-bracket-spacing": ["error", "always"],
+    "array-element-newline": "off",
+    "function-call-argument-newline": "off",
+    "function-paren-newline": "off",
+    "guard-for-in": "off",
+    "id-length": "off",
+    "indent": ["error", 2],
+    "linebreak-style": "off",
+    "max-params": "off",
+    "max-statements": "off",
+    "multiline-comment-style": ["error", "separate-lines"],
+    "multiline-ternary": "off",
+    "no-console": "off",
+    "no-extra-parens": "off",
+    "no-magic-numbers": "off",
+    "no-plusplus": "off",
+    "no-ternary": "off",
+    "object-curly-spacing": ["error", "always"],
+    "one-var": "off",
+    "padded-blocks": "off",
+    "require-atomic-updates": "off",
+    "sort-keys": "off"
+  }
+}

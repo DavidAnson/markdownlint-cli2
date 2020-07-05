@@ -10,7 +10,7 @@ require("tape-player");
 
 const crRe = /\r/gu;
 
-function testCase(name, args, exitCode, cwd) {
+const testCase = (name, args, exitCode, cwd) => {
   tape(name, (test) => {
     test.plan(3);
     Promise.all([
@@ -31,15 +31,14 @@ function testCase(name, args, exitCode, cwd) {
         path.join(__dirname, `${name}.stderr`),
         "utf8"
       )
-    ])
-    .then((results) => {
+    ]).then((results) => {
       const [ child, stdout, stderr ] = results;
       test.equal(child.exitCode, exitCode);
       test.equal(child.stdout, stdout.replace(crRe, ""));
       test.equal(child.stderr, stderr.replace(crRe, ""));
     });
   });
-}
+};
 
 testCase(
   "no-arguments",

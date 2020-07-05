@@ -12,9 +12,10 @@
   },
   "bugs": "https://github.com/DavidAnson/markdownlint-cli2/issues",
   "scripts": {
+    "ci": "npm run test-cover && npm run lint",
+    "lint": "eslint --max-warnings 0 '*.js' 'test/*.js'",
     "test": "node test/markdownlint-cli2-test.js",
-    "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 node test/markdownlint-cli2-test.js",
-    "ci": "npm run test-cover"
+    "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 node test/markdownlint-cli2-test.js"
   },
   "engines": {
     "node": ">=10"
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "c8": "~7.2.0",
+    "eslint": "~7.4.0",
     "execa": "~4.0.2",
     "tape": "~5.0.1",
     "tape-player": "~0.1.1"

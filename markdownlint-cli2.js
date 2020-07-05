@@ -10,8 +10,25 @@ const globby = require("globby");
 const markdownlint = require("markdownlint");
 const stripJsonComments = require("strip-json-comments");
 
-// Globals
+// Variables
 const markdownlintPromise = util.promisify(markdownlint);
+
+// Formats summary in the style of `markdownlint-cli`
+const formatMarkdownlintCli = (summary) => {
+  for (const errorInfo of summary) {
+    const { fileName, lineNumber, ruleNames, ruleDescription, errorDetail,
+      errorContext, errorRange } = errorInfo;
+    const ruleName = ruleNames.join("/");
+    const description = ruleDescription +
+          (errorDetail ? ` [${errorDetail}]` : "") +
+          (errorContext ? ` [Context: "${errorContext}"]` : "");
+    const column = (errorRange && errorRange[0]) || 0;
+    const columnText = column ? `:${column}` : "";
+    console.error(
+      `${fileName}:${lineNumber}${columnText} ${ruleName} ${description}`
+    );
+  }
+};
 
 // Main function
 (async () => {
@@ -23,8 +40,12 @@ const markdownlintPromise = util.promisify(markdownlint);
   if (!globPatterns.length) {
     const program = path.basename(process.argv[1], ".js");
     console.log(`SYNTAX: ${program} 'glob0' ['glob1'] [...] ['globN']`);
-    console.log("NOTE: Use single quotes to wrap glob patterns for best performance");
-    console.log("      Single quote wrapping is necessary for negated ('!') patterns");
+    console.log(
+      "NOTE: Use single quotes to wrap glob patterns for best performance"
+    );
+    console.log(
+      "      Single quote wrapping is necessary for negated ('!') patterns"
+    );
     console.log(`EXAMPLE: ${program} '**/*.md' '!node_modules'`);
     process.exitCode = 1;
   }
@@ -38,23 +59,25 @@ const markdownlintPromise = util.promisify(markdownlint);
     let dirInfo = dirInfos[dir];
     if (!dirInfo) {
       dirInfo = {
-        parent: null,
-        files: [],
-        markdownlintJson: null,
-        markdownlintCli2Jsonc: null
+        "parent": null,
+        "files": [],
+        "markdownlintJson": null,
+        "markdownlintCli2Jsonc": null
       };
       dirInfos[dir] = dirInfo;
       for (const config of configFileNameAndPropertys) {
         const [ configFile, configProperty ] = config;
         const configPath = path.join(dir, configFile);
-        const task = fs.access(configPath)
-          .then(() => {
-            return fs.readFile(configPath, "utf8")
-              .then((content) => {
-                dirInfo[configProperty] = JSON.parse(stripJsonComments(content));
-              });
-            },
-            () => {}
+        const task = fs.access(configPath).
+          then(
+            () => fs.readFile(configPath, "utf8").
+              then((content) => {
+                dirInfo[configProperty] =
+                  JSON.parse(stripJsonComments(content));
+              }),
+            () => {
+              // Ignore failure
+            }
           );
         tasks.push(task);
       }
@@ -69,8 +92,9 @@ const markdownlintPromise = util.promisify(markdownlint);
     let lastDirInfo = getAndProcessDirInfo(dir, (dirInfo) => {
       dirInfo.files.push(file);
     });
-    while((dir = path.dirname(dir)) && (dir !== lastDir)) {
+    while ((dir = path.dirname(dir)) && (dir !== lastDir)) {
       lastDir = dir;
+      // eslint-disable-next-line no-loop-func
       lastDirInfo = getAndProcessDirInfo(dir, (dirInfo) => {
         lastDirInfo.parent = dirInfo;
       });
@@ -80,7 +104,12 @@ const markdownlintPromise = util.promisify(markdownlint);
   tasks.length = 0;
 
   // Merge file lists with identical configuration
-  const noConfigDirInfo = (dirInfo) => dirInfo.parent && !dirInfo.markdownlintJson && !dirInfo.markdownlintCli2Jsonc;
+  const noConfigDirInfo =
+    (dirInfo) => (
+      dirInfo.parent &&
+      !dirInfo.markdownlintJson &&
+      !dirInfo.markdownlintCli2Jsonc
+    );
   for (const dir in dirInfos) {
     const dirInfo = dirInfos[dir];
     if (noConfigDirInfo(dirInfo)) {
@@ -98,7 +127,8 @@ const markdownlintPromise = util.promisify(markdownlint);
     const dirInfo = dirInfos[dir];
     let markdownlintCli2Jsonc = dirInfo.markdownlintCli2Jsonc || {};
     let parent = dirInfo;
-    while (parent = parent.parent) {
+    // eslint-disable-next-line prefer-destructuring
+    while ((parent = parent.parent)) {
       if (parent.markdownlintCli2Jsonc) {
         const config = {
           ...parent.markdownlintCli2Jsonc.config,
@@ -150,12 +180,12 @@ const markdownlintPromise = util.promisify(markdownlint);
       }
     }
   }
-  summary.sort((a, b) => {
-    return a.fileName.localeCompare(b.fileName) ||
-      (a.lineNumber - b.lineNumber) ||
-      a.ruleNames[0].localeCompare(b.ruleNames[0]) ||
-      (a.counter - b.counter);
-  })
+  summary.sort((a, b) => (
+    a.fileName.localeCompare(b.fileName) ||
+    (a.lineNumber - b.lineNumber) ||
+    a.ruleNames[0].localeCompare(b.ruleNames[0]) ||
+    (a.counter - b.counter)
+  ));
 
   // Output summary
   if (summary.length) {
@@ -163,21 +193,3 @@ const markdownlintPromise = util.promisify(markdownlint);
     process.exitCode = 1;
   }
 })();
-
-// Formats summary in the style of `markdownlint-cli`
-function formatMarkdownlintCli(summary) {
-  for (const errorInfo of summary) {
-    const { fileName, lineNumber, ruleNames, ruleDescription, errorDetail, errorContext, errorRange } = errorInfo;
-    const ruleName = ruleNames.join("/");
-    const description = ruleDescription +
-          (errorDetail ? ' [' + errorDetail + ']' : '') +
-          (errorContext ? ' [Context: "' + errorContext + '"]' : '')
-    const column = (errorRange && errorRange[0]) || 0;
-    const columnText = column ? `:${column}` : '';
-    console.error(`${fileName}:${lineNumber}${columnText} ${ruleName} ${description}`);
-  }
-}
-
-// function formatJson(summary) {
-//   console.dir(summary);
-// }
