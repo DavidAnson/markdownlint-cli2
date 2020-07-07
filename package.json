@@ -14,11 +14,12 @@
   "scripts": {
     "ci": "npm run test-cover && npm run lint",
     "lint": "eslint --max-warnings 0 \"*.js\" \"test/*.js\"",
+    "lint-watch": "git ls-files | entr npm run lint",
     "test": "node test/markdownlint-cli2-test.js",
     "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 node test/markdownlint-cli2-test.js"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=10.17.0"
   },
   "dependencies": {
     "globby": "~11.0.1",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "c8": "~7.2.0",
     "eslint": "~7.4.0",
+    "eslint-plugin-node": "~11.1.0",
     "execa": "~4.0.2",
     "tape": "~5.0.1",
     "tape-player": "~0.1.1"
