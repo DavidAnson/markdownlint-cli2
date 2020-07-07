@@ -37,7 +37,7 @@ const formatMarkdownlintCli = (summary) => {
 
   // Output help for missing arguments
   const globPatterns = process.argv.slice(2);
-  if (!globPatterns.length) {
+  if (globPatterns.length === 0) {
     const program = path.basename(process.argv[1], ".js");
     console.log(`SYNTAX: ${program} 'glob0' ['glob1'] [...] ['globN']`);
     console.log(
@@ -188,7 +188,7 @@ const formatMarkdownlintCli = (summary) => {
   ));
 
   // Output summary
-  if (summary.length) {
+  if (summary.length > 0) {
     formatMarkdownlintCli(summary);
     process.exitCode = 1;
   }
