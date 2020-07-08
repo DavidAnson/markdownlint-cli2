@@ -66,6 +66,12 @@ testCase(
 );
 
 testCase(
+  "markdownlint-json-extends",
+  [ "**/*.md" ],
+  1
+);
+
+testCase(
   "markdownlint-cli2-jsonc",
   [ "**/*.md" ],
   1

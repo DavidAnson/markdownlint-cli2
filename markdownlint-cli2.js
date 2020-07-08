@@ -12,6 +12,10 @@ const stripJsonComments = require("strip-json-comments");
 
 // Variables
 const markdownlintPromise = util.promisify(markdownlint);
+const markdownlintReadConfigPromise = util.promisify(markdownlint.readConfig);
+
+// Parses JSONC text
+const jsoncParse = (text) => JSON.parse(stripJsonComments(text));
 
 // Formats summary in the style of `markdownlint-cli`
 const formatMarkdownlintCli = (summary) => {
@@ -52,8 +56,19 @@ const formatMarkdownlintCli = (summary) => {
 
   // Enumerate glob patterns and build directory info list
   const configFileNameAndPropertys = [
-    [ ".markdownlint.json", "markdownlintJson" ],
-    [ ".markdownlint-cli2.jsonc", "markdownlintCli2Jsonc" ]
+    [
+      ".markdownlint.json",
+      "markdownlintJson",
+      // @ts-ignore
+      (file) => markdownlintReadConfigPromise(file, [ jsoncParse ]),
+      (result) => result
+    ],
+    [
+      ".markdownlint-cli2.jsonc",
+      "markdownlintCli2Jsonc",
+      (file) => fs.readFile(file, "utf8"),
+      jsoncParse
+    ]
   ];
   const getAndProcessDirInfo = (dir, func) => {
     let dirInfo = dirInfos[dir];
@@ -66,14 +81,16 @@ const formatMarkdownlintCli = (summary) => {
       };
       dirInfos[dir] = dirInfo;
       for (const config of configFileNameAndPropertys) {
-        const [ configFile, configProperty ] = config;
+        const [ configFile, configProperty, readFile, convertResult ] = config;
+        // @ts-ignore
         const configPath = path.join(dir, configFile);
         const task = fs.access(configPath).
           then(
-            () => fs.readFile(configPath, "utf8").
-              then((content) => {
-                dirInfo[configProperty] =
-                  JSON.parse(stripJsonComments(content));
+            // @ts-ignore
+            () => readFile(configPath).
+              then((result) => {
+                // @ts-ignore
+                dirInfo[configProperty] = convertResult(result);
               }),
             () => {
               // Ignore failure

@@ -1,0 +1,4 @@
+{
+  "extends": "../base.json",
+  "first-line-heading": false
+}
