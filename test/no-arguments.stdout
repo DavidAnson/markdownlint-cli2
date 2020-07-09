@@ -1,4 +1,15 @@
-SYNTAX: markdownlint-cli2 'glob0' ['glob1'] [...] ['globN']
-NOTE: Use single quotes to wrap glob patterns for best performance
-      Single quote wrapping is necessary for negated ('!') patterns
-EXAMPLE: markdownlint-cli2 '**/*.md' '!node_modules'
+markdownlint-cli2 version 0.0.1 by David Anson (https://dlaa.me/)
+https://github.com/DavidAnson/markdownlint-cli2
+
+Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN]
+
+Cross-platform compatibility:
+
+- UNIX and Windows shells expand globs according to different rules, so quoting glob arguments is recommended
+- Shells that expand globs do not support negated patterns (!node_modules), so quoting negated globs is required
+- Some Windows shells do not handle single-quoted (') arguments correctly, so double-quotes (") are recommended
+- Some UNIX shells handle exclamation (!) in double-quotes specially, so hashtag (#) is recommended for negated globs
+- Some shells use backslash (\) to escape special characters, so forward slash (/) is the recommended path separator
+
+Therefore, the most compatible syntax for cross-platform support:
+markdownlint-cli2 "**/*.md" "#node_modules"

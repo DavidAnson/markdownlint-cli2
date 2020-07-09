@@ -44,15 +44,25 @@ const formatMarkdownlintCli = (summary) => {
   // Output help for missing arguments
   const globPatterns = process.argv.slice(2);
   if (globPatterns.length === 0) {
-    const program = path.basename(process.argv[1], ".js");
-    console.log(`SYNTAX: ${program} 'glob0' ['glob1'] [...] ['globN']`);
-    console.log(
-      "NOTE: Use single quotes to wrap glob patterns for best performance"
+    const { name, version, author, homepage } = require("./package.json");
+    /* eslint-disable max-len */
+    console.log(`${name} version ${version} by ${author}
+${homepage}
+
+Syntax: ${name} glob0 [glob1] [...] [globN]
+
+Cross-platform compatibility:
+
+- UNIX and Windows shells expand globs according to different rules, so quoting glob arguments is recommended
+- Shells that expand globs do not support negated patterns (!node_modules), so quoting negated globs is required
+- Some Windows shells do not handle single-quoted (') arguments correctly, so double-quotes (") are recommended
+- Some UNIX shells handle exclamation (!) in double-quotes specially, so hashtag (#) is recommended for negated globs
+- Some shells use backslash (\\) to escape special characters, so forward slash (/) is the recommended path separator
+
+Therefore, the most compatible syntax for cross-platform support:
+${name} "**/*.md" "#node_modules"`
     );
-    console.log(
-      "      Single quote wrapping is necessary for negated ('!') patterns"
-    );
-    console.log(`EXAMPLE: ${program} '**/*.md' '!node_modules'`);
+    /* eslint-enable max-len */
     process.exitCode = 1;
   }
 

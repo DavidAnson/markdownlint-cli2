@@ -63,7 +63,7 @@
     "node/callback-return": "error",
     "node/exports-style": "error",
     "node/file-extension-in-import": "error",
-    "node/global-require": "error",
+    "node/global-require": "off",
     "node/no-mixed-requires": "error",
     "node/no-process-env": "error",
     "node/no-restricted-import": "error",
