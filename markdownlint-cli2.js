@@ -10,14 +10,13 @@ const path = require("path");
 const util = require("util");
 const globby = require("globby");
 const markdownlint = require("markdownlint");
-const stripJsonComments = require("strip-json-comments");
 
 // Variables
 const markdownlintPromise = util.promisify(markdownlint);
 const markdownlintReadConfigPromise = util.promisify(markdownlint.readConfig);
 
 // Parses JSONC text
-const jsoncParse = (text) => JSON.parse(stripJsonComments(text));
+const jsoncParse = (text) => JSON.parse(require("strip-json-comments")(text));
 
 // Formats summary in the style of `markdownlint-cli`
 const formatMarkdownlintCli = (summary) => {
@@ -196,6 +195,7 @@ ${name} "**/*.md" "#node_modules"`
   tasks.length = 0;
 
   // Create summary of results
+  const cwd = process.cwd();
   const summary = [];
   let counter = 0;
   for (const results of taskResults) {
@@ -204,7 +204,7 @@ ${name} "**/*.md" "#node_modules"`
       if (Array.isArray(errorInfos)) {
         for (const errorInfo of errorInfos) {
           summary.push({
-            fileName,
+            "fileName": path.relative(cwd, fileName),
             ...errorInfo,
             counter
           });

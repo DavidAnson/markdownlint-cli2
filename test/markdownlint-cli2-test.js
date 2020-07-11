@@ -81,6 +81,13 @@ testCase(
 );
 
 testCase(
+  "file-paths-as-args",
+  [ "viewme.md", "./dir/subdir/info.md" ],
+  1,
+  "no-config"
+);
+
+testCase(
   "markdownlint-json",
   [ "**/*.md" ],
   1
