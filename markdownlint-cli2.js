@@ -42,7 +42,11 @@ const formatMarkdownlintCli = (summary) => {
   const tasks = [];
 
   // Output help for missing arguments
-  const globPatterns = process.argv.slice(2);
+  const globPatterns =
+    process.
+      argv.
+      slice(2).
+      map((glob) => glob.replace(/^#/u, "!"));
   if (globPatterns.length === 0) {
     const { name, version, author, homepage } = require("./package.json");
     /* eslint-disable max-len */

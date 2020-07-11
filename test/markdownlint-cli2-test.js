@@ -60,6 +60,27 @@ testCase(
 );
 
 testCase(
+  "no-config-ignore",
+  [ "**", "!dir" ],
+  1,
+  "no-config"
+);
+
+testCase(
+  "no-config-unignore",
+  [ "**", "!dir", "dir/subdir" ],
+  1,
+  "no-config"
+);
+
+testCase(
+  "no-config-ignore-hash",
+  [ "**", "#dir" ],
+  1,
+  "no-config"
+);
+
+testCase(
   "markdownlint-json",
   [ "**/*.md" ],
   1
