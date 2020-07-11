@@ -204,7 +204,7 @@ ${name} "**/*.md" "#node_modules"`
       if (Array.isArray(errorInfos)) {
         for (const errorInfo of errorInfos) {
           summary.push({
-            "fileName": path.relative(cwd, fileName),
+            "fileName": path.posix.relative(cwd, fileName),
             ...errorInfo,
             counter
           });
