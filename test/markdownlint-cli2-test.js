@@ -26,11 +26,11 @@ const testCase = (name, args, exitCode, cwd) => {
       fs.promises.readFile(
         path.join(__dirname, `${name}.stdout`),
         "utf8"
-      ),
+      ).catch(() => ""),
       fs.promises.readFile(
         path.join(__dirname, `${name}.stderr`),
         "utf8"
-      )
+      ).catch(() => "")
     ]).then((results) => {
       const [ child, stdout, stderr ] = results;
       test.equal(child.exitCode, exitCode);
