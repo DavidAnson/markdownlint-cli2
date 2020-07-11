@@ -195,7 +195,6 @@ ${name} "**/*.md" "#node_modules"`
   tasks.length = 0;
 
   // Create summary of results
-  const cwd = process.cwd();
   const summary = [];
   let counter = 0;
   for (const results of taskResults) {
@@ -204,7 +203,7 @@ ${name} "**/*.md" "#node_modules"`
       if (Array.isArray(errorInfos)) {
         for (const errorInfo of errorInfos) {
           summary.push({
-            "fileName": path.posix.relative(cwd, fileName),
+            "fileName": path.posix.relative("", fileName),
             ...errorInfo,
             counter
           });
