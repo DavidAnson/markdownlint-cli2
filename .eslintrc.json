@@ -16,6 +16,7 @@
   "rules": {
     "array-bracket-spacing": ["error", "always"],
     "array-element-newline": "off",
+    "capitalized-comments": "off",
     "function-call-argument-newline": "off",
     "function-paren-newline": "off",
     "guard-for-in": "off",

@@ -37,9 +37,6 @@ const formatMarkdownlintCli = (summary) => {
 
 // Main function
 (async () => {
-  const dirInfos = {};
-  const tasks = [];
-
   // Output help for missing arguments
   const globPatterns =
     process.
@@ -85,16 +82,19 @@ ${name} "**/*.md" "#node_modules"`
       jsoncParse
     ]
   ];
+  const tasks = [];
+  const dirToDirInfo = {};
   const getAndProcessDirInfo = (dir, func) => {
-    let dirInfo = dirInfos[dir];
+    let dirInfo = dirToDirInfo[dir];
     if (!dirInfo) {
       dirInfo = {
+        dir,
         "parent": null,
         "files": [],
         "markdownlintJson": null,
         "markdownlintCli2Jsonc": null
       };
-      dirInfos[dir] = dirInfo;
+      dirToDirInfo[dir] = dirInfo;
       for (const config of configFileNameAndPropertys) {
         const [ configFile, configProperty, readFile, convertResult ] = config;
         // @ts-ignore
@@ -136,27 +136,42 @@ ${name} "**/*.md" "#node_modules"`
   tasks.length = 0;
 
   // Merge file lists with identical configuration
+  const dirs = Object.keys(dirToDirInfo);
+  dirs.sort((a, b) => b.length - a.length);
+  const dirInfos = [];
   const noConfigDirInfo =
     (dirInfo) => (
       dirInfo.parent &&
       !dirInfo.markdownlintJson &&
       !dirInfo.markdownlintCli2Jsonc
     );
-  for (const dir in dirInfos) {
-    const dirInfo = dirInfos[dir];
-    if (noConfigDirInfo(dirInfo)) {
-      let targetChild = dirInfo;
-      while (noConfigDirInfo(targetChild.parent)) {
-        targetChild = targetChild.parent;
-      }
-      targetChild.parent.files.push(...dirInfo.files);
-      delete dirInfos[dir];
+  dirs.forEach((dir) => {
+    const dirInfo = dirToDirInfo[dir];
+    if (dirInfo.parent && noConfigDirInfo(dirInfo)) {
+      dirInfo.parent.files.push(...dirInfo.files);
+      dirToDirInfo[dir] = null;
+    } else {
+      dirInfos.push(dirInfo);
     }
-  }
+  });
+  dirInfos.forEach((dirInfo) => {
+    while (dirInfo.parent && !dirToDirInfo[dirInfo.parent.dir]) {
+      dirInfo.parent = dirInfo.parent.parent;
+    }
+  });
+
+  // Verify dirInfos is simplified
+  // if (dirInfos.filter((di) => !di.files.length).length) {
+  //   throw new Error("No files");
+  // }
+  // if (dirInfos.filter(
+  //   (di) => di.parent && !dirInfos.includes(di.parent)).length
+  // ) {
+  //   throw new Error("Extra parent");
+  // }
 
   // Merge configuration by inheritance
-  for (const dir in dirInfos) {
-    const dirInfo = dirInfos[dir];
+  dirInfos.forEach((dirInfo) => {
     let markdownlintCli2Jsonc = dirInfo.markdownlintCli2Jsonc || {};
     let parent = dirInfo;
     // eslint-disable-next-line prefer-destructuring
@@ -174,12 +189,10 @@ ${name} "**/*.md" "#node_modules"`
       }
     }
     dirInfo.markdownlintCli2Jsonc = markdownlintCli2Jsonc;
-  }
+  });
 
   // Lint each list of files
-  for (const dir in dirInfos) {
-    const dirInfo = dirInfos[dir];
-    delete dirInfo.parent;
+  dirInfos.forEach((dirInfo) => {
     const options = {
       ...dirInfo.markdownlintCli2Jsonc,
       "files": dirInfo.files,
@@ -190,7 +203,7 @@ ${name} "**/*.md" "#node_modules"`
     }
     const task = markdownlintPromise(options);
     tasks.push(task);
-  }
+  });
   const taskResults = await Promise.all(tasks);
   tasks.length = 0;
 
