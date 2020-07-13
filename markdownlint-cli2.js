@@ -194,7 +194,7 @@ ${name} "**/*.md" "#node_modules"`
   // Lint each list of files
   dirInfos.forEach((dirInfo) => {
     const options = {
-      ...dirInfo.markdownlintCli2Jsonc,
+      "config": dirInfo.markdownlintCli2Jsonc.config,
       "files": dirInfo.files,
       "resultVersion": 3
     };
