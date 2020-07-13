@@ -46,7 +46,7 @@ const formatMarkdownlintCli = (summary) => {
   if (globPatterns.length === 0) {
     const { name, version, author, homepage } = require("./package.json");
     /* eslint-disable max-len */
-    console.log(`${name} version ${version} by ${author}
+    console.log(`${name} version ${version} by ${author.name} (${author.url})
 ${homepage}
 
 Syntax: ${name} glob0 [glob1] [...] [globN]
