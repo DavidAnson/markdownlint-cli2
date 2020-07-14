@@ -15,8 +15,11 @@ const markdownlint = require("markdownlint");
 const markdownlintPromise = util.promisify(markdownlint);
 const markdownlintReadConfigPromise = util.promisify(markdownlint.readConfig);
 
-// Parses JSONC text
+// Parse JSONC text
 const jsoncParse = (text) => JSON.parse(require("strip-json-comments")(text));
+
+// Parse YAML text
+const yamlParse = (text) => require("yaml").parse(text);
 
 // Formats summary in the style of `markdownlint-cli`
 const formatMarkdownlintCli = (summary) => {
@@ -67,23 +70,17 @@ ${name} "**/*.md" "#node_modules"`
   }
 
   // Enumerate glob patterns and build directory info list
-  const configFileNameAndPropertys = [
-    [
-      ".markdownlint.json",
-      "markdownlintJson",
-      // @ts-ignore
-      (file) => markdownlintReadConfigPromise(file, [ jsoncParse ]),
-      (result) => result
-    ],
-    [
-      ".markdownlint-cli2.jsonc",
-      "markdownlintCli2Jsonc",
-      (file) => fs.readFile(file, "utf8"),
-      jsoncParse
-    ]
-  ];
   const tasks = [];
   const dirToDirInfo = {};
+  const readConfig = (dir, name, parser, otherwise) => {
+    const file = path.join(dir, name);
+    return () => fs.access(file).
+      then(
+        // @ts-ignore
+        () => markdownlintReadConfigPromise(file, [ parser ]),
+        otherwise
+      );
+  };
   const getAndProcessDirInfo = (dir, func) => {
     let dirInfo = dirToDirInfo[dir];
     if (!dirInfo) {
@@ -91,28 +88,50 @@ ${name} "**/*.md" "#node_modules"`
         dir,
         "parent": null,
         "files": [],
-        "markdownlintJson": null,
-        "markdownlintCli2Jsonc": null
+        "markdownlintConfig": null,
+        "markdownlintOptions": null
       };
       dirToDirInfo[dir] = dirInfo;
-      for (const config of configFileNameAndPropertys) {
-        const [ configFile, configProperty, readFile, convertResult ] = config;
-        // @ts-ignore
-        const configPath = path.join(dir, configFile);
-        const task = fs.access(configPath).
+
+      const markdownlintCli2Jsonc = path.join(dir, ".markdownlint-cli2.jsonc");
+      tasks.push(
+        fs.access(markdownlintCli2Jsonc).
           then(
-            // @ts-ignore
-            () => readFile(configPath).
-              then((result) => {
-                // @ts-ignore
-                dirInfo[configProperty] = convertResult(result);
-              }),
-            () => {
-              // Ignore failure
-            }
-          );
-        tasks.push(task);
-      }
+            () => fs.readFile(markdownlintCli2Jsonc, "utf8").then(jsoncParse),
+            () => null
+          ).
+          then((options) => {
+            dirInfo.markdownlintOptions = options;
+          })
+      );
+      const readConfigs =
+        readConfig(
+          dir,
+          ".markdownlint.json",
+          jsoncParse,
+          readConfig(
+            dir,
+            ".markdownlint.jsonc",
+            jsoncParse,
+            readConfig(
+              dir,
+              ".markdownlint.yaml",
+              yamlParse,
+              readConfig(
+                dir,
+                ".markdownlint.yml",
+                yamlParse,
+                () => null
+              )
+            )
+          )
+        );
+      tasks.push(
+        readConfigs().
+          then((config) => {
+            dirInfo.markdownlintConfig = config;
+          })
+      );
     }
     func(dirInfo);
     return dirInfo;
@@ -142,8 +161,8 @@ ${name} "**/*.md" "#node_modules"`
   const noConfigDirInfo =
     (dirInfo) => (
       dirInfo.parent &&
-      !dirInfo.markdownlintJson &&
-      !dirInfo.markdownlintCli2Jsonc
+      !dirInfo.markdownlintConfig &&
+      !dirInfo.markdownlintOptions
     );
   dirs.forEach((dir) => {
     const dirInfo = dirToDirInfo[dir];
@@ -172,34 +191,34 @@ ${name} "**/*.md" "#node_modules"`
 
   // Merge configuration by inheritance
   dirInfos.forEach((dirInfo) => {
-    let markdownlintCli2Jsonc = dirInfo.markdownlintCli2Jsonc || {};
+    let markdownlintOptions = dirInfo.markdownlintOptions || {};
     let parent = dirInfo;
     // eslint-disable-next-line prefer-destructuring
     while ((parent = parent.parent)) {
-      if (parent.markdownlintCli2Jsonc) {
+      if (parent.markdownlintOptions) {
         const config = {
-          ...parent.markdownlintCli2Jsonc.config,
-          ...markdownlintCli2Jsonc.config
+          ...parent.markdownlintOptions.config,
+          ...markdownlintOptions.config
         };
-        markdownlintCli2Jsonc = {
-          ...parent.markdownlintCli2Jsonc,
-          ...markdownlintCli2Jsonc,
+        markdownlintOptions = {
+          ...parent.markdownlintOptions,
+          ...markdownlintOptions,
           config
         };
       }
     }
-    dirInfo.markdownlintCli2Jsonc = markdownlintCli2Jsonc;
+    dirInfo.markdownlintOptions = markdownlintOptions;
   });
 
   // Lint each list of files
   dirInfos.forEach((dirInfo) => {
     const options = {
-      "config": dirInfo.markdownlintCli2Jsonc.config,
+      "config": dirInfo.markdownlintOptions.config,
       "files": dirInfo.files,
       "resultVersion": 3
     };
-    if (dirInfo.markdownlintJson) {
-      options.config = dirInfo.markdownlintJson;
+    if (dirInfo.markdownlintConfig) {
+      options.config = dirInfo.markdownlintConfig;
     }
     const task = markdownlintPromise(options);
     tasks.push(task);
