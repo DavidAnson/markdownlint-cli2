@@ -72,12 +72,12 @@ ${name} "**/*.md" "#node_modules"`
   // Enumerate glob patterns and build directory info list
   const tasks = [];
   const dirToDirInfo = {};
-  const readConfig = (dir, name, parser, otherwise) => {
+  const readConfig = (dir, name, otherwise) => {
     const file = path.join(dir, name);
     return () => fs.access(file).
       then(
         // @ts-ignore
-        () => markdownlintReadConfigPromise(file, [ parser ]),
+        () => markdownlintReadConfigPromise(file, [ jsoncParse, yamlParse ]),
         otherwise
       );
   };
@@ -92,7 +92,6 @@ ${name} "**/*.md" "#node_modules"`
         "markdownlintOptions": null
       };
       dirToDirInfo[dir] = dirInfo;
-
       const markdownlintCli2Jsonc = path.join(dir, ".markdownlint-cli2.jsonc");
       tasks.push(
         fs.access(markdownlintCli2Jsonc).
@@ -108,19 +107,15 @@ ${name} "**/*.md" "#node_modules"`
         readConfig(
           dir,
           ".markdownlint.json",
-          jsoncParse,
           readConfig(
             dir,
             ".markdownlint.jsonc",
-            jsoncParse,
             readConfig(
               dir,
               ".markdownlint.yaml",
-              yamlParse,
               readConfig(
                 dir,
                 ".markdownlint.yml",
-                yamlParse,
                 () => null
               )
             )

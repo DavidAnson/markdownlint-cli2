@@ -118,6 +118,12 @@ testCase(
 );
 
 testCase(
+  "markdownlint-json-yaml",
+  [ "**/*.md" ],
+  1
+);
+
+testCase(
   "markdownlint-cli2-jsonc",
   [ "**/*.md" ],
   1
