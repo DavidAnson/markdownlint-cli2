@@ -33,6 +33,7 @@
   ],
   "dependencies": {
     "globby": "~11.0.1",
+    "ignore": "~5.1.8",
     "markdownlint": "~0.20.4",
     "strip-json-comments": "~3.1.0",
     "yaml": "~1.10.0"

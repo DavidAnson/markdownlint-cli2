@@ -1,0 +1,4 @@
+# comment
+*.md
+dir/**/*.md
+!dir/*

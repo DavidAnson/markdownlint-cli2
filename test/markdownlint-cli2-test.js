@@ -128,3 +128,9 @@ testCase(
   [ "**/*.md" ],
   1
 );
+
+testCase(
+  "markdownlintignore",
+  [ "**/*.md" ],
+  1
+);

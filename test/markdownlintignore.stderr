@@ -1,0 +1,3 @@
+dir/about.md:1:1 MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: "#  About  #"]
+dir/about.md:4 MD032/blanks-around-lists Lists should be surrounded by blank lines [Context: "1. List"]
+dir/about.md:5:1 MD029/ol-prefix Ordered list item prefix [Expected: 2; Actual: 3; Style: 1/2/3]

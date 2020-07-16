@@ -146,6 +146,23 @@ ${name} "**/*.md" "#node_modules"`
       });
     }
   }
+  const markdownlintIgnore = ".markdownlintignore";
+  let shouldNotIgnore = () => true;
+  tasks.push(
+    fs.access(markdownlintIgnore).
+      then(
+        () => fs.readFile(markdownlintIgnore, "utf8").
+          then(
+            (content) => {
+              const ignore = require("ignore");
+              // @ts-ignore
+              const instance = ignore().add(content);
+              shouldNotIgnore = (file) => !instance.ignores(path.join(file));
+            }
+          ),
+        () => null
+      )
+  );
   await Promise.all(tasks);
   tasks.length = 0;
 
@@ -207,9 +224,11 @@ ${name} "**/*.md" "#node_modules"`
 
   // Lint each list of files
   dirInfos.forEach((dirInfo) => {
+    // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
+    const files = dirInfo.files.filter(shouldNotIgnore);
     const options = {
+      files,
       "config": dirInfo.markdownlintOptions.config,
-      "files": dirInfo.files,
       "resultVersion": 3
     };
     if (dirInfo.markdownlintConfig) {
