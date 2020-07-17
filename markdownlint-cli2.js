@@ -269,8 +269,7 @@ ${name} "**/*.md" "#node_modules"`
     return 1;
   }
 
-  // Success (c8 on Node 10/12 does not register the following line)
-  /* c8 ignore next */
+  // Success
   return 0;
 };
 
