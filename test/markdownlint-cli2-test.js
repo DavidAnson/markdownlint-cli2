@@ -134,3 +134,11 @@ testCase(
   [ "**/*.md" ],
   1
 );
+
+tape("README.md", (test) => {
+  test.plan(1);
+  const markdownlintCli2 = require("../markdownlint-cli2.js");
+  const uncalled = (msg) => test.fail(`message logged: ${msg}`);
+  markdownlintCli2([ "README.md" ], uncalled, uncalled).
+    then((exitCode) => test.equal(exitCode, 0));
+});

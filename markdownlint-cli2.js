@@ -22,7 +22,7 @@ const jsoncParse = (text) => JSON.parse(require("strip-json-comments")(text));
 const yamlParse = (text) => require("yaml").parse(text);
 
 // Formats summary in the style of `markdownlint-cli`
-const formatMarkdownlintCli = (summary) => {
+const formatMarkdownlintCli = (summary, logError) => {
   for (const errorInfo of summary) {
     const { fileName, lineNumber, ruleNames, ruleDescription, errorDetail,
       errorContext, errorRange } = errorInfo;
@@ -32,24 +32,22 @@ const formatMarkdownlintCli = (summary) => {
           (errorContext ? ` [Context: "${errorContext}"]` : "");
     const column = (errorRange && errorRange[0]) || 0;
     const columnText = column ? `:${column}` : "";
-    console.error(
+    logError(
       `${fileName}:${lineNumber}${columnText} ${ruleName} ${description}`
     );
   }
 };
 
 // Main function
-(async () => {
+const main = async (argv, logMessage, logError) => {
   // Output help for missing arguments
   const globPatterns =
-    process.
-      argv.
-      slice(2).
+    argv.
       map((glob) => glob.replace(/^#/u, "!"));
   if (globPatterns.length === 0) {
     const { name, version, author, homepage } = require("./package.json");
     /* eslint-disable max-len */
-    console.log(`${name} version ${version} by ${author.name} (${author.url})
+    logMessage(`${name} version ${version} by ${author.name} (${author.url})
 ${homepage}
 
 Syntax: ${name} glob0 [glob1] [...] [globN]
@@ -66,7 +64,7 @@ Therefore, the most compatible syntax for cross-platform support:
 ${name} "**/*.md" "#node_modules"`
     );
     /* eslint-enable max-len */
-    process.exitCode = 1;
+    return 1;
   }
 
   // Enumerate glob patterns and build directory info list
@@ -267,7 +265,21 @@ ${name} "**/*.md" "#node_modules"`
 
   // Output summary
   if (summary.length > 0) {
-    formatMarkdownlintCli(summary);
-    process.exitCode = 1;
+    formatMarkdownlintCli(summary, logError);
+    return 1;
   }
-})();
+
+  // Success
+  return 0;
+};
+
+// Run if invoked as a CLI, export if required as a module
+// @ts-ignore
+if (require.main === module) {
+  (async () => {
+    process.exitCode =
+      await main(process.argv.slice(2), console.log, console.error);
+  })();
+} else {
+  module.exports = main;
+}
