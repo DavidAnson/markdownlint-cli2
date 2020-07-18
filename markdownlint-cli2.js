@@ -241,13 +241,17 @@ ${name} "**/*.md" "#node_modules"`
   // Create summary of results
   const summary = [];
   let counter = 0;
+  const pathSepRe = new RegExp(`\\${path.sep}`, "gu");
   for (const results of taskResults) {
     for (const fileName in results) {
       const errorInfos = results[fileName];
       if (Array.isArray(errorInfos)) {
         for (const errorInfo of errorInfos) {
+          const fileNameRelativePosix = path.
+            relative("", fileName).
+            replace(pathSepRe, path.posix.sep);
           summary.push({
-            "fileName": path.posix.relative("", fileName),
+            "fileName": fileNameRelativePosix,
             ...errorInfo,
             counter
           });
