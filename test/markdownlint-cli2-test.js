@@ -130,6 +130,12 @@ testCase(
 );
 
 testCase(
+  "config-overrides-options",
+  [ "viewme.md" ],
+  1
+);
+
+testCase(
   "markdownlintignore",
   [ "**/*.md" ],
   1

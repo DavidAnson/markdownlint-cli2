@@ -104,10 +104,10 @@ ${name} "**/*.md" "#node_modules"`
       const readConfigs =
         readConfig(
           dir,
-          ".markdownlint.json",
+          ".markdownlint.jsonc",
           readConfig(
             dir,
-            ".markdownlint.jsonc",
+            ".markdownlint.json",
             readConfig(
               dir,
               ".markdownlint.yaml",
@@ -241,7 +241,6 @@ ${name} "**/*.md" "#node_modules"`
   // Create summary of results
   const summary = [];
   let counter = 0;
-  const pathSepRe = new RegExp(`\\${path.sep}`, "gu");
   for (const results of taskResults) {
     for (const fileName in results) {
       const errorInfos = results[fileName];
@@ -249,7 +248,8 @@ ${name} "**/*.md" "#node_modules"`
         for (const errorInfo of errorInfos) {
           const fileNameRelativePosix = path.
             relative("", fileName).
-            replace(pathSepRe, path.posix.sep);
+            split(path.sep).
+            join(path.posix.sep);
           summary.push({
             "fileName": fileNameRelativePosix,
             ...errorInfo,
