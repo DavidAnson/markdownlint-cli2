@@ -176,8 +176,10 @@ ${name} "**/*.md" "#node_modules"`
     );
   dirs.forEach((dir) => {
     const dirInfo = dirToDirInfo[dir];
-    if (dirInfo.parent && noConfigDirInfo(dirInfo)) {
-      dirInfo.parent.files.push(...dirInfo.files);
+    if ((dirInfo.files.length === 0) || noConfigDirInfo(dirInfo)) {
+      if (dirInfo.parent) {
+        dirInfo.parent.files.push(...dirInfo.files);
+      }
       dirToDirInfo[dir] = null;
     } else {
       dirInfos.push(dirInfo);
@@ -226,12 +228,10 @@ ${name} "**/*.md" "#node_modules"`
     const files = dirInfo.files.filter(shouldNotIgnore);
     const options = {
       files,
-      "config": dirInfo.markdownlintOptions.config,
+      "config":
+        dirInfo.markdownlintConfig || dirInfo.markdownlintOptions.config,
       "resultVersion": 3
     };
-    if (dirInfo.markdownlintConfig) {
-      options.config = dirInfo.markdownlintConfig;
-    }
     const task = markdownlintPromise(options);
     tasks.push(task);
   });

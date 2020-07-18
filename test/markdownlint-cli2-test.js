@@ -135,6 +135,18 @@ testCase(
   1
 );
 
+testCase(
+  "sibling-directory",
+  [ "../markdownlint-json/**/*.md" ],
+  1
+);
+
+testCase(
+  "sibling-directory-options",
+  [ "../no-config/**/*.md" ],
+  1
+);
+
 tape("README.md", (test) => {
   test.plan(1);
   const markdownlintCli2 = require("../markdownlint-cli2.js");
