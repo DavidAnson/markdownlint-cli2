@@ -9,6 +9,7 @@ const tape = require("tape");
 require("tape-player");
 
 const crRe = /\r/gu;
+const verRe = /\b\d+\.\d+\.\d+\b/u;
 
 const testCase = (name, args, exitCode, cwd) => {
   tape(name, (test) => {
@@ -34,8 +35,12 @@ const testCase = (name, args, exitCode, cwd) => {
     ]).then((results) => {
       const [ child, stdout, stderr ] = results;
       test.equal(child.exitCode, exitCode);
-      test.equal(child.stdout, stdout.replace(crRe, ""));
-      test.equal(child.stderr, stderr.replace(crRe, ""));
+      test.equal(
+        child.stdout.replace(verRe, "X.Y.Z"),
+        stdout.replace(crRe, ""));
+      test.equal(
+        child.stderr.replace(verRe, "X.Y.Z"),
+        stderr.replace(crRe, ""));
     });
   });
 };

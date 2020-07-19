@@ -14,6 +14,7 @@ const markdownlint = require("markdownlint");
 // Variables
 const markdownlintPromise = util.promisify(markdownlint);
 const markdownlintReadConfigPromise = util.promisify(markdownlint.readConfig);
+const crlfRe = /\r\n?|\n/gu;
 
 // Parse JSONC text
 const jsoncParse = (text) => JSON.parse(require("strip-json-comments")(text));
@@ -52,8 +53,17 @@ ${homepage}
 
 Syntax: ${name} glob0 [glob1] [...] [globN]
 
-Cross-platform compatibility:
+Glob expressions (from the globby library):
+- * matches any number of characters, but not /
+- ? matches a single character, but not /
+- ** matches any number of characters, including / (when it's the only thing in a path part)
+- {} allows for a comma-separated list of "or" expressions
+- ! or # at the beginning of a pattern negate the match
 
+Configuration:
+- Via .markdownlint-cli2.jsonc, .markdownlint.jsonc, .markdownlint.json, .markdownlint.yaml, or .markdownlint.yml
+
+Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules, so quoting glob arguments is recommended
 - Shells that expand globs do not support negated patterns (!node_modules), so quoting negated globs is required
 - Some Windows shells do not handle single-quoted (') arguments correctly, so double-quotes (") are recommended
@@ -66,6 +76,24 @@ ${name} "**/*.md" "#node_modules"`
     /* eslint-enable max-len */
     return 1;
   }
+
+  // Read ignore globs to pass as globby patterns
+  const markdownlintIgnore = ".markdownlintignore";
+  await fs.access(markdownlintIgnore).
+    then(
+      () => fs.readFile(markdownlintIgnore, "utf8").
+        then(
+          (content) => {
+            const blankOrCommentRe = /^#|^\s*$/u;
+            const ignorePatterns = content.
+              split(crlfRe).
+              filter((line) => !blankOrCommentRe.test(line)).
+              map((glob) => `!${glob.trim()}`);
+            globPatterns.push(...ignorePatterns);
+          }
+        ),
+      () => null
+    );
 
   // Enumerate glob patterns and build directory info list
   const tasks = [];
@@ -144,23 +172,6 @@ ${name} "**/*.md" "#node_modules"`
       });
     }
   }
-  const markdownlintIgnore = ".markdownlintignore";
-  let shouldNotIgnore = () => true;
-  tasks.push(
-    fs.access(markdownlintIgnore).
-      then(
-        () => fs.readFile(markdownlintIgnore, "utf8").
-          then(
-            (content) => {
-              const ignore = require("ignore");
-              // @ts-ignore
-              const instance = ignore().add(content);
-              shouldNotIgnore = (file) => !instance.ignores(path.join(file));
-            }
-          ),
-        () => null
-      )
-  );
   await Promise.all(tasks);
   tasks.length = 0;
 
@@ -224,10 +235,8 @@ ${name} "**/*.md" "#node_modules"`
 
   // Lint each list of files
   dirInfos.forEach((dirInfo) => {
-    // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
-    const files = dirInfo.files.filter(shouldNotIgnore);
     const options = {
-      files,
+      "files": dirInfo.files,
       "config":
         dirInfo.markdownlintConfig || dirInfo.markdownlintOptions.config,
       "resultVersion": 3

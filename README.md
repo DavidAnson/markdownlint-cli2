@@ -41,8 +41,17 @@ https://github.com/DavidAnson/markdownlint-cli2
 
 Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN]
 
-Cross-platform compatibility:
+Glob expressions (from the globby library):
+- * matches any number of characters, but not /
+- ? matches a single character, but not /
+- ** matches any number of characters, including / (when it's the only thing in a path part)
+- {} allows for a comma-separated list of "or" expressions
+- ! or # at the beginning of a pattern negate the match
 
+Configuration:
+- Via .markdownlint-cli2.jsonc, .markdownlint.jsonc, .markdownlint.json, .markdownlint.yaml, or .markdownlint.yml
+
+Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules, so quoting glob arguments is recommended
 - Shells that expand globs do not support negated patterns (!node_modules), so quoting negated globs is required
 - Some Windows shells do not handle single-quoted (') arguments correctly, so double-quotes (") are recommended
@@ -64,10 +73,23 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 - See the [Rules / Aliases][markdownlint-rules-aliases] and
   [Tags][markdownlint-tags] sections of the `markdownlint` documentation.
 
+## Glob expressions
+
+- Globbing is performed by the [globby][globby] library; refer to that
+  documentation for more information and examples.
+
 ## Configuration
 
 - See the [Configuration][markdownlint-configuration] section of the
   `markdownlint` documentation for information about the inline comment syntax.
+
+### `.markdownlintignore`
+
+- The format of this file is similar to [`.npmignore`][npmignore] and consists
+  of one glob pattern per line.
+- These glob patterns are negated (by adding a leading `!`) and appended to the
+  end of the command-line arguments.
+- Blank lines and lines that begin with the `#` character are ignored.
 
 ### `.markdownlint-cli2.jsonc`
 
@@ -113,6 +135,7 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 [ci-image]: https://github.com/DavidAnson/markdownlint-cli2/workflows/CI/badge.svg?branch=main
 [ci-url]: https://github.com/DavidAnson/markdownlint-cli2/actions?query=branch%3Amain
 [commonmark]: https://commonmark.org/
+[globby]: https://www.npmjs.com/package/globby
 [json]: https://wikipedia.org/wiki/JSON
 [jsonc]: https://code.visualstudio.com/Docs/languages/json#_json-with-comments
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2.svg
@@ -129,6 +152,7 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 [nodejs]: https://nodejs.org/
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2
+[npmignore]: https://docs.npmjs.com/misc/developers#keeping-files-out-of-your-package
 [vscode]: https://code.visualstudio.com/
 [vscode-markdownlint]: https://marketplace.visualstudio.com/items/DavidAnson.vscode-markdownlint
 [yaml]: https://wikipedia.org/wiki/YAML

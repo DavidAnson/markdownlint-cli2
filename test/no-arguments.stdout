@@ -1,10 +1,19 @@
-markdownlint-cli2 version 0.0.2 by David Anson (https://dlaa.me/)
+markdownlint-cli2 version X.Y.Z by David Anson (https://dlaa.me/)
 https://github.com/DavidAnson/markdownlint-cli2
 
 Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN]
 
-Cross-platform compatibility:
+Glob expressions (from the globby library):
+- * matches any number of characters, but not /
+- ? matches a single character, but not /
+- ** matches any number of characters, including / (when it's the only thing in a path part)
+- {} allows for a comma-separated list of "or" expressions
+- ! or # at the beginning of a pattern negate the match
 
+Configuration:
+- Via .markdownlint-cli2.jsonc, .markdownlint.jsonc, .markdownlint.json, .markdownlint.yaml, or .markdownlint.yml
+
+Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules, so quoting glob arguments is recommended
 - Shells that expand globs do not support negated patterns (!node_modules), so quoting negated globs is required
 - Some Windows shells do not handle single-quoted (') arguments correctly, so double-quotes (") are recommended
