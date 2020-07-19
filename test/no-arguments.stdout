@@ -1,4 +1,4 @@
-markdownlint-cli2 version 0.0.1 by David Anson (https://dlaa.me/)
+markdownlint-cli2 version 0.0.2 by David Anson (https://dlaa.me/)
 https://github.com/DavidAnson/markdownlint-cli2
 
 Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN]

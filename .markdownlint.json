@@ -1,0 +1,6 @@
+{
+  "line-length": {
+    "strict": true,
+    "code_blocks": false
+  }
+}
