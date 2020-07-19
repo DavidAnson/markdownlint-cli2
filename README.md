@@ -110,7 +110,7 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 
 <!-- markdownlint-disable line-length -->
 
-[ci-image]: https://github.com/DavidAnson/markdownlint-cli2/workflows/ci/badge.svg?branch=main
+[ci-image]: https://github.com/DavidAnson/markdownlint-cli2/workflows/CI/badge.svg?branch=main
 [ci-url]: https://github.com/DavidAnson/markdownlint-cli2/actions?query=branch%3Amain
 [commonmark]: https://commonmark.org/
 [json]: https://wikipedia.org/wiki/JSON
