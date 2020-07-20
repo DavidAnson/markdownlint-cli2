@@ -126,6 +126,20 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 - If a `jsonc` or `json` file is present, it takes precedence according the
   rules above.
 
+## Compatibility
+
+### `markdownlint-cli`
+
+- The glob implementation and handling of patterns is different.
+- The treatment of `.markdownlintignore` patterns is different.
+- Configuration files are supported in each directory (vs. one globally).
+- The `INI` config format and `.markdownlintrc` are not supported.
+
+### `vscode-markdownlint`
+
+- The treatment of `.markdownlintignore` patterns is different.
+- `.markdownlintrc` is not supported as a configuration file.
+
 ## History
 
 - 0.0.2 - Initial release
