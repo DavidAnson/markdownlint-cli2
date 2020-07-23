@@ -290,8 +290,13 @@ ${name} "**/*.md" "#node_modules"`
 // @ts-ignore
 if (require.main === module) {
   (async () => {
-    process.exitCode =
-      await main(process.argv.slice(2), console.log, console.error);
+    try {
+      process.exitCode =
+        await main(process.argv.slice(2), console.log, console.error);
+    } catch (error) {
+      console.error(error);
+      process.exitCode = 2;
+    }
   })();
 } else {
   module.exports = main;

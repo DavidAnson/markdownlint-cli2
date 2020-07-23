@@ -25,6 +25,7 @@
     "indent": ["error", 2],
     "linebreak-style": "off",
     "max-lines-per-function": "off",
+    "max-lines": "off",
     "max-params": "off",
     "max-statements": "off",
     "multiline-comment-style": ["error", "separate-lines"],

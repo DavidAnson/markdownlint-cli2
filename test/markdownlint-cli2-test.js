@@ -11,7 +11,8 @@ require("tape-player");
 const crRe = /\r/gu;
 const verRe = /\b\d+\.\d+\.\d+\b/u;
 
-const testCase = (name, args, exitCode, cwd) => {
+const testCase = (options) => {
+  const { name, args, exitCode, cwd, stderrRe } = options;
   tape(name, (test) => {
     test.plan(3);
     Promise.all([
@@ -38,125 +39,150 @@ const testCase = (name, args, exitCode, cwd) => {
       test.equal(
         child.stdout.replace(verRe, "X.Y.Z"),
         stdout.replace(crRe, ""));
-      test.equal(
-        child.stderr.replace(verRe, "X.Y.Z"),
-        stderr.replace(crRe, ""));
+      if (stderrRe) {
+        test.match(child.stderr, stderrRe);
+      } else {
+        test.equal(
+          child.stderr.replace(verRe, "X.Y.Z"),
+          stderr.replace(crRe, ""));
+      }
     });
   });
 };
 
-testCase(
-  "no-arguments",
-  [],
-  1,
-  "no-config"
-);
+testCase({
+  "name": "no-arguments",
+  "args": [],
+  "exitCode": 1,
+  "cwd": "no-config"
+});
 
-testCase(
-  "all-ok",
-  [ "**/*.md", "**/*.markdown" ],
-  0
-);
+testCase({
+  "name": "all-ok",
+  "args": [ "**/*.md", "**/*.markdown" ],
+  "exitCode": 0
+});
 
-testCase(
-  "no-config",
-  [ "**" ],
-  1
-);
+testCase({
+  "name": "no-config",
+  "args": [ "**" ],
+  "exitCode": 1
+});
 
-testCase(
-  "no-config-ignore",
-  [ "**", "!dir" ],
-  1,
-  "no-config"
-);
+testCase({
+  "name": "no-config-ignore",
+  "args": [ "**", "!dir" ],
+  "exitCode": 1,
+  "cwd": "no-config"
+});
 
-testCase(
-  "no-config-unignore",
-  [ "**", "!dir", "dir/subdir" ],
-  1,
-  "no-config"
-);
+testCase({
+  "name": "no-config-unignore",
+  "args": [ "**", "!dir", "dir/subdir" ],
+  "exitCode": 1,
+  "cwd": "no-config"
+});
 
-testCase(
-  "no-config-ignore-hash",
-  [ "**", "#dir" ],
-  1,
-  "no-config"
-);
+testCase({
+  "name": "no-config-ignore-hash",
+  "args": [ "**", "#dir" ],
+  "exitCode": 1,
+  "cwd": "no-config"
+});
 
-testCase(
-  "file-paths-as-args",
-  [ "viewme.md", "./dir/subdir/info.md" ],
-  1,
-  "no-config"
-);
+testCase({
+  "name": "file-paths-as-args",
+  "args": [ "viewme.md", "./dir/subdir/info.md" ],
+  "exitCode": 1,
+  "cwd": "no-config"
+});
 
-testCase(
-  "markdownlint-json",
-  [ "**/*.md" ],
-  1
-);
+testCase({
+  "name": "markdownlint-json",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
 
-testCase(
-  "markdownlint-json-extends",
-  [ "**/*.md" ],
-  1
-);
+testCase({
+  "name": "markdownlint-json-extends",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
 
-testCase(
-  "markdownlint-jsonc",
-  [ "**/*.md" ],
-  1
-);
+testCase({
+  "name": "markdownlint-jsonc",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
 
-testCase(
-  "markdownlint-yaml",
-  [ "**/*.md" ],
-  1
-);
+testCase({
+  "name": "markdownlint-yaml",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
 
-testCase(
-  "markdownlint-yml",
-  [ "**/*.md" ],
-  1
-);
+testCase({
+  "name": "markdownlint-yml",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
 
-testCase(
-  "markdownlint-json-yaml",
-  [ "**/*.md" ],
-  1
-);
+testCase({
+  "name": "markdownlint-json-yaml",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
 
-testCase(
-  "markdownlint-cli2-jsonc",
-  [ "**/*.md" ],
-  1
-);
+testCase({
+  "name": "markdownlint-json-invalid",
+  "args": [ ".*" ],
+  "exitCode": 2,
+  "stderrRe": /Unexpected end of JSON input/u
+});
 
-testCase(
-  "config-overrides-options",
-  [ "viewme.md" ],
-  1
-);
+testCase({
+  "name": "markdownlint-yaml-invalid",
+  "args": [ ".*" ],
+  "exitCode": 2,
+  "stderrRe": /Map keys must be unique/u
+});
 
-testCase(
-  "markdownlintignore",
-  [ "**/*.md" ],
-  1
-);
+testCase({
+  "name": "markdownlint-cli2-jsonc",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
 
-testCase(
-  "sibling-directory",
-  [ "../markdownlint-json/**/*.md" ],
-  1
-);
+testCase({
+  "name": "markdownlint-cli2-jsonc-invalid",
+  "args": [ ".*" ],
+  "exitCode": 2,
+  "stderrRe": /Unexpected end of JSON input/u
+});
 
-testCase(
-  "sibling-directory-options",
-  [ "../no-config/**/*.md" ],
-  1
-);
+testCase({
+  "name": "config-overrides-options",
+  "args": [ "viewme.md" ],
+  "exitCode": 1
+});
+
+testCase({
+  "name": "markdownlintignore",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
+testCase({
+  "name": "sibling-directory",
+  "args": [ "../markdownlint-json/**/*.md" ],
+  "exitCode": 1
+});
+
+testCase({
+  "name": "sibling-directory-options",
+  "args": [ "../no-config/**/*.md" ],
+  "exitCode": 1
+});
 
 tape("README.md", (test) => {
   test.plan(1);
