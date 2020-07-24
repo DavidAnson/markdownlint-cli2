@@ -235,10 +235,13 @@ ${name} "**/*.md" "#node_modules"`
 
   // Lint each list of files
   dirInfos.forEach((dirInfo) => {
+    const { files, markdownlintConfig, markdownlintOptions } = dirInfo;
     const options = {
-      "files": dirInfo.files,
+      files,
       "config":
-        dirInfo.markdownlintConfig || dirInfo.markdownlintOptions.config,
+        markdownlintConfig || markdownlintOptions.config,
+      "noInlineConfig":
+        Boolean(markdownlintOptions.noInlineConfig),
       "resultVersion": 3
     };
     const task = markdownlintPromise(options);

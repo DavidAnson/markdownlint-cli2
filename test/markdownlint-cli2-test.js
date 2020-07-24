@@ -184,6 +184,12 @@ testCase({
   "exitCode": 1
 });
 
+testCase({
+  "name": "noInlineConfig",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
 tape("README.md", (test) => {
   test.plan(1);
   const markdownlintCli2 = require("../markdownlint-cli2.js");

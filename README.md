@@ -99,6 +99,8 @@ markdownlint-cli2 "**/*.md" "#node_modules"
   - `config`: The [`markdownlint` `config` object][markdownlint-config]
     - If a `jsonc`/`json`/`yaml`/`yml` file (see below) is present in the same
       directory, it overrides this value.
+  - `noInlineConfig`: Disables the use of HTML comments within Markdown content.
+    - For example: `<!-- markdownlint-disable -->`
 - Settings in this file apply to the directory it is in and all subdirectories
 - Settings **merge with** those applied by any copies of this file in a parent
   directory.
