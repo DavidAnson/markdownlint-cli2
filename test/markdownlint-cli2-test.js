@@ -190,6 +190,12 @@ testCase({
   "exitCode": 1
 });
 
+testCase({
+  "name": "frontMatter",
+  "args": [ "**/*.md" ],
+  "exitCode": 0
+});
+
 tape("README.md", (test) => {
   test.plan(1);
   const markdownlintCli2 = require("../markdownlint-cli2.js");

@@ -99,7 +99,13 @@ markdownlint-cli2 "**/*.md" "#node_modules"
   - `config`: The [`markdownlint` `config` object][markdownlint-config]
     - If a `jsonc`/`json`/`yaml`/`yml` file (see below) is present in the same
       directory, it overrides this value.
-  - `noInlineConfig`: Disables the use of HTML comments within Markdown content.
+  - `frontMatter`: Defines the [RegExp][regexp] used for matching
+    [front matter][front-matter] at the beginning of Markdown content.
+    - This `String` value is passed as the `pattern` parameter to the
+      [RegExp constructor][regexp-constructor].
+    - For example: `(^---\s*$[^]*?^---\s*$)(\r\n|\r|\n|$)`
+  - `noInlineConfig`: `Boolean` value to disable the use of
+    [HTML comments][html-comment] within Markdown content.
     - For example: `<!-- markdownlint-disable -->`
 - Settings in this file apply to the directory it is in and all subdirectories
 - Settings **merge with** those applied by any copies of this file in a parent
@@ -151,7 +157,9 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 [ci-image]: https://github.com/DavidAnson/markdownlint-cli2/workflows/CI/badge.svg?branch=main
 [ci-url]: https://github.com/DavidAnson/markdownlint-cli2/actions?query=branch%3Amain
 [commonmark]: https://commonmark.org/
+[front-matter]: https://jekyllrb.com/docs/frontmatter/
 [globby]: https://www.npmjs.com/package/globby
+[html-comment]: https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started
 [json]: https://wikipedia.org/wiki/JSON
 [jsonc]: https://code.visualstudio.com/Docs/languages/json#_json-with-comments
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2.svg
@@ -169,6 +177,8 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2
 [npmignore]: https://docs.npmjs.com/misc/developers#keeping-files-out-of-your-package
+[regexp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+[regexp-constructor]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp
 [vscode]: https://code.visualstudio.com/
 [vscode-markdownlint]: https://marketplace.visualstudio.com/items/DavidAnson.vscode-markdownlint
 [yaml]: https://wikipedia.org/wiki/YAML

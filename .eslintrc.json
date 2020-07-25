@@ -35,6 +35,7 @@
     "no-magic-numbers": "off",
     "no-plusplus": "off",
     "no-ternary": "off",
+    "no-undefined": "off",
     "object-curly-spacing": ["error", "always"],
     "one-var": "off",
     "padded-blocks": "off",
