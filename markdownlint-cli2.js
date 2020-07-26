@@ -16,6 +16,7 @@ const markdownlintRuleHelpers = require("markdownlint-rule-helpers");
 const markdownlintPromise = util.promisify(markdownlint);
 const markdownlintReadConfigPromise = util.promisify(markdownlint.readConfig);
 const crlfRe = /\r\n?|\n/gu;
+const utf8 = "utf8";
 
 // Parse JSONC text
 const jsoncParse = (text) => JSON.parse(require("strip-json-comments")(text));
@@ -82,7 +83,7 @@ ${name} "**/*.md" "#node_modules"`
   const markdownlintIgnore = ".markdownlintignore";
   await fs.access(markdownlintIgnore).
     then(
-      () => fs.readFile(markdownlintIgnore, "utf8").
+      () => fs.readFile(markdownlintIgnore, utf8).
         then(
           (content) => {
             const blankOrCommentRe = /^#|^\s*$/u;
@@ -123,7 +124,7 @@ ${name} "**/*.md" "#node_modules"`
       tasks.push(
         fs.access(markdownlintCli2Jsonc).
           then(
-            () => fs.readFile(markdownlintCli2Jsonc, "utf8").then(jsoncParse),
+            () => fs.readFile(markdownlintCli2Jsonc, utf8).then(jsoncParse),
             () => null
           ).
           then((options) => {
@@ -186,7 +187,7 @@ ${name} "**/*.md" "#node_modules"`
       !dirInfo.markdownlintConfig &&
       !dirInfo.markdownlintOptions
     );
-  dirs.forEach((dir) => {
+  for (const dir of dirs) {
     const dirInfo = dirToDirInfo[dir];
     if ((dirInfo.files.length === 0) || noConfigDirInfo(dirInfo)) {
       if (dirInfo.parent) {
@@ -196,12 +197,12 @@ ${name} "**/*.md" "#node_modules"`
     } else {
       dirInfos.push(dirInfo);
     }
-  });
-  dirInfos.forEach((dirInfo) => {
+  }
+  for (const dirInfo of dirInfos) {
     while (dirInfo.parent && !dirToDirInfo[dirInfo.parent.dir]) {
       dirInfo.parent = dirInfo.parent.parent;
     }
-  });
+  }
 
   // Verify dirInfos is simplified
   // if (dirInfos.filter((di) => !di.files.length).length) {
@@ -214,7 +215,7 @@ ${name} "**/*.md" "#node_modules"`
   // }
 
   // Merge configuration by inheritance
-  dirInfos.forEach((dirInfo) => {
+  for (const dirInfo of dirInfos) {
     let markdownlintOptions = dirInfo.markdownlintOptions || {};
     let parent = dirInfo;
     // eslint-disable-next-line prefer-destructuring
@@ -232,10 +233,10 @@ ${name} "**/*.md" "#node_modules"`
       }
     }
     dirInfo.markdownlintOptions = markdownlintOptions;
-  });
+  }
 
   // Lint each list of files
-  dirInfos.forEach((dirInfo) => {
+  for (const dirInfo of dirInfos) {
     const { files, markdownlintConfig, markdownlintOptions } = dirInfo;
     const frontMatter = markdownlintOptions.frontMatter
       ? new RegExp(markdownlintOptions.frontMatter, "u")
@@ -258,11 +259,11 @@ ${name} "**/*.md" "#node_modules"`
         for (const fileName of errorFiles) {
           const errorInfos = results[fileName].
             filter((errorInfo) => errorInfo.fixInfo);
-          subTasks.push(fs.readFile(fileName, "utf8").
+          subTasks.push(fs.readFile(fileName, utf8).
             then((original) => {
               const fixed = markdownlintRuleHelpers.
                 applyFixes(original, errorInfos);
-              return fs.writeFile(fileName, fixed, "utf8");
+              return fs.writeFile(fileName, fixed, utf8);
             })
           );
         }
@@ -271,7 +272,7 @@ ${name} "**/*.md" "#node_modules"`
       });
     }
     tasks.push(task);
-  });
+  }
   const taskResults = await Promise.all(tasks);
   tasks.length = 0;
 
