@@ -99,6 +99,8 @@ markdownlint-cli2 "**/*.md" "#node_modules"
   - `config`: The [`markdownlint` `config` object][markdownlint-config]
     - If a `jsonc`/`json`/`yaml`/`yml` file (see below) is present in the same
       directory, it overrides this value.
+  - `fix`: Fix any linting errors reported by rules that include fix edits.
+    - Fixes are made directly to the relevant file(s) and no backup is created.
   - `frontMatter`: Defines the [RegExp][regexp] used for matching
     [front matter][front-matter] at the beginning of Markdown content.
     - This `String` value is passed as the `pattern` parameter to the

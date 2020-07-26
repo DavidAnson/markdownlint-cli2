@@ -4,27 +4,31 @@
 
 const fs = require("fs");
 const path = require("path");
+const cpy = require("cpy");
+const del = require("del");
 const execa = require("execa");
 const tape = require("tape");
 require("tape-player");
 
 const crRe = /\r/gu;
 const verRe = /\b\d+\.\d+\.\d+\b/u;
+const noop = () => null;
 
 const testCase = (options) => {
-  const { name, args, exitCode, cwd, stderrRe } = options;
+  const { name, args, exitCode, cwd, stderrRe, pre, post } = options;
   tape(name, (test) => {
     test.plan(3);
     Promise.all([
-      execa.node(
-        path.join(__dirname, "..", "markdownlint-cli2.js"),
-        args,
-        {
-          "cwd": path.join(__dirname, `${cwd || name}`),
-          "reject": false,
-          "stripFinalNewline": false
-        }
-      ),
+      ((pre || noop)(name) || Promise.resolve()).
+        then(() => execa.node(
+          path.join(__dirname, "..", "markdownlint-cli2.js"),
+          args,
+          {
+            "cwd": path.join(__dirname, `${cwd || name}`),
+            "reject": false,
+            "stripFinalNewline": false
+          }
+        )),
       fs.promises.readFile(
         path.join(__dirname, `${name}.stdout`),
         "utf8"
@@ -33,21 +37,38 @@ const testCase = (options) => {
         path.join(__dirname, `${name}.stderr`),
         "utf8"
       ).catch(() => "")
-    ]).then((results) => {
-      const [ child, stdout, stderr ] = results;
-      test.equal(child.exitCode, exitCode);
-      test.equal(
-        child.stdout.replace(verRe, "X.Y.Z"),
-        stdout.replace(crRe, ""));
-      if (stderrRe) {
-        test.match(child.stderr, stderrRe);
-      } else {
+    ]).then((results) => Promise.all([
+      (post || noop)(name),
+      new Promise((resolve) => {
+        const [ child, stdout, stderr ] = results;
+        test.equal(child.exitCode, exitCode);
         test.equal(
-          child.stderr.replace(verRe, "X.Y.Z"),
-          stderr.replace(crRe, ""));
-      }
-    });
+          child.stdout.replace(verRe, "X.Y.Z"),
+          stdout.replace(crRe, ""));
+        if (stderrRe) {
+          test.match(child.stderr, stderrRe);
+        } else {
+          test.equal(
+            child.stderr.replace(verRe, "X.Y.Z"),
+            stderr.replace(crRe, ""));
+        }
+        resolve();
+      })
+    ]));
   });
+};
+
+const copyDirectory = (dir) => {
+  const target = path.join("..", `${dir}-copy`);
+  return cpy([ "**/*", "**/.*" ], target, {
+    "cwd": path.join(__dirname, dir),
+    "parents": true
+  });
+};
+
+const deleteDirectory = (dir) => {
+  const target = `${dir}-copy`;
+  return del(path.join(__dirname, target));
 };
 
 testCase({
@@ -194,6 +215,15 @@ testCase({
   "name": "frontMatter",
   "args": [ "**/*.md" ],
   "exitCode": 0
+});
+
+testCase({
+  "name": "fix",
+  "args": [ "**/*.md" ],
+  "exitCode": 1,
+  "cwd": "fix-copy",
+  "pre": copyDirectory,
+  "post": deleteDirectory
 });
 
 tape("README.md", (test) => {

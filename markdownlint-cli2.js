@@ -10,6 +10,7 @@ const path = require("path");
 const util = require("util");
 const globby = require("globby");
 const markdownlint = require("markdownlint");
+const markdownlintRuleHelpers = require("markdownlint-rule-helpers");
 
 // Variables
 const markdownlintPromise = util.promisify(markdownlint);
@@ -248,7 +249,27 @@ ${name} "**/*.md" "#node_modules"`
         Boolean(markdownlintOptions.noInlineConfig),
       "resultVersion": 3
     };
-    const task = markdownlintPromise(options);
+    let task = markdownlintPromise(options);
+    if (markdownlintOptions.fix) {
+      task = task.then((results) => {
+        const subTasks = [];
+        const errorFiles = Object.keys(results).
+          filter((fileName) => Array.isArray(results[fileName]));
+        for (const fileName of errorFiles) {
+          const errorInfos = results[fileName].
+            filter((errorInfo) => errorInfo.fixInfo);
+          subTasks.push(fs.readFile(fileName, "utf8").
+            then((original) => {
+              const fixed = markdownlintRuleHelpers.
+                applyFixes(original, errorInfos);
+              return fs.writeFile(fileName, fixed, "utf8");
+            })
+          );
+        }
+        options.files = errorFiles;
+        return Promise.all(subTasks).then(() => markdownlintPromise(options));
+      });
+    }
     tasks.push(task);
   });
   const taskResults = await Promise.all(tasks);
