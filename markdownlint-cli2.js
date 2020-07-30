@@ -236,8 +236,19 @@ ${name} "**/*.md" "#node_modules"`
   }
 
   // Lint each list of files
+  const loadCustomRules = (dir, ruleIds) => {
+    let rules = undefined;
+    if (Array.isArray(ruleIds)) {
+      const paths = [ ...require.resolve.paths(""), dir ];
+      rules = ruleIds.map((ruleId) => {
+        const resolved = require.resolve(ruleId, { paths });
+        return require(resolved);
+      });
+    }
+    return rules;
+  };
   for (const dirInfo of dirInfos) {
-    const { files, markdownlintConfig, markdownlintOptions } = dirInfo;
+    const { dir, files, markdownlintConfig, markdownlintOptions } = dirInfo;
     const frontMatter = markdownlintOptions.frontMatter
       ? new RegExp(markdownlintOptions.frontMatter, "u")
       : undefined;
@@ -245,6 +256,8 @@ ${name} "**/*.md" "#node_modules"`
       files,
       "config":
         markdownlintConfig || markdownlintOptions.config,
+      "customRules":
+        loadCustomRules(dir, markdownlintOptions.customRules),
       frontMatter,
       "noInlineConfig":
         Boolean(markdownlintOptions.noInlineConfig),

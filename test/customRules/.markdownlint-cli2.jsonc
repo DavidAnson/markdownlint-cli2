@@ -1,0 +1,12 @@
+{
+  "customRules": [
+    "./rules/any-blockquote.js",
+    "./rules/every-n-lines.js",
+    "./rules/first-line.js"
+  ],
+  "config": {
+    "every-n-lines": {
+      "n": 3
+    }
+  }
+}
