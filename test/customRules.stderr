@@ -4,6 +4,9 @@ dir/about.md:3 every-n-lines Rule that reports an error every N lines [Line numb
 dir/about.md:4 MD032/blanks-around-lists Lists should be surrounded by blank lines [Context: "1. List"]
 dir/about.md:5:1 MD029/ol-prefix Ordered list item prefix [Expected: 2; Actual: 3; Style: 1/2/3]
 dir/about.md:6 every-n-lines Rule that reports an error every N lines [Line number 6]
+dir/subdir/hr.md:1 first-line Rule that reports an error for the first line
+dir/subdir/hr.md:1:1 titlecase-rule Titlecase rule [Title Case: 'Expected # Hr, found # hr']
+dir/subdir/hr.md:3 sample-rule Sample rule [Sample error for hr]
 dir/subdir/info.md:1 first-line Rule that reports an error for the first line
 dir/subdir/info.md:1 MD022/blanks-around-headings/blanks-around-headers Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: "## Information"]
 dir/subdir/info.md:1 MD041/first-line-heading/first-line-h1 First line in file should be a top level heading [Context: "## Information"]

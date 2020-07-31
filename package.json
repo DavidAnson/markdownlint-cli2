@@ -46,6 +46,7 @@
     "eslint-plugin-node": "~11.1.0",
     "eslint-plugin-unicorn": "~20.1.0",
     "execa": "~4.0.2",
+    "markdownlint-rule-titlecase": "~0.0.5",
     "tape": "~5.0.1",
     "tape-player": "~0.1.1"
   },
