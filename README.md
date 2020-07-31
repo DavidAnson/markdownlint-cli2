@@ -93,32 +93,39 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 
 ### `.markdownlint-cli2.jsonc`
 
-- The format of this file type is a [JSONC][jsonc] object similar to the
+- The format of this file is a [JSONC][jsonc] object similar to the
   [`markdownlint` `options` object][markdownlint-options].
 - Valid properties are:
-  - `config`: The [`markdownlint` `config` object][markdownlint-config]
+  - `config`: [`markdownlint` `config` object][markdownlint-config] to configure
+    rules for this part of the directory tree
     - If a `jsonc`/`json`/`yaml`/`yml` file (see below) is present in the same
-      directory, it overrides this value.
-  - `fix`: Fix any linting errors reported by rules that include fix edits.
-    - Fixes are made directly to the relevant file(s) and no backup is created.
-  - `frontMatter`: Defines the [RegExp][regexp] used for matching
-    [front matter][front-matter] at the beginning of Markdown content.
-    - This `String` value is passed as the `pattern` parameter to the
-      [RegExp constructor][regexp-constructor].
+      directory, it overrides the value of this property
+  - `customRules`: `Array` of `Strings` of module names/paths of
+    [custom rules][markdownlint-custom-rules] to load and use when linting
+    - Each `String` is passed as the `id` parameter to Node's
+      [require function][nodejs-require]
+    - Relative paths are resolved based on the location of the `JSONC` file
+  - `fix`: `Boolean` value to enable fixing of linting errors reported by rules
+    that emit fix information
+    - Fixes are made directly to the relevant file(s); no backup is created
+  - `frontMatter`: `String` defining the [`RegExp`][regexp] used to match and
+    ignore any [front matter][front-matter] at the beginning of Markdown content
+    - The `String` is passed as the `pattern` parameter to the
+      [`RegExp` constructor][regexp-constructor]
     - For example: `(^---\s*$[^]*?^---\s*$)(\r\n|\r|\n|$)`
-  - `noInlineConfig`: `Boolean` value to disable the use of
-    [HTML comments][html-comment] within Markdown content.
-    - For example: `<!-- markdownlint-disable -->`
+  - `noInlineConfig`: `Boolean` value to disable the support of
+    [HTML comments][html-comment] within Markdown content
+    - For example: `<!-- markdownlint-disable some-rule -->`
 - Settings in this file apply to the directory it is in and all subdirectories
-- Settings **merge with** those applied by any copies of this file in a parent
+- Settings **merge with** those applied by any versions of this file in a parent
   directory.
 
 ### `.markdownlint.jsonc` / `.markdownlint.json`
 
-- The format of this file type is a [JSON][json] or [JSONC][jsonc] object
-  matching the [`markdownlint` `config` object][markdownlint-config].
+- The format of this file is a [JSON][json] or [JSONC][jsonc] object matching
+  the [`markdownlint` `config` object][markdownlint-config].
 - Settings in this file apply to the directory it is in and all subdirectories
-- Settings **override** those applied by any copies of this file in a parent
+- Settings **override** those applied by any versions of this file in a parent
   directory.
 - If both files are present in the same directory, the `jsonc` version takes
   precedence.
@@ -128,7 +135,7 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 
 ### `.markdownlint.yaml` / `.markdownlint.yml`
 
-- The format of this file type is a [YAML][yaml] object representing
+- The format of this file is a [YAML][yaml] object representing
   [`markdownlint`'s `config` object][markdownlint-config].
 - Other details are the same as for `jsonc`/`json` files described above.
 - If both files are present in the same directory, the `yaml` version takes
@@ -170,12 +177,14 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 [markdownlint]: https://github.com/DavidAnson/markdownlint
 [markdownlint-config]: https://github.com/DavidAnson/markdownlint/blob/main/README.md#optionsconfig
 [markdownlint-configuration]: https://github.com/DavidAnson/markdownlint/blob/main/README.md#configuration
+[markdownlint-custom-rules]: https://github.com/DavidAnson/markdownlint/blob/main/doc/CustomRules.md
 [markdownlint-options]: https://github.com/DavidAnson/markdownlint/blob/main/README.md#options
 [markdownlint-rules-aliases]: https://github.com/DavidAnson/markdownlint/blob/main/README.md#rules--aliases
 [markdownlint-rules-tags]: https://github.com/DavidAnson/markdownlint/blob/main/README.md#tags
 [markdownlint-cli]: https://github.com/igorshubovych/markdownlint-cli
 [markdownlint-cli2]: https://github.com/DavidAnson/markdownlint-cli2
 [nodejs]: https://nodejs.org/
+[nodejs-require]: https://nodejs.org/api/modules.html#modules_require_id
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2
 [npmignore]: https://docs.npmjs.com/misc/developers#keeping-files-out-of-your-package

@@ -249,16 +249,16 @@ ${name} "**/*.md" "#node_modules"`
   };
   for (const dirInfo of dirInfos) {
     const { dir, files, markdownlintConfig, markdownlintOptions } = dirInfo;
-    const frontMatter = markdownlintOptions.frontMatter
-      ? new RegExp(markdownlintOptions.frontMatter, "u")
-      : undefined;
     const options = {
       files,
       "config":
         markdownlintConfig || markdownlintOptions.config,
       "customRules":
         loadCustomRules(dir, markdownlintOptions.customRules),
-      frontMatter,
+      "frontMatter": markdownlintOptions.frontMatter
+        ? new RegExp(markdownlintOptions.frontMatter, "u")
+        : undefined,
+      "handleRuleFailures": true,
       "noInlineConfig":
         Boolean(markdownlintOptions.noInlineConfig),
       "resultVersion": 3

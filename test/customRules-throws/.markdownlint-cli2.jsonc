@@ -1,0 +1,5 @@
+{
+  "customRules": [
+    "./rules/throws.js"
+  ]
+}

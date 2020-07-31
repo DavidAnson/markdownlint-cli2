@@ -232,6 +232,26 @@ testCase({
   "exitCode": 1
 });
 
+testCase({
+  "name": "customRules-missing",
+  "args": [ ".*" ],
+  "exitCode": 2,
+  "stderrRe": /Cannot find module 'missing-package'/u
+});
+
+testCase({
+  "name": "customRules-invalid",
+  "args": [ ".*" ],
+  "exitCode": 2,
+  "stderrRe": /Property 'names' of custom rule at index 0 is incorrect\./u
+});
+
+testCase({
+  "name": "customRules-throws",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
 tape("README.md", (test) => {
   test.plan(1);
   const markdownlintCli2 = require("../markdownlint-cli2.js");
