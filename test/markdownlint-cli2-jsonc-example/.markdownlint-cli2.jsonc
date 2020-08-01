@@ -1,0 +1,24 @@
+/*
+ * An example .markdownlint-cli2.jsonc file
+ */
+{
+  // Disable some built-in rules
+  "config": {
+    "no-trailing-spaces": false,
+    "no-multiple-blanks": false
+  },
+
+  // Include a custom rule package
+  "customRules": [
+    "markdownlint-rule-titlecase"
+  ],
+
+  // Fix any fixable errors
+  "fix": true,
+
+  // Define a custom front matter pattern
+  "frontMatter": "<head>[^]*<\/head>",
+
+  // Disable inline config comments
+  "noInlineConfig": true
+}

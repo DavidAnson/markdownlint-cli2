@@ -175,6 +175,15 @@ testCase({
 });
 
 testCase({
+  "name": "markdownlint-cli2-jsonc-example",
+  "args": [ "**/*.md" ],
+  "exitCode": 1,
+  "cwd": "markdownlint-cli2-jsonc-example-copy",
+  "pre": copyDirectory,
+  "post": deleteDirectory
+});
+
+testCase({
   "name": "markdownlint-cli2-jsonc-invalid",
   "args": [ ".*" ],
   "exitCode": 2,

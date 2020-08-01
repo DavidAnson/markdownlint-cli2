@@ -119,6 +119,8 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 - Settings in this file apply to the directory it is in and all subdirectories
 - Settings **merge with** those applied by any versions of this file in a parent
   directory.
+- See also: [`.markdownlint-cli2.jsonc`][markdownlint-cli2-jsonc] with all
+  properties set
 
 ### `.markdownlint.jsonc` / `.markdownlint.json`
 
@@ -183,6 +185,7 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 [markdownlint-rules-tags]: https://github.com/DavidAnson/markdownlint/blob/main/README.md#tags
 [markdownlint-cli]: https://github.com/igorshubovych/markdownlint-cli
 [markdownlint-cli2]: https://github.com/DavidAnson/markdownlint-cli2
+[markdownlint-cli2-jsonc]: test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc
 [nodejs]: https://nodejs.org/
 [nodejs-require]: https://nodejs.org/api/modules.html#modules_require_id
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
