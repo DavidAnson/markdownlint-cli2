@@ -15,11 +15,9 @@ npm install markdownlint-cli2 --save-dev
 
 ## Overview
 
-> **Note**: `markdownlint-cli2` is under development and is not yet as capable
-> as `markdownlint-cli`.
-
 - [`markdownlint`][markdownlint] is a library for linting [Markdown][markdown]/
-  [CommonMark][commonmark] files on [Node.js][nodejs].
+  [CommonMark][commonmark] files on [Node.js][nodejs] using the
+  [markdown-it][markdown-it] parser.
 - [`markdownlint-cli`][markdownlint-cli] is a traditional command-line interface
   for `markdownlint`.
 - [`markdownlint-cli2`][markdownlint-cli2] is a slightly unconventional
@@ -113,13 +111,17 @@ markdownlint-cli2 "**/*.md" "#node_modules"
     - The `String` is passed as the `pattern` parameter to the
       [`RegExp` constructor][regexp-constructor]
     - For example: `(^---\s*$[^]*?^---\s*$)(\r\n|\r|\n|$)`
+  - `markdownItPlugins`: `Array` of `Array`s, each of which has a `String`
+    naming a [markdown-it plugin][markdown-it-plugins] followed by parameters
+    - Plugins can be used to add support for additional Markdown syntax
+    - For example: `[ [ "plugin-name", param_0, param_1, ... ], ... ]`
   - `noInlineConfig`: `Boolean` value to disable the support of
     [HTML comments][html-comment] within Markdown content
     - For example: `<!-- markdownlint-disable some-rule -->`
-- Settings in this file apply to the directory it is in and all subdirectories
+- Settings in this file apply to the directory it is in and all subdirectories.
 - Settings **merge with** those applied by any versions of this file in a parent
   directory.
-- See also: [`.markdownlint-cli2.jsonc`][markdownlint-cli2-jsonc] with all
+- For example: A [`.markdownlint-cli2.jsonc`][markdownlint-cli2-jsonc] with all
   properties set
 
 ### `.markdownlint.jsonc` / `.markdownlint.json`
@@ -176,6 +178,8 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2.svg
 [license-url]: https://opensource.org/licenses/MIT
 [markdown]: https://wikipedia.org/wiki/Markdown
+[markdown-it]: https://www.npmjs.com/package/markdown-it
+[markdown-it-plugins]: https://www.npmjs.com/search?q=keywords:markdown-it-plugin
 [markdownlint]: https://github.com/DavidAnson/markdownlint
 [markdownlint-config]: https://github.com/DavidAnson/markdownlint/blob/main/README.md#optionsconfig
 [markdownlint-configuration]: https://github.com/DavidAnson/markdownlint/blob/main/README.md#configuration

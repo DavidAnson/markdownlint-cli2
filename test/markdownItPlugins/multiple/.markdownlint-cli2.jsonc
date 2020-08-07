@@ -1,0 +1,14 @@
+{
+  "config": {
+    "proper-names": {
+      "names": [
+        "SMILE",
+        "FROWNING"
+      ]
+    }
+  },
+  "markdownItPlugins": [
+    [ "markdown-it-emoji", { "enabled": [ "smile" ] } ],
+    [ "@iktakahiro/markdown-it-katex" ]
+  ]
+}

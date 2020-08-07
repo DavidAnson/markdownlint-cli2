@@ -261,6 +261,19 @@ testCase({
   "exitCode": 1
 });
 
+testCase({
+  "name": "markdownItPlugins",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
+testCase({
+  "name": "markdownItPlugins-missing",
+  "args": [ ".*" ],
+  "exitCode": 2,
+  "stderrRe": /Cannot find module 'missing-package'/u
+});
+
 tape("README.md", (test) => {
   test.plan(1);
   const markdownlintCli2 = require("../markdownlint-cli2.js");
