@@ -21,6 +21,6 @@
     "markdownlint-cli2": "~0.0.4"
   },
   "keywords": [
-    "markdownlint-cli2-output"
+    "markdownlint-cli2-formatter"
   ]
 }

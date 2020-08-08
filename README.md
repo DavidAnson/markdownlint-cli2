@@ -118,6 +118,14 @@ markdownlint-cli2 "**/*.md" "#node_modules"
   - `noInlineConfig`: `Boolean` value to disable the support of
     [HTML comments][html-comment] within Markdown content
     - For example: `<!-- markdownlint-disable some-rule -->`
+  - `outputFormatters`: `Array` of `Array`s, each of which has a `String`
+    naming a [markdownlint-cli2-formatter][markdownlint-cli2-formatter] followed
+      by parameters
+    - Formatters can be used to customize the tool's output for different
+      scenarios
+    - For example: `[ [ "formatter-name", param_0, param_1, ... ], ... ]`
+    - This setting affects *all* output, so is valid only in the directory
+      `markdownlint-cli2` is run from
 - Settings in this file apply to the directory it is in and all subdirectories.
 - Settings **merge with** those applied by any versions of this file in a parent
   directory.
@@ -189,6 +197,7 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 [markdownlint-rules-tags]: https://github.com/DavidAnson/markdownlint/blob/main/README.md#tags
 [markdownlint-cli]: https://github.com/igorshubovych/markdownlint-cli
 [markdownlint-cli2]: https://github.com/DavidAnson/markdownlint-cli2
+[markdownlint-cli2-formatter]: https://www.npmjs.com/search?q=keywords:markdownlint-cli2-formatter
 [markdownlint-cli2-jsonc]: test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc
 [nodejs]: https://nodejs.org/
 [nodejs-require]: https://nodejs.org/api/modules.html#modules_require_id

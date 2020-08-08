@@ -158,6 +158,7 @@ ${name} "**/*.md" "#node_modules"`
     }
   }
   await Promise.all(tasks);
+  const baseMarkdownlintOptions = dirToDirInfo["."].markdownlintOptions || {};
   tasks.length = 0;
 
   // Merge file lists with identical configuration
@@ -219,26 +220,29 @@ ${name} "**/*.md" "#node_modules"`
   }
 
   // Lint each list of files
-  const requireIds = (dir, ruleIds) => {
-    let rules = undefined;
-    if (Array.isArray(ruleIds)) {
+  const requireIds = (dir, ids) => {
+    let modules = undefined;
+    if (ids) {
       const paths = [ ...require.resolve.paths(""), dir ];
-      rules = ruleIds.map((ruleId) => {
+      modules = ids.map((ruleId) => {
         const resolved = require.resolve(ruleId, { paths });
         return require(resolved);
       });
     }
-    return rules;
+    return modules;
+  };
+  const requireIdsAndParams = (dir, idsAndParams) => {
+    let modulesAndParams = undefined;
+    if (idsAndParams) {
+      const ids = idsAndParams.map((entry) => entry[0]);
+      const modules = requireIds(dir, ids);
+      modulesAndParams = idsAndParams.
+        map((entry, i) => [ modules[i], ...entry.slice(1) ]);
+    }
+    return modulesAndParams;
   };
   for (const dirInfo of dirInfos) {
     const { dir, files, markdownlintConfig, markdownlintOptions } = dirInfo;
-    const markdownlintOptionsMarkdownItPlugins =
-      markdownlintOptions.markdownItPlugins || [];
-    const pluginIds = markdownlintOptionsMarkdownItPlugins.
-      map((entry) => entry[0]);
-    const plugins = requireIds(dir, pluginIds);
-    const markdownItPlugins = markdownlintOptionsMarkdownItPlugins.
-      map((entry, i) => [ plugins[i], ...entry.slice(1) ]);
     const options = {
       files,
       "config":
@@ -249,7 +253,8 @@ ${name} "**/*.md" "#node_modules"`
         ? new RegExp(markdownlintOptions.frontMatter, "u")
         : undefined,
       "handleRuleFailures": true,
-      markdownItPlugins,
+      "markdownItPlugins":
+        requireIdsAndParams(dir, markdownlintOptions.markdownItPlugins),
       "noInlineConfig":
         Boolean(markdownlintOptions.noInlineConfig),
       "resultVersion": 3
@@ -309,21 +314,28 @@ ${name} "**/*.md" "#node_modules"`
     (a.counter - b.counter)
   ));
 
-  // Output summary
-  if (summary.length > 0) {
-    const outputFormatterFactory = require("./formatter-default");
-    const outputFormatter = outputFormatterFactory();
-    const options = {
+  // Output summary via formatters
+  const { outputFormatters } = baseMarkdownlintOptions;
+  const errorsPresent = (summary.length > 0);
+  if (errorsPresent || outputFormatters) {
+    const formatterOptions = {
       "results": summary,
       logMessage,
       logError
     };
-    outputFormatter(options);
-    return 1;
+    const formattersAndParams = requireIdsAndParams(
+      ".",
+      outputFormatters || [ [ "../../formatter-default" ] ]
+    );
+    await Promise.all(formattersAndParams.map((formatterAndParams) => {
+      const [ factory, ...factoryParams ] = formatterAndParams;
+      const formatter = factory(factoryParams);
+      return formatter(formatterOptions);
+    }));
   }
 
-  // Success
-  return 0;
+  // Done
+  return errorsPresent ? 1 : 0;
 };
 
 // Run if invoked as a CLI, export if required as a module

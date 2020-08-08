@@ -274,6 +274,19 @@ testCase({
   "stderrRe": /Cannot find module 'missing-package'/u
 });
 
+testCase({
+  "name": "outputFormatters",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
+testCase({
+  "name": "outputFormatters-missing",
+  "args": [ ".*" ],
+  "exitCode": 2,
+  "stderrRe": /Cannot find module 'missing-package'/u
+});
+
 tape("README.md", (test) => {
   test.plan(1);
   const markdownlintCli2 = require("../markdownlint-cli2.js");

@@ -19,6 +19,16 @@
   // Define a custom front matter pattern
   "frontMatter": "<head>[^]*<\/head>",
 
+  // Use a plugin to recognize math
+  "markdownItPlugins": [
+    [ "@iktakahiro/markdown-it-katex" ]
+  ],
+
   // Disable inline config comments
-  "noInlineConfig": true
+  "noInlineConfig": true,
+
+  // Use an alternate formatter
+  "outputFormatters": [
+    [ "../../formatter-default" ]
+  ]
 }

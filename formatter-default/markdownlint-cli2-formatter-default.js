@@ -18,6 +18,7 @@ const outputFormatter = (options) => {
       `${fileName}:${lineNumber}${columnText} ${ruleName} ${description}`
     );
   }
+  return Promise.resolve();
 };
 
 const outputFormatterFactory = () => outputFormatter;
