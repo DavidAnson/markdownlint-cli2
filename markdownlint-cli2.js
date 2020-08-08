@@ -24,23 +24,6 @@ const jsoncParse = (text) => JSON.parse(require("strip-json-comments")(text));
 // Parse YAML text
 const yamlParse = (text) => require("yaml").parse(text);
 
-// Formats summary in the style of `markdownlint-cli`
-const formatMarkdownlintCli = (summary, logError) => {
-  for (const errorInfo of summary) {
-    const { fileName, lineNumber, ruleNames, ruleDescription, errorDetail,
-      errorContext, errorRange } = errorInfo;
-    const ruleName = ruleNames.join("/");
-    const description = ruleDescription +
-          (errorDetail ? ` [${errorDetail}]` : "") +
-          (errorContext ? ` [Context: "${errorContext}"]` : "");
-    const column = (errorRange && errorRange[0]) || 0;
-    const columnText = column ? `:${column}` : "";
-    logError(
-      `${fileName}:${lineNumber}${columnText} ${ruleName} ${description}`
-    );
-  }
-};
-
 // Main function
 const main = async (argv, logMessage, logError) => {
   // Output help for missing arguments
@@ -328,7 +311,14 @@ ${name} "**/*.md" "#node_modules"`
 
   // Output summary
   if (summary.length > 0) {
-    formatMarkdownlintCli(summary, logError);
+    const outputFormatterFactory = require("./formatter-default");
+    const outputFormatter = outputFormatterFactory();
+    const options = {
+      "results": summary,
+      logMessage,
+      logError
+    };
+    outputFormatter(options);
     return 1;
   }
 
