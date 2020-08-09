@@ -76,7 +76,9 @@ const testCase = (options) => {
                 child.stderr.replace(verRe, "X.Y.Z"),
                 stderr.replace(crRe, ""));
             }
-            test.equal(formatterOutput || formatterOutputCustom, formatterJson);
+            test.equal(
+              (formatterOutput || formatterOutputCustom).replace(crRe, ""),
+              formatterJson.replace(crRe, ""));
             resolve();
           })
         ])
