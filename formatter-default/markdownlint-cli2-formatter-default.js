@@ -21,6 +21,4 @@ const outputFormatter = (options) => {
   return Promise.resolve();
 };
 
-const outputFormatterFactory = () => outputFormatter;
-
-module.exports = outputFormatterFactory;
+module.exports = outputFormatter;

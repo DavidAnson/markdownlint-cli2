@@ -1,5 +1,6 @@
 {
   "outputFormatters": [
-    [ "../../formatter-default" ]
+    [ "../../formatter-default" ],
+    [ "../../formatter-json" ]
   ]
 }

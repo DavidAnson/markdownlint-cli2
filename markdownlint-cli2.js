@@ -328,9 +328,8 @@ ${name} "**/*.md" "#node_modules"`
       outputFormatters || [ [ "../../formatter-default" ] ]
     );
     await Promise.all(formattersAndParams.map((formatterAndParams) => {
-      const [ factory, ...factoryParams ] = formatterAndParams;
-      const formatter = factory(factoryParams);
-      return formatter(formatterOptions);
+      const [ formatter, ...formatterParams ] = formatterAndParams;
+      return formatter(formatterOptions, ...formatterParams);
     }));
   }
 

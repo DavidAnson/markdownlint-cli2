@@ -2,7 +2,7 @@
 
 "use strict";
 
-const fs = require("fs");
+const fs = require("fs").promises;
 const path = require("path");
 const cpy = require("cpy");
 const del = require("del");
@@ -13,11 +13,12 @@ require("tape-player");
 const crRe = /\r/gu;
 const verRe = /\b\d+\.\d+\.\d+\b/u;
 const noop = () => null;
+const empty = () => "";
 
 const testCase = (options) => {
   const { name, args, exitCode, cwd, stderrRe, pre, post } = options;
   tape(name, (test) => {
-    test.plan(3);
+    test.plan(4);
     Promise.all([
       ((pre || noop)(name) || Promise.resolve()).
         then(() => execa.node(
@@ -29,32 +30,57 @@ const testCase = (options) => {
             "stripFinalNewline": false
           }
         )),
-      fs.promises.readFile(
+      fs.readFile(
         path.join(__dirname, `${name}.stdout`),
         "utf8"
-      ).catch(() => ""),
-      fs.promises.readFile(
+      ).catch(empty),
+      fs.readFile(
         path.join(__dirname, `${name}.stderr`),
         "utf8"
-      ).catch(() => "")
+      ).catch(empty),
+      fs.readFile(
+        path.join(__dirname, `${name}.formatter.json`),
+        "utf8"
+      ).catch(empty)
     ]).then((results) => Promise.all([
-      (post || noop)(name),
-      new Promise((resolve) => {
-        const [ child, stdout, stderr ] = results;
-        test.equal(child.exitCode, exitCode);
-        test.equal(
-          child.stdout.replace(verRe, "X.Y.Z"),
-          stdout.replace(crRe, ""));
-        if (stderrRe) {
-          test.match(child.stderr, stderrRe);
-        } else {
-          test.equal(
-            child.stderr.replace(verRe, "X.Y.Z"),
-            stderr.replace(crRe, ""));
-        }
-        resolve();
-      })
-    ]));
+      fs.readFile(
+        path.join(__dirname, name, "markdownlint-cli2-results.json"),
+        "utf8"
+      ).catch(empty),
+      fs.readFile(
+        path.join(__dirname, name, "custom-name.json"),
+        "utf8"
+      ).catch(empty)
+    ]).then((output) => [ ...results, ...output ])
+    ).
+      then(
+        (results) => Promise.all([
+          (post || noop)(name),
+          new Promise((resolve) => {
+            const [
+              child,
+              stdout,
+              stderr,
+              formatterJson,
+              formatterOutput,
+              formatterOutputCustom
+            ] = results;
+            test.equal(child.exitCode, exitCode);
+            test.equal(
+              child.stdout.replace(verRe, "X.Y.Z"),
+              stdout.replace(crRe, ""));
+            if (stderrRe) {
+              test.match(child.stderr, stderrRe);
+            } else {
+              test.equal(
+                child.stderr.replace(verRe, "X.Y.Z"),
+                stderr.replace(crRe, ""));
+            }
+            test.equal(formatterOutput || formatterOutputCustom, formatterJson);
+            resolve();
+          })
+        ])
+      );
   });
 };
 
@@ -277,7 +303,17 @@ testCase({
 testCase({
   "name": "outputFormatters",
   "args": [ "**/*.md" ],
-  "exitCode": 1
+  "exitCode": 1,
+  "post": (dir) => fs.unlink(
+    path.join(__dirname, dir, "markdownlint-cli2-results.json")
+  )
+});
+
+testCase({
+  "name": "outputFormatters-params",
+  "args": [ "**/*.md" ],
+  "exitCode": 1,
+  "post": (dir) => fs.unlink(path.join(__dirname, dir, "custom-name.json"))
 });
 
 testCase({
@@ -287,13 +323,14 @@ testCase({
   "stderrRe": /Cannot find module 'missing-package'/u
 });
 
-tape("README.md", (test) => {
+tape("READMEs", (test) => {
   test.plan(1);
   const markdownlintCli2 = require("../markdownlint-cli2.js");
   const uncalled = (msg) => test.fail(`message logged: ${msg}`);
   const inputs = [
     "README.md",
-    "./formatter-default/README.md"
+    "./formatter-default/README.md",
+    "./formatter-json/README.md"
   ];
   markdownlintCli2(inputs, uncalled, uncalled).
     then((exitCode) => test.equal(exitCode, 0));
