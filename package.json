@@ -46,6 +46,7 @@
     "eslint-plugin-node": "~11.1.0",
     "eslint-plugin-unicorn": "~20.1.0",
     "execa": "~4.0.2",
+    "junit-report-builder": "~2.1.0",
     "markdown-it-emoji": "~1.4.0",
     "@iktakahiro/markdown-it-katex": "~4.0.0",
     "markdownlint-rule-titlecase": "~0.0.5",

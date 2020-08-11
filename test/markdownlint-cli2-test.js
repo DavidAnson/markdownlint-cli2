@@ -18,7 +18,7 @@ const empty = () => "";
 const testCase = (options) => {
   const { name, args, exitCode, cwd, stderrRe, pre, post } = options;
   tape(name, (test) => {
-    test.plan(4);
+    test.plan(5);
     Promise.all([
       ((pre || noop)(name) || Promise.resolve()).
         then(() => execa.node(
@@ -41,6 +41,10 @@ const testCase = (options) => {
       fs.readFile(
         path.join(__dirname, `${name}.formatter.json`),
         "utf8"
+      ).catch(empty),
+      fs.readFile(
+        path.join(__dirname, `${name}.formatter.junit`),
+        "utf8"
       ).catch(empty)
     ]).then((results) => Promise.all([
       fs.readFile(
@@ -49,6 +53,14 @@ const testCase = (options) => {
       ).catch(empty),
       fs.readFile(
         path.join(__dirname, name, "custom-name.json"),
+        "utf8"
+      ).catch(empty),
+      fs.readFile(
+        path.join(__dirname, name, "markdownlint-cli2-junit.xml"),
+        "utf8"
+      ).catch(empty),
+      fs.readFile(
+        path.join(__dirname, name, "custom-name.xml"),
         "utf8"
       ).catch(empty)
     ]).then((output) => [ ...results, ...output ])
@@ -62,8 +74,11 @@ const testCase = (options) => {
               stdout,
               stderr,
               formatterJson,
-              formatterOutput,
-              formatterOutputCustom
+              formatterJunit,
+              formatterOutputJson,
+              formatterOutputJsonCustom,
+              formatterOutputJunit,
+              formatterOutputJunitCustom
             ] = results;
             test.equal(child.exitCode, exitCode);
             test.equal(
@@ -77,8 +92,13 @@ const testCase = (options) => {
                 stderr.replace(crRe, ""));
             }
             test.equal(
-              (formatterOutput || formatterOutputCustom).replace(crRe, ""),
+              (formatterOutputJson || formatterOutputJsonCustom).
+                replace(crRe, ""),
               formatterJson.replace(crRe, ""));
+            test.equal(
+              (formatterOutputJunit || formatterOutputJunitCustom).
+                replace(crRe, ""),
+              formatterJunit.replace(crRe, ""));
             resolve();
           })
         ])
@@ -306,16 +326,38 @@ testCase({
   "name": "outputFormatters",
   "args": [ "**/*.md" ],
   "exitCode": 1,
-  "post": (dir) => fs.unlink(
-    path.join(__dirname, dir, "markdownlint-cli2-results.json")
-  )
+  "post": (dir) => Promise.all([
+    fs.unlink(
+      path.join(__dirname, dir, "markdownlint-cli2-results.json")
+    ),
+    fs.unlink(
+      path.join(__dirname, dir, "markdownlint-cli2-junit.xml")
+    )
+  ])
 });
 
 testCase({
   "name": "outputFormatters-params",
   "args": [ "**/*.md" ],
   "exitCode": 1,
-  "post": (dir) => fs.unlink(path.join(__dirname, dir, "custom-name.json"))
+  "post": (dir) => Promise.all([
+    fs.unlink(path.join(__dirname, dir, "custom-name.json")),
+    fs.unlink(path.join(__dirname, dir, "custom-name.xml"))
+  ])
+});
+
+testCase({
+  "name": "outputFormatters-clean",
+  "args": [ "**/*.md" ],
+  "exitCode": 0,
+  "post": (dir) => Promise.all([
+    fs.unlink(
+      path.join(__dirname, dir, "markdownlint-cli2-results.json")
+    ),
+    fs.unlink(
+      path.join(__dirname, dir, "markdownlint-cli2-junit.xml")
+    )
+  ])
 });
 
 testCase({
@@ -332,7 +374,8 @@ tape("READMEs", (test) => {
   const inputs = [
     "README.md",
     "./formatter-default/README.md",
-    "./formatter-json/README.md"
+    "./formatter-json/README.md",
+    "./formatter-junit/README.md"
   ];
   markdownlintCli2(inputs, uncalled, uncalled).
     then((exitCode) => test.equal(exitCode, 0));

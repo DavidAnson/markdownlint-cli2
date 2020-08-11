@@ -139,7 +139,9 @@ ${name} "**/*.md" "#node_modules"`
           })
       );
     }
-    func(dirInfo);
+    if (func) {
+      func(dirInfo);
+    }
     return dirInfo;
   };
   for await (const file of globby.stream(globPatterns)) {
@@ -157,6 +159,7 @@ ${name} "**/*.md" "#node_modules"`
       });
     }
   }
+  getAndProcessDirInfo(".");
   await Promise.all(tasks);
   const baseMarkdownlintOptions = dirToDirInfo["."].markdownlintOptions || {};
   tasks.length = 0;
