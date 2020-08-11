@@ -337,6 +337,20 @@ testCase({
 });
 
 testCase({
+  "name": "outputFormatters-npm",
+  "args": [ "**/*.md" ],
+  "exitCode": 1,
+  "post": (dir) => Promise.all([
+    fs.unlink(
+      path.join(__dirname, dir, "markdownlint-cli2-results.json")
+    ),
+    fs.unlink(
+      path.join(__dirname, dir, "markdownlint-cli2-junit.xml")
+    )
+  ])
+});
+
+testCase({
   "name": "outputFormatters-params",
   "args": [ "**/*.md" ],
   "exitCode": 1,

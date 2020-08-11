@@ -328,7 +328,7 @@ ${name} "**/*.md" "#node_modules"`
     };
     const formattersAndParams = requireIdsAndParams(
       ".",
-      outputFormatters || [ [ "../../formatter-default" ] ]
+      outputFormatters || [ [ "markdownlint-cli2-formatter-default" ] ]
     );
     await Promise.all(formattersAndParams.map((formatterAndParams) => {
       const [ formatter, ...formatterParams ] = formatterAndParams;

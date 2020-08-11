@@ -27,8 +27,8 @@
   // Disable inline config comments
   "noInlineConfig": true,
 
-  // Use an alternate formatter
+  // Use a specific formatter
   "outputFormatters": [
-    [ "../../formatter-default" ]
+    [ "markdownlint-cli2-formatter-default" ]
   ]
 }

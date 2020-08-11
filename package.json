@@ -34,6 +34,7 @@
   "dependencies": {
     "globby": "~11.0.1",
     "markdownlint": "~0.20.4",
+    "markdownlint-cli2-formatter-default": "~0.0.1",
     "markdownlint-rule-helpers": "~0.11.0",
     "strip-json-comments": "~3.1.0",
     "yaml": "~1.10.0"
@@ -46,8 +47,9 @@
     "eslint-plugin-node": "~11.1.0",
     "eslint-plugin-unicorn": "~20.1.0",
     "execa": "~4.0.2",
-    "junit-report-builder": "~2.1.0",
     "markdown-it-emoji": "~1.4.0",
+    "markdownlint-cli2-formatter-json": "~0.0.1",
+    "markdownlint-cli2-formatter-junit": "~0.0.1",
     "@iktakahiro/markdown-it-katex": "~4.0.0",
     "markdownlint-rule-titlecase": "~0.0.5",
     "tape": "~5.0.1",
