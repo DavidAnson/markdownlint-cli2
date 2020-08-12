@@ -172,6 +172,8 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 ## History
 
 - 0.0.2 - Initial release
+- 0.0.3 - Feature parity with `markdownlint-cli`
+- 0.0.4 - Support output formatters and `markdown-it` plugins
 
 <!-- markdownlint-disable line-length -->
 
