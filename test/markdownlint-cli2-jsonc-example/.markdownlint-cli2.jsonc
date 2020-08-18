@@ -19,6 +19,11 @@
   // Define a custom front matter pattern
   "frontMatter": "<head>[^]*<\/head>",
 
+  // Define glob expressions to ignore
+  "ignores": [
+    "ignore*.md"
+  ],
+
   // Use a plugin to recognize math
   "markdownItPlugins": [
     [ "@iktakahiro/markdown-it-katex" ]

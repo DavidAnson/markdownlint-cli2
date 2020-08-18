@@ -81,14 +81,6 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 - See the [Configuration][markdownlint-configuration] section of the
   `markdownlint` documentation for information about the inline comment syntax.
 
-### `.markdownlintignore`
-
-- The format of this file is similar to [`.npmignore`][npmignore] and consists
-  of one glob pattern per line.
-- These glob patterns are negated (by adding a leading `!`) and appended to the
-  end of the command-line arguments.
-- Blank lines and lines that begin with the `#` character are ignored.
-
 ### `.markdownlint-cli2.jsonc`
 
 - The format of this file is a [JSONC][jsonc] object similar to the
@@ -111,6 +103,12 @@ markdownlint-cli2 "**/*.md" "#node_modules"
     - The `String` is passed as the `pattern` parameter to the
       [`RegExp` constructor][regexp-constructor]
     - For example: `(^---\s*$[^]*?^---\s*$)(\r\n|\r|\n|$)`
+  - `ignores`: `Array` of `Strings` defining glob expressions to ignore when
+    linting
+    - Glob expressions are negated (by adding a leading `!`) and appended to the
+      command-line arguments
+    - For performance reasons, this setting is valid only in the directory from
+      which `markdownlint-cli2` is run
   - `markdownItPlugins`: `Array` of `Array`s, each of which has a `String`
     naming a [markdown-it plugin][markdown-it-plugins] followed by parameters
     - Plugins can be used to add support for additional Markdown syntax
@@ -124,8 +122,8 @@ markdownlint-cli2 "**/*.md" "#node_modules"
     - Formatters can be used to customize the tool's output for different
       scenarios
     - For example: `[ [ "formatter-name", param_0, param_1, ... ], ... ]`
-    - This setting affects *all* output, so is valid only in the directory
-      `markdownlint-cli2` is run from
+    - This setting affects all output, so is valid only in the directory from
+      which `markdownlint-cli2` is run
 - Settings in this file apply to the directory it is in and all subdirectories.
 - Settings **merge with** those applied by any versions of this file in a parent
   directory.
@@ -205,7 +203,6 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 [nodejs-require]: https://nodejs.org/api/modules.html#modules_require_id
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2
-[npmignore]: https://docs.npmjs.com/misc/developers#keeping-files-out-of-your-package
 [regexp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 [regexp-constructor]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp
 [vscode]: https://code.visualstudio.com/

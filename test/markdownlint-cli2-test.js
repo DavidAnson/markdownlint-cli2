@@ -245,7 +245,7 @@ testCase({
 });
 
 testCase({
-  "name": "markdownlintignore",
+  "name": "ignores",
   "args": [ "**/*.md" ],
   "exitCode": 1
 });

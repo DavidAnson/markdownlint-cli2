@@ -15,7 +15,6 @@ const markdownlintRuleHelpers = require("markdownlint-rule-helpers");
 // Variables
 const markdownlintPromise = util.promisify(markdownlint);
 const markdownlintReadConfigPromise = util.promisify(markdownlint.readConfig);
-const crlfRe = /\r\n?|\n/gu;
 const utf8 = "utf8";
 
 // Parse JSONC text
@@ -62,25 +61,7 @@ ${name} "**/*.md" "#node_modules"`
     return 1;
   }
 
-  // Read ignore globs to pass as globby patterns
-  const markdownlintIgnore = ".markdownlintignore";
-  await fs.access(markdownlintIgnore).
-    then(
-      () => fs.readFile(markdownlintIgnore, utf8).
-        then(
-          (content) => {
-            const blankOrCommentRe = /^#|^\s*$/u;
-            const ignorePatterns = content.
-              split(crlfRe).
-              filter((line) => !blankOrCommentRe.test(line)).
-              map((glob) => `!${glob.trim()}`);
-            globPatterns.push(...ignorePatterns);
-          }
-        ),
-      () => null
-    );
-
-  // Enumerate glob patterns and build directory info list
+  // Read base ignore globs to pass as globby patterns (best performance)
   const tasks = [];
   const dirToDirInfo = {};
   const readConfig = (dir, name, otherwise) => {
@@ -144,6 +125,15 @@ ${name} "**/*.md" "#node_modules"`
     }
     return dirInfo;
   };
+  getAndProcessDirInfo(".");
+  await Promise.all(tasks);
+  tasks.length = 0;
+  const baseMarkdownlintOptions = dirToDirInfo["."].markdownlintOptions || {};
+  const ignorePatterns = (baseMarkdownlintOptions.ignores || []).
+    map((glob) => `!${glob}`);
+  globPatterns.push(...ignorePatterns);
+
+  // Enumerate files from globs and build directory info list
   for await (const file of globby.stream(globPatterns)) {
     // @ts-ignore
     let dir = path.dirname(file);
@@ -161,7 +151,6 @@ ${name} "**/*.md" "#node_modules"`
   }
   getAndProcessDirInfo(".");
   await Promise.all(tasks);
-  const baseMarkdownlintOptions = dirToDirInfo["."].markdownlintOptions || {};
   tasks.length = 0;
 
   // Merge file lists with identical configuration
