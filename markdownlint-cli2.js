@@ -132,6 +132,7 @@ ${name} "**/*.md" "#node_modules"`
   const ignorePatterns = (baseMarkdownlintOptions.ignores || []).
     map((glob) => `!${glob}`);
   globPatterns.push(...ignorePatterns);
+  delete baseMarkdownlintOptions.ignores;
 
   // Enumerate files from globs and build directory info list
   for await (const file of globby.stream(globPatterns)) {
@@ -149,7 +150,6 @@ ${name} "**/*.md" "#node_modules"`
       });
     }
   }
-  getAndProcessDirInfo(".");
   await Promise.all(tasks);
   tasks.length = 0;
 
@@ -235,8 +235,17 @@ ${name} "**/*.md" "#node_modules"`
   };
   for (const dirInfo of dirInfos) {
     const { dir, files, markdownlintConfig, markdownlintOptions } = dirInfo;
+    let filteredFiles = files;
+    if (markdownlintOptions.ignores) {
+      const ignores = markdownlintOptions.ignores.map((glob) => `!${glob}`);
+      const micromatch = require("micromatch");
+      filteredFiles = micromatch(
+        files.map((file) => path.relative(dir, file)),
+        ignores
+      ).map((file) => path.join(dir, file));
+    }
     const options = {
-      files,
+      "files": filteredFiles,
       "config":
         markdownlintConfig || markdownlintOptions.config,
       "customRules":

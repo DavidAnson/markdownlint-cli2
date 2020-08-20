@@ -105,10 +105,16 @@ markdownlint-cli2 "**/*.md" "#node_modules"
     - For example: `(^---\s*$[^]*?^---\s*$)(\r\n|\r|\n|$)`
   - `ignores`: `Array` of `Strings` defining glob expressions to ignore when
     linting
-    - Glob expressions are negated (by adding a leading `!`) and appended to the
-      command-line arguments
-    - For performance reasons, this setting is valid only in the directory from
+    - This setting has the best performance when applied to the directory from
       which `markdownlint-cli2` is run
+      - In this case, glob expressions are negated (by adding a leading `!`) and
+        appended to the command-line arguments before file enumeration
+      - The setting is not inherited by nested configuration files in this case
+    - When this setting is applied in subdirectories, ignoring of files is done
+      after file enumeration, so large directories can negatively impact
+      performance
+      - Nested configuration files inherit and reapply the setting to the
+        contents of nested directories in this case
   - `markdownItPlugins`: `Array` of `Array`s, each of which has a `String`
     naming a [markdown-it plugin][markdown-it-plugins] followed by parameters
     - Plugins can be used to add support for additional Markdown syntax
@@ -122,8 +128,8 @@ markdownlint-cli2 "**/*.md" "#node_modules"
     - Formatters can be used to customize the tool's output for different
       scenarios
     - For example: `[ [ "formatter-name", param_0, param_1, ... ], ... ]`
-    - This setting affects all output, so is valid only in the directory from
-      which `markdownlint-cli2` is run
+    - This setting affects all output, so is valid **only** in the directory
+      from which `markdownlint-cli2` is run
 - Settings in this file apply to the directory it is in and all subdirectories.
 - Settings **merge with** those applied by any versions of this file in a parent
   directory.

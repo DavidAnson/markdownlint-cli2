@@ -246,7 +246,7 @@ testCase({
 
 testCase({
   "name": "ignores",
-  "args": [ "**/*.md" ],
+  "args": [ "**/*.md", "**/*.markdown" ],
   "exitCode": 1
 });
 

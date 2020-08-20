@@ -1,0 +1,6 @@
+{
+  "ignores": [
+    "info.md",
+    "subdir/about.md"
+  ]
+}
