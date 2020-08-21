@@ -10,6 +10,11 @@ Glob expressions (from the globby library):
 - {} allows for a comma-separated list of "or" expressions
 - ! or # at the beginning of a pattern negate the match
 
+Dot-only glob:
+- The command "markdownlint-cli2 ." would lint every file in the current directory tree which is probably not intended
+- Instead, it is mapped to "markdownlint-cli2 *.{md,markdown}" which lints all Markdown files in the current directory
+- To lint every file in the current directory tree, the command "markdownlint-cli2 **" can be used instead
+
 Configuration:
 - Via .markdownlint-cli2.jsonc, .markdownlint.jsonc, .markdownlint.json, .markdownlint.yaml, or .markdownlint.yml
 

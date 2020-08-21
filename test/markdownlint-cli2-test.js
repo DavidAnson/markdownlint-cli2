@@ -167,6 +167,12 @@ testCase({
 });
 
 testCase({
+  "name": "dot",
+  "args": [ "." ],
+  "exitCode": 1
+});
+
+testCase({
   "name": "markdownlint-json",
   "args": [ "**/*.md" ],
   "exitCode": 1

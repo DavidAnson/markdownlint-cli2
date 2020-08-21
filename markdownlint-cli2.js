@@ -15,6 +15,7 @@ const markdownlintRuleHelpers = require("markdownlint-rule-helpers");
 // Variables
 const markdownlintPromise = util.promisify(markdownlint);
 const markdownlintReadConfigPromise = util.promisify(markdownlint.readConfig);
+const dotOnlySubstitute = "*.{md,markdown}";
 const utf8 = "utf8";
 
 // Parse JSONC text
@@ -44,6 +45,11 @@ Glob expressions (from the globby library):
 - {} allows for a comma-separated list of "or" expressions
 - ! or # at the beginning of a pattern negate the match
 
+Dot-only glob:
+- The command "${name} ." would lint every file in the current directory tree which is probably not intended
+- Instead, it is mapped to "${name} ${dotOnlySubstitute}" which lints all Markdown files in the current directory
+- To lint every file in the current directory tree, the command "${name} **" can be used instead
+
 Configuration:
 - Via .markdownlint-cli2.jsonc, .markdownlint.jsonc, .markdownlint.json, .markdownlint.yaml, or .markdownlint.yml
 
@@ -59,6 +65,9 @@ ${name} "**/*.md" "#node_modules"`
     );
     /* eslint-enable max-len */
     return 1;
+  } else if ((globPatterns.length === 1) && (globPatterns[0] === ".")) {
+    // Substitute a more reasonable pattern
+    globPatterns[0] = dotOnlySubstitute;
   }
 
   // Read base ignore globs to pass as globby patterns (best performance)
