@@ -12,7 +12,7 @@ const sliceSize = 1000;
  */
 const appendToArray = (destination, source) => {
   // NOTE: destination.push(...source) throws "RangeError: Maximum call stack
-  // size exceeded" for sufficiently long source arrays
+  // size exceeded" for sufficiently lengthy source arrays
   let index = 0;
   let slice = null;
   while ((slice = source.slice(index, index + sliceSize)).length > 0) {
@@ -21,4 +21,5 @@ const appendToArray = (destination, source) => {
   }
 };
 
+appendToArray.sliceSize = sliceSize;
 module.exports = appendToArray;
