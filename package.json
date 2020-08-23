@@ -21,15 +21,16 @@
     "ci": "npm run test-cover && npm run lint",
     "lint": "eslint --max-warnings 0 \"*.js\" \"test/*.js\"",
     "lint-watch": "git ls-files | entr npm run lint",
-    "test": "node test/markdownlint-cli2-test.js",
-    "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 node test/markdownlint-cli2-test.js",
+    "test": "tape test/*.js",
+    "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 tape test/*.js",
     "test-watch": "git ls-files | entr npm run test"
   },
   "engines": {
     "node": ">=10.17.0"
   },
   "files": [
-    "markdownlint-cli2.js"
+    "markdownlint-cli2.js",
+    "append-to-array.js"
   ],
   "dependencies": {
     "globby": "~11.0.1",
