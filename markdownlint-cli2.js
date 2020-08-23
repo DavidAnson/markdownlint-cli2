@@ -11,6 +11,7 @@ const util = require("util");
 const globby = require("globby");
 const markdownlint = require("markdownlint");
 const markdownlintRuleHelpers = require("markdownlint-rule-helpers");
+const appendToArray = require("./append-to-array");
 
 // Variables
 const markdownlintPromise = util.promisify(markdownlint);
@@ -140,7 +141,7 @@ ${name} "**/*.md" "#node_modules"`
   const baseMarkdownlintOptions = dirToDirInfo["."].markdownlintOptions || {};
   const ignorePatterns = (baseMarkdownlintOptions.ignores || []).
     map((glob) => `!${glob}`);
-  globPatterns.push(...ignorePatterns);
+  appendToArray(globPatterns, ignorePatterns);
   delete baseMarkdownlintOptions.ignores;
 
   // Enumerate files from globs and build directory info list
@@ -176,7 +177,7 @@ ${name} "**/*.md" "#node_modules"`
     const dirInfo = dirToDirInfo[dir];
     if ((dirInfo.files.length === 0) || noConfigDirInfo(dirInfo)) {
       if (dirInfo.parent) {
-        dirInfo.parent.files.push(...dirInfo.files);
+        appendToArray(dirInfo.parent.files, dirInfo.files);
       }
       dirToDirInfo[dir] = null;
     } else {
