@@ -58,8 +58,7 @@ following `.markdownlint-cli2.jsonc`:
     "fixInfo": {
       "editColumn": 10,
       "deleteCount": 1
-    },
-    "counter": 0
+    }
   },
   {
     "fileName": "viewme.md",
@@ -75,8 +74,7 @@ following `.markdownlint-cli2.jsonc`:
     "errorRange": null,
     "fixInfo": {
       "deleteCount": -1
-    },
-    "counter": 1
+    }
   },
   {
     "fileName": "viewme.md",
@@ -91,8 +89,7 @@ following `.markdownlint-cli2.jsonc`:
     "errorDetail": null,
     "errorContext": "# Description",
     "errorRange": null,
-    "fixInfo": null,
-    "counter": 3
+    "fixInfo": null
   },
   {
     "fileName": "viewme.md",
@@ -112,8 +109,7 @@ following `.markdownlint-cli2.jsonc`:
     "fixInfo": {
       "editColumn": 3,
       "deleteCount": 1
-    },
-    "counter": 2
+    }
   },
   {
     "fileName": "viewme.md",
@@ -133,8 +129,7 @@ following `.markdownlint-cli2.jsonc`:
     "fixInfo": {
       "editColumn": 15,
       "insertText": "\n"
-    },
-    "counter": 4
+    }
   }
 ]
 ```

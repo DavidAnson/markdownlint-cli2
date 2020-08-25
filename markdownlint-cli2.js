@@ -25,12 +25,13 @@ const jsoncParse = (text) => JSON.parse(require("strip-json-comments")(text));
 // Parse YAML text
 const yamlParse = (text) => require("yaml").parse(text);
 
+// Negate a glob
+const negateGlob = (glob) => `!${glob}`;
+
 // Main function
 const main = async (argv, logMessage, logError) => {
   // Output help for missing arguments
-  const globPatterns =
-    argv.
-      map((glob) => glob.replace(/^#/u, "!"));
+  const globPatterns = argv.map((glob) => glob.replace(/^#/u, "!"));
   if (globPatterns.length === 0) {
     const { name, version, author, homepage } = require("./package.json");
     /* eslint-disable max-len */
@@ -140,7 +141,7 @@ ${name} "**/*.md" "#node_modules"`
   tasks.length = 0;
   const baseMarkdownlintOptions = dirToDirInfo["."].markdownlintOptions || {};
   const ignorePatterns = (baseMarkdownlintOptions.ignores || []).
-    map((glob) => `!${glob}`);
+    map(negateGlob);
   appendToArray(globPatterns, ignorePatterns);
   delete baseMarkdownlintOptions.ignores;
 
@@ -191,13 +192,21 @@ ${name} "**/*.md" "#node_modules"`
   }
 
   // Verify dirInfos is simplified
-  // if (dirInfos.filter((di) => !di.files.length).length) {
-  //   throw new Error("No files");
+  // if (dirInfos.filter((di) => !di.files.length).length > 0) {
+  //   throw new Error("Empty files");
   // }
   // if (dirInfos.filter(
-  //   (di) => di.parent && !dirInfos.includes(di.parent)).length
+  //   (di) => di.parent && !dirInfos.includes(di.parent)).length > 0
   // ) {
   //   throw new Error("Extra parent");
+  // }
+  // if (
+  //   dirInfos.filter(
+  //     (di) => di.parent &&
+  //       !((di.markdownlintConfig ? 1 : 0) ^ (di.markdownlintOptions ? 1 : 0))
+  //   ).length > 0
+  // ) {
+  //   throw new Error("Missing object");
   // }
 
   // Merge configuration by inheritance
@@ -247,7 +256,7 @@ ${name} "**/*.md" "#node_modules"`
     const { dir, files, markdownlintConfig, markdownlintOptions } = dirInfo;
     let filteredFiles = files;
     if (markdownlintOptions.ignores) {
-      const ignores = markdownlintOptions.ignores.map((glob) => `!${glob}`);
+      const ignores = markdownlintOptions.ignores.map(negateGlob);
       const micromatch = require("micromatch");
       filteredFiles = micromatch(
         files.map((file) => path.relative(dir, file)),
@@ -324,6 +333,7 @@ ${name} "**/*.md" "#node_modules"`
     a.ruleNames[0].localeCompare(b.ruleNames[0]) ||
     (a.counter - b.counter)
   ));
+  summary.forEach((result) => delete result.counter);
 
   // Output summary via formatters
   const { outputFormatters } = baseMarkdownlintOptions;
