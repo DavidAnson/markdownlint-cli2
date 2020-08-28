@@ -9,6 +9,14 @@
 
 ## Install
 
+As a global CLI:
+
+```shell
+npm install markdownlint-cli2 --global
+```
+
+As a development dependency of the current package:
+
 ```shell
 npm install markdownlint-cli2 --save-dev
 ```
@@ -22,13 +30,13 @@ npm install markdownlint-cli2 --save-dev
   for `markdownlint`.
 - [`markdownlint-cli2`][markdownlint-cli2] is a slightly unconventional
   command-line interface for `markdownlint`.
-- `markdownlint-cli2` is configuration-based and prioritizes both speed and
+- `markdownlint-cli2` is configuration-based and prioritizes speed and
   simplicity.
-- `markdownlint-cli2` is mostly compatible with the features of
-  `markdownlint-cli`.
+- `markdownlint-cli2` supports all the features of `markdownlint-cli` (sometimes
+  a little differently).
 - [`vscode-markdownlint`][vscode-markdownlint] is a `markdownlint` extension for
   the [Visual Studio Code editor][vscode].
-- `markdownlint-cli2` is meant to work well in conjunction with
+- `markdownlint-cli2` is designed to work well in conjunction with
   `vscode-markdownlint`.
 
 ## Use
@@ -61,8 +69,8 @@ Cross-platform compatibility:
 - Some UNIX shells handle exclamation (!) in double-quotes specially, so hashtag (#) is recommended for negated globs
 - Some shells use backslash (\) to escape special characters, so forward slash (/) is the recommended path separator
 
-Therefore, the most compatible syntax for cross-platform support:
-markdownlint-cli2 "**/*.md" "#node_modules"
+Therefore, the most compatible glob syntax for cross-platform support:
+$ markdownlint-cli2 "**/*.md" "#node_modules"
 ```
 
 ### Exit Codes
@@ -74,7 +82,7 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 ## Rule List
 
 - See the [Rules / Aliases][markdownlint-rules-aliases] and
-  [Tags][markdownlint-tags] sections of the `markdownlint` documentation.
+  [Tags][markdownlint-rules-tags] sections of the `markdownlint` documentation.
 
 ## Glob expressions
 
@@ -84,7 +92,8 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 ## Configuration
 
 - See the [Configuration][markdownlint-configuration] section of the
-  `markdownlint` documentation for information about the inline comment syntax.
+  `markdownlint` documentation for information about the inline comment syntax
+  for enabling and disabling rules with HTML comments.
 
 ### `.markdownlint-cli2.jsonc`
 
@@ -104,7 +113,7 @@ markdownlint-cli2 "**/*.md" "#node_modules"
     that emit fix information
     - Fixes are made directly to the relevant file(s); no backup is created
   - `frontMatter`: `String` defining the [`RegExp`][regexp] used to match and
-    ignore any [front matter][front-matter] at the beginning of Markdown content
+    ignore any [front matter][front-matter] at the beginning of a document
     - The `String` is passed as the `pattern` parameter to the
       [`RegExp` constructor][regexp-constructor]
     - For example: `(^---\s*$[^]*?^---\s*$)(\r\n|\r|\n|$)`
@@ -123,6 +132,7 @@ markdownlint-cli2 "**/*.md" "#node_modules"
   - `markdownItPlugins`: `Array` of `Array`s, each of which has a `String`
     naming a [markdown-it plugin][markdown-it-plugins] followed by parameters
     - Plugins can be used to add support for additional Markdown syntax
+    - Relative paths are resolved based on the location of the `JSONC` file
     - For example: `[ [ "plugin-name", param_0, param_1, ... ], ... ]`
   - `noInlineConfig`: `Boolean` value to disable the support of
     [HTML comments][html-comment] within Markdown content
@@ -132,9 +142,10 @@ markdownlint-cli2 "**/*.md" "#node_modules"
       by parameters
     - Formatters can be used to customize the tool's output for different
       scenarios
+    - Relative paths are resolved based on the location of the `JSONC` file
     - For example: `[ [ "formatter-name", param_0, param_1, ... ], ... ]`
-    - This setting affects all output, so is valid **only** in the directory
-      from which `markdownlint-cli2` is run
+    - This setting affects output for the entire pass, so is valid **only** in
+      the directory from which `markdownlint-cli2` is run
 - Settings in this file apply to the directory it is in and all subdirectories.
 - Settings **merge with** those applied by any versions of this file in a parent
   directory.
@@ -143,40 +154,40 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 
 ### `.markdownlint.jsonc` / `.markdownlint.json`
 
-- The format of this file is a [JSON][json] or [JSONC][jsonc] object matching
+- The format of this file is a [JSONC][jsonc] or [JSON][json] object matching
   the [`markdownlint` `config` object][markdownlint-config].
 - Settings in this file apply to the directory it is in and all subdirectories
 - Settings **override** those applied by any versions of this file in a parent
   directory.
-- If both files are present in the same directory, the `jsonc` version takes
-  precedence.
+- If `jsonc` and `json` files are present in the same directory, the `jsonc`
+  version takes precedence.
 - To merge the settings of these files or share configuration, use the `extends`
-  property (documented above).
-- Both extensions support comments in JSON.
+  property (documented in the link above).
+- Both file types support comments in JSON.
 
 ### `.markdownlint.yaml` / `.markdownlint.yml`
 
-- The format of this file is a [YAML][yaml] object representing
-  [`markdownlint`'s `config` object][markdownlint-config].
+- The format of this file is a [YAML][yaml] object representing the
+  [`markdownlint` `config` object][markdownlint-config].
 - Other details are the same as for `jsonc`/`json` files described above.
-- If both files are present in the same directory, the `yaml` version takes
-  precedence.
-- If a `jsonc` or `json` file is present, it takes precedence according the
-  rules above.
+- If `yaml` and `yml` files are present in the same directory, the `yaml`
+  version takes precedence.
+- If a `jsonc` or `json` file is also present, it takes precedence.
 
 ## Compatibility
 
 ### `markdownlint-cli`
 
-- The glob implementation and handling of patterns is different.
-- The treatment of `.markdownlintignore` patterns is different.
-- Configuration files are supported in each directory (vs. one globally).
-- The `INI` config format and `.markdownlintrc` are not supported.
+- The glob implementation and handling of pattern matching is slightly
+  different.
+- Configuration files are supported in every directory (vs. only one at the
+  root).
+- The `INI` config format, `.markdownlintrc`, and `.markdownlintignore` are not
+  supported.
 
 ### `vscode-markdownlint`
 
-- The treatment of `.markdownlintignore` patterns is different.
-- `.markdownlintrc` is not supported as a configuration file.
+- `.markdownlintrc` and `.markdownlintignore` are not supported.
 
 ## History
 

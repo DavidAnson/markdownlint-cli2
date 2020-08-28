@@ -62,8 +62,8 @@ Cross-platform compatibility:
 - Some UNIX shells handle exclamation (!) in double-quotes specially, so hashtag (#) is recommended for negated globs
 - Some shells use backslash (\\) to escape special characters, so forward slash (/) is the recommended path separator
 
-Therefore, the most compatible syntax for cross-platform support:
-${name} "**/*.md" "#node_modules"`
+Therefore, the most compatible glob syntax for cross-platform support:
+$ ${name} "**/*.md" "#node_modules"`
     );
     /* eslint-enable max-len */
     return 1;
