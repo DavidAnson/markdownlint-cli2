@@ -148,11 +148,18 @@ $ ${name} "**/*.md" "#node_modules"`
   // Enumerate files from globs and build directory info list
   for await (const file of globby.stream(globPatterns)) {
     // @ts-ignore
-    let dir = path.dirname(file);
-    let lastDir = dir;
-    let lastDirInfo = getAndProcessDirInfo(dir, (dirInfo) => {
+    const dir = path.dirname(file);
+    getAndProcessDirInfo(dir, (dirInfo) => {
       dirInfo.files.push(file);
     });
+  }
+  await Promise.all(tasks);
+  tasks.length = 0;
+
+  // Fill out directory info list with parent directories
+  for (let lastDirInfo of Object.values(dirToDirInfo)) {
+    let { dir } = lastDirInfo;
+    let lastDir = dir;
     while ((dir = path.dirname(dir)) && (dir !== lastDir)) {
       lastDir = dir;
       // eslint-disable-next-line no-loop-func
