@@ -387,6 +387,12 @@ testCase({
   "stderrRe": /Cannot find module 'missing-package'/u
 });
 
+testCase({
+  "name": "nested-files",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
 tape("READMEs", (test) => {
   test.plan(1);
   const markdownlintCli2 = require("../markdownlint-cli2.js");
