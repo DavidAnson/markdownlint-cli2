@@ -239,24 +239,18 @@ $ ${name} "**/*.md" "#node_modules"`
 
   // Lint each list of files
   const requireIds = (dir, ids) => {
-    let modules = undefined;
-    if (ids) {
-      const paths = [ ...require.resolve.paths(""), dir ];
-      modules = ids.map((ruleId) => {
-        const resolved = require.resolve(ruleId, { paths });
-        return require(resolved);
-      });
-    }
+    const paths = [ ...require.resolve.paths(""), dir ];
+    const modules = ids.map((ruleId) => {
+      const resolved = require.resolve(ruleId, { paths });
+      return require(resolved);
+    });
     return modules;
   };
   const requireIdsAndParams = (dir, idsAndParams) => {
-    let modulesAndParams = undefined;
-    if (idsAndParams) {
-      const ids = idsAndParams.map((entry) => entry[0]);
-      const modules = requireIds(dir, ids);
-      modulesAndParams = idsAndParams.
-        map((entry, i) => [ modules[i], ...entry.slice(1) ]);
-    }
+    const ids = idsAndParams.map((entry) => entry[0]);
+    const modules = requireIds(dir, ids);
+    const modulesAndParams = idsAndParams.
+      map((entry, i) => [ modules[i], ...entry.slice(1) ]);
     return modulesAndParams;
   };
   for (const dirInfo of dirInfos) {
@@ -275,13 +269,13 @@ $ ${name} "**/*.md" "#node_modules"`
       "config":
         markdownlintConfig || markdownlintOptions.config,
       "customRules":
-        requireIds(dir, markdownlintOptions.customRules),
+        requireIds(dir, markdownlintOptions.customRules || []),
       "frontMatter": markdownlintOptions.frontMatter
         ? new RegExp(markdownlintOptions.frontMatter, "u")
         : undefined,
       "handleRuleFailures": true,
       "markdownItPlugins":
-        requireIdsAndParams(dir, markdownlintOptions.markdownItPlugins),
+        requireIdsAndParams(dir, markdownlintOptions.markdownItPlugins || []),
       "noInlineConfig":
         Boolean(markdownlintOptions.noInlineConfig),
       "resultVersion": 3
