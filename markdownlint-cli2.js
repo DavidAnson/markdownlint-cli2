@@ -28,6 +28,13 @@ const yamlParse = (text) => require("yaml").parse(text);
 // Negate a glob
 const negateGlob = (glob) => `!${glob}`;
 
+// Require a module ID with the specified directory in the path
+const requireResolve = (dir, id) => {
+  const paths = [ ...require.resolve.paths(""), dir ];
+  const resolved = require.resolve(id, { paths });
+  return require(resolved);
+};
+
 // Main function
 const main = async (argv, logMessage, logError) => {
   // Output help for missing arguments
@@ -52,8 +59,11 @@ Dot-only glob:
 - Instead, it is mapped to "${name} ${dotOnlySubstitute}" which lints all Markdown files in the current directory
 - To lint every file in the current directory tree, the command "${name} **" can be used instead
 
-Configuration:
-- Via .markdownlint-cli2.jsonc, .markdownlint.jsonc, .markdownlint.json, .markdownlint.yaml, or .markdownlint.yml
+Configuration via:
+- .markdownlint-cli2.jsonc
+- .markdownlint.jsonc or .markdownlint.json
+- .markdownlint.yaml or .markdownlint.yml
+- .markdownlint.js
 
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules, so quoting glob arguments is recommended
@@ -81,6 +91,14 @@ $ ${name} "**/*.md" "#node_modules"`
       then(
         // @ts-ignore
         () => markdownlintReadConfigPromise(file, [ jsoncParse, yamlParse ]),
+        otherwise
+      );
+  };
+  const requireConfig = (dir, name, otherwise) => {
+    const file = path.join(dir, name);
+    return () => fs.access(file).
+      then(
+        () => requireResolve(dir, `./${name}`),
         otherwise
       );
   };
@@ -119,7 +137,11 @@ $ ${name} "**/*.md" "#node_modules"`
               readConfig(
                 dir,
                 ".markdownlint.yml",
-                () => null
+                requireConfig(
+                  dir,
+                  ".markdownlint.js",
+                  () => null
+                )
               )
             )
           )
@@ -238,14 +260,7 @@ $ ${name} "**/*.md" "#node_modules"`
   }
 
   // Lint each list of files
-  const requireIds = (dir, ids) => {
-    const paths = [ ...require.resolve.paths(""), dir ];
-    const modules = ids.map((ruleId) => {
-      const resolved = require.resolve(ruleId, { paths });
-      return require(resolved);
-    });
-    return modules;
-  };
+  const requireIds = (dir, ids) => ids.map((id) => requireResolve(dir, id));
   const requireIdsAndParams = (dir, idsAndParams) => {
     const ids = idsAndParams.map((entry) => entry[0]);
     const modules = requireIds(dir, ids);

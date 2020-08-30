@@ -59,8 +59,11 @@ Dot-only glob:
 - Instead, it is mapped to "markdownlint-cli2 *.{md,markdown}" which lints all Markdown files in the current directory
 - To lint every file in the current directory tree, the command "markdownlint-cli2 **" can be used instead
 
-Configuration:
-- Via .markdownlint-cli2.jsonc, .markdownlint.jsonc, .markdownlint.json, .markdownlint.yaml, or .markdownlint.yml
+Configuration via:
+- .markdownlint-cli2.jsonc
+- .markdownlint.jsonc or .markdownlint.json
+- .markdownlint.yaml or .markdownlint.yml
+- .markdownlint.js
 
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules, so quoting glob arguments is recommended
@@ -149,10 +152,10 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 - Settings in this file apply to the directory it is in and all subdirectories.
 - Settings **merge with** those applied by any versions of this file in a parent
   directory.
-- For example: A [`.markdownlint-cli2.jsonc`][markdownlint-cli2-jsonc] with all
+- For example: [`.markdownlint-cli2.jsonc`][markdownlint-cli2-jsonc] with all
   properties set
 
-### `.markdownlint.jsonc` / `.markdownlint.json`
+### `.markdownlint.jsonc` or `.markdownlint.json`
 
 - The format of this file is a [JSONC][jsonc] or [JSON][json] object matching
   the [`markdownlint` `config` object][markdownlint-config].
@@ -164,8 +167,9 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 - To merge the settings of these files or share configuration, use the `extends`
   property (documented in the link above).
 - Both file types support comments in JSON.
+- For example: [`.markdownlint.jsonc`][markdownlint-jsonc]
 
-### `.markdownlint.yaml` / `.markdownlint.yml`
+### `.markdownlint.yaml` or `.markdownlint.yml`
 
 - The format of this file is a [YAML][yaml] object representing the
   [`markdownlint` `config` object][markdownlint-config].
@@ -173,6 +177,16 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 - If `yaml` and `yml` files are present in the same directory, the `yaml`
   version takes precedence.
 - If a `jsonc` or `json` file is also present, it takes precedence.
+- For example: [`.markdownlint.yaml`][markdownlint-yaml]
+
+### `.markdownlint.js`
+
+- The format of this file is a [CommonJS module][commonjs-module] that exports
+  the [`markdownlint` `config` object][markdownlint-config].
+- Other details are the same as for `jsonc`/`json` files described above.
+- If a `jsonc`, `json`, `yaml`, or `yml` file is also present, it takes
+  precedence.
+- For example: [`.markdownlint.js`][markdownlint-js]
 
 ## Compatibility
 
@@ -202,6 +216,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 [ci-image]: https://github.com/DavidAnson/markdownlint-cli2/workflows/CI/badge.svg?branch=main
 [ci-url]: https://github.com/DavidAnson/markdownlint-cli2/actions?query=branch%3Amain
 [commonmark]: https://commonmark.org/
+[commonjs-module]: https://nodejs.org/api/modules.html#modules_modules_commonjs_modules
 [front-matter]: https://jekyllrb.com/docs/frontmatter/
 [globby]: https://www.npmjs.com/package/globby
 [html-comment]: https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started
@@ -223,6 +238,9 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 [markdownlint-cli2]: https://github.com/DavidAnson/markdownlint-cli2
 [markdownlint-cli2-formatter]: https://www.npmjs.com/search?q=keywords:markdownlint-cli2-formatter
 [markdownlint-cli2-jsonc]: test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc
+[markdownlint-jsonc]: test/markdownlint-jsonc/.markdownlint.jsonc
+[markdownlint-yaml]: test/markdownlint-yaml/.markdownlint.yaml
+[markdownlint-js]: test/markdownlint-js/.markdownlint.js
 [nodejs]: https://nodejs.org/
 [nodejs-require]: https://nodejs.org/api/modules.html#modules_require_id
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg

@@ -203,6 +203,12 @@ testCase({
 });
 
 testCase({
+  "name": "markdownlint-js",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
+testCase({
   "name": "markdownlint-json-yaml",
   "args": [ "**/*.md" ],
   "exitCode": 1
@@ -220,6 +226,13 @@ testCase({
   "args": [ ".*" ],
   "exitCode": 2,
   "stderrRe": /Map keys must be unique/u
+});
+
+testCase({
+  "name": "markdownlint-js-invalid",
+  "args": [ ".*" ],
+  "exitCode": 2,
+  "stderrRe": /Unexpected end of input/u
 });
 
 testCase({

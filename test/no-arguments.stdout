@@ -15,8 +15,11 @@ Dot-only glob:
 - Instead, it is mapped to "markdownlint-cli2 *.{md,markdown}" which lints all Markdown files in the current directory
 - To lint every file in the current directory tree, the command "markdownlint-cli2 **" can be used instead
 
-Configuration:
-- Via .markdownlint-cli2.jsonc, .markdownlint.jsonc, .markdownlint.json, .markdownlint.yaml, or .markdownlint.yml
+Configuration via:
+- .markdownlint-cli2.jsonc
+- .markdownlint.jsonc or .markdownlint.json
+- .markdownlint.yaml or .markdownlint.yml
+- .markdownlint.js
 
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules, so quoting glob arguments is recommended
