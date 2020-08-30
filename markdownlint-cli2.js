@@ -30,7 +30,7 @@ const negateGlob = (glob) => `!${glob}`;
 
 // Require a module ID with the specified directory in the path
 const requireResolve = (dir, id) => {
-  const paths = [ ...require.resolve.paths(""), dir ];
+  const paths = [ dir, ...require.resolve.paths("") ];
   const resolved = require.resolve(id, { paths });
   return require(resolved);
 };
