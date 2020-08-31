@@ -17,6 +17,7 @@ Dot-only glob:
 
 Configuration via:
 - .markdownlint-cli2.jsonc
+- .markdownlint-cli2.js
 - .markdownlint.jsonc or .markdownlint.json
 - .markdownlint.yaml or .markdownlint.yml
 - .markdownlint.js

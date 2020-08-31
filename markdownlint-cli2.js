@@ -61,6 +61,7 @@ Dot-only glob:
 
 Configuration via:
 - .markdownlint-cli2.jsonc
+- .markdownlint-cli2.js
 - .markdownlint.jsonc or .markdownlint.json
 - .markdownlint.yaml or .markdownlint.yml
 - .markdownlint.js
@@ -118,7 +119,10 @@ $ ${name} "**/*.md" "#node_modules"`
         fs.access(markdownlintCli2Jsonc).
           then(
             () => fs.readFile(markdownlintCli2Jsonc, utf8).then(jsoncParse),
-            () => null
+            requireConfig(
+              dir,
+              ".markdownlint-cli2.js",
+              () => null)
           ).
           then((options) => {
             dirInfo.markdownlintOptions = options;

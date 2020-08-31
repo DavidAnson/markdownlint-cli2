@@ -258,6 +258,19 @@ testCase({
 });
 
 testCase({
+  "name": "markdownlint-cli2-js",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
+testCase({
+  "name": "markdownlint-cli2-js-invalid",
+  "args": [ ".*" ],
+  "exitCode": 2,
+  "stderrRe": /Unexpected end of input/u
+});
+
+testCase({
   "name": "config-overrides-options",
   "args": [ "viewme.md" ],
   "exitCode": 1
