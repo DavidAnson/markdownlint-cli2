@@ -1,0 +1,3 @@
+Finding: **/*.md **/*.markdown !*.md !dir*/*/*.md
+Linting: 8 file(s)
+Summary: 8 error(s)

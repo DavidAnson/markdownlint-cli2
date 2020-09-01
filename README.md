@@ -141,6 +141,9 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
   - `noInlineConfig`: `Boolean` value to disable the support of
     [HTML comments][html-comment] within Markdown content
     - For example: `<!-- markdownlint-disable some-rule -->`
+  - `noProgress`: `Boolean` value to disable the display of progress on `stdout`
+    - This top-level setting is valid **only** in the directory from which
+      `markdownlint-cli2` is run
   - `outputFormatters`: `Array` of `Array`s, each of which has a `String`
     naming a [markdownlint-cli2-formatter][markdownlint-cli2-formatter] followed
       by parameters
@@ -148,8 +151,8 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
       scenarios
     - Relative paths are resolved based on the location of the `JSONC` file
     - For example: `[ [ "formatter-name", param_0, param_1, ... ], ... ]`
-    - This setting affects output for the entire pass, so is valid **only** in
-      the directory from which `markdownlint-cli2` is run
+    - This top-level setting is valid **only** in the directory from which
+      `markdownlint-cli2` is run
 - Settings in this file apply to the directory it is in and all subdirectories.
 - Settings **merge with** those applied by any versions of this file in a parent
   directory.

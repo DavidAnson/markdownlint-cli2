@@ -429,6 +429,6 @@ tape("READMEs", (test) => {
     "./formatter-json/README.md",
     "./formatter-junit/README.md"
   ];
-  markdownlintCli2(inputs, uncalled, uncalled).
+  markdownlintCli2(inputs, noop, uncalled).
     then((exitCode) => test.equal(exitCode, 0));
 });

@@ -186,8 +186,12 @@ $ ${name} "**/*.md" "#node_modules"`
     map(negateGlob);
   appendToArray(globPatterns, ignorePatterns);
   delete baseMarkdownlintOptions.ignores;
+  const showProgress = !baseMarkdownlintOptions.noProgress;
 
   // Enumerate files from globs and build directory info list
+  if (showProgress) {
+    logMessage(`Finding: ${globPatterns.join(" ")}`);
+  }
   for await (const file of globby.stream(globPatterns)) {
     // @ts-ignore
     const dir = path.dirname(file);
@@ -280,6 +284,10 @@ $ ${name} "**/*.md" "#node_modules"`
   }
 
   // Lint each list of files
+  if (showProgress) {
+    const fileCount = dirInfos.reduce((p, c) => p + c.files.length, 0);
+    logMessage(`Linting: ${fileCount} file(s)`);
+  }
   for (const dirInfo of dirInfos) {
     const { dir, files, markdownlintConfig, markdownlintOptions } = dirInfo;
     let filteredFiles = files;
@@ -364,6 +372,9 @@ $ ${name} "**/*.md" "#node_modules"`
   summary.forEach((result) => delete result.counter);
 
   // Output summary via formatters
+  if (showProgress) {
+    logMessage(`Summary: ${summary.length} error(s)`);
+  }
   const { outputFormatters } = baseMarkdownlintOptions;
   const errorsPresent = (summary.length > 0);
   if (errorsPresent || outputFormatters) {
