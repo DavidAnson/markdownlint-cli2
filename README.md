@@ -221,6 +221,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 - 0.0.4 - Support output formatters and `markdown-it` plugins
 - 0.0.5 - Improve support for ignoring files
 - 0.0.6 - Improve handling of very large directory trees
+- 0.0.7 - Support `.markdownlint-cli2.js` and `.markdownlint.js`
 
 <!-- markdownlint-disable line-length -->
 
