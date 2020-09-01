@@ -28,11 +28,44 @@ const yamlParse = (text) => require("yaml").parse(text);
 // Negate a glob
 const negateGlob = (glob) => `!${glob}`;
 
+// Read a JSON(C) or YAML file and return the object
+const readConfig = (dir, name, otherwise) => {
+  const file = path.join(dir, name);
+  return () => fs.access(file).
+    then(
+      // @ts-ignore
+      () => markdownlintReadConfigPromise(file, [ jsoncParse, yamlParse ]),
+      otherwise
+    );
+};
+
 // Require a module ID with the specified directory in the path
 const requireResolve = (dir, id) => {
   const paths = [ dir, ...require.resolve.paths("") ];
   const resolved = require.resolve(id, { paths });
   return require(resolved);
+};
+
+// Require an array of modules by ID
+const requireIds = (dir, ids) => ids.map((id) => requireResolve(dir, id));
+
+// Require an array of modules by ID (preserving parameters)
+const requireIdsAndParams = (dir, idsAndParams) => {
+  const ids = idsAndParams.map((entry) => entry[0]);
+  const modules = requireIds(dir, ids);
+  const modulesAndParams = idsAndParams.
+    map((entry, i) => [ modules[i], ...entry.slice(1) ]);
+  return modulesAndParams;
+};
+
+// Require a JS file and return the exported object
+const requireConfig = (dir, name, otherwise) => {
+  const file = path.join(dir, name);
+  return () => fs.access(file).
+    then(
+      () => requireResolve(dir, `./${name}`),
+      otherwise
+    );
 };
 
 // Main function
@@ -86,23 +119,6 @@ $ ${name} "**/*.md" "#node_modules"`
   // Read base ignore globs to pass as globby patterns (best performance)
   const tasks = [];
   const dirToDirInfo = {};
-  const readConfig = (dir, name, otherwise) => {
-    const file = path.join(dir, name);
-    return () => fs.access(file).
-      then(
-        // @ts-ignore
-        () => markdownlintReadConfigPromise(file, [ jsoncParse, yamlParse ]),
-        otherwise
-      );
-  };
-  const requireConfig = (dir, name, otherwise) => {
-    const file = path.join(dir, name);
-    return () => fs.access(file).
-      then(
-        () => requireResolve(dir, `./${name}`),
-        otherwise
-      );
-  };
   const getAndProcessDirInfo = (dir, func) => {
     let dirInfo = dirToDirInfo[dir];
     if (!dirInfo) {
@@ -264,14 +280,6 @@ $ ${name} "**/*.md" "#node_modules"`
   }
 
   // Lint each list of files
-  const requireIds = (dir, ids) => ids.map((id) => requireResolve(dir, id));
-  const requireIdsAndParams = (dir, idsAndParams) => {
-    const ids = idsAndParams.map((entry) => entry[0]);
-    const modules = requireIds(dir, ids);
-    const modulesAndParams = idsAndParams.
-      map((entry, i) => [ modules[i], ...entry.slice(1) ]);
-    return modulesAndParams;
-  };
   for (const dirInfo of dirInfos) {
     const { dir, files, markdownlintConfig, markdownlintOptions } = dirInfo;
     let filteredFiles = files;
