@@ -236,6 +236,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 - 0.0.5 - Improve support for ignoring files
 - 0.0.6 - Improve handling of very large directory trees
 - 0.0.7 - Support `.markdownlint-cli2.js` and `.markdownlint.js`
+- 0.0.8 - Support `.markdownlint-cli2.yaml`, add progress
 
 <!-- markdownlint-disable line-length -->
 
