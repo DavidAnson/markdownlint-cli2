@@ -258,6 +258,28 @@ testCase({
 });
 
 testCase({
+  "name": "markdownlint-cli2-yaml",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
+testCase({
+  "name": "markdownlint-cli2-yaml-example",
+  "args": [ "**/*.md" ],
+  "exitCode": 1,
+  "cwd": "markdownlint-cli2-yaml-example-copy",
+  "pre": copyDirectory,
+  "post": deleteDirectory
+});
+
+testCase({
+  "name": "markdownlint-cli2-yaml-invalid",
+  "args": [ ".*" ],
+  "exitCode": 2,
+  "stderrRe": /Map keys must be unique/u
+});
+
+testCase({
   "name": "markdownlint-cli2-js",
   "args": [ "**/*.md" ],
   "exitCode": 1

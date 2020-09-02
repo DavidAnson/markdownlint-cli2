@@ -61,6 +61,7 @@ Dot-only glob:
 
 Configuration via:
 - .markdownlint-cli2.jsonc
+- .markdownlint-cli2.yaml
 - .markdownlint-cli2.js
 - .markdownlint.jsonc or .markdownlint.json
 - .markdownlint.yaml or .markdownlint.yml
@@ -159,13 +160,23 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 - For example: [`.markdownlint-cli2.jsonc`][markdownlint-cli2-jsonc] with all
   properties set
 
-### `.markdownlint-cli2.js`
+### `.markdownlint-cli2.yaml`
 
-- The format of this file is a [CommonJS module][commonjs-module] that exports
-  the `.markdownlint-cli2.jsonc` object described above.
+- The format of this file is a [YAML][yaml] object with the structure described
+  above for `.markdownlint-cli2.jsonc`.
 - Other details are the same as for `.markdownlint-cli2.jsonc` described above.
 - If a `.markdownlint-cli2.jsonc` file is present in the same directory, it
   takes precedence.
+- For example: [`.markdownlint-cli2.yaml`][markdownlint-cli2-yaml] with all
+  properties set
+
+### `.markdownlint-cli2.js`
+
+- The format of this file is a [CommonJS module][commonjs-module] that exports
+  the object described above for `.markdownlint-cli2.jsonc`.
+- Other details are the same as for `.markdownlint-cli2.jsonc` described above.
+- If a `.markdownlint-cli2.jsonc` or `.markdownlint-cli2.yaml` file is present
+  in the same directory, it takes precedence.
 - For example: [`.markdownlint-cli2.js`][markdownlint-cli2-js]
 
 ### `.markdownlint.jsonc` or `.markdownlint.json`
@@ -254,6 +265,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 [markdownlint-cli2-formatter]: https://www.npmjs.com/search?q=keywords:markdownlint-cli2-formatter
 [markdownlint-cli2-js]: test/markdownlint-cli2-js/.markdownlint-cli2.js
 [markdownlint-cli2-jsonc]: test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc
+[markdownlint-cli2-yaml]: test/markdownlint-cli2-yaml-example/.markdownlint-cli2.yaml
 [markdownlint-js]: test/markdownlint-js/.markdownlint.js
 [markdownlint-jsonc]: test/markdownlint-jsonc/.markdownlint.jsonc
 [markdownlint-yaml]: test/markdownlint-yaml/.markdownlint.yaml
