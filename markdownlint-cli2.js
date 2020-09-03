@@ -68,11 +68,11 @@ const requireConfig = (dir, name, otherwise) => {
     );
 };
 
-// Main function
-const main = async (argv, logMessage, logError) => {
-  // Output help for missing arguments
+// Process command-line arguments and return glob patterns
+const processArgv = (argv, logMessage) => {
   const globPatterns = argv.map((glob) => glob.replace(/^#/u, "!"));
   if (globPatterns.length === 0) {
+    // Output help if missing arguments
     const { name, version, author, homepage } = require("./package.json");
     /* eslint-disable max-len */
     logMessage(`${name} version ${version} by ${author.name} (${author.url})
@@ -111,118 +111,139 @@ Therefore, the most compatible glob syntax for cross-platform support:
 $ ${name} "**/*.md" "#node_modules"`
     );
     /* eslint-enable max-len */
-    return 1;
+    return null;
   } else if ((globPatterns.length === 1) && (globPatterns[0] === ".")) {
     // Substitute a more reasonable pattern
     globPatterns[0] = dotOnlySubstitute;
   }
+  return globPatterns;
+};
 
-  // Read base ignore globs to pass as globby patterns (best performance)
-  const tasks = [];
-  const dirToDirInfo = {};
-  const getAndProcessDirInfo = (dir, func) => {
-    let dirInfo = dirToDirInfo[dir];
-    if (!dirInfo) {
-      dirInfo = {
-        dir,
-        "parent": null,
-        "files": [],
-        "markdownlintConfig": null,
-        "markdownlintOptions": null
-      };
-      dirToDirInfo[dir] = dirInfo;
-      const markdownlintCli2Jsonc = path.join(dir, ".markdownlint-cli2.jsonc");
-      const markdownlintCli2Yaml = path.join(dir, ".markdownlint-cli2.yaml");
-      tasks.push(
-        fs.access(markdownlintCli2Jsonc).
-          then(
-            () => fs.readFile(markdownlintCli2Jsonc, utf8).then(jsoncParse),
-            () => fs.access(markdownlintCli2Yaml).
-              then(
-                () => fs.readFile(markdownlintCli2Yaml, utf8).then(yamlParse),
-                requireConfig(
-                  dir,
-                  ".markdownlint-cli2.js",
-                  () => null
-                )
+// Get (creating if necessary) and process a directory's info object
+const getAndProcessDirInfo = (tasks, dirToDirInfo, dir, func) => {
+  let dirInfo = dirToDirInfo[dir];
+  if (!dirInfo) {
+    dirInfo = {
+      dir,
+      "parent": null,
+      "files": [],
+      "markdownlintConfig": null,
+      "markdownlintOptions": null
+    };
+    dirToDirInfo[dir] = dirInfo;
+
+    // Load markdownlint-cli2 object(s)
+    const markdownlintCli2Jsonc = path.join(dir, ".markdownlint-cli2.jsonc");
+    const markdownlintCli2Yaml = path.join(dir, ".markdownlint-cli2.yaml");
+    tasks.push(
+      fs.access(markdownlintCli2Jsonc).
+        then(
+          () => fs.readFile(markdownlintCli2Jsonc, utf8).then(jsoncParse),
+          () => fs.access(markdownlintCli2Yaml).
+            then(
+              () => fs.readFile(markdownlintCli2Yaml, utf8).then(yamlParse),
+              requireConfig(
+                dir,
+                ".markdownlint-cli2.js",
+                () => null
               )
-          ).
-          then((options) => {
-            dirInfo.markdownlintOptions = options;
-          })
-      );
-      const readConfigs =
+            )
+        ).
+        then((options) => {
+          dirInfo.markdownlintOptions = options;
+        })
+    );
+
+    // Load markdownlint object(s)
+    const readConfigs =
+      readConfig(
+        dir,
+        ".markdownlint.jsonc",
         readConfig(
           dir,
-          ".markdownlint.jsonc",
+          ".markdownlint.json",
           readConfig(
             dir,
-            ".markdownlint.json",
+            ".markdownlint.yaml",
             readConfig(
               dir,
-              ".markdownlint.yaml",
-              readConfig(
+              ".markdownlint.yml",
+              requireConfig(
                 dir,
-                ".markdownlint.yml",
-                requireConfig(
-                  dir,
-                  ".markdownlint.js",
-                  () => null
-                )
+                ".markdownlint.js",
+                () => null
               )
             )
           )
-        );
-      tasks.push(
-        readConfigs().
-          then((config) => {
-            dirInfo.markdownlintConfig = config;
-          })
+        )
       );
-    }
-    if (func) {
-      func(dirInfo);
-    }
-    return dirInfo;
-  };
-  getAndProcessDirInfo(".");
+    tasks.push(
+      readConfigs().
+        then((config) => {
+          dirInfo.markdownlintConfig = config;
+        })
+    );
+  }
+  if (func) {
+    func(dirInfo);
+  }
+  return dirInfo;
+};
+
+// Get base markdownlint-cli2 options object
+const getBaseOptions = async (globPatterns) => {
+  const tasks = [];
+  const dirToDirInfo = {};
+  getAndProcessDirInfo(tasks, dirToDirInfo, ".");
   await Promise.all(tasks);
-  tasks.length = 0;
   const baseMarkdownlintOptions = dirToDirInfo["."].markdownlintOptions || {};
+
+  // Pass base ignore globs as globby patterns (best performance)
   const ignorePatterns = (baseMarkdownlintOptions.ignores || []).
     map(negateGlob);
   appendToArray(globPatterns, ignorePatterns);
   delete baseMarkdownlintOptions.ignores;
-  const showProgress = !baseMarkdownlintOptions.noProgress;
+  return {
+    baseMarkdownlintOptions,
+    dirToDirInfo
+  };
+};
 
-  // Enumerate files from globs and build directory info list
-  if (showProgress) {
-    logMessage(`Finding: ${globPatterns.join(" ")}`);
-  }
+// Enumerate files from globs and build directory infos
+const enumerateFiles = async (globPatterns, dirToDirInfo) => {
+  const tasks = [];
   for await (const file of globby.stream(globPatterns)) {
     // @ts-ignore
     const dir = path.dirname(file);
-    getAndProcessDirInfo(dir, (dirInfo) => {
+    getAndProcessDirInfo(tasks, dirToDirInfo, dir, (dirInfo) => {
       dirInfo.files.push(file);
     });
   }
   await Promise.all(tasks);
-  tasks.length = 0;
+};
 
-  // Fill out directory info list with parent directories
+// Enumerate (possibly missing) parent directories and update directory infos
+const enumerateParents = async (dirToDirInfo) => {
+  const tasks = [];
   for (let lastDirInfo of Object.values(dirToDirInfo)) {
     let { dir } = lastDirInfo;
     let lastDir = dir;
     while ((dir = path.dirname(dir)) && (dir !== lastDir)) {
       lastDir = dir;
-      // eslint-disable-next-line no-loop-func
-      lastDirInfo = getAndProcessDirInfo(dir, (dirInfo) => {
-        lastDirInfo.parent = dirInfo;
-      });
+      lastDirInfo =
+        // eslint-disable-next-line no-loop-func
+        getAndProcessDirInfo(tasks, dirToDirInfo, dir, (dirInfo) => {
+          lastDirInfo.parent = dirInfo;
+        });
     }
   }
   await Promise.all(tasks);
-  tasks.length = 0;
+};
+
+// Create directory info objects by enumerating file globs
+const createDirInfos = async (globPatterns, dirToDirInfo) => {
+  await enumerateFiles(globPatterns, dirToDirInfo);
+  await enumerateParents(dirToDirInfo);
 
   // Merge file lists with identical configuration
   const dirs = Object.keys(dirToDirInfo);
@@ -289,12 +310,12 @@ $ ${name} "**/*.md" "#node_modules"`
     }
     dirInfo.markdownlintOptions = markdownlintOptions;
   }
+  return dirInfos;
+};
 
-  // Lint each list of files
-  if (showProgress) {
-    const fileCount = dirInfos.reduce((p, c) => p + c.files.length, 0);
-    logMessage(`Linting: ${fileCount} file(s)`);
-  }
+// Lint files in groups by shared configuration
+const lintFiles = async (dirInfos) => {
+  const tasks = [];
   for (const dirInfo of dirInfos) {
     const { dir, files, markdownlintConfig, markdownlintOptions } = dirInfo;
     let filteredFiles = files;
@@ -308,18 +329,15 @@ $ ${name} "**/*.md" "#node_modules"`
     }
     const options = {
       "files": filteredFiles,
-      "config":
-        markdownlintConfig || markdownlintOptions.config,
-      "customRules":
-        requireIds(dir, markdownlintOptions.customRules || []),
+      "config": markdownlintConfig || markdownlintOptions.config,
+      "customRules": requireIds(dir, markdownlintOptions.customRules || []),
       "frontMatter": markdownlintOptions.frontMatter
         ? new RegExp(markdownlintOptions.frontMatter, "u")
         : undefined,
       "handleRuleFailures": true,
       "markdownItPlugins":
         requireIdsAndParams(dir, markdownlintOptions.markdownItPlugins || []),
-      "noInlineConfig":
-        Boolean(markdownlintOptions.noInlineConfig),
+      "noInlineConfig": Boolean(markdownlintOptions.noInlineConfig),
       "resultVersion": 3
     };
     let task = markdownlintPromise(options);
@@ -346,9 +364,11 @@ $ ${name} "**/*.md" "#node_modules"`
     tasks.push(task);
   }
   const taskResults = await Promise.all(tasks);
-  tasks.length = 0;
+  return taskResults;
+};
 
-  // Create summary of results
+// Create summary of results
+const createSummary = (taskResults) => {
   const summary = [];
   let counter = 0;
   for (const results of taskResults) {
@@ -377,30 +397,56 @@ $ ${name} "**/*.md" "#node_modules"`
     (a.counter - b.counter)
   ));
   summary.forEach((result) => delete result.counter);
+  return summary;
+};
 
-  // Output summary via formatters
+// Output summary via formatters
+const outputSummary =
+  async (summary, outputFormatters, logMessage, logError) => {
+    const errorsPresent = (summary.length > 0);
+    if (errorsPresent || outputFormatters) {
+      const formatterOptions = {
+        "results": summary,
+        logMessage,
+        logError
+      };
+      const formattersAndParams = requireIdsAndParams(
+        ".",
+        outputFormatters || [ [ "markdownlint-cli2-formatter-default" ] ]
+      );
+      await Promise.all(formattersAndParams.map((formatterAndParams) => {
+        const [ formatter, ...formatterParams ] = formatterAndParams;
+        return formatter(formatterOptions, ...formatterParams);
+      }));
+    }
+    return errorsPresent;
+  };
+
+// Main function
+const main = async (argv, logMessage, logError) => {
+  const globPatterns = processArgv(argv, logMessage);
+  if (!globPatterns) {
+    return 1;
+  }
+  const { baseMarkdownlintOptions, dirToDirInfo } =
+    await getBaseOptions(globPatterns);
+  const showProgress = !baseMarkdownlintOptions.noProgress;
+  if (showProgress) {
+    logMessage(`Finding: ${globPatterns.join(" ")}`);
+  }
+  const dirInfos = await createDirInfos(globPatterns, dirToDirInfo);
+  if (showProgress) {
+    const fileCount = dirInfos.reduce((p, c) => p + c.files.length, 0);
+    logMessage(`Linting: ${fileCount} file(s)`);
+  }
+  const lintResults = await lintFiles(dirInfos);
+  const summary = createSummary(lintResults);
   if (showProgress) {
     logMessage(`Summary: ${summary.length} error(s)`);
   }
   const { outputFormatters } = baseMarkdownlintOptions;
-  const errorsPresent = (summary.length > 0);
-  if (errorsPresent || outputFormatters) {
-    const formatterOptions = {
-      "results": summary,
-      logMessage,
-      logError
-    };
-    const formattersAndParams = requireIdsAndParams(
-      ".",
-      outputFormatters || [ [ "markdownlint-cli2-formatter-default" ] ]
-    );
-    await Promise.all(formattersAndParams.map((formatterAndParams) => {
-      const [ formatter, ...formatterParams ] = formatterAndParams;
-      return formatter(formatterOptions, ...formatterParams);
-    }));
-  }
-
-  // Done
+  const errorsPresent =
+    await outputSummary(summary, outputFormatters, logMessage, logError);
   return errorsPresent ? 1 : 0;
 };
 
