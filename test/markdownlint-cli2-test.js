@@ -4,11 +4,10 @@
 
 const fs = require("fs").promises;
 const path = require("path");
+const test = require("ava");
 const cpy = require("cpy");
 const del = require("del");
 const execa = require("execa");
-const tape = require("tape");
-require("tape-player");
 
 const crRe = /\r/gu;
 const verRe = /\b\d+\.\d+\.\d+\b/u;
@@ -17,9 +16,9 @@ const empty = () => "";
 
 const testCase = (options) => {
   const { name, args, exitCode, cwd, stderrRe, pre, post } = options;
-  tape(name, (test) => {
-    test.plan(5);
-    Promise.all([
+  test(name, (t) => {
+    t.plan(5);
+    return Promise.all([
       ((pre || noop)(name) || Promise.resolve()).
         then(() => execa.node(
           path.join(__dirname, "..", "markdownlint-cli2.js"),
@@ -80,22 +79,22 @@ const testCase = (options) => {
               formatterOutputJunit,
               formatterOutputJunitCustom
             ] = results;
-            test.equal(child.exitCode, exitCode);
-            test.equal(
+            t.is(child.exitCode, exitCode);
+            t.is(
               child.stdout.replace(verRe, "X.Y.Z"),
               stdout.replace(crRe, ""));
             if (stderrRe) {
-              test.match(child.stderr, stderrRe);
+              t.regex(child.stderr, stderrRe);
             } else {
-              test.equal(
+              t.is(
                 child.stderr.replace(verRe, "X.Y.Z"),
                 stderr.replace(crRe, ""));
             }
-            test.equal(
+            t.is(
               (formatterOutputJson || formatterOutputJsonCustom).
                 replace(crRe, ""),
               formatterJson.replace(crRe, ""));
-            test.equal(
+            t.is(
               (formatterOutputJunit || formatterOutputJunitCustom).
                 replace(crRe, ""),
               formatterJunit.replace(crRe, ""));
@@ -441,16 +440,16 @@ testCase({
   "exitCode": 1
 });
 
-tape("READMEs", (test) => {
-  test.plan(1);
+test("READMEs", (t) => {
+  // test.plan(1);
   const markdownlintCli2 = require("../markdownlint-cli2.js");
-  const uncalled = (msg) => test.fail(`message logged: ${msg}`);
+  const uncalled = (msg) => t.fail(`message logged: ${msg}`);
   const inputs = [
     "README.md",
     "./formatter-default/README.md",
     "./formatter-json/README.md",
     "./formatter-junit/README.md"
   ];
-  markdownlintCli2(inputs, noop, uncalled).
-    then((exitCode) => test.equal(exitCode, 0));
+  return markdownlintCli2(inputs, noop, uncalled).
+    then((exitCode) => t.is(exitCode, 0));
 });

@@ -21,8 +21,8 @@
     "ci": "npm run test-cover && npm run lint",
     "lint": "eslint --max-warnings 0 \"*.js\" \"test/*.js\"",
     "lint-watch": "git ls-files | entr npm run lint",
-    "test": "tape test/*.js",
-    "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 tape test/*.js",
+    "test": "ava test/*.js",
+    "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 ava test/*.js",
     "test-watch": "git ls-files | entr npm run test"
   },
   "engines": {
@@ -42,6 +42,7 @@
     "yaml": "~1.10.0"
   },
   "devDependencies": {
+    "ava": "~3.12.1",
     "c8": "~7.3.0",
     "cpy": "~8.1.0",
     "del": "~5.1.0",
@@ -54,9 +55,7 @@
     "markdownlint-cli2-formatter-json": "~0.0.1",
     "markdownlint-cli2-formatter-junit": "~0.0.1",
     "@iktakahiro/markdown-it-katex": "~4.0.0",
-    "markdownlint-rule-titlecase": "~0.0.5",
-    "tape": "~5.0.1",
-    "tape-player": "~0.1.1"
+    "markdownlint-rule-titlecase": "~0.0.5"
   },
   "keywords": [
     "markdown",
