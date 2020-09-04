@@ -16,6 +16,7 @@ const empty = () => "";
 
 const testCase = (options) => {
   const { name, args, exitCode, cwd, stderrRe, pre, post } = options;
+  // @ts-ignore
   test(name, (t) => {
     t.plan(5);
     return Promise.all([
@@ -440,6 +441,13 @@ testCase({
   "exitCode": 1
 });
 
+testCase({
+  "name": "nested-options-config",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
+// @ts-ignore
 test("READMEs", (t) => {
   // test.plan(1);
   const markdownlintCli2 = require("../markdownlint-cli2.js");

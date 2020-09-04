@@ -257,12 +257,19 @@ const createDirInfos = async (globPatterns, dirToDirInfo) => {
     );
   for (const dir of dirs) {
     const dirInfo = dirToDirInfo[dir];
-    if ((dirInfo.files.length === 0) || noConfigDirInfo(dirInfo)) {
+    if (noConfigDirInfo(dirInfo)) {
       if (dirInfo.parent) {
         appendToArray(dirInfo.parent.files, dirInfo.files);
       }
       dirToDirInfo[dir] = null;
     } else {
+      const { markdownlintOptions } = dirInfo;
+      if (markdownlintOptions) {
+        markdownlintOptions.customRules =
+          requireIds(dir, markdownlintOptions.customRules || []);
+        markdownlintOptions.markdownItPlugins =
+          requireIdsAndParams(dir, markdownlintOptions.markdownItPlugins || []);
+      }
       dirInfos.push(dirInfo);
     }
   }
@@ -273,9 +280,6 @@ const createDirInfos = async (globPatterns, dirToDirInfo) => {
   }
 
   // Verify dirInfos is simplified
-  // if (dirInfos.filter((di) => !di.files.length).length > 0) {
-  //   throw new Error("Empty files");
-  // }
   // if (dirInfos.filter(
   //   (di) => di.parent && !dirInfos.includes(di.parent)).length > 0
   // ) {
@@ -330,13 +334,12 @@ const lintFiles = async (dirInfos) => {
     const options = {
       "files": filteredFiles,
       "config": markdownlintConfig || markdownlintOptions.config,
-      "customRules": requireIds(dir, markdownlintOptions.customRules || []),
+      "customRules": markdownlintOptions.customRules,
       "frontMatter": markdownlintOptions.frontMatter
         ? new RegExp(markdownlintOptions.frontMatter, "u")
         : undefined,
       "handleRuleFailures": true,
-      "markdownItPlugins":
-        requireIdsAndParams(dir, markdownlintOptions.markdownItPlugins || []),
+      "markdownItPlugins": markdownlintOptions.markdownItPlugins,
       "noInlineConfig": Boolean(markdownlintOptions.noInlineConfig),
       "resultVersion": 3
     };

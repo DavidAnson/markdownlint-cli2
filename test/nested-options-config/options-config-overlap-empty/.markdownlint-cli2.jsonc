@@ -1,0 +1,8 @@
+{
+  "customRules": [
+    "../first-line.js"
+  ],
+  "config": {
+    "no-space-in-code": false
+  }
+}
