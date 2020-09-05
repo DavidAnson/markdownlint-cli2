@@ -1,26 +1,14 @@
 config-options-disjoint-empty/dir/dir/dir/info.md:1 first-line Rule that reports an error for the first line
-config-options-disjoint-empty/dir/dir/dir/info.md:1 MD022/blanks-around-headings/blanks-around-headers Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: "## Information"]
 config-options-disjoint-empty/dir/dir/dir/info.md:1 MD041/first-line-heading/first-line-h1 First line in file should be a top level heading [Context: "## Information"]
-config-options-disjoint-empty/dir/dir/dir/info.md:2:6 MD038/no-space-in-code Spaces inside code span elements [Context: "` code1`"]
-config-options-disjoint-empty/dir/dir/dir/info.md:2:20 MD038/no-space-in-code Spaces inside code span elements [Context: "`code2 `"]
 config-options-disjoint-empty/dir/dir/dir/info.md:4 MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]
 config-options-disjoint-empty/dir/dir/info.md:1 first-line Rule that reports an error for the first line
-config-options-disjoint-empty/dir/dir/info.md:1 MD022/blanks-around-headings/blanks-around-headers Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: "## Information"]
 config-options-disjoint-empty/dir/dir/info.md:1 MD041/first-line-heading/first-line-h1 First line in file should be a top level heading [Context: "## Information"]
-config-options-disjoint-empty/dir/dir/info.md:2:6 MD038/no-space-in-code Spaces inside code span elements [Context: "` code1`"]
-config-options-disjoint-empty/dir/dir/info.md:2:20 MD038/no-space-in-code Spaces inside code span elements [Context: "`code2 `"]
 config-options-disjoint-empty/dir/dir/info.md:4 MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]
 config-options-disjoint/dir/dir/dir/info.md:1 first-line Rule that reports an error for the first line
-config-options-disjoint/dir/dir/dir/info.md:1 MD022/blanks-around-headings/blanks-around-headers Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: "## Information"]
 config-options-disjoint/dir/dir/dir/info.md:1 MD041/first-line-heading/first-line-h1 First line in file should be a top level heading [Context: "## Information"]
-config-options-disjoint/dir/dir/dir/info.md:2:6 MD038/no-space-in-code Spaces inside code span elements [Context: "` code1`"]
-config-options-disjoint/dir/dir/dir/info.md:2:20 MD038/no-space-in-code Spaces inside code span elements [Context: "`code2 `"]
 config-options-disjoint/dir/dir/dir/info.md:4 MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]
 config-options-disjoint/dir/dir/info.md:1 first-line Rule that reports an error for the first line
-config-options-disjoint/dir/dir/info.md:1 MD022/blanks-around-headings/blanks-around-headers Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: "## Information"]
 config-options-disjoint/dir/dir/info.md:1 MD041/first-line-heading/first-line-h1 First line in file should be a top level heading [Context: "## Information"]
-config-options-disjoint/dir/dir/info.md:2:6 MD038/no-space-in-code Spaces inside code span elements [Context: "` code1`"]
-config-options-disjoint/dir/dir/info.md:2:20 MD038/no-space-in-code Spaces inside code span elements [Context: "`code2 `"]
 config-options-disjoint/dir/dir/info.md:4 MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]
 config-options-disjoint/dir/info.md:1 MD041/first-line-heading/first-line-h1 First line in file should be a top level heading [Context: "## Information"]
 config-options-disjoint/dir/info.md:4 MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]

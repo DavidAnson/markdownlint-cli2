@@ -297,6 +297,7 @@ const createDirInfos = async (globPatterns, dirToDirInfo) => {
   // Merge configuration by inheritance
   for (const dirInfo of dirInfos) {
     let markdownlintOptions = dirInfo.markdownlintOptions || {};
+    let { markdownlintConfig } = dirInfo;
     let parent = dirInfo;
     // eslint-disable-next-line prefer-destructuring
     while ((parent = parent.parent)) {
@@ -311,8 +312,17 @@ const createDirInfos = async (globPatterns, dirToDirInfo) => {
           config
         };
       }
+      if (
+        !markdownlintConfig &&
+        parent.markdownlintConfig &&
+        !markdownlintOptions.config
+      ) {
+        // eslint-disable-next-line prefer-destructuring
+        markdownlintConfig = parent.markdownlintConfig;
+      }
     }
     dirInfo.markdownlintOptions = markdownlintOptions;
+    dirInfo.markdownlintConfig = markdownlintConfig;
   }
   return dirInfos;
 };
