@@ -10,7 +10,7 @@ const del = require("del");
 const execa = require("execa");
 
 const crRe = /\r/gu;
-const verRe = /\b\d+\.\d+\.\d+\b/u;
+const verRe = /\bv?\d+\.\d+\.\d+\b/gu;
 const noop = () => null;
 const empty = () => "";
 
@@ -93,7 +93,7 @@ const testCase = (options) => {
             }
             t.is(
               (formatterOutputJson || formatterOutputJsonCustom).
-                replace(crRe, ""),
+                replace(crRe, "").replace(verRe, "vX.Y.Z"),
               formatterJson.replace(crRe, ""));
             t.is(
               (formatterOutputJunit || formatterOutputJunitCustom).

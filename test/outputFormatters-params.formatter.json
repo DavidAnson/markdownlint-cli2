@@ -7,7 +7,7 @@
    "no-trailing-spaces"
   ],
   "ruleDescription": "Trailing spaces",
-  "ruleInformation": "https://github.com/DavidAnson/markdownlint/blob/v0.20.4/doc/Rules.md#md009",
+  "ruleInformation": "https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/Rules.md#md009",
   "errorDetail": "Expected: 0 or 2; Actual: 1",
   "errorContext": null,
   "errorRange": [
@@ -27,7 +27,7 @@
    "no-multiple-blanks"
   ],
   "ruleDescription": "Multiple consecutive blank lines",
-  "ruleInformation": "https://github.com/DavidAnson/markdownlint/blob/v0.20.4/doc/Rules.md#md012",
+  "ruleInformation": "https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/Rules.md#md012",
   "errorDetail": "Expected: 1; Actual: 2",
   "errorContext": null,
   "errorRange": null,
@@ -44,7 +44,7 @@
    "single-h1"
   ],
   "ruleDescription": "Multiple top level headings in the same document",
-  "ruleInformation": "https://github.com/DavidAnson/markdownlint/blob/v0.20.4/doc/Rules.md#md025",
+  "ruleInformation": "https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/Rules.md#md025",
   "errorDetail": null,
   "errorContext": "# Description",
   "errorRange": null,
@@ -58,7 +58,7 @@
    "no-multiple-space-atx"
   ],
   "ruleDescription": "Multiple spaces after hash on atx style heading",
-  "ruleInformation": "https://github.com/DavidAnson/markdownlint/blob/v0.20.4/doc/Rules.md#md019",
+  "ruleInformation": "https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/Rules.md#md019",
   "errorDetail": null,
   "errorContext": "##  Summary",
   "errorRange": [
@@ -78,7 +78,7 @@
    "single-trailing-newline"
   ],
   "ruleDescription": "Files should end with a single newline character",
-  "ruleInformation": "https://github.com/DavidAnson/markdownlint/blob/v0.20.4/doc/Rules.md#md047",
+  "ruleInformation": "https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/Rules.md#md047",
   "errorDetail": null,
   "errorContext": null,
   "errorRange": [

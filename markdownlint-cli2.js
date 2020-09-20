@@ -7,15 +7,13 @@
 // Requires
 const fs = require("fs").promises;
 const path = require("path");
-const util = require("util");
 const globby = require("globby");
-const markdownlint = require("markdownlint");
+const { markdownlint, "readConfig": markdownlintReadConfig } =
+  require("markdownlint").promises;
 const markdownlintRuleHelpers = require("markdownlint-rule-helpers");
 const appendToArray = require("./append-to-array");
 
 // Variables
-const markdownlintPromise = util.promisify(markdownlint);
-const markdownlintReadConfigPromise = util.promisify(markdownlint.readConfig);
 const dotOnlySubstitute = "*.{md,markdown}";
 const utf8 = "utf8";
 
@@ -34,7 +32,7 @@ const readConfig = (dir, name, otherwise) => {
   return () => fs.access(file).
     then(
       // @ts-ignore
-      () => markdownlintReadConfigPromise(file, [ jsoncParse, yamlParse ]),
+      () => markdownlintReadConfig(file, [ jsoncParse, yamlParse ]),
       otherwise
     );
 };
@@ -353,12 +351,11 @@ const lintFiles = async (dirInfos) => {
       "noInlineConfig": Boolean(markdownlintOptions.noInlineConfig),
       "resultVersion": 3
     };
-    let task = markdownlintPromise(options);
+    let task = markdownlint(options);
     if (markdownlintOptions.fix) {
       task = task.then((results) => {
         const subTasks = [];
-        const errorFiles = Object.keys(results).
-          filter((fileName) => Array.isArray(results[fileName]));
+        const errorFiles = Object.keys(results);
         for (const fileName of errorFiles) {
           const errorInfos = results[fileName].
             filter((errorInfo) => errorInfo.fixInfo);
@@ -371,7 +368,7 @@ const lintFiles = async (dirInfos) => {
           );
         }
         options.files = errorFiles;
-        return Promise.all(subTasks).then(() => markdownlintPromise(options));
+        return Promise.all(subTasks).then(() => markdownlint(options));
       });
     }
     tasks.push(task);
@@ -387,19 +384,17 @@ const createSummary = (taskResults) => {
   for (const results of taskResults) {
     for (const fileName in results) {
       const errorInfos = results[fileName];
-      if (Array.isArray(errorInfos)) {
-        for (const errorInfo of errorInfos) {
-          const fileNameRelativePosix = path.
-            relative("", fileName).
-            split(path.sep).
-            join(path.posix.sep);
-          summary.push({
-            "fileName": fileNameRelativePosix,
-            ...errorInfo,
-            counter
-          });
-          counter++;
-        }
+      for (const errorInfo of errorInfos) {
+        const fileNameRelativePosix = path.
+          relative("", fileName).
+          split(path.sep).
+          join(path.posix.sep);
+        summary.push({
+          "fileName": fileNameRelativePosix,
+          ...errorInfo,
+          counter
+        });
+        counter++;
       }
     }
   }
