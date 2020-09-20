@@ -109,7 +109,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
     rules for this part of the directory tree
     - If a `.markdownlint.{jsonc,json,yaml,yml,js}` file (see below) is present
       in the same directory, it overrides the value of this property
-  - `customRules`: `Array` of `Strings` of module names/paths of
+  - `customRules`: `Array` of `String`s of module names/paths of
     [custom rules][markdownlint-custom-rules] to load and use when linting
     - Each `String` is passed as the `id` parameter to Node's
       [require function][nodejs-require]
@@ -122,7 +122,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
     - The `String` is passed as the `pattern` parameter to the
       [`RegExp` constructor][regexp-constructor]
     - For example: `(^---\s*$[^]*?^---\s*$)(\r\n|\r|\n|$)`
-  - `ignores`: `Array` of `Strings` defining glob expressions to ignore when
+  - `ignores`: `Array` of `String`s defining glob expressions to ignore when
     linting
     - This setting has the best performance when applied to the directory from
       which `markdownlint-cli2` is run
