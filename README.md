@@ -174,6 +174,9 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 
 - The format of this file is a [CommonJS module][commonjs-module] that exports
   the object described above for `.markdownlint-cli2.jsonc`.
+- Instead of passing a `String` to identify the module name/path to load for
+  `customRules`, `markdownItPlugins`, and `outputFormatters`, the corresponding
+  `Object` or `Function` can be provided directly.
 - Other details are the same as for `.markdownlint-cli2.jsonc` described above.
 - If a `.markdownlint-cli2.jsonc` or `.markdownlint-cli2.yaml` file is present
   in the same directory, it takes precedence.

@@ -39,9 +39,12 @@ const readConfig = (dir, name, otherwise) => {
 
 // Require a module ID with the specified directory in the path
 const requireResolve = (dir, id) => {
-  const paths = [ dir, ...require.resolve.paths("") ];
-  const resolved = require.resolve(id, { paths });
-  return require(resolved);
+  if (typeof id === "string") {
+    const paths = [ dir, ...require.resolve.paths("") ];
+    const resolved = require.resolve(id, { paths });
+    return require(resolved);
+  }
+  return id;
 };
 
 // Require an array of modules by ID

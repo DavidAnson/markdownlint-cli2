@@ -344,6 +344,12 @@ testCase({
 });
 
 testCase({
+  "name": "customRules-pre-imported",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
+testCase({
   "name": "customRules-missing",
   "args": [ ".*" ],
   "exitCode": 2,
@@ -412,6 +418,13 @@ testCase({
     fs.unlink(path.join(__dirname, dir, "custom-name.json")),
     fs.unlink(path.join(__dirname, dir, "custom-name.xml"))
   ])
+});
+
+testCase({
+  "name": "outputFormatters-pre-imported",
+  "args": [ "**/*.md" ],
+  "exitCode": 1,
+  "post": (dir) => fs.unlink(path.join(__dirname, dir, "custom-name.json"))
 });
 
 testCase({
