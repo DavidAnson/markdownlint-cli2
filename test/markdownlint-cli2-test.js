@@ -449,6 +449,12 @@ testCase({
 });
 
 testCase({
+  "name": "formatter-summarize",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
+testCase({
   "name": "nested-files",
   "args": [ "**/*.md" ],
   "exitCode": 1
@@ -469,7 +475,8 @@ test("READMEs", (t) => {
     "README.md",
     "./formatter-default/README.md",
     "./formatter-json/README.md",
-    "./formatter-junit/README.md"
+    "./formatter-junit/README.md",
+    "./formatter-summarize/README.md"
   ];
   return markdownlintCli2(inputs, noop, uncalled).
     then((exitCode) => t.is(exitCode, 0));

@@ -2,6 +2,7 @@
   "outputFormatters": [
     [ "../../formatter-default" ],
     [ "../../formatter-json" ],
-    [ "../../formatter-junit" ]
+    [ "../../formatter-junit" ],
+    [ "../../formatter-summarize" ]
   ]
 }

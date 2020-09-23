@@ -143,7 +143,6 @@ following `.markdownlint-cli2.jsonc`:
 [json]: https://wikipedia.org/wiki/JSON
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2-formatter-json.svg
 [license-url]: https://opensource.org/licenses/MIT
-[markdownlint-cli]: https://github.com/igorshubovych/markdownlint-cli
 [markdownlint-cli2]: https://github.com/DavidAnson/markdownlint-cli2
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2-formatter-json.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2-formatter-json
