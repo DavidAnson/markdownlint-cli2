@@ -45,6 +45,17 @@ To summarize counts by file by rule, use the following
 }
 ```
 
+To summarize counts by rule by file, use the following
+`.markdownlint-cli2.jsonc`:
+
+```json
+{
+  "outputFormatters": [
+    [ "markdownlint-cli2-formatter-summarize", { "byRuleByFile": true } ]
+  ]
+}
+```
+
 ## Examples
 
 `byFile`:
@@ -101,9 +112,60 @@ viewme.md
       5 [Total]
 ```
 
+`byRuleByFile`:
+
+```text
+MD009/no-trailing-spaces
+  Count File
+      1 viewme.md
+      1 [Total]
+MD012/no-multiple-blanks
+  Count File
+      1 dir/subdir/info.md
+      1 viewme.md
+      2 [Total]
+MD019/no-multiple-space-atx
+  Count File
+      1 viewme.md
+      1 [Total]
+MD021/no-multiple-space-closed-atx
+  Count File
+      1 dir/about.md
+      1 [Total]
+MD022/blanks-around-headings/blanks-around-headers
+  Count File
+      1 dir/subdir/info.md
+      1 [Total]
+MD025/single-title/single-h1
+  Count File
+      1 viewme.md
+      1 [Total]
+MD029/ol-prefix
+  Count File
+      1 dir/about.md
+      1 [Total]
+MD032/blanks-around-lists
+  Count File
+      1 dir/about.md
+      1 [Total]
+MD038/no-space-in-code
+  Count File
+      2 dir/subdir/info.md
+      2 [Total]
+MD041/first-line-heading/first-line-h1
+  Count File
+      1 dir/subdir/info.md
+      1 [Total]
+MD047/single-trailing-newline
+  Count File
+      1 viewme.md
+      1 [Total]
+```
+
 ## History
 
 - 0.0.1 - Initial release
+- 0.0.2 - Add `byFileByRule`
 
 <!-- markdownlint-disable line-length -->
 

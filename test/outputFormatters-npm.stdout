@@ -1,3 +1,8 @@
 Finding: **/*.md
 Linting: 3 file(s)
 Summary: 13 error(s)
+Count File
+    3 dir/about.md
+    5 dir/subdir/info.md
+    5 viewme.md
+   13 [Total]

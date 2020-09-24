@@ -9,25 +9,30 @@ const logColumns = (log, count, name, indent) => {
 // Summarize the results
 const outputFormatter = (options, params) => {
   const { logMessage, results } = options;
-  const { byFile, byRule, byFileByRule } = (params || {});
+  const { byFile, byRule, byFileByRule, byRuleByFile } = (params || {});
   // Calculate statistics
   const countByFile = {};
   const countByRule = {};
   const countByFileByRule = {};
+  const countByRuleByFile = {};
   for (const result of results) {
-    countByFile[result.fileName] = (countByFile[result.fileName] || 0) + 1;
-    const ruleName = result.ruleNames.join("/");
+    const { fileName, ruleNames } = result;
+    countByFile[fileName] = (countByFile[fileName] || 0) + 1;
+    const ruleName = ruleNames.join("/");
     countByRule[ruleName] = (countByRule[ruleName] || 0) + 1;
-    const byRule = countByFileByRule[result.fileName] || {};
+    const byRule = countByFileByRule[fileName] || {};
     byRule[ruleName] = (byRule[ruleName] || 0) + 1;
-    countByFileByRule[result.fileName] = byRule;
+    countByFileByRule[fileName] = byRule;
+    const byFile = countByRuleByFile[ruleName] || {};
+    byFile[fileName] = (byFile[fileName] || 0) + 1;
+    countByRuleByFile[ruleName] = byFile;
   }
   // Show statistics by...
   if (byFile) {
     logColumns(logMessage, "Count", "File");
-    const fileNames = Object.keys(countByFile);
-    fileNames.sort();
-    fileNames.forEach((fileName) => logColumns(logMessage, countByFile[fileName], fileName));
+    const files = Object.keys(countByFile);
+    files.sort();
+    files.forEach((file) => logColumns(logMessage, countByFile[file], file));
     const total = results.length;
     logColumns(logMessage, total, "[Total]");
   }
@@ -40,16 +45,30 @@ const outputFormatter = (options, params) => {
     logColumns(logMessage, total, "[Total]");
   }
   if (byFileByRule) {
-    const fileNames = Object.keys(countByFileByRule);
-    fileNames.sort();
-    for (const fileName of fileNames) {
-      logMessage(fileName)
+    const files = Object.keys(countByFileByRule);
+    files.sort();
+    for (const file of files) {
+      logMessage(file)
       logColumns(logMessage, "Count", "Rule", 2);
-      const byRule = countByFileByRule[fileName];
+      const byRule = countByFileByRule[file];
       const rules = Object.keys(byRule);
       rules.sort();
       rules.forEach((rule) => logColumns(logMessage, byRule[rule], rule, 2));
-      const total = countByFile[fileName];
+      const total = countByFile[file];
+      logColumns(logMessage, total, "[Total]", 2);
+    }
+  }
+  if (byRuleByFile) {
+    const rules = Object.keys(countByRuleByFile);
+    rules.sort();
+    for (const rule of rules) {
+      logMessage(rule)
+      logColumns(logMessage, "Count", "File", 2);
+      const byFile = countByRuleByFile[rule];
+      const files = Object.keys(byFile);
+      files.sort();
+      files.forEach((file) => logColumns(logMessage, byFile[file], file, 2));
+      const total = countByRule[rule];
       logColumns(logMessage, total, "[Total]", 2);
     }
   }
