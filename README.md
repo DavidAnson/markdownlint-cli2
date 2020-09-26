@@ -114,6 +114,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
     - Each `String` is passed as the `id` parameter to Node's
       [require function][nodejs-require]
     - Relative paths are resolved based on the location of the `JSONC` file
+    - Search [`markdownlint-rule` on npm][markdownlint-rule]
   - `fix`: `Boolean` value to enable fixing of linting errors reported by rules
     that emit fix information
     - Fixes are made directly to the relevant file(s); no backup is created
@@ -135,10 +136,12 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
       - Nested configuration files inherit and reapply the setting to the
         contents of nested directories in this case
   - `markdownItPlugins`: `Array` of `Array`s, each of which has a `String`
-    naming a [markdown-it plugin][markdown-it-plugins] followed by parameters
+    naming a [markdown-it plugin][markdown-it-syntax-extensions] followed by
+    parameters
     - Plugins can be used to add support for additional Markdown syntax
     - Relative paths are resolved based on the location of the `JSONC` file
     - For example: `[ [ "plugin-name", param_0, param_1, ... ], ... ]`
+    - Search [`markdown-it-plugins` on npm][markdown-it-plugins]
   - `noInlineConfig`: `Boolean` value to disable the support of
     [HTML comments][html-comment] within Markdown content
     - For example: `<!-- markdownlint-disable some-rule -->`
@@ -146,14 +149,14 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
     - This top-level setting is valid **only** in the directory from which
       `markdownlint-cli2` is run
   - `outputFormatters`: `Array` of `Array`s, each of which has a `String`
-    naming a [markdownlint-cli2-formatter][markdownlint-cli2-formatter] followed
-      by parameters
+    naming an [output formatter][output-formatters] followed by parameters
     - Formatters can be used to customize the tool's output for different
       scenarios
     - Relative paths are resolved based on the location of the `JSONC` file
     - For example: `[ [ "formatter-name", param_0, param_1, ... ], ... ]`
     - This top-level setting is valid **only** in the directory from which
       `markdownlint-cli2` is run
+    - Search [`markdownlint-cli2-formatter` on npm][markdownlint-cli2-formatter]
 - Settings in this file apply to the directory it is in and all subdirectories.
 - Settings **merge with** those applied by any versions of this file in a parent
   directory.
@@ -258,6 +261,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 [markdown]: https://wikipedia.org/wiki/Markdown
 [markdown-it]: https://www.npmjs.com/package/markdown-it
 [markdown-it-plugins]: https://www.npmjs.com/search?q=keywords:markdown-it-plugin
+[markdown-it-syntax-extensions]: https://github.com/markdown-it/markdown-it#syntax-extensions
 [markdownlint]: https://github.com/DavidAnson/markdownlint
 [markdownlint-config]: https://github.com/DavidAnson/markdownlint/blob/main/README.md#optionsconfig
 [markdownlint-configuration]: https://github.com/DavidAnson/markdownlint/blob/main/README.md#configuration
@@ -273,11 +277,13 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 [markdownlint-cli2-yaml]: test/markdownlint-cli2-yaml-example/.markdownlint-cli2.yaml
 [markdownlint-js]: test/markdownlint-js/.markdownlint.js
 [markdownlint-jsonc]: test/markdownlint-jsonc/.markdownlint.jsonc
+[markdownlint-rule]: https://www.npmjs.com/search?q=keywords:markdownlint-rule
 [markdownlint-yaml]: test/markdownlint-yaml/.markdownlint.yaml
 [nodejs]: https://nodejs.org/
 [nodejs-require]: https://nodejs.org/api/modules.html#modules_require_id
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2
+[output-formatters]: doc/OutputFormatters.md
 [regexp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 [regexp-constructor]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp
 [vscode]: https://code.visualstudio.com/

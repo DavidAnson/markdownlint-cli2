@@ -468,11 +468,12 @@ testCase({
 
 // @ts-ignore
 test("READMEs", (t) => {
-  // test.plan(1);
+  t.plan(1);
   const markdownlintCli2 = require("../markdownlint-cli2.js");
   const uncalled = (msg) => t.fail(`message logged: ${msg}`);
   const inputs = [
     "README.md",
+    "./doc/OutputFormatters.md",
     "./formatter-default/README.md",
     "./formatter-json/README.md",
     "./formatter-junit/README.md",
