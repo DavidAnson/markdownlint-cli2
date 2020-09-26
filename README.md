@@ -244,6 +244,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 - 0.0.7 - Support `.markdownlint-cli2.js` and `.markdownlint.js`
 - 0.0.8 - Support `.markdownlint-cli2.yaml`, add progress
 - 0.0.9 - Improve configuration file handling
+- 0.0.10 - Improve performance and configuration
 
 <!-- markdownlint-disable line-length -->
 
