@@ -1,0 +1,7 @@
+-   id: markdownlint-cli2
+    name: markdownlint-cli2
+    description: "Checks the style of Markdown/Commonmark files."
+    entry: markdownlint-cli2
+    language: node
+    types: [markdown]
+    minimum_pre_commit_version: 0.15.0
