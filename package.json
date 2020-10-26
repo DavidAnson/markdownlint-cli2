@@ -34,7 +34,7 @@
   ],
   "dependencies": {
     "globby": "~11.0.1",
-    "markdownlint": "~0.21.0",
+    "markdownlint": "~0.21.1",
     "markdownlint-cli2-formatter-default": "~0.0.1",
     "markdownlint-rule-helpers": "~0.12.0",
     "micromatch": "~4.0.2",
