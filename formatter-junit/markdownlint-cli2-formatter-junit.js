@@ -22,7 +22,8 @@ const outputFormatter = (options, params) => {
     const columnText = column ? `, Column ${column}` : "";
     const errorDetailText = errorDetail ? `, ${errorDetail}` : "";
     const errorContextText = errorContext ? `, Context: "${errorContext}"` : "";
-    const text = `Line ${lineNumber}${columnText}${errorDetailText}${errorContextText}`;
+    const text =
+      `Line ${lineNumber}${columnText}${errorDetailText}${errorContextText}`;
     suite.
       testCase().
       className(fileName).
