@@ -10,7 +10,7 @@ const del = require("del");
 const execa = require("execa");
 
 const crRe = /\r/gu;
-const verRe = /\bv?\d+\.\d+\.\d+\b/gu;
+const verRe = /\bv\d+\.\d+\.\d+\b/gu;
 const noop = () => null;
 const empty = () => "";
 
@@ -82,13 +82,13 @@ const testCase = (options) => {
             ] = results;
             t.is(child.exitCode, exitCode);
             t.is(
-              child.stdout.replace(verRe, "X.Y.Z"),
+              child.stdout.replace(verRe, "vX.Y.Z"),
               stdout.replace(crRe, ""));
             if (stderrRe) {
               t.regex(child.stderr, stderrRe);
             } else {
               t.is(
-                child.stderr.replace(verRe, "X.Y.Z"),
+                child.stderr.replace(verRe, "vX.Y.Z"),
                 stderr.replace(crRe, ""));
             }
             t.is(
@@ -464,6 +464,23 @@ testCase({
   "name": "nested-options-config",
   "args": [ "**/*.md" ],
   "exitCode": 1
+});
+
+// @ts-ignore
+test("name and version", (t) => {
+  t.plan(2);
+  const markdownlintCli2 = require("../markdownlint-cli2.js");
+  const packageJson = require("../package.json");
+  const logMessage = (msg) => {
+    const match = (/^(?<name>\S+)\sv(?<version>\S+)\s/u).exec(msg);
+    if (match) {
+      const { name, version } = match.groups;
+      t.is(name, packageJson.name);
+      t.is(version, packageJson.version);
+    }
+  };
+  const uncalled = (msg) => t.fail(`message logged: ${msg}`);
+  return markdownlintCli2([], logMessage, uncalled);
 });
 
 // @ts-ignore

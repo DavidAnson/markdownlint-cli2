@@ -8,12 +8,17 @@
 const fs = require("fs").promises;
 const path = require("path");
 const globby = require("globby");
+const markdownlintLibraryName = "markdownlint";
+const markdownlintLibrary = require(markdownlintLibraryName);
 const { markdownlint, "readConfig": markdownlintReadConfig } =
-  require("markdownlint").promises;
+  markdownlintLibrary.promises;
 const markdownlintRuleHelpers = require("markdownlint-rule-helpers");
 const appendToArray = require("./append-to-array");
 
 // Variables
+const packageName = "markdownlint-cli2";
+const packageVersion = "0.0.10";
+const libraryVersion = markdownlintLibrary.getVersion();
 const dotOnlySubstitute = "*.{md,markdown}";
 const utf8 = "utf8";
 
@@ -74,10 +79,9 @@ const processArgv = (argv, logMessage) => {
   const globPatterns = argv.map((glob) => glob.replace(/^#/u, "!"));
   if (globPatterns.length === 0) {
     // Output help if missing arguments
-    const { name, version, author, homepage } = require("./package.json");
+    const { name, homepage } = require("./package.json");
     /* eslint-disable max-len */
-    logMessage(`${name} version ${version} by ${author.name} (${author.url})
-${homepage}
+    logMessage(`${homepage}
 
 Syntax: ${name} glob0 [glob1] [...] [globN]
 
@@ -435,6 +439,10 @@ const outputSummary =
 
 // Main function
 const main = async (argv, logMessage, logError) => {
+  logMessage(
+    `${packageName} v${packageVersion} ` +
+    `(${markdownlintLibraryName} v${libraryVersion})`
+  );
   const globPatterns = processArgv(argv, logMessage);
   if (!globPatterns) {
     return 1;

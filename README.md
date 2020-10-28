@@ -42,7 +42,7 @@ npm install markdownlint-cli2 --save-dev
 ## Use
 
 ```text
-markdownlint-cli2 version X.Y.Z by David Anson (https://dlaa.me/)
+markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)
 https://github.com/DavidAnson/markdownlint-cli2
 
 Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN]
