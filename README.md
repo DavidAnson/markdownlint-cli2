@@ -38,6 +38,7 @@ npm install markdownlint-cli2 --save-dev
   the [Visual Studio Code editor][vscode].
 - `markdownlint-cli2` is designed to work well in conjunction with
   `vscode-markdownlint`.
+- More about the [motivation for `markdownlint-cli2`][markdownlint-cli2-blog].
 
 ## Use
 
@@ -272,6 +273,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 [markdownlint-rules-tags]: https://github.com/DavidAnson/markdownlint/blob/main/README.md#tags
 [markdownlint-cli]: https://github.com/igorshubovych/markdownlint-cli
 [markdownlint-cli2]: https://github.com/DavidAnson/markdownlint-cli2
+[markdownlint-cli2-blog]: https://dlaa.me/blog/post/markdownlintcli2
 [markdownlint-cli2-formatter]: https://www.npmjs.com/search?q=keywords:markdownlint-cli2-formatter
 [markdownlint-cli2-js]: test/markdownlint-cli2-js/.markdownlint-cli2.js
 [markdownlint-cli2-jsonc]: test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc
