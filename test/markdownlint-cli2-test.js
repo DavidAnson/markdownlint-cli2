@@ -338,6 +338,15 @@ testCase({
 });
 
 testCase({
+  "name": "fix-scenarios",
+  "args": [ "**/*.md" ],
+  "exitCode": 1,
+  "cwd": "fix-scenarios-copy",
+  "pre": copyDirectory,
+  "post": deleteDirectory
+});
+
+testCase({
   "name": "customRules",
   "args": [ "**/*.md" ],
   "exitCode": 1
