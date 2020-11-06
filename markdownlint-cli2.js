@@ -361,21 +361,30 @@ const lintFiles = async (dirInfos) => {
     let task = markdownlint(options);
     if (markdownlintOptions.fix) {
       task = task.then((results) => {
+        options.files = [];
         const subTasks = [];
         const errorFiles = Object.keys(results);
         for (const fileName of errorFiles) {
           const errorInfos = results[fileName].
             filter((errorInfo) => errorInfo.fixInfo);
-          subTasks.push(fs.readFile(fileName, utf8).
-            then((original) => {
-              const fixed = markdownlintRuleHelpers.
-                applyFixes(original, errorInfos);
-              return fs.writeFile(fileName, fixed, utf8);
-            })
-          );
+          if (errorInfos.length > 0) {
+            delete results[fileName];
+            options.files.push(fileName);
+            subTasks.push(fs.readFile(fileName, utf8).
+              then((original) => {
+                const fixed = markdownlintRuleHelpers.
+                  applyFixes(original, errorInfos);
+                return fs.writeFile(fileName, fixed, utf8);
+              })
+            );
+          }
         }
-        options.files = errorFiles;
-        return Promise.all(subTasks).then(() => markdownlint(options));
+        return Promise.all(subTasks).
+          then(() => markdownlint(options)).
+          then((fixResults) => ({
+            ...results,
+            ...fixResults
+          }));
       });
     }
     tasks.push(task);
