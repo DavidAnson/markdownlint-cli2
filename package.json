@@ -54,6 +54,7 @@
     "markdown-it-for-inline": "~0.1.1",
     "markdownlint-cli2-formatter-json": "~0.0.2",
     "markdownlint-cli2-formatter-junit": "~0.0.1",
+    "markdownlint-cli2-formatter-pretty": "~0.0.1",
     "markdownlint-cli2-formatter-summarize": "~0.0.2",
     "@iktakahiro/markdown-it-katex": "~4.0.1",
     "markdownlint-rule-titlecase": "~0.0.5"

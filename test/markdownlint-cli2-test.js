@@ -464,6 +464,18 @@ testCase({
 });
 
 testCase({
+  "name": "formatter-pretty",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
+testCase({
+  "name": "formatter-pretty-appendLink",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
+});
+
+testCase({
   "name": "nested-files",
   "args": [ "**/*.md" ],
   "exitCode": 1
@@ -503,6 +515,7 @@ test("READMEs", (t) => {
     "./formatter-default/README.md",
     "./formatter-json/README.md",
     "./formatter-junit/README.md",
+    "./formatter-pretty/README.md",
     "./formatter-summarize/README.md"
   ];
   return markdownlintCli2(inputs, noop, uncalled).

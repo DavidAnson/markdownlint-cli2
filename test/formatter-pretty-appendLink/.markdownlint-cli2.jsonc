@@ -1,0 +1,8 @@
+{
+  "customRules": [
+    "markdownlint-rule-titlecase"
+  ],
+  "outputFormatters": [
+    [ "../../formatter-pretty", { "appendLink": true } ]
+  ]
+}
