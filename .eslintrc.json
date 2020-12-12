@@ -13,6 +13,9 @@
   "extends": [
     "eslint:all"
   ],
+  "ignorePatterns": [
+    "test/*/**"
+  ],
   "reportUnusedDisableDirectives": true,
   "rules": {
     "array-bracket-spacing": ["error", "always"],

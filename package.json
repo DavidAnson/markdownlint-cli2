@@ -19,10 +19,10 @@
   "bugs": "https://github.com/DavidAnson/markdownlint-cli2/issues",
   "scripts": {
     "ci": "npm run test-cover && npm run lint",
-    "lint": "eslint --max-warnings 0 \"*.js\" \"test/*.js\" \"formatter-*/*.js\"",
+    "lint": "eslint --max-warnings 0 .",
     "lint-watch": "git ls-files | entr npm run lint",
     "test": "ava test/*.js",
-    "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 ava test/*.js",
+    "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 npm test",
     "test-watch": "git ls-files | entr npm run test"
   },
   "engines": {
