@@ -42,14 +42,14 @@
     "yaml": "~1.10.0"
   },
   "devDependencies": {
-    "ava": "~3.13.0",
+    "ava": "~3.14.0",
     "c8": "~7.3.5",
     "cpy": "~8.1.1",
     "del": "~6.0.0",
-    "eslint": "~7.13.0",
+    "eslint": "~7.15.0",
     "eslint-plugin-node": "~11.1.0",
     "eslint-plugin-unicorn": "~23.0.0",
-    "execa": "~4.1.0",
+    "execa": "~5.0.0",
     "markdown-it-emoji": "~2.0.0",
     "markdown-it-for-inline": "~0.1.1",
     "markdownlint-cli2-formatter-json": "~0.0.2",
