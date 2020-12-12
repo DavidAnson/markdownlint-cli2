@@ -15,7 +15,7 @@ const noop = () => null;
 const empty = () => "";
 
 const testCase = (options) => {
-  const { name, args, exitCode, cwd, stderrRe, pre, post } = options;
+  const { name, args, exitCode, cwd, env, stderrRe, pre, post } = options;
   // @ts-ignore
   test(name, (t) => {
     t.plan(5);
@@ -26,6 +26,7 @@ const testCase = (options) => {
           args,
           {
             "cwd": path.join(__dirname, `${cwd || name}`),
+            "env": env || {},
             "reject": false,
             "stripFinalNewline": false
           }
@@ -466,12 +467,19 @@ testCase({
 testCase({
   "name": "formatter-pretty",
   "args": [ "**/*.md" ],
+  "env": {
+    "FORCE_COLOR": 1,
+    "FORCE_HYPERLINK": 1
+  },
   "exitCode": 1
 });
 
 testCase({
   "name": "formatter-pretty-appendLink",
   "args": [ "**/*.md" ],
+  "env": {
+    "FORCE_COLOR": 1
+  },
   "exitCode": 1
 });
 
