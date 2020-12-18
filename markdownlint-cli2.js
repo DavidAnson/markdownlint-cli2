@@ -447,7 +447,8 @@ const outputSummary =
   };
 
 // Main function
-const main = async (argv, logMessage, logError) => {
+const main = async (params) => {
+  const { argv, logMessage, logError } = params;
   logMessage(
     `${packageName} v${packageVersion} ` +
     `(${markdownlintLibraryName} v${libraryVersion})`
@@ -478,18 +479,35 @@ const main = async (argv, logMessage, logError) => {
   return errorsPresent ? 1 : 0;
 };
 
-// Run if invoked as a CLI, export if required as a module
-// @ts-ignore
-if (require.main === module) {
+// Run function
+const run = (overrides) => {
   (async () => {
     try {
-      process.exitCode =
-        await main(process.argv.slice(2), console.log, console.error);
+      const defaultParams = {
+        "argv": process.argv.slice(2),
+        "logMessage": console.log,
+        "logError": console.error
+      };
+      const params = {
+        ...defaultParams,
+        ...overrides
+      };
+      process.exitCode = await main(params);
     } catch (error) {
       console.error(error);
       process.exitCode = 2;
     }
   })();
-} else {
-  module.exports = main;
+};
+
+// Export functions
+module.exports = {
+  main,
+  run
+};
+
+// Run if invoked as a CLI
+// @ts-ignore
+if (require.main === module) {
+  run();
 }

@@ -498,7 +498,7 @@ testCase({
 // @ts-ignore
 test("name and version", (t) => {
   t.plan(2);
-  const markdownlintCli2 = require("../markdownlint-cli2.js");
+  const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
   const packageJson = require("../package.json");
   const logMessage = (msg) => {
     const match = (/^(?<name>\S+)\sv(?<version>\S+)\s/u).exec(msg);
@@ -508,16 +508,20 @@ test("name and version", (t) => {
       t.is(version, packageJson.version);
     }
   };
-  const uncalled = (msg) => t.fail(`message logged: ${msg}`);
-  return markdownlintCli2([], logMessage, uncalled);
+  const logError = (msg) => t.fail(`message logged: ${msg}`);
+  return markdownlintCli2({
+    "argv": [],
+    logMessage,
+    logError
+  });
 });
 
 // @ts-ignore
 test("READMEs", (t) => {
   t.plan(1);
-  const markdownlintCli2 = require("../markdownlint-cli2.js");
-  const uncalled = (msg) => t.fail(`message logged: ${msg}`);
-  const inputs = [
+  const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
+  const logError = (msg) => t.fail(`message logged: ${msg}`);
+  const argv = [
     "README.md",
     "./doc/OutputFormatters.md",
     "./formatter-default/README.md",
@@ -526,6 +530,10 @@ test("READMEs", (t) => {
     "./formatter-pretty/README.md",
     "./formatter-summarize/README.md"
   ];
-  return markdownlintCli2(inputs, noop, uncalled).
+  return markdownlintCli2({
+    argv,
+    "logMessage": noop,
+    logError
+  }).
     then((exitCode) => t.is(exitCode, 0));
 });
