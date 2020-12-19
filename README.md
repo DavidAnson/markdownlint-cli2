@@ -79,6 +79,23 @@ Therefore, the most compatible glob syntax for cross-platform support:
 $ markdownlint-cli2 "**/*.md" "#node_modules"
 ```
 
+As shown above, the default command-line for `markdownlint-cli2` looks something
+like:
+
+```bash
+markdownlint-cli2 "**/*.md" "#node_modules"
+```
+
+However, because sharing configuration between "normal" and "fix" modes is so
+common, the following command defaults the `fix` property (see below) to `true`:
+
+```bash
+markdownlint-cli2-fix "**/*.md" "#node_modules"
+```
+
+Other than the default behavior of the `fix` property (which can be overridden
+in both cases), these two commands behave identically.
+
 ### Exit Codes
 
 - `0`: Linting was successful and there were no errors

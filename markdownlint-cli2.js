@@ -196,12 +196,16 @@ const getAndProcessDirInfo = (tasks, dirToDirInfo, dir, func) => {
 };
 
 // Get base markdownlint-cli2 options object
-const getBaseOptions = async (globPatterns) => {
+const getBaseOptions = async (globPatterns, fixDefault) => {
   const tasks = [];
   const dirToDirInfo = {};
   getAndProcessDirInfo(tasks, dirToDirInfo, ".");
   await Promise.all(tasks);
-  const baseMarkdownlintOptions = dirToDirInfo["."].markdownlintOptions || {};
+  // eslint-disable-next-line no-multi-assign
+  const baseMarkdownlintOptions = dirToDirInfo["."].markdownlintOptions = {
+    "fix": fixDefault,
+    ...dirToDirInfo["."].markdownlintOptions
+  };
 
   // Pass base ignore globs as globby patterns (best performance)
   const ignorePatterns = (baseMarkdownlintOptions.ignores || []).
@@ -448,7 +452,7 @@ const outputSummary =
 
 // Main function
 const main = async (params) => {
-  const { argv, logMessage, logError } = params;
+  const { argv, logMessage, logError, fixDefault } = params;
   logMessage(
     `${packageName} v${packageVersion} ` +
     `(${markdownlintLibraryName} v${libraryVersion})`
@@ -458,7 +462,7 @@ const main = async (params) => {
     return 1;
   }
   const { baseMarkdownlintOptions, dirToDirInfo } =
-    await getBaseOptions(globPatterns);
+    await getBaseOptions(globPatterns, fixDefault);
   const showProgress = !baseMarkdownlintOptions.noProgress;
   if (showProgress) {
     logMessage(`Finding: ${globPatterns.join(" ")}`);

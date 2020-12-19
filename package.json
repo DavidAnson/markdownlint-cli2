@@ -9,7 +9,8 @@
   "license": "MIT",
   "main": "markdownlint-cli2.js",
   "bin": {
-    "markdownlint-cli2": "markdownlint-cli2.js"
+    "markdownlint-cli2": "markdownlint-cli2.js",
+    "markdownlint-cli2-fix": "markdownlint-cli2-fix.js"
   },
   "homepage": "https://github.com/DavidAnson/markdownlint-cli2",
   "repository": {
@@ -29,8 +30,9 @@
     "node": ">=10.17.0"
   },
   "files": [
+    "append-to-array.js",
     "markdownlint-cli2.js",
-    "append-to-array.js"
+    "markdownlint-cli2-fix.js"
   ],
   "dependencies": {
     "globby": "~11.0.1",

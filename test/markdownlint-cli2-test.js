@@ -15,14 +15,15 @@ const noop = () => null;
 const empty = () => "";
 
 const testCase = (options) => {
-  const { name, args, exitCode, cwd, env, stderrRe, pre, post } = options;
+  const { name, script, args, exitCode, cwd, env, stderrRe, pre, post } =
+    options;
   // @ts-ignore
   test(name, (t) => {
     t.plan(5);
     return Promise.all([
       ((pre || noop)(name) || Promise.resolve()).
         then(() => execa.node(
-          path.join(__dirname, "..", "markdownlint-cli2.js"),
+          path.join(__dirname, "..", script || "markdownlint-cli2.js"),
           args,
           {
             "cwd": path.join(__dirname, `${cwd || name}`),
@@ -345,6 +346,23 @@ testCase({
   "cwd": "fix-scenarios-copy",
   "pre": copyDirectory,
   "post": deleteDirectory
+});
+
+testCase({
+  "name": "fix-default-true",
+  "script": "markdownlint-cli2-fix.js",
+  "args": [ "**/*.md" ],
+  "exitCode": 1,
+  "cwd": "fix-default-true-copy",
+  "pre": copyDirectory,
+  "post": deleteDirectory
+});
+
+testCase({
+  "name": "fix-default-true-override",
+  "script": "markdownlint-cli2-fix.js",
+  "args": [ "**/*.md" ],
+  "exitCode": 1
 });
 
 testCase({

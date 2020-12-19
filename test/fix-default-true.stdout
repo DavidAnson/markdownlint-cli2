@@ -1,0 +1,4 @@
+markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)
+Finding: **/*.md
+Linting: 7 file(s)
+Summary: 19 error(s)
