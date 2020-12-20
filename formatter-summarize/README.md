@@ -162,11 +162,6 @@ MD047/single-trailing-newline
       1 [Total]
 ```
 
-## History
-
-- 0.0.1 - Initial release
-- 0.0.2 - Add `byFileByRule`
-
 <!-- markdownlint-disable line-length -->
 
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2-formatter-summarize.svg

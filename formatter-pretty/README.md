@@ -59,10 +59,6 @@ To append informational links to the output instead (which may be clickable):
 </span><span style="color:purple">viewme.md</span><span style="color:teal">:</span><span style="color:green">14</span><span style="color:teal">:</span><span style="color:green">14</span><span style="color:white"> </span><span style="color:gray">MD047/single-trailing-newline</span><span style="color:white"> Files should end with a single newline character
 </span></pre>
 
-## History
-
-- 0.0.1 - Initial release
-
 [chalk]: https://github.com/chalk/chalk
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2-formatter-pretty.svg
 [license-url]: https://opensource.org/licenses/MIT

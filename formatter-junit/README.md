@@ -70,10 +70,6 @@ To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
 </testsuites>
 ```
 
-## History
-
-- 0.0.1 - Initial release
-
 <!-- markdownlint-disable line-length -->
 
 [junit-format]: https://help.catchsoftware.com/display/ET/JUnit+Format

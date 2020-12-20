@@ -1,6 +1,6 @@
 {
   "name": "markdownlint-cli2-formatter-default",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An output formatter for markdownlint-cli2 that produces the same output as markdownlint-cli",
   "author": {
     "name": "David Anson",
@@ -18,7 +18,7 @@
     "markdownlint-cli2-formatter-default.js"
   ],
   "peerDependencies": {
-    "markdownlint-cli2": "~0.0.4"
+    "markdownlint-cli2": ">=0.0.4"
   },
   "keywords": [
     "markdownlint-cli2-formatter"

@@ -1,6 +1,6 @@
 {
   "name": "markdownlint-cli2-formatter-summarize",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An output formatter for markdownlint-cli2 that summarizes the results",
   "author": {
     "name": "David Anson",
@@ -18,7 +18,7 @@
     "markdownlint-cli2-formatter-summarize.js"
   ],
   "peerDependencies": {
-    "markdownlint-cli2": "~0.0.4"
+    "markdownlint-cli2": ">=0.0.4"
   },
   "keywords": [
     "markdownlint-cli2-formatter"
