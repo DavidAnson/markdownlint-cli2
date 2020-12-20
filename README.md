@@ -265,6 +265,7 @@ in both cases), these two commands behave identically.
 - 0.0.10 - Improve performance and configuration
 - 0.0.11 - Improve performance of `fix`, update banner
 - 0.0.12 - Update dependencies (including `markdownlint`)
+- 0.0.13 - Add `markdownlint-cli2-fix` command
 
 <!-- markdownlint-disable line-length -->
 
