@@ -44,11 +44,11 @@
     "yaml": "~1.10.0"
   },
   "devDependencies": {
-    "ava": "~3.14.0",
-    "c8": "~7.3.5",
+    "ava": "~3.15.0",
+    "c8": "~7.5.0",
     "cpy": "~8.1.1",
     "del": "~6.0.0",
-    "eslint": "~7.15.0",
+    "eslint": "~7.20.0",
     "eslint-plugin-node": "~11.1.0",
     "eslint-plugin-unicorn": "~23.0.0",
     "execa": "~5.0.0",
@@ -59,7 +59,7 @@
     "markdownlint-cli2-formatter-pretty": "~0.0.2",
     "markdownlint-cli2-formatter-summarize": "~0.0.3",
     "@iktakahiro/markdown-it-katex": "~4.0.1",
-    "markdownlint-rule-titlecase": "~0.0.5"
+    "markdownlint-rule-titlecase": "~0.1.0"
   },
   "keywords": [
     "markdown",
