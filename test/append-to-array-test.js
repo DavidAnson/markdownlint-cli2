@@ -7,7 +7,8 @@ const appendToArray = require("../append-to-array");
 const { sliceSize } = appendToArray;
 
 const makeArray = (minimum, maximum) => {
-  const array = new Array(maximum - minimum + 1);
+  const length = maximum - minimum + 1;
+  const array = Array.from({ length });
   for (let i = 0, j = minimum; j <= maximum; i++, j++) {
     array[i] = j;
   }
@@ -17,6 +18,8 @@ const makeArray = (minimum, maximum) => {
 const checkArray =
   (array, maximum) => ((array.length === (maximum + 1)) &&
     array.every((v, i) => v === i));
+
+/* eslint-disable unicorn/numeric-separators-style */
 
 // @ts-ignore
 test("empty source and destination", (t) => {

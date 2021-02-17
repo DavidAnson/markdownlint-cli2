@@ -32,7 +32,9 @@ const outputFormatter = (options, params) => {
     logColumns(logMessage, "Count", "File");
     const files = Object.keys(countByFile);
     files.sort();
-    files.forEach((file) => logColumns(logMessage, countByFile[file], file));
+    for (const file of files) {
+      logColumns(logMessage, countByFile[file], file);
+    }
     const total = results.length;
     logColumns(logMessage, total, "[Total]");
   }
@@ -40,7 +42,9 @@ const outputFormatter = (options, params) => {
     logColumns(logMessage, "Count", "Rule");
     const rules = Object.keys(countByRule);
     rules.sort();
-    rules.forEach((rule) => logColumns(logMessage, countByRule[rule], rule));
+    for (const rule of rules) {
+      logColumns(logMessage, countByRule[rule], rule);
+    }
     const total = results.length;
     logColumns(logMessage, total, "[Total]");
   }
@@ -53,9 +57,9 @@ const outputFormatter = (options, params) => {
       const countByRuleOfFile = countByFileByRule[file];
       const rules = Object.keys(countByRuleOfFile);
       rules.sort();
-      rules.forEach(
-        (rule) => logColumns(logMessage, countByRuleOfFile[rule], rule, 2)
-      );
+      for (const rule of rules) {
+        logColumns(logMessage, countByRuleOfFile[rule], rule, 2);
+      }
       const total = countByFile[file];
       logColumns(logMessage, total, "[Total]", 2);
     }
@@ -69,9 +73,9 @@ const outputFormatter = (options, params) => {
       const countByFileOfRule = countByRuleByFile[rule];
       const files = Object.keys(countByFileOfRule);
       files.sort();
-      files.forEach(
-        (file) => logColumns(logMessage, countByFileOfRule[file], file, 2)
-      );
+      for (const file of files) {
+        logColumns(logMessage, countByFileOfRule[file], file, 2);
+      }
       const total = countByRule[rule];
       logColumns(logMessage, total, "[Total]", 2);
     }

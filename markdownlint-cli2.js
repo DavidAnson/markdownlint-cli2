@@ -208,8 +208,9 @@ const getBaseOptions = async (globPatterns, fixDefault) => {
   };
 
   // Pass base ignore globs as globby patterns (best performance)
-  const ignorePatterns = (baseMarkdownlintOptions.ignores || []).
-    map(negateGlob);
+  const ignorePatterns =
+    // eslint-disable-next-line unicorn/no-array-callback-reference
+    (baseMarkdownlintOptions.ignores || []).map(negateGlob);
   appendToArray(globPatterns, ignorePatterns);
   delete baseMarkdownlintOptions.ignores;
   return {
@@ -343,6 +344,7 @@ const lintFiles = async (dirInfos) => {
     const { dir, files, markdownlintConfig, markdownlintOptions } = dirInfo;
     let filteredFiles = files;
     if (markdownlintOptions.ignores) {
+      // eslint-disable-next-line unicorn/no-array-callback-reference
       const ignores = markdownlintOptions.ignores.map(negateGlob);
       const micromatch = require("micromatch");
       filteredFiles = micromatch(
@@ -424,7 +426,9 @@ const createSummary = (taskResults) => {
     a.ruleNames[0].localeCompare(b.ruleNames[0]) ||
     (a.counter - b.counter)
   ));
-  summary.forEach((result) => delete result.counter);
+  for (const result of summary) {
+    delete result.counter;
+  }
   return summary;
 };
 
@@ -469,7 +473,10 @@ const main = async (params) => {
   }
   const dirInfos = await createDirInfos(globPatterns, dirToDirInfo);
   if (showProgress) {
-    const fileCount = dirInfos.reduce((p, c) => p + c.files.length, 0);
+    let fileCount = 0;
+    for (const dirInfo of dirInfos) {
+      fileCount += dirInfo.files.length;
+    }
     logMessage(`Linting: ${fileCount} file(s)`);
   }
   const lintResults = await lintFiles(dirInfos);
