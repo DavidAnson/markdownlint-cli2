@@ -84,7 +84,7 @@ following `.markdownlint-cli2.jsonc`:
       "single-title",
       "single-h1"
     ],
-    "ruleDescription": "Multiple top level headings in the same document",
+    "ruleDescription": "Multiple top-level headings in the same document",
     "ruleInformation": "https://github.com/DavidAnson/markdownlint/blob/v0.20.4/doc/Rules.md#md025",
     "errorDetail": null,
     "errorContext": "# Description",

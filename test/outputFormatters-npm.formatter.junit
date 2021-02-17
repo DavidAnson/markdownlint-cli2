@@ -22,7 +22,7 @@
       </failure>
     </testcase>
     <testcase classname="dir/subdir/info.md" name="MD041/first-line-heading/first-line-h1" time="0">
-      <failure message="First line in file should be a top level heading">
+      <failure message="First line in a file should be a top-level heading">
         <![CDATA[Line 1, Context: "## Information"]]>
       </failure>
     </testcase>
@@ -52,7 +52,7 @@
       </failure>
     </testcase>
     <testcase classname="viewme.md" name="MD025/single-title/single-h1" time="0">
-      <failure message="Multiple top level headings in the same document">
+      <failure message="Multiple top-level headings in the same document">
         <![CDATA[Line 6, Context: "# Description"]]>
       </failure>
     </testcase>

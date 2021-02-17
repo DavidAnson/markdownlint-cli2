@@ -52,7 +52,7 @@ To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
       </failure>
     </testcase>
     <testcase classname="viewme.md" name="MD025/single-title/single-h1" time="0">
-      <failure message="Multiple top level headings in the same document">
+      <failure message="Multiple top-level headings in the same document">
         <![CDATA[Line 6, Context: "# Description"]]>
       </failure>
     </testcase>

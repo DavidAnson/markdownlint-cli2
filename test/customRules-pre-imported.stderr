@@ -1,6 +1,6 @@
 viewme.md:3 any-blockquote Rule that reports an error for any blockquote [Blockquote spans 1 line(s).] [Context: "> Tagli"]
 viewme.md:3:10 MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]
 viewme.md:5 MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]
-viewme.md:6 MD025/single-title/single-h1 Multiple top level headings in the same document [Context: "# Description"]
+viewme.md:6 MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: "# Description"]
 viewme.md:12:1 MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: "##  Summary"]
 viewme.md:14:14 MD047/single-trailing-newline Files should end with a single newline character

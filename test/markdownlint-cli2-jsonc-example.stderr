@@ -1,2 +1,2 @@
 title-case.md:1:1 titlecase-rule Titlecase rule [Title Case: 'Expected # Heading, found # heading']
-viewme.md:6 MD025/single-title/single-h1 Multiple top level headings in the same document [Context: "# Description"]
+viewme.md:6 MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: "# Description"]

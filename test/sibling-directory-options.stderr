@@ -4,6 +4,6 @@
 ../no-config/dir/subdir/info.md:2:6 MD038/no-space-in-code Spaces inside code span elements [Context: "` code1`"]
 ../no-config/dir/subdir/info.md:2:20 MD038/no-space-in-code Spaces inside code span elements [Context: "`code2 `"]
 ../no-config/viewme.md:3:10 MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]
-../no-config/viewme.md:6 MD025/single-title/single-h1 Multiple top level headings in the same document [Context: "# Description"]
+../no-config/viewme.md:6 MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: "# Description"]
 ../no-config/viewme.md:12:1 MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: "##  Summary"]
 ../no-config/viewme.md:14:14 MD047/single-trailing-newline Files should end with a single newline character
