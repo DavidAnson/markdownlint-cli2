@@ -251,6 +251,18 @@ in both cases), these two commands behave identically.
 
 - `.markdownlintrc` and `.markdownlintignore` are not supported.
 
+## pre-commit
+
+To run `markdownlint-cli2` as part of a [pre-commit][pre-commit] workflow, add
+a reference to the `repos` list in that project's `.pre-commit-config.yaml`:
+
+```yaml
+- repo: https://github.com/DavidAnson/markdownlint-cli2
+  rev: v0.0.13
+  hooks:
+  - id: markdownlint-cli2
+```
+
 ## History
 
 - 0.0.2 - Initial release
@@ -304,6 +316,7 @@ in both cases), these two commands behave identically.
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2
 [output-formatters]: doc/OutputFormatters.md
+[pre-commit]: https://pre-commit.com/
 [regexp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 [regexp-constructor]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp
 [vscode]: https://code.visualstudio.com/
