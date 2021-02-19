@@ -442,10 +442,9 @@ const outputSummary =
         logMessage,
         logError
       };
-      const formattersAndParams = requireIdsAndParams(
-        ".",
-        outputFormatters || [ [ "markdownlint-cli2-formatter-default" ] ]
-      );
+      const formattersAndParams = outputFormatters
+        ? requireIdsAndParams(".", outputFormatters)
+        : [ [ require("markdownlint-cli2-formatter-default") ] ];
       await Promise.all(formattersAndParams.map((formatterAndParams) => {
         const [ formatter, ...formatterParams ] = formatterAndParams;
         return formatter(formatterOptions, ...formatterParams);
