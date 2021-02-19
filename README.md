@@ -4,7 +4,6 @@
 > Markdown/CommonMark files with the `markdownlint` library
 
 [![npm version][npm-image]][npm-url]
-[![CI Status][ci-image]][ci-url]
 [![License][license-image]][license-url]
 
 ## Install
@@ -269,8 +268,6 @@ in both cases), these two commands behave identically.
 
 <!-- markdownlint-disable line-length -->
 
-[ci-image]: https://github.com/DavidAnson/markdownlint-cli2/workflows/CI/badge.svg?branch=main
-[ci-url]: https://github.com/DavidAnson/markdownlint-cli2/actions?query=branch%3Amain
 [commonmark]: https://commonmark.org/
 [commonjs-module]: https://nodejs.org/api/modules.html#modules_modules_commonjs_modules
 [front-matter]: https://jekyllrb.com/docs/frontmatter/
@@ -299,9 +296,9 @@ in both cases), these two commands behave identically.
 [markdownlint-cli2-jsonc]: test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc
 [markdownlint-cli2-yaml]: test/markdownlint-cli2-yaml-example/.markdownlint-cli2.yaml
 [markdownlint-js]: test/markdownlint-js/.markdownlint.js
-[markdownlint-jsonc]: test/markdownlint-jsonc/.markdownlint.jsonc
+[markdownlint-jsonc]: https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.jsonc
 [markdownlint-rule]: https://www.npmjs.com/search?q=keywords:markdownlint-rule
-[markdownlint-yaml]: test/markdownlint-yaml/.markdownlint.yaml
+[markdownlint-yaml]: https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.yaml
 [nodejs]: https://nodejs.org/
 [nodejs-require]: https://nodejs.org/api/modules.html#modules_require_id
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
