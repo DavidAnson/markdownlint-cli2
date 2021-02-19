@@ -51,7 +51,6 @@
     "eslint": "~7.20.0",
     "eslint-plugin-node": "~11.1.0",
     "eslint-plugin-unicorn": "~28.0.1",
-    "@babel/core": "~7.12.16",
     "execa": "~5.0.0",
     "markdown-it-emoji": "~2.0.0",
     "markdown-it-for-inline": "~0.1.1",
