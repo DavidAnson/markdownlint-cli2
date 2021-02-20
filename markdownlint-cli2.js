@@ -75,13 +75,20 @@ const requireConfig = (dir, name, otherwise) => {
 };
 
 // Process command-line arguments and return glob patterns
-const processArgv = (argv, logMessage) => {
+const processArgv = (argv) => {
   const globPatterns = argv.map((glob) => glob.replace(/^#/u, "!"));
-  if (globPatterns.length === 0) {
-    // Output help if missing arguments
-    const { name, homepage } = require("./package.json");
-    /* eslint-disable max-len */
-    logMessage(`${homepage}
+  if ((globPatterns.length === 1) && (globPatterns[0] === ".")) {
+    // Substitute a more reasonable pattern
+    globPatterns[0] = dotOnlySubstitute;
+  }
+  return globPatterns;
+};
+
+// Show help if missing arguments
+const showHelp = (logMessage) => {
+  const { name, homepage } = require("./package.json");
+  /* eslint-disable max-len */
+  logMessage(`${homepage}
 
 Syntax: ${name} glob0 [glob1] [...] [globN]
 
@@ -114,14 +121,8 @@ Cross-platform compatibility:
 
 Therefore, the most compatible glob syntax for cross-platform support:
 $ ${name} "**/*.md" "#node_modules"`
-    );
-    /* eslint-enable max-len */
-    return null;
-  } else if ((globPatterns.length === 1) && (globPatterns[0] === ".")) {
-    // Substitute a more reasonable pattern
-    globPatterns[0] = dotOnlySubstitute;
-  }
-  return globPatterns;
+  );
+  /* eslint-enable max-len */
 };
 
 // Get (creating if necessary) and process a directory's info object
@@ -207,12 +208,17 @@ const getBaseOptions = async (globPatterns, fixDefault) => {
     ...dirToDirInfo["."].markdownlintOptions
   };
 
+  // Append any globs specified in markdownlint-cli2 configuration
+  const globs = baseMarkdownlintOptions.globs || [];
+  appendToArray(globPatterns, globs);
+
   // Pass base ignore globs as globby patterns (best performance)
   const ignorePatterns =
     // eslint-disable-next-line unicorn/no-array-callback-reference
     (baseMarkdownlintOptions.ignores || []).map(negateGlob);
   appendToArray(globPatterns, ignorePatterns);
   delete baseMarkdownlintOptions.ignores;
+
   return {
     baseMarkdownlintOptions,
     dirToDirInfo
@@ -460,12 +466,13 @@ const main = async (params) => {
     `${packageName} v${packageVersion} ` +
     `(${markdownlintLibraryName} v${libraryVersion})`
   );
-  const globPatterns = processArgv(argv, logMessage);
-  if (!globPatterns) {
-    return 1;
-  }
+  const globPatterns = processArgv(argv);
   const { baseMarkdownlintOptions, dirToDirInfo } =
     await getBaseOptions(globPatterns, fixDefault);
+  if (globPatterns.length === 0) {
+    showHelp(logMessage);
+    return 1;
+  }
   const showProgress = !baseMarkdownlintOptions.noProgress;
   if (showProgress) {
     logMessage(`Finding: ${globPatterns.join(" ")}`);

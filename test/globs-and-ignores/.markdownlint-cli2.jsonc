@@ -1,0 +1,9 @@
+{
+  "globs": [
+    "**/*.md",
+    "**/*.markdown"
+  ],
+  "ignores": [
+    "dir/about.md"
+  ]
+}

@@ -175,6 +175,24 @@ testCase({
 });
 
 testCase({
+  "name": "globs",
+  "args": [],
+  "exitCode": 1
+});
+
+testCase({
+  "name": "globs-and-args",
+  "args": [ "**/*.markdown" ],
+  "exitCode": 1
+});
+
+testCase({
+  "name": "globs-and-ignores",
+  "args": [],
+  "exitCode": 1
+});
+
+testCase({
   "name": "markdownlint-json",
   "args": [ "**/*.md" ],
   "exitCode": 1

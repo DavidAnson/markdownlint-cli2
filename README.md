@@ -78,6 +78,11 @@ Therefore, the most compatible glob syntax for cross-platform support:
 $ markdownlint-cli2 "**/*.md" "#node_modules"
 ```
 
+For scenarios where it is preferable to specify glob expressions in a
+configuration file, the `globs` property of `.markdownlint-cli2.jsonc` or
+`.markdownlint-cli2.yaml` or `.markdownlint-cli2.js` may be used instead of (or
+in addition to) passing `glob0 ... globN` on the command-line.
+
 As shown above, the default command-line for `markdownlint-cli2` looks something
 like:
 
@@ -140,6 +145,12 @@ in both cases), these two commands behave identically.
     - The `String` is passed as the `pattern` parameter to the
       [`RegExp` constructor][regexp-constructor]
     - For example: `(^---\s*$[^]*?^---\s*$)(\r\n|\r|\n|$)`
+  - `globs`: `Array` of `String`s defining glob expressions to append to the
+    command-line arguments
+    - This setting can be used instead of (or in addition to) passing globs on
+      the command-line and offers identical performance
+    - This top-level setting is valid **only** in the directory from which
+      `markdownlint-cli2` is run
   - `ignores`: `Array` of `String`s defining glob expressions to ignore when
     linting
     - This setting has the best performance when applied to the directory from

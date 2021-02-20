@@ -1,0 +1,7 @@
+{
+  "globs": [
+    "**/*.md",
+    "!dir/about.md",
+    "**/*.markdown"
+  ]
+}

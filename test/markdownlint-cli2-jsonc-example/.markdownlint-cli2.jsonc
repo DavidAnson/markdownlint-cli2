@@ -19,6 +19,11 @@
   // Define a custom front matter pattern
   "frontMatter": "<head>[^]*<\/head>",
 
+  // Define glob expressions to use (only valid at root)
+  "globs": [
+    "!*bout.md"
+  ],
+
   // Define glob expressions to ignore
   "ignores": [
     "ignore*.md"
@@ -32,10 +37,10 @@
   // Disable inline config comments
   "noInlineConfig": true,
 
-  // Disable progress on stdout
+  // Disable progress on stdout (only valid at root)
   "noProgress": true,
 
-  // Use a specific formatter
+  // Use a specific formatter (only valid at root)
   "outputFormatters": [
     [ "markdownlint-cli2-formatter-default" ]
   ]
