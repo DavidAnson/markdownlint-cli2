@@ -17,7 +17,7 @@ const appendToArray = require("./append-to-array");
 
 // Variables
 const packageName = "markdownlint-cli2";
-const packageVersion = "0.0.13";
+const packageVersion = "0.0.14";
 const libraryVersion = markdownlintLibrary.getVersion();
 const dotOnlySubstitute = "*.{md,markdown}";
 const utf8 = "utf8";
