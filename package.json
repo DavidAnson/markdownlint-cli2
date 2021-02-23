@@ -22,7 +22,7 @@
     "ci": "npm-run-all --continue-on-error --parallel test-cover lint",
     "lint": "eslint --max-warnings 0 .",
     "lint-watch": "git ls-files | entr npm run lint",
-    "test": "ava test/*.js",
+    "test": "ava test/append-to-array-test.js test/markdownlint-cli2-test.js test/markdownlint-cli2-test-exec.js",
     "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 npm test",
     "test-watch": "git ls-files | entr npm run test"
   },

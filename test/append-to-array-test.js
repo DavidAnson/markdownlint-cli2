@@ -2,7 +2,7 @@
 
 "use strict";
 
-const test = require("ava");
+const test = require("ava").default;
 const appendToArray = require("../append-to-array");
 const { sliceSize } = appendToArray;
 
@@ -21,7 +21,6 @@ const checkArray =
 
 /* eslint-disable unicorn/numeric-separators-style */
 
-// @ts-ignore
 test("empty source and destination", (t) => {
   t.plan(1);
   const destination = [];
@@ -30,7 +29,6 @@ test("empty source and destination", (t) => {
   t.deepEqual(destination, []);
 });
 
-// @ts-ignore
 test("empty source", (t) => {
   t.plan(1);
   const destination = makeArray(0, 3);
@@ -39,7 +37,6 @@ test("empty source", (t) => {
   t.true(checkArray(destination, 3));
 });
 
-// @ts-ignore
 test("empty destination", (t) => {
   t.plan(1);
   const destination = [];
@@ -48,7 +45,6 @@ test("empty destination", (t) => {
   t.true(checkArray(destination, 2));
 });
 
-// @ts-ignore
 test("small source and small destination", (t) => {
   t.plan(1);
   const destination = makeArray(0, 4);
@@ -57,7 +53,6 @@ test("small source and small destination", (t) => {
   t.true(checkArray(destination, 5));
 });
 
-// @ts-ignore
 test("small source and large destination", (t) => {
   t.plan(1);
   const destination = makeArray(0, 1000000);
@@ -66,7 +61,6 @@ test("small source and large destination", (t) => {
   t.true(checkArray(destination, 1000003));
 });
 
-// @ts-ignore
 test("large source and small destination", (t) => {
   t.plan(1);
   const destination = makeArray(0, 3);
@@ -75,7 +69,6 @@ test("large source and small destination", (t) => {
   t.true(checkArray(destination, 1000000));
 });
 
-// @ts-ignore
 test("large source and large destination", (t) => {
   t.plan(1);
   const destination = makeArray(0, 999999);
@@ -84,7 +77,6 @@ test("large source and large destination", (t) => {
   t.true(checkArray(destination, 2000000));
 });
 
-// @ts-ignore
 test("sliceSize", (t) => {
   t.plan(1);
   const destination = [];
@@ -93,7 +85,6 @@ test("sliceSize", (t) => {
   t.true(checkArray(destination, sliceSize - 1));
 });
 
-// @ts-ignore
 test("sliceSize - 1", (t) => {
   t.plan(1);
   const destination = [];
@@ -102,7 +93,6 @@ test("sliceSize - 1", (t) => {
   t.true(checkArray(destination, sliceSize - 2));
 });
 
-// @ts-ignore
 test("sliceSize + 1", (t) => {
   t.plan(1);
   const destination = [];
