@@ -31,6 +31,9 @@ const yamlParse = (text) => require("yaml").parse(text);
 // Negate a glob
 const negateGlob = (glob) => `!${glob}`;
 
+// Return a posix path (even on Windows)
+const posixPath = (p) => p.split(path.sep).join(path.posix.sep);
+
 // Read a JSON(C) or YAML file and return the object
 const readConfig = (dir, name, otherwise) => {
   const file = path.join(dir, name);
@@ -448,10 +451,8 @@ const createSummary = (baseDir, taskResults) => {
     for (const fileName in results) {
       const errorInfos = results[fileName];
       for (const errorInfo of errorInfos) {
-        const fileNameRelativePosix = path.
-          relative(baseDir, fileName).
-          split(path.sep).
-          join(path.posix.sep);
+        const fileNameRelativePosix =
+          posixPath(path.relative(baseDir, fileName));
         summary.push({
           "fileName": fileNameRelativePosix,
           ...errorInfo,
@@ -497,7 +498,7 @@ const outputSummary =
 // Main function
 const main = async (params) => {
   const { argv, logMessage, logError, fixDefault } = params;
-  const baseDir = process.cwd();
+  const baseDir = posixPath(process.cwd());
   logMessage(
     `${packageName} v${packageVersion} ` +
     `(${markdownlintLibraryName} v${libraryVersion})`
