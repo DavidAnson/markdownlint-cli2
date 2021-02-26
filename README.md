@@ -121,6 +121,11 @@ in both cases), these two commands behave identically.
 - See the [Configuration][markdownlint-configuration] section of the
   `markdownlint` documentation for information about the inline comment syntax
   for enabling and disabling rules with HTML comments.
+- In general, glob expressions match files under the current directory and
+  configuration for that (top-level) directory applies to the entire tree
+  - When glob expressions match files *not* under the current directory,
+    configuration for the current (top-level) directory is applied to the
+    closest common parent directory
 
 ### `.markdownlint-cli2.jsonc`
 

@@ -197,15 +197,15 @@ const getAndProcessDirInfo = (tasks, dirToDirInfo, dir, func) => {
 };
 
 // Get base markdownlint-cli2 options object
-const getBaseOptions = async (globPatterns, fixDefault) => {
+const getBaseOptions = async (baseDir, globPatterns, fixDefault) => {
   const tasks = [];
   const dirToDirInfo = {};
-  getAndProcessDirInfo(tasks, dirToDirInfo, ".");
+  getAndProcessDirInfo(tasks, dirToDirInfo, baseDir);
   await Promise.all(tasks);
   // eslint-disable-next-line no-multi-assign
-  const baseMarkdownlintOptions = dirToDirInfo["."].markdownlintOptions = {
+  const baseMarkdownlintOptions = dirToDirInfo[baseDir].markdownlintOptions = {
     "fix": fixDefault,
-    ...dirToDirInfo["."].markdownlintOptions
+    ...dirToDirInfo[baseDir].markdownlintOptions
   };
 
   // Append any globs specified in markdownlint-cli2 configuration
@@ -226,9 +226,13 @@ const getBaseOptions = async (globPatterns, fixDefault) => {
 };
 
 // Enumerate files from globs and build directory infos
-const enumerateFiles = async (globPatterns, dirToDirInfo) => {
+const enumerateFiles = async (baseDir, globPatterns, dirToDirInfo) => {
   const tasks = [];
-  for await (const file of globby.stream(globPatterns)) {
+  const globbyOptions = {
+    "absolute": true,
+    "cwd": baseDir
+  };
+  for await (const file of globby.stream(globPatterns, globbyOptions)) {
     // @ts-ignore
     const dir = path.dirname(file);
     getAndProcessDirInfo(tasks, dirToDirInfo, dir, (dirInfo) => {
@@ -239,12 +243,26 @@ const enumerateFiles = async (globPatterns, dirToDirInfo) => {
 };
 
 // Enumerate (possibly missing) parent directories and update directory infos
-const enumerateParents = async (dirToDirInfo) => {
+const enumerateParents = async (baseDir, dirToDirInfo) => {
   const tasks = [];
+
+  // Create a lookup of baseDir and parents
+  const baseDirParents = {};
+  let baseDirParent = baseDir;
+  do {
+    baseDirParents[baseDirParent] = true;
+    baseDirParent = path.dirname(baseDirParent);
+  } while (!baseDirParents[baseDirParent]);
+
+  // Visit parents of each dirInfo
   for (let lastDirInfo of Object.values(dirToDirInfo)) {
     let { dir } = lastDirInfo;
     let lastDir = dir;
-    while ((dir = path.dirname(dir)) && (dir !== lastDir)) {
+    while (
+      !baseDirParents[dir] &&
+      (dir = path.dirname(dir)) &&
+      (dir !== lastDir)
+    ) {
       lastDir = dir;
       lastDirInfo =
         // eslint-disable-next-line no-loop-func
@@ -252,14 +270,19 @@ const enumerateParents = async (dirToDirInfo) => {
           lastDirInfo.parent = dirInfo;
         });
     }
+
+    // If dir not under baseDir, inject it as parent for configuration
+    if (dir !== baseDir) {
+      dirToDirInfo[dir].parent = dirToDirInfo[baseDir];
+    }
   }
   await Promise.all(tasks);
 };
 
 // Create directory info objects by enumerating file globs
-const createDirInfos = async (globPatterns, dirToDirInfo) => {
-  await enumerateFiles(globPatterns, dirToDirInfo);
-  await enumerateParents(dirToDirInfo);
+const createDirInfos = async (baseDir, globPatterns, dirToDirInfo) => {
+  await enumerateFiles(baseDir, globPatterns, dirToDirInfo);
+  await enumerateParents(baseDir, dirToDirInfo);
 
   // Merge file lists with identical configuration
   const dirs = Object.keys(dirToDirInfo);
@@ -296,10 +319,19 @@ const createDirInfos = async (globPatterns, dirToDirInfo) => {
   }
 
   // Verify dirInfos is simplified
-  // if (dirInfos.filter(
-  //   (di) => di.parent && !dirInfos.includes(di.parent)).length > 0
+  // if (
+  //   dirInfos.filter(
+  //     (di) => di.parent && !dirInfos.includes(di.parent)
+  //   ).length > 0
   // ) {
   //   throw new Error("Extra parent");
+  // }
+  // if (
+  //   dirInfos.filter(
+  //     (di) => !di.parent && (di.dir !== baseDir)
+  //   ).length > 0
+  // ) {
+  //   throw new Error("Missing parent");
   // }
   // if (
   //   dirInfos.filter(
@@ -308,6 +340,9 @@ const createDirInfos = async (globPatterns, dirToDirInfo) => {
   //   ).length > 0
   // ) {
   //   throw new Error("Missing object");
+  // }
+  // if (dirInfos.filter((di) => di.dir === "/").length > 0) {
+  //   throw new Error("Includes root");
   // }
 
   // Merge configuration by inheritance
@@ -406,7 +441,7 @@ const lintFiles = async (dirInfos) => {
 };
 
 // Create summary of results
-const createSummary = (taskResults) => {
+const createSummary = (baseDir, taskResults) => {
   const summary = [];
   let counter = 0;
   for (const results of taskResults) {
@@ -414,7 +449,7 @@ const createSummary = (taskResults) => {
       const errorInfos = results[fileName];
       for (const errorInfo of errorInfos) {
         const fileNameRelativePosix = path.
-          relative("", fileName).
+          relative(baseDir, fileName).
           split(path.sep).
           join(path.posix.sep);
         summary.push({
@@ -440,7 +475,7 @@ const createSummary = (taskResults) => {
 
 // Output summary via formatters
 const outputSummary =
-  async (summary, outputFormatters, logMessage, logError) => {
+  async (baseDir, summary, outputFormatters, logMessage, logError) => {
     const errorsPresent = (summary.length > 0);
     if (errorsPresent || outputFormatters) {
       const formatterOptions = {
@@ -449,7 +484,7 @@ const outputSummary =
         logError
       };
       const formattersAndParams = outputFormatters
-        ? requireIdsAndParams(".", outputFormatters)
+        ? requireIdsAndParams(baseDir, outputFormatters)
         : [ [ require("markdownlint-cli2-formatter-default") ] ];
       await Promise.all(formattersAndParams.map((formatterAndParams) => {
         const [ formatter, ...formatterParams ] = formatterAndParams;
@@ -462,13 +497,14 @@ const outputSummary =
 // Main function
 const main = async (params) => {
   const { argv, logMessage, logError, fixDefault } = params;
+  const baseDir = process.cwd();
   logMessage(
     `${packageName} v${packageVersion} ` +
     `(${markdownlintLibraryName} v${libraryVersion})`
   );
   const globPatterns = processArgv(argv);
   const { baseMarkdownlintOptions, dirToDirInfo } =
-    await getBaseOptions(globPatterns, fixDefault);
+    await getBaseOptions(baseDir, globPatterns, fixDefault);
   if (globPatterns.length === 0) {
     showHelp(logMessage);
     return 1;
@@ -477,7 +513,7 @@ const main = async (params) => {
   if (showProgress) {
     logMessage(`Finding: ${globPatterns.join(" ")}`);
   }
-  const dirInfos = await createDirInfos(globPatterns, dirToDirInfo);
+  const dirInfos = await createDirInfos(baseDir, globPatterns, dirToDirInfo);
   if (showProgress) {
     let fileCount = 0;
     for (const dirInfo of dirInfos) {
@@ -486,13 +522,14 @@ const main = async (params) => {
     logMessage(`Linting: ${fileCount} file(s)`);
   }
   const lintResults = await lintFiles(dirInfos);
-  const summary = createSummary(lintResults);
+  const summary = createSummary(baseDir, lintResults);
   if (showProgress) {
     logMessage(`Summary: ${summary.length} error(s)`);
   }
   const { outputFormatters } = baseMarkdownlintOptions;
-  const errorsPresent =
-    await outputSummary(summary, outputFormatters, logMessage, logError);
+  const errorsPresent = await outputSummary(
+    baseDir, summary, outputFormatters, logMessage, logError
+  );
   return errorsPresent ? 1 : 0;
 };
 
