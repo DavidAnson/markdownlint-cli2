@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="**/*.md" time="0" tests="1" failures="0" errors="0" skipped="0">
+  <testsuite name="markdownlint-cli2-formatter-junit" time="0" tests="1" failures="0" errors="0" skipped="0">
     <testcase time="0"/>
   </testsuite>
 </testsuites>

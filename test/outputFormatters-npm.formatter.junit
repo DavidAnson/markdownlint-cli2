@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="**/*.md" time="0" tests="13" failures="13" errors="0" skipped="0">
+  <testsuite name="markdownlint-cli2-formatter-junit" time="0" tests="13" failures="13" errors="0" skipped="0">
     <testcase classname="dir/about.md" name="MD021/no-multiple-space-closed-atx" time="0">
       <failure message="Multiple spaces inside hashes on closed atx style heading">
         <![CDATA[Line 1, Column 1, Context: "#  About  #"]]>

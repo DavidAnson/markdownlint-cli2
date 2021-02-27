@@ -40,7 +40,7 @@ To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="**/*.md" time="0" tests="5" failures="5" errors="0" skipped="0">
+  <testsuite name="markdownlint-cli2-formatter-junit" time="0" tests="5" failures="5" errors="0" skipped="0">
     <testcase classname="viewme.md" name="MD009/no-trailing-spaces" time="0">
       <failure message="Trailing spaces">
         <![CDATA[Line 3, Column 10, Expected: 0 or 2; Actual: 1]]>

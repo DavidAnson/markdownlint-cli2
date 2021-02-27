@@ -13,16 +13,17 @@ const verRe = /\bv\d+\.\d+\.\d+\b/gu;
 const noop = () => null;
 const empty = () => "";
 
-const testCases = (host, invoke) => {
+const testCases = (host, invoke, includeEnv, includeScript) => {
 
   const testCase = (options) => {
     const { name, script, args, exitCode, cwd, env, stderrRe, pre, post } =
       options;
     test(`${name} (${host})`, (t) => {
       t.plan(5);
+      const directory = path.join(__dirname, cwd || name);
       return Promise.all([
         ((pre || noop)(name) || Promise.resolve()).
-          then(invoke(name, script, args, cwd, env)),
+          then(invoke(directory, args, env, script)),
         fs.readFile(
           path.join(__dirname, `${name}.stdout`),
           "utf8"
@@ -41,19 +42,19 @@ const testCases = (host, invoke) => {
         ).catch(empty)
       ]).then((results) => Promise.all([
         fs.readFile(
-          path.join(__dirname, name, "markdownlint-cli2-results.json"),
+          path.join(directory, "markdownlint-cli2-results.json"),
           "utf8"
         ).catch(empty),
         fs.readFile(
-          path.join(__dirname, name, "custom-name.json"),
+          path.join(directory, "custom-name.json"),
           "utf8"
         ).catch(empty),
         fs.readFile(
-          path.join(__dirname, name, "markdownlint-cli2-junit.xml"),
+          path.join(directory, "markdownlint-cli2-junit.xml"),
           "utf8"
         ).catch(empty),
         fs.readFile(
-          path.join(__dirname, name, "custom-name.xml"),
+          path.join(directory, "custom-name.xml"),
           "utf8"
         ).catch(empty)
       ]).then((output) => [ ...results, ...output ])).
@@ -98,8 +99,10 @@ const testCases = (host, invoke) => {
     });
   };
 
+  const directoryName = (dir) => `${dir}-copy-${host}`;
+
   const copyDirectory = (dir) => {
-    const target = path.join("..", `${dir}-copy`);
+    const target = path.join("..", directoryName(dir));
     return cpy([ "**/*", "**/.*" ], target, {
       "cwd": path.join(__dirname, dir),
       "parents": true
@@ -107,7 +110,7 @@ const testCases = (host, invoke) => {
   };
 
   const deleteDirectory = (dir) => {
-    const target = `${dir}-copy`;
+    const target = directoryName(dir);
     return del(path.join(__dirname, target));
   };
 
@@ -255,7 +258,7 @@ const testCases = (host, invoke) => {
     "name": "markdownlint-cli2-jsonc-example",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": "markdownlint-cli2-jsonc-example-copy",
+    "cwd": directoryName("markdownlint-cli2-jsonc-example"),
     "pre": copyDirectory,
     "post": deleteDirectory
   });
@@ -277,7 +280,7 @@ const testCases = (host, invoke) => {
     "name": "markdownlint-cli2-yaml-example",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": "markdownlint-cli2-yaml-example-copy",
+    "cwd": directoryName("markdownlint-cli2-yaml-example"),
     "pre": copyDirectory,
     "post": deleteDirectory
   });
@@ -342,7 +345,7 @@ const testCases = (host, invoke) => {
     "name": "fix",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": "fix-copy",
+    "cwd": directoryName("fix"),
     "pre": copyDirectory,
     "post": deleteDirectory
   });
@@ -351,27 +354,31 @@ const testCases = (host, invoke) => {
     "name": "fix-scenarios",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": "fix-scenarios-copy",
+    "cwd": directoryName("fix-scenarios"),
     "pre": copyDirectory,
     "post": deleteDirectory
   });
 
-  testCase({
-    "name": "fix-default-true",
-    "script": "markdownlint-cli2-fix.js",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "cwd": "fix-default-true-copy",
-    "pre": copyDirectory,
-    "post": deleteDirectory
-  });
+  if (includeScript) {
 
-  testCase({
-    "name": "fix-default-true-override",
-    "script": "markdownlint-cli2-fix.js",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
+    testCase({
+      "name": "fix-default-true",
+      "script": "markdownlint-cli2-fix.js",
+      "args": [ "**/*.md" ],
+      "exitCode": 1,
+      "cwd": directoryName("fix-default-true"),
+      "pre": copyDirectory,
+      "post": deleteDirectory
+    });
+
+    testCase({
+      "name": "fix-default-true-override",
+      "script": "markdownlint-cli2-fix.js",
+      "args": [ "**/*.md" ],
+      "exitCode": 1
+    });
+
+  }
 
   testCase({
     "name": "customRules",
@@ -422,59 +429,45 @@ const testCases = (host, invoke) => {
     "name": "outputFormatters",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "post": (dir) => Promise.all([
-      fs.unlink(
-        path.join(__dirname, dir, "markdownlint-cli2-results.json")
-      ),
-      fs.unlink(
-        path.join(__dirname, dir, "markdownlint-cli2-junit.xml")
-      )
-    ])
+    "cwd": directoryName("outputFormatters"),
+    "pre": copyDirectory,
+    "post": deleteDirectory
   });
 
   testCase({
     "name": "outputFormatters-npm",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "post": (dir) => Promise.all([
-      fs.unlink(
-        path.join(__dirname, dir, "markdownlint-cli2-results.json")
-      ),
-      fs.unlink(
-        path.join(__dirname, dir, "markdownlint-cli2-junit.xml")
-      )
-    ])
+    "cwd": directoryName("outputFormatters-npm"),
+    "pre": copyDirectory,
+    "post": deleteDirectory
   });
 
   testCase({
     "name": "outputFormatters-params",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "post": (dir) => Promise.all([
-      fs.unlink(path.join(__dirname, dir, "custom-name.json")),
-      fs.unlink(path.join(__dirname, dir, "custom-name.xml"))
-    ])
+    "cwd": directoryName("outputFormatters-params"),
+    "pre": copyDirectory,
+    "post": deleteDirectory
   });
 
   testCase({
     "name": "outputFormatters-pre-imported",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "post": (dir) => fs.unlink(path.join(__dirname, dir, "custom-name.json"))
+    "cwd": directoryName("outputFormatters-pre-imported"),
+    "pre": copyDirectory,
+    "post": deleteDirectory
   });
 
   testCase({
     "name": "outputFormatters-clean",
     "args": [ "**/*.md" ],
     "exitCode": 0,
-    "post": (dir) => Promise.all([
-      fs.unlink(
-        path.join(__dirname, dir, "markdownlint-cli2-results.json")
-      ),
-      fs.unlink(
-        path.join(__dirname, dir, "markdownlint-cli2-junit.xml")
-      )
-    ])
+    "cwd": directoryName("outputFormatters-clean"),
+    "pre": copyDirectory,
+    "post": deleteDirectory
   });
 
   testCase({
@@ -490,24 +483,28 @@ const testCases = (host, invoke) => {
     "exitCode": 1
   });
 
-  testCase({
-    "name": "formatter-pretty",
-    "args": [ "**/*.md" ],
-    "env": {
-      "FORCE_COLOR": 1,
-      "FORCE_HYPERLINK": 1
-    },
-    "exitCode": 1
-  });
+  if (includeEnv) {
 
-  testCase({
-    "name": "formatter-pretty-appendLink",
-    "args": [ "**/*.md" ],
-    "env": {
-      "FORCE_COLOR": 1
-    },
-    "exitCode": 1
-  });
+    testCase({
+      "name": "formatter-pretty",
+      "args": [ "**/*.md" ],
+      "env": {
+        "FORCE_COLOR": 1,
+        "FORCE_HYPERLINK": 1
+      },
+      "exitCode": 1
+    });
+
+    testCase({
+      "name": "formatter-pretty-appendLink",
+      "args": [ "**/*.md" ],
+      "env": {
+        "FORCE_COLOR": 1
+      },
+      "exitCode": 1
+    });
+
+  }
 
   testCase({
     "name": "nested-files",

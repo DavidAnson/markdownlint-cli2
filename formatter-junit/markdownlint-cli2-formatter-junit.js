@@ -3,16 +3,19 @@
 "use strict";
 
 const fs = require("fs").promises;
-const builder = require("junit-report-builder");
+const path = require("path");
+const junitReportBuilder = require("junit-report-builder");
 
 // Writes markdownlint-cli2 results to a file in JUnit XML format
 const outputFormatter = (options, params) => {
-  const { results } = options;
+  const { directory, results } = options;
   const { name } = (params || {});
+  // Get a new builder instance because the default builder is shared
+  const builder = junitReportBuilder.newBuilder();
   const suite =
     builder.
       testSuite().
-      name(process.argv.slice(2).join(" ")).
+      name(path.basename(__filename).replace(/\.js$/u, "")).
       time(0);
   for (const errorInfo of results) {
     const { fileName, lineNumber, ruleNames, ruleDescription, errorDetail,
@@ -38,7 +41,15 @@ const outputFormatter = (options, params) => {
       time(0);
   }
   const content = builder.build();
-  return fs.writeFile(name || "markdownlint-cli2-junit.xml", content, "utf8");
+  return fs.writeFile(
+    path.join(
+      // eslint-disable-next-line no-inline-comments
+      directory /* c8 ignore next */ || "",
+      name || "markdownlint-cli2-junit.xml"
+    ),
+    content,
+    "utf8"
+  );
 };
 
 module.exports = outputFormatter;

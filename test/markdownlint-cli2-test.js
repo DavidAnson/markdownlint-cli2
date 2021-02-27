@@ -3,11 +3,11 @@
 "use strict";
 
 const test = require("ava").default;
+const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 const noop = () => null;
 
 test("name and version", (t) => {
   t.plan(2);
-  const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
   const packageJson = require("../package.json");
   const logMessage = (msg) => {
     const match = (/^(?<name>\S+)\sv(?<version>\S+)\s/u).exec(msg);
@@ -27,7 +27,6 @@ test("name and version", (t) => {
 
 test("READMEs", (t) => {
   t.plan(1);
-  const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
   const logError = (msg) => t.fail(`message logged: ${msg}`);
   const argv = [
     "README.md",

@@ -480,6 +480,7 @@ const outputSummary =
     const errorsPresent = (summary.length > 0);
     if (errorsPresent || outputFormatters) {
       const formatterOptions = {
+        "directory": baseDir,
         "results": summary,
         logMessage,
         logError
@@ -497,8 +498,8 @@ const outputSummary =
 
 // Main function
 const main = async (params) => {
-  const { argv, logMessage, logError, fixDefault } = params;
-  const baseDir = posixPath(process.cwd());
+  const { directory, argv, logMessage, logError, fixDefault } = params;
+  const baseDir = posixPath(directory || process.cwd());
   logMessage(
     `${packageName} v${packageVersion} ` +
     `(${markdownlintLibraryName} v${libraryVersion})`
