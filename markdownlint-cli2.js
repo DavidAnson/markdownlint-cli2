@@ -283,7 +283,8 @@ const enumerateParents = async (baseDir, dirToDirInfo) => {
 };
 
 // Create directory info objects by enumerating file globs
-const createDirInfos = async (baseDir, globPatterns, dirToDirInfo) => {
+const createDirInfos =
+async (baseDir, globPatterns, dirToDirInfo, optionsOverride) => {
   await enumerateFiles(baseDir, globPatterns, dirToDirInfo);
   await enumerateParents(baseDir, dirToDirInfo);
 
@@ -375,8 +376,11 @@ const createDirInfos = async (baseDir, globPatterns, dirToDirInfo) => {
         markdownlintConfig = parent.markdownlintConfig;
       }
     }
-    dirInfo.markdownlintOptions = markdownlintOptions;
     dirInfo.markdownlintConfig = markdownlintConfig;
+    dirInfo.markdownlintOptions = {
+      ...markdownlintOptions,
+      ...optionsOverride
+    };
   }
   return dirInfos;
 };
@@ -498,7 +502,8 @@ const outputSummary =
 
 // Main function
 const main = async (params) => {
-  const { directory, argv, logMessage, logError, fixDefault } = params;
+  const { directory, argv, logMessage, logError, optionsOverride,
+    fixDefault } = params;
   const baseDir = posixPath(directory || process.cwd());
   logMessage(
     `${packageName} v${packageVersion} ` +
@@ -515,7 +520,8 @@ const main = async (params) => {
   if (showProgress) {
     logMessage(`Finding: ${globPatterns.join(" ")}`);
   }
-  const dirInfos = await createDirInfos(baseDir, globPatterns, dirToDirInfo);
+  const dirInfos =
+    await createDirInfos(baseDir, globPatterns, dirToDirInfo, optionsOverride);
   if (showProgress) {
     let fileCount = 0;
     for (const dirInfo of dirInfos) {
@@ -528,7 +534,9 @@ const main = async (params) => {
   if (showProgress) {
     logMessage(`Summary: ${summary.length} error(s)`);
   }
-  const { outputFormatters } = baseMarkdownlintOptions;
+  const outputFormatters =
+    (optionsOverride && optionsOverride.outputFormatters) ||
+    baseMarkdownlintOptions.outputFormatters;
   const errorsPresent = await outputSummary(
     baseDir, summary, outputFormatters, logMessage, logError
   );

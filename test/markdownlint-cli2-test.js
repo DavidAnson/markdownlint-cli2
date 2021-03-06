@@ -25,9 +25,9 @@ test("name and version", (t) => {
   });
 });
 
-test("READMEs", (t) => {
+test("README files", (t) => {
   t.plan(1);
-  const logError = (msg) => t.fail(`message logged: ${msg}`);
+  const uncalled = (msg) => t.fail(`message logged: ${msg}`);
   const argv = [
     "README.md",
     "./doc/OutputFormatters.md",
@@ -40,7 +40,27 @@ test("READMEs", (t) => {
   return markdownlintCli2({
     argv,
     "logMessage": noop,
-    logError
+    "logError": uncalled
   }).
     then((exitCode) => t.is(exitCode, 0));
+});
+
+test("main options override", (t) => {
+  t.plan(2);
+  const uncalled = (msg) => t.fail(`message logged: ${msg}`);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 4);
+  };
+  return markdownlintCli2({
+    "directory": "test/main-options-override",
+    "argv": [ "*.md" ],
+    "logMessage": noop,
+    "logError": uncalled,
+    "optionsOverride": {
+      "fix": false,
+      "outputFormatters": [ [ outputFormatter ] ]
+    }
+  }).
+    then((exitCode) => t.is(exitCode, 1));
 });
