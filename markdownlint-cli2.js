@@ -200,13 +200,15 @@ const getAndProcessDirInfo = (tasks, dirToDirInfo, dir, func) => {
 };
 
 // Get base markdownlint-cli2 options object
-const getBaseOptions = async (baseDir, globPatterns, fixDefault) => {
+const getBaseOptions =
+async (baseDir, globPatterns, optionsDefault, fixDefault) => {
   const tasks = [];
   const dirToDirInfo = {};
   getAndProcessDirInfo(tasks, dirToDirInfo, baseDir);
   await Promise.all(tasks);
   // eslint-disable-next-line no-multi-assign
   const baseMarkdownlintOptions = dirToDirInfo[baseDir].markdownlintOptions = {
+    ...optionsDefault,
     "fix": fixDefault,
     ...dirToDirInfo[baseDir].markdownlintOptions
   };
@@ -502,16 +504,26 @@ const outputSummary =
 
 // Main function
 const main = async (params) => {
-  const { directory, argv, logMessage, logError, optionsOverride,
-    fixDefault } = params;
-  const baseDir = posixPath(directory || process.cwd());
+  const {
+    directory,
+    argv,
+    logMessage,
+    logError,
+    optionsDefault,
+    optionsOverride,
+    fixDefault
+  } = params;
+  const baseDir = posixPath(
+    (directory && path.resolve(directory)) ||
+    process.cwd()
+  );
   logMessage(
     `${packageName} v${packageVersion} ` +
     `(${markdownlintLibraryName} v${libraryVersion})`
   );
   const globPatterns = processArgv(argv);
   const { baseMarkdownlintOptions, dirToDirInfo } =
-    await getBaseOptions(baseDir, globPatterns, fixDefault);
+    await getBaseOptions(baseDir, globPatterns, optionsDefault, fixDefault);
   if (globPatterns.length === 0) {
     showHelp(logMessage);
     return 1;

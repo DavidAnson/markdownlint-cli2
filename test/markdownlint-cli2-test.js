@@ -45,6 +45,38 @@ test("README files", (t) => {
     then((exitCode) => t.is(exitCode, 0));
 });
 
+test("main options default", (t) => {
+  t.plan(2);
+  return Promise.all([
+    markdownlintCli2({
+      "directory": "test/main-options-default",
+      "argv": [ "*.md" ],
+      "logMessage": noop,
+      "logError": noop,
+      "optionsDefault": {
+        "config": {
+          "single-trailing-newline": false
+        },
+        "ignores": [ "viewme.md" ]
+      }
+    }),
+    markdownlintCli2({
+      "directory": "test/main-options-default",
+      "argv": [ "info.md" ],
+      "logMessage": noop,
+      "logError": noop,
+      "optionsDefault": {
+        "customRules": [ require("./customRules/rules/first-line") ]
+      }
+    })
+  ]).
+    then((exitCodes) => {
+      const [ exitCode0, exitCode1 ] = exitCodes;
+      t.is(exitCode0, 0);
+      t.is(exitCode1, 1);
+    });
+});
+
 test("main options override", (t) => {
   t.plan(2);
   const uncalled = (msg) => t.fail(`message logged: ${msg}`);
