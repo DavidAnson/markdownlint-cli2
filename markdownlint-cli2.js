@@ -14,6 +14,7 @@ const { markdownlint, "readConfig": markdownlintReadConfig } =
   markdownlintLibrary.promises;
 const markdownlintRuleHelpers = require("markdownlint-rule-helpers");
 const appendToArray = require("./append-to-array");
+const mergeOptions = require("./merge-options");
 
 // Variables
 const packageName = "markdownlint-cli2";
@@ -207,11 +208,11 @@ async (baseDir, globPatterns, optionsDefault, fixDefault) => {
   getAndProcessDirInfo(tasks, dirToDirInfo, baseDir);
   await Promise.all(tasks);
   // eslint-disable-next-line no-multi-assign
-  const baseMarkdownlintOptions = dirToDirInfo[baseDir].markdownlintOptions = {
-    ...optionsDefault,
-    "fix": fixDefault,
-    ...dirToDirInfo[baseDir].markdownlintOptions
-  };
+  const baseMarkdownlintOptions = dirToDirInfo[baseDir].markdownlintOptions =
+    mergeOptions(
+      mergeOptions(optionsDefault, { "fix": fixDefault }),
+      dirToDirInfo[baseDir].markdownlintOptions
+    );
 
   // Append any globs specified in markdownlint-cli2 configuration
   const globs = baseMarkdownlintOptions.globs || [];
@@ -359,15 +360,10 @@ async (baseDir, globPatterns, dirToDirInfo, optionsOverride) => {
     // eslint-disable-next-line prefer-destructuring
     while ((parent = parent.parent)) {
       if (parent.markdownlintOptions) {
-        const config = {
-          ...parent.markdownlintOptions.config,
-          ...markdownlintOptions.config
-        };
-        markdownlintOptions = {
-          ...parent.markdownlintOptions,
-          ...markdownlintOptions,
-          config
-        };
+        markdownlintOptions = mergeOptions(
+          parent.markdownlintOptions,
+          markdownlintOptions
+        );
       }
       if (
         !markdownlintConfig &&
@@ -378,11 +374,11 @@ async (baseDir, globPatterns, dirToDirInfo, optionsOverride) => {
         markdownlintConfig = parent.markdownlintConfig;
       }
     }
+    dirInfo.markdownlintOptions = mergeOptions(
+      markdownlintOptions,
+      optionsOverride
+    );
     dirInfo.markdownlintConfig = markdownlintConfig;
-    dirInfo.markdownlintOptions = {
-      ...markdownlintOptions,
-      ...optionsOverride
-    };
   }
   return dirInfos;
 };

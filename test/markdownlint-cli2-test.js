@@ -82,7 +82,7 @@ test("main options override", (t) => {
   const uncalled = (msg) => t.fail(`message logged: ${msg}`);
   const outputFormatter = (options) => {
     const { results } = options;
-    t.is(Object.keys(results).length, 4);
+    t.is(Object.keys(results).length, 2);
   };
   return markdownlintCli2({
     "directory": "test/main-options-override",
@@ -90,6 +90,9 @@ test("main options override", (t) => {
     "logMessage": noop,
     "logError": uncalled,
     "optionsOverride": {
+      "config": {
+        "no-trailing-spaces": false
+      },
       "fix": false,
       "outputFormatters": [ [ outputFormatter ] ]
     }
