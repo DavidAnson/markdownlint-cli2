@@ -23,6 +23,9 @@ const libraryVersion = markdownlintLibrary.getVersion();
 const dotOnlySubstitute = "*.{md,markdown}";
 const utf8 = "utf8";
 
+// No-op function
+const noop = () => null;
+
 // Parse JSONC text
 const jsoncParse = (text) => JSON.parse(require("strip-json-comments")(text));
 
@@ -503,12 +506,12 @@ const main = async (params) => {
   const {
     directory,
     argv,
-    logMessage,
-    logError,
     optionsDefault,
     optionsOverride,
     fixDefault
   } = params;
+  const logMessage = params.logMessage || noop;
+  const logError = params.logError || noop;
   const baseDir = posixPath(
     (directory && path.resolve(directory)) ||
     process.cwd()

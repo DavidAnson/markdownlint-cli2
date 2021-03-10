@@ -4,7 +4,6 @@
 
 const test = require("ava").default;
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
-const noop = () => null;
 
 test("name and version", (t) => {
   t.plan(2);
@@ -39,7 +38,6 @@ test("README files", (t) => {
   ];
   return markdownlintCli2({
     argv,
-    "logMessage": noop,
     "logError": uncalled
   }).
     then((exitCode) => t.is(exitCode, 0));
@@ -47,12 +45,12 @@ test("README files", (t) => {
 
 test("main options default", (t) => {
   t.plan(2);
+  const uncalled = (msg) => t.fail(`message logged: ${msg}`);
   return Promise.all([
     markdownlintCli2({
       "directory": "test/main-options-default",
       "argv": [ "*.md" ],
-      "logMessage": noop,
-      "logError": noop,
+      "logError": uncalled,
       "optionsDefault": {
         "config": {
           "single-trailing-newline": false
@@ -63,8 +61,6 @@ test("main options default", (t) => {
     markdownlintCli2({
       "directory": "test/main-options-default",
       "argv": [ "info.md" ],
-      "logMessage": noop,
-      "logError": noop,
       "optionsDefault": {
         "customRules": [ require("./customRules/rules/first-line") ]
       }
@@ -87,7 +83,6 @@ test("main options override", (t) => {
   return markdownlintCli2({
     "directory": "test/main-options-override",
     "argv": [ "*.md" ],
-    "logMessage": noop,
     "logError": uncalled,
     "optionsOverride": {
       "config": {
