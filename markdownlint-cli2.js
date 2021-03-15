@@ -556,7 +556,8 @@ const main = async (params) => {
   }
   const resolvedFileContents = {};
   for (const file in fileContents) {
-    resolvedFileContents[path.resolve(baseDir, file)] = fileContents[file];
+    resolvedFileContents[posixPath(path.resolve(baseDir, file))] =
+      fileContents[file];
   }
   const lintResults = await lintFiles(dirInfos, resolvedFileContents);
   const summary = createSummary(baseDir, lintResults);
