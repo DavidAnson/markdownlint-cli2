@@ -387,11 +387,19 @@ async (baseDir, globPatterns, dirToDirInfo, optionsOverride) => {
 };
 
 // Lint files in groups by shared configuration
-const lintFiles = async (dirInfos) => {
+const lintFiles = (dirInfos, fileContents) => {
   const tasks = [];
+  // For each dirInfo
   for (const dirInfo of dirInfos) {
     const { dir, files, markdownlintConfig, markdownlintOptions } = dirInfo;
-    let filteredFiles = files;
+    // Filter file/string inputs to only those in the dirInfo
+    const filteredFileContents = {};
+    for (const file in fileContents) {
+      if (files.includes(file)) {
+        filteredFileContents[file] = fileContents[file];
+      }
+    }
+    let filteredFiles = files.filter((file) => !fileContents[file]);
     if (markdownlintOptions.ignores) {
       // eslint-disable-next-line unicorn/no-array-callback-reference
       const ignores = markdownlintOptions.ignores.map(negateGlob);
@@ -401,8 +409,10 @@ const lintFiles = async (dirInfos) => {
         ignores
       ).map((file) => path.join(dir, file));
     }
+    // Create markdownlint options object
     const options = {
       "files": filteredFiles,
+      "strings": filteredFileContents,
       "config": markdownlintConfig || markdownlintOptions.config,
       "customRules": markdownlintOptions.customRules,
       "frontMatter": markdownlintOptions.frontMatter
@@ -413,7 +423,9 @@ const lintFiles = async (dirInfos) => {
       "noInlineConfig": Boolean(markdownlintOptions.noInlineConfig),
       "resultVersion": 3
     };
+    // Invoke markdownlint
     let task = markdownlint(options);
+    // For any fixable errors, read file, apply fixes, and write it back
     if (markdownlintOptions.fix) {
       task = task.then((results) => {
         options.files = [];
@@ -442,10 +454,11 @@ const lintFiles = async (dirInfos) => {
           }));
       });
     }
+    // Queue tasks for this dirInfo
     tasks.push(task);
   }
-  const taskResults = await Promise.all(tasks);
-  return taskResults;
+  // Return result of all tasks
+  return Promise.all(tasks);
 };
 
 // Create summary of results
@@ -508,7 +521,8 @@ const main = async (params) => {
     argv,
     optionsDefault,
     optionsOverride,
-    fixDefault
+    fixDefault,
+    fileContents
   } = params;
   const logMessage = params.logMessage || noop;
   const logError = params.logError || noop;
@@ -540,7 +554,11 @@ const main = async (params) => {
     }
     logMessage(`Linting: ${fileCount} file(s)`);
   }
-  const lintResults = await lintFiles(dirInfos);
+  const resolvedFileContents = {};
+  for (const file in fileContents) {
+    resolvedFileContents[path.resolve(baseDir, file)] = fileContents[file];
+  }
+  const lintResults = await lintFiles(dirInfos, resolvedFileContents);
   const summary = createSummary(baseDir, lintResults);
   if (showProgress) {
     logMessage(`Summary: ${summary.length} error(s)`);

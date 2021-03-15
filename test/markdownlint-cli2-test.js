@@ -94,3 +94,40 @@ test("main options override", (t) => {
   }).
     then((exitCode) => t.is(exitCode, 1));
 });
+
+test("alternate file contents", (t) => {
+  t.plan(2);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 5);
+  };
+  const argv = [
+    "README.md",
+    "./doc/OutputFormatters.md",
+    "./formatter-default/README.md",
+    "./formatter-json/README.md",
+    "./formatter-junit/README.md",
+    "./formatter-pretty/README.md",
+    "./formatter-summarize/README.md",
+    "./test/all-ok/viewme.md",
+    "./test/no-config/viewme.md",
+    "./test/markdownlint-json/viewme.md",
+    "./test/markdownlint-yaml/viewme.md"
+  ];
+  const fileContents = {
+    "README.md": "# Heading",
+    "./doc/OutputFormatters.md": "# Heading\n\n\tText.\n\n",
+    "./test/all-ok/viewme.md": "# Heading",
+    "./test/no-config/viewme.md": "# Heading\n",
+    "./test/markdownlint-json/viewme.md": "# Heading",
+    "./test/markdownlint-yaml/viewme.md": "# Heading\n"
+  };
+  return markdownlintCli2({
+    argv,
+    fileContents,
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatter ] ]
+    }
+  }).
+    then((exitCode) => t.is(exitCode, 1));
+});
