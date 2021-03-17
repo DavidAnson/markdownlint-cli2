@@ -99,7 +99,7 @@ test("alternate file contents", (t) => {
   t.plan(2);
   const outputFormatter = (options) => {
     const { results } = options;
-    t.is(Object.keys(results).length, 5);
+    t.is(Object.keys(results).length, 6);
   };
   const argv = [
     "README.md",
@@ -122,9 +122,15 @@ test("alternate file contents", (t) => {
     "./test/markdownlint-json/viewme.md": "# Heading",
     "./test/markdownlint-yaml/viewme.md": "# Heading\n"
   };
+  const nonFileContents = {
+    "untitled-1": "# Heading",
+    "untitled-2": "# Heading\n",
+    "untitled-3": ""
+  };
   return markdownlintCli2({
     argv,
     fileContents,
+    nonFileContents,
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatter ] ]
     }

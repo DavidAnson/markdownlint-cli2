@@ -399,7 +399,9 @@ const lintFiles = (dirInfos, fileContents) => {
         filteredFileContents[file] = fileContents[file];
       }
     }
-    let filteredFiles = files.filter((file) => !fileContents[file]);
+    let filteredFiles = files.filter(
+      (file) => fileContents[file] === undefined
+    );
     if (markdownlintOptions.ignores) {
       // eslint-disable-next-line unicorn/no-array-callback-reference
       const ignores = markdownlintOptions.ignores.map(negateGlob);
@@ -516,13 +518,15 @@ const outputSummary =
 
 // Main function
 const main = async (params) => {
+  // Capture parameters
   const {
     directory,
     argv,
     optionsDefault,
     optionsOverride,
     fixDefault,
-    fileContents
+    fileContents,
+    nonFileContents
   } = params;
   const logMessage = params.logMessage || noop;
   const logError = params.logError || noop;
@@ -530,10 +534,12 @@ const main = async (params) => {
     (directory && path.resolve(directory)) ||
     process.cwd()
   );
+  // Output banner
   logMessage(
     `${packageName} v${packageVersion} ` +
     `(${markdownlintLibraryName} v${libraryVersion})`
   );
+  // Process arguments and get base options
   const globPatterns = processArgv(argv);
   const { baseMarkdownlintOptions, dirToDirInfo } =
     await getBaseOptions(baseDir, globPatterns, optionsDefault, fixDefault);
@@ -541,12 +547,28 @@ const main = async (params) => {
     showHelp(logMessage);
     return 1;
   }
+  // Include any file overrides or non-file content
+  const resolvedFileContents = {};
+  for (const file in fileContents) {
+    resolvedFileContents[posixPath(path.resolve(baseDir, file))] =
+      fileContents[file];
+  }
+  for (const nonFile in nonFileContents) {
+    resolvedFileContents[nonFile] = nonFileContents[nonFile];
+  }
+  appendToArray(
+    dirToDirInfo[baseDir].files,
+    Object.keys(nonFileContents || {})
+  );
+  // Output finding status
   const showProgress = !baseMarkdownlintOptions.noProgress;
   if (showProgress) {
     logMessage(`Finding: ${globPatterns.join(" ")}`);
   }
+  // Create linting tasks
   const dirInfos =
     await createDirInfos(baseDir, globPatterns, dirToDirInfo, optionsOverride);
+  // Output linting status
   if (showProgress) {
     let fileCount = 0;
     for (const dirInfo of dirInfos) {
@@ -554,12 +576,9 @@ const main = async (params) => {
     }
     logMessage(`Linting: ${fileCount} file(s)`);
   }
-  const resolvedFileContents = {};
-  for (const file in fileContents) {
-    resolvedFileContents[posixPath(path.resolve(baseDir, file))] =
-      fileContents[file];
-  }
+  // Lint files
   const lintResults = await lintFiles(dirInfos, resolvedFileContents);
+  // Output summary
   const summary = createSummary(baseDir, lintResults);
   if (showProgress) {
     logMessage(`Summary: ${summary.length} error(s)`);
@@ -570,6 +589,7 @@ const main = async (params) => {
   const errorsPresent = await outputSummary(
     baseDir, summary, outputFormatters, logMessage, logError
   );
+  // Return result
   return errorsPresent ? 1 : 0;
 };
 
