@@ -543,7 +543,7 @@ const main = async (params) => {
   const globPatterns = processArgv(argv);
   const { baseMarkdownlintOptions, dirToDirInfo } =
     await getBaseOptions(baseDir, globPatterns, optionsDefault, fixDefault);
-  if (globPatterns.length === 0) {
+  if ((globPatterns.length === 0) && !nonFileContents) {
     showHelp(logMessage);
     return 1;
   }

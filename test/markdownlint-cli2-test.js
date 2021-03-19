@@ -137,3 +137,87 @@ test("alternate file contents", (t) => {
   }).
     then((exitCode) => t.is(exitCode, 1));
 });
+
+test("extension scenario, no changes", (t) => {
+  t.plan(2);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 4);
+  };
+  const directory = __dirname;
+  const argv = [ "./markdownlint-json/viewme.md" ];
+  return markdownlintCli2({
+    directory,
+    argv,
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatter ] ]
+    }
+  }).
+    then((exitCode) => t.is(exitCode, 1));
+});
+
+test("extension scenario, changes", (t) => {
+  t.plan(2);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 1);
+  };
+  const directory = __dirname;
+  const argv = [ "./markdownlint-json/viewme.md" ];
+  const fileContents = {
+    "./markdownlint-json/viewme.md": "# Title\n\n> Tagline \n\n\n"
+  };
+  return markdownlintCli2({
+    directory,
+    argv,
+    fileContents,
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatter ] ]
+    }
+  }).
+    then((exitCode) => t.is(exitCode, 1));
+});
+
+test("extension scenario, untitled", (t) => {
+  t.plan(2);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 2);
+  };
+  const directory = __dirname;
+  const argv = [];
+  const nonFileContents = {
+    "untitled-1": "# Title\n\nText\t\n"
+  };
+  return markdownlintCli2({
+    directory,
+    argv,
+    nonFileContents,
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatter ] ]
+    }
+  }).
+    then((exitCode) => t.is(exitCode, 1));
+});
+
+test("extension scenario, empty", (t) => {
+  t.plan(2);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 0);
+  };
+  const directory = __dirname;
+  const argv = [];
+  const nonFileContents = {
+    "untitled-1": ""
+  };
+  return markdownlintCli2({
+    directory,
+    argv,
+    nonFileContents,
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatter ] ]
+    }
+  }).
+    then((exitCode) => t.is(exitCode, 0));
+});
