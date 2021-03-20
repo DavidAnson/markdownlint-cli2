@@ -4,12 +4,16 @@
 
 "use strict";
 
+// @ts-ignore
+// eslint-disable-next-line camelcase, max-len, no-inline-comments, no-undef
+const dynamicRequire = (typeof __non_webpack_require__ === "undefined") ? require : /* c8 ignore next */ __non_webpack_require__;
+// Capture native require implementation for dynamic loading of modules
+
 // Requires
 const fs = require("fs").promises;
 const path = require("path");
 const globby = require("globby");
-const markdownlintLibraryName = "markdownlint";
-const markdownlintLibrary = require(markdownlintLibraryName);
+const markdownlintLibrary = require("markdownlint");
 const { markdownlint, "readConfig": markdownlintReadConfig } =
   markdownlintLibrary.promises;
 const markdownlintRuleHelpers = require("markdownlint-rule-helpers");
@@ -19,6 +23,7 @@ const mergeOptions = require("./merge-options");
 // Variables
 const packageName = "markdownlint-cli2";
 const packageVersion = "0.0.14";
+const libraryName = "markdownlint";
 const libraryVersion = markdownlintLibrary.getVersion();
 const dotOnlySubstitute = "*.{md,markdown}";
 const utf8 = "utf8";
@@ -52,9 +57,9 @@ const readConfig = (dir, name, otherwise) => {
 // Require a module ID with the specified directory in the path
 const requireResolve = (dir, id) => {
   if (typeof id === "string") {
-    const paths = [ dir, ...require.resolve.paths("") ];
-    const resolved = require.resolve(id, { paths });
-    return require(resolved);
+    const paths = [ dir, ...dynamicRequire.resolve.paths("") ];
+    const resolved = dynamicRequire.resolve(id, { paths });
+    return dynamicRequire(resolved);
   }
   return id;
 };
@@ -426,6 +431,7 @@ const lintFiles = (dirInfos, fileContents) => {
       "resultVersion": 3
     };
     // Invoke markdownlint
+    // @ts-ignore
     let task = markdownlint(options);
     // For any fixable errors, read file, apply fixes, and write it back
     if (markdownlintOptions.fix) {
@@ -449,6 +455,7 @@ const lintFiles = (dirInfos, fileContents) => {
           }
         }
         return Promise.all(subTasks).
+          // @ts-ignore
           then(() => markdownlint(options)).
           then((fixResults) => ({
             ...results,
@@ -536,8 +543,7 @@ const main = async (params) => {
   );
   // Output banner
   logMessage(
-    `${packageName} v${packageVersion} ` +
-    `(${markdownlintLibraryName} v${libraryVersion})`
+    `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`
   );
   // Process arguments and get base options
   const globPatterns = processArgv(argv);
