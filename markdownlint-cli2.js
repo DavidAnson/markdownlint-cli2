@@ -318,11 +318,13 @@ async (baseDir, globPatterns, dirToDirInfo, optionsOverride) => {
       dirToDirInfo[dir] = null;
     } else {
       const { markdownlintOptions } = dirInfo;
-      if (markdownlintOptions) {
+      if (markdownlintOptions && markdownlintOptions.customRules) {
         markdownlintOptions.customRules =
-          requireIds(dir, markdownlintOptions.customRules || []);
+          requireIds(dir, markdownlintOptions.customRules);
+      }
+      if (markdownlintOptions && markdownlintOptions.markdownItPlugins) {
         markdownlintOptions.markdownItPlugins =
-          requireIdsAndParams(dir, markdownlintOptions.markdownItPlugins || []);
+          requireIdsAndParams(dir, markdownlintOptions.markdownItPlugins);
       }
       dirInfos.push(dirInfo);
     }
