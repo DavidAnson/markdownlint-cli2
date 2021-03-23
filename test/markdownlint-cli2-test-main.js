@@ -8,14 +8,15 @@ const testCases = require("./markdownlint-cli2-test-cases");
 const linesEndingWithNewLine =
   (lines) => lines.map((line) => `${line}\n`).join("");
 
-const invoke = (directory, args) => () => {
+const invoke = (directory, args, noRequire) => () => {
   const stdouts = [];
   const stderrs = [];
   return markdownlintCli2({
     directory,
     "argv": args,
     "logMessage": (msg) => stdouts.push(msg),
-    "logError": (msg) => stderrs.push(msg)
+    "logError": (msg) => stderrs.push(msg),
+    noRequire
   }).
     then(
       (exitCode) => exitCode,
@@ -31,4 +32,4 @@ const invoke = (directory, args) => () => {
     }));
 };
 
-testCases("main", invoke, false, false);
+testCases("main", invoke, true, false, false);

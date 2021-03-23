@@ -6,7 +6,7 @@ const path = require("path");
 const execa = require("execa");
 const testCases = require("./markdownlint-cli2-test-cases");
 
-const invoke = (directory, args, env, script) => () => execa.node(
+const invoke = (directory, args, noRequire, env, script) => () => execa.node(
   path.join(__dirname, "..", script || "markdownlint-cli2.js"),
   args,
   {
@@ -17,4 +17,4 @@ const invoke = (directory, args, env, script) => () => execa.node(
   }
 );
 
-testCases("exec", invoke, true, true);
+testCases("exec", invoke, false, true, true);

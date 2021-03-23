@@ -13,17 +13,18 @@ const verRe = /\bv\d+\.\d+\.\d+\b/gu;
 const noop = () => null;
 const empty = () => "";
 
-const testCases = (host, invoke, includeEnv, includeScript) => {
+const testCases =
+(host, invoke, includeNoRequire, includeEnv, includeScript) => {
 
   const testCase = (options) => {
-    const { name, script, args, exitCode, cwd, env, stderrRe, pre, post } =
-      options;
+    const { name, script, args, exitCode, cwd, env, stderrRe, pre, post,
+      noRequire } = options;
     test(`${name} (${host})`, (t) => {
       t.plan(5);
       const directory = path.join(__dirname, cwd || name);
       return Promise.all([
         ((pre || noop)(name) || Promise.resolve()).
-          then(invoke(directory, args, env, script)),
+          then(invoke(directory, args, noRequire, env, script)),
         fs.readFile(
           path.join(__dirname, `${name}.stdout`),
           "utf8"
@@ -517,6 +518,42 @@ const testCases = (host, invoke, includeEnv, includeScript) => {
     "args": [ "**/*.md" ],
     "exitCode": 1
   });
+
+  if (includeNoRequire) {
+
+    testCase({
+      "name": "markdownlint-js-no-require",
+      "args": [ "**/*.md" ],
+      "exitCode": 1,
+      "cwd": "markdownlint-js",
+      "noRequire": true
+    });
+
+    testCase({
+      "name": "markdownlint-cli2-js-no-require",
+      "args": [ "**/*.md" ],
+      "exitCode": 1,
+      "cwd": "markdownlint-cli2-js",
+      "noRequire": true
+    });
+
+    testCase({
+      "name": "customRules-no-require",
+      "args": [ "**/*.md" ],
+      "exitCode": 1,
+      "cwd": "customRules",
+      "noRequire": true
+    });
+
+    testCase({
+      "name": "markdownItPlugins-no-require",
+      "args": [ "**/*.md" ],
+      "exitCode": 1,
+      "cwd": "markdownItPlugins",
+      "noRequire": true
+    });
+
+  }
 };
 
 module.exports = testCases;

@@ -65,10 +65,15 @@ const requireResolve = (dir, id) => {
 };
 
 // Require an array of modules by ID
-const requireIds = (dir, ids) => ids.map((id) => requireResolve(dir, id));
+const requireIds = (dir, ids, noRequire) => (
+  noRequire ? [] : ids.map((id) => requireResolve(dir, id))
+);
 
 // Require an array of modules by ID (preserving parameters)
-const requireIdsAndParams = (dir, idsAndParams) => {
+const requireIdsAndParams = (dir, idsAndParams, noRequire) => {
+  if (noRequire) {
+    return [];
+  }
   const ids = idsAndParams.map((entry) => entry[0]);
   const modules = requireIds(dir, ids);
   const modulesAndParams = idsAndParams.
@@ -77,12 +82,13 @@ const requireIdsAndParams = (dir, idsAndParams) => {
 };
 
 // Require a JS file and return the exported object
-const requireConfig = (dir, name, otherwise) => {
+const requireConfig = (dir, name, noRequire) => {
   const file = path.join(dir, name);
-  return () => fs.access(file).
+  // eslint-disable-next-line prefer-promise-reject-errors
+  return () => (noRequire ? Promise.reject() : fs.access(file)).
     then(
       () => requireResolve(dir, `./${name}`),
-      otherwise
+      noop
     );
 };
 
@@ -138,7 +144,7 @@ $ ${name} "**/*.md" "#node_modules"`
 };
 
 // Get (creating if necessary) and process a directory's info object
-const getAndProcessDirInfo = (tasks, dirToDirInfo, dir, func) => {
+const getAndProcessDirInfo = (tasks, dirToDirInfo, dir, noRequire, func) => {
   let dirInfo = dirToDirInfo[dir];
   if (!dirInfo) {
     dirInfo = {
@@ -163,7 +169,7 @@ const getAndProcessDirInfo = (tasks, dirToDirInfo, dir, func) => {
               requireConfig(
                 dir,
                 ".markdownlint-cli2.js",
-                () => null
+                noRequire
               )
             )
         ).
@@ -189,7 +195,7 @@ const getAndProcessDirInfo = (tasks, dirToDirInfo, dir, func) => {
               requireConfig(
                 dir,
                 ".markdownlint.js",
-                () => null
+                noRequire
               )
             )
           )
@@ -210,10 +216,10 @@ const getAndProcessDirInfo = (tasks, dirToDirInfo, dir, func) => {
 
 // Get base markdownlint-cli2 options object
 const getBaseOptions =
-async (baseDir, globPatterns, optionsDefault, fixDefault) => {
+async (baseDir, globPatterns, optionsDefault, fixDefault, noRequire) => {
   const tasks = [];
   const dirToDirInfo = {};
-  getAndProcessDirInfo(tasks, dirToDirInfo, baseDir);
+  getAndProcessDirInfo(tasks, dirToDirInfo, baseDir, noRequire);
   await Promise.all(tasks);
   // eslint-disable-next-line no-multi-assign
   const baseMarkdownlintOptions = dirToDirInfo[baseDir].markdownlintOptions =
@@ -240,7 +246,8 @@ async (baseDir, globPatterns, optionsDefault, fixDefault) => {
 };
 
 // Enumerate files from globs and build directory infos
-const enumerateFiles = async (baseDir, globPatterns, dirToDirInfo) => {
+const enumerateFiles =
+async (baseDir, globPatterns, dirToDirInfo, noRequire) => {
   const tasks = [];
   const globbyOptions = {
     "absolute": true,
@@ -249,7 +256,7 @@ const enumerateFiles = async (baseDir, globPatterns, dirToDirInfo) => {
   for await (const file of globby.stream(globPatterns, globbyOptions)) {
     // @ts-ignore
     const dir = path.dirname(file);
-    getAndProcessDirInfo(tasks, dirToDirInfo, dir, (dirInfo) => {
+    getAndProcessDirInfo(tasks, dirToDirInfo, dir, noRequire, (dirInfo) => {
       dirInfo.files.push(file);
     });
   }
@@ -257,7 +264,7 @@ const enumerateFiles = async (baseDir, globPatterns, dirToDirInfo) => {
 };
 
 // Enumerate (possibly missing) parent directories and update directory infos
-const enumerateParents = async (baseDir, dirToDirInfo) => {
+const enumerateParents = async (baseDir, dirToDirInfo, noRequire) => {
   const tasks = [];
 
   // Create a lookup of baseDir and parents
@@ -280,7 +287,7 @@ const enumerateParents = async (baseDir, dirToDirInfo) => {
       lastDir = dir;
       lastDirInfo =
         // eslint-disable-next-line no-loop-func
-        getAndProcessDirInfo(tasks, dirToDirInfo, dir, (dirInfo) => {
+        getAndProcessDirInfo(tasks, dirToDirInfo, dir, noRequire, (dirInfo) => {
           lastDirInfo.parent = dirInfo;
         });
     }
@@ -295,9 +302,9 @@ const enumerateParents = async (baseDir, dirToDirInfo) => {
 
 // Create directory info objects by enumerating file globs
 const createDirInfos =
-async (baseDir, globPatterns, dirToDirInfo, optionsOverride) => {
-  await enumerateFiles(baseDir, globPatterns, dirToDirInfo);
-  await enumerateParents(baseDir, dirToDirInfo);
+async (baseDir, globPatterns, dirToDirInfo, optionsOverride, noRequire) => {
+  await enumerateFiles(baseDir, globPatterns, dirToDirInfo, noRequire);
+  await enumerateParents(baseDir, dirToDirInfo, noRequire);
 
   // Merge file lists with identical configuration
   const dirs = Object.keys(dirToDirInfo);
@@ -320,11 +327,19 @@ async (baseDir, globPatterns, dirToDirInfo, optionsOverride) => {
       const { markdownlintOptions } = dirInfo;
       if (markdownlintOptions && markdownlintOptions.customRules) {
         markdownlintOptions.customRules =
-          requireIds(dir, markdownlintOptions.customRules);
+          requireIds(
+            dir,
+            markdownlintOptions.customRules,
+            noRequire
+          );
       }
       if (markdownlintOptions && markdownlintOptions.markdownItPlugins) {
         markdownlintOptions.markdownItPlugins =
-          requireIdsAndParams(dir, markdownlintOptions.markdownItPlugins);
+          requireIdsAndParams(
+            dir,
+            markdownlintOptions.markdownItPlugins,
+            noRequire
+          );
       }
       dirInfos.push(dirInfo);
     }
@@ -535,7 +550,8 @@ const main = async (params) => {
     optionsOverride,
     fixDefault,
     fileContents,
-    nonFileContents
+    nonFileContents,
+    noRequire
   } = params;
   const logMessage = params.logMessage || noop;
   const logError = params.logError || noop;
@@ -550,7 +566,13 @@ const main = async (params) => {
   // Process arguments and get base options
   const globPatterns = processArgv(argv);
   const { baseMarkdownlintOptions, dirToDirInfo } =
-    await getBaseOptions(baseDir, globPatterns, optionsDefault, fixDefault);
+    await getBaseOptions(
+      baseDir,
+      globPatterns,
+      optionsDefault,
+      fixDefault,
+      noRequire
+    );
   if ((globPatterns.length === 0) && !nonFileContents) {
     showHelp(logMessage);
     return 1;
@@ -575,7 +597,13 @@ const main = async (params) => {
   }
   // Create linting tasks
   const dirInfos =
-    await createDirInfos(baseDir, globPatterns, dirToDirInfo, optionsOverride);
+    await createDirInfos(
+      baseDir,
+      globPatterns,
+      dirToDirInfo,
+      optionsOverride,
+      noRequire
+    );
   // Output linting status
   if (showProgress) {
     let fileCount = 0;
