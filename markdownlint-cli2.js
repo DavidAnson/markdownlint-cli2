@@ -22,7 +22,7 @@ const mergeOptions = require("./merge-options");
 
 // Variables
 const packageName = "markdownlint-cli2";
-const packageVersion = "0.0.14";
+const packageVersion = "0.0.15";
 const libraryName = "markdownlint";
 const libraryVersion = markdownlintLibrary.getVersion();
 const dotOnlySubstitute = "*.{md,markdown}";
