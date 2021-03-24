@@ -36,23 +36,23 @@
     "merge-options.js"
   ],
   "dependencies": {
-    "globby": "~11.0.2",
+    "globby": "~11.0.3",
     "markdownlint": "~0.23.1",
     "markdownlint-cli2-formatter-default": "^0.0.2",
     "markdownlint-rule-helpers": "~0.14.0",
     "micromatch": "~4.0.2",
     "strip-json-comments": "~3.1.1",
-    "yaml": "~1.10.0"
+    "yaml": "~1.10.2"
   },
   "devDependencies": {
     "@iktakahiro/markdown-it-katex": "~4.0.1",
     "ava": "~3.15.0",
     "c8": "~7.6.0",
-    "cpy": "~8.1.1",
+    "cpy": "~8.1.2",
     "del": "~6.0.0",
-    "eslint": "~7.20.0",
+    "eslint": "~7.22.0",
     "eslint-plugin-node": "~11.1.0",
-    "eslint-plugin-unicorn": "~28.0.1",
+    "eslint-plugin-unicorn": "~29.0.0",
     "execa": "~5.0.0",
     "markdown-it-emoji": "~2.0.0",
     "markdown-it-for-inline": "~0.1.1",
