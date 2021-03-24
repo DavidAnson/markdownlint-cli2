@@ -3,7 +3,5 @@
   description: "Checks the style of Markdown/CommonMark files."
   entry: markdownlint-cli2
   language: node
-  language_version: latest
   types: [markdown]
   minimum_pre_commit_version: 0.15.0
-  

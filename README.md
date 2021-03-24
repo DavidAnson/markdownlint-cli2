@@ -269,8 +269,8 @@ in both cases), these two commands behave identically.
 
 ## pre-commit
 
-To run `markdownlint-cli2` as part of a [pre-commit][pre-commit] workflow, add
-a reference to the `repos` list in that project's `.pre-commit-config.yaml`:
+To run `markdownlint-cli2` as part of a [pre-commit][pre-commit] workflow, add a
+reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 
 ```yaml
 - repo: https://github.com/DavidAnson/markdownlint-cli2
@@ -278,6 +278,9 @@ a reference to the `repos` list in that project's `.pre-commit-config.yaml`:
   hooks:
   - id: markdownlint-cli2
 ```
+
+> Depending on the environment that workflow runs in, it may be necessary to
+> [override the version of Node.js used by pre-commit][pre-commit-version].
 
 ## History
 
@@ -334,6 +337,7 @@ a reference to the `repos` list in that project's `.pre-commit-config.yaml`:
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2
 [output-formatters]: doc/OutputFormatters.md
 [pre-commit]: https://pre-commit.com/
+[pre-commit-version]: https://pre-commit.com/#overriding-language-version
 [regexp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 [regexp-constructor]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp
 [vscode]: https://code.visualstudio.com/
