@@ -57,7 +57,7 @@ const readConfig = (dir, name, otherwise) => {
 // Require a module ID with the specified directory in the path
 const requireResolve = (dir, id) => {
   if (typeof id === "string") {
-    const paths = [ dir ];
+    const paths = [ dir, ...dynamicRequire.resolve.paths("") ];
     const resolved = dynamicRequire.resolve(id, { paths });
     return dynamicRequire(resolved);
   }
