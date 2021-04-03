@@ -8,8 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-
+  run-tests:
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -32,3 +31,29 @@ jobs:
     - name: Run Tests Only
       if: ${{ matrix.node-version == '10.x' || matrix.node-version == '12.x' }}
       run: npm run test
+
+  install-global:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Package markdownlint-cli2
+      run: npm pack
+    - name: Install markdownlint-cli2 globally
+      run: sudo npm install --global --no-package-lock markdownlint-cli2-*.tgz
+    - name: Lint without formatters
+      run: markdownlint-cli2 CONTRIBUTING.md README.md
+    - name: Package formatter-default
+      run: cd formatter-default && npm pack
+    - name: Package formatter-json
+      run: cd formatter-json && npm pack
+    - name: Package formatter-junit
+      run: cd formatter-junit && npm pack
+    - name: Package formatter-pretty
+      run: cd formatter-pretty && npm pack
+    - name: Package formatter-summarize
+      run: cd formatter-summarize && npm pack
+    - name: Install formatters globally
+      run: sudo npm install --global --no-package-lock ./formatter-default/*.tgz ./formatter-json/*.tgz ./formatter-junit/*.tgz ./formatter-pretty/*.tgz ./formatter-summarize/*.tgz
+    - name: Lint with formatters
+      run: cp test/outputFormatters-npm/.markdownlint-cli2.jsonc . && markdownlint-cli2 CONTRIBUTING.md README.md
