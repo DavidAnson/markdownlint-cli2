@@ -22,7 +22,7 @@
     "ci": "npm-run-all --continue-on-error --parallel test-cover lint",
     "lint": "eslint --max-warnings 0 .",
     "lint-watch": "git ls-files | entr npm run lint",
-    "test": "ava test/append-to-array-test.js test/markdownlint-cli2-test.js test/markdownlint-cli2-test-exec.js test/markdownlint-cli2-test-main.js test/merge-options-test.js",
+    "test": "ava test/append-to-array-test.js test/markdownlint-cli2-test.js test/markdownlint-cli2-test-exec.js test/markdownlint-cli2-test-main.js test/merge-options-test.js test/resolve-and-require-test.js",
     "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 npm test",
     "test-watch": "git ls-files | entr npm run test"
   },
@@ -33,7 +33,8 @@
     "append-to-array.js",
     "markdownlint-cli2.js",
     "markdownlint-cli2-fix.js",
-    "merge-options.js"
+    "merge-options.js",
+    "resolve-and-require.js"
   ],
   "dependencies": {
     "globby": "~11.0.3",

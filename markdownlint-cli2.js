@@ -19,6 +19,7 @@ const { markdownlint, "readConfig": markdownlintReadConfig } =
 const markdownlintRuleHelpers = require("markdownlint-rule-helpers");
 const appendToArray = require("./append-to-array");
 const mergeOptions = require("./merge-options");
+const resolveAndRequire = require("./resolve-and-require");
 
 // Variables
 const packageName = "markdownlint-cli2";
@@ -57,9 +58,7 @@ const readConfig = (dir, name, otherwise) => {
 // Require a module ID with the specified directory in the path
 const requireResolve = (dir, id) => {
   if (typeof id === "string") {
-    const paths = [ dir, ...dynamicRequire.resolve.paths("") ];
-    const resolved = dynamicRequire.resolve(id, { paths });
-    return dynamicRequire(resolved);
+    return resolveAndRequire(dynamicRequire, id, dir);
   }
   return id;
 };
