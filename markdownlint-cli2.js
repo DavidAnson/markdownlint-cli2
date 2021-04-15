@@ -46,7 +46,7 @@ const posixPath = (p) => p.split(path.sep).join(path.posix.sep);
 
 // Read a JSON(C) or YAML file and return the object
 const readConfig = (dir, name, otherwise) => {
-  const file = path.join(dir, name);
+  const file = path.posix.join(dir, name);
   return () => fs.access(file).
     then(
       // @ts-ignore
@@ -82,7 +82,7 @@ const requireIdsAndParams = (dir, idsAndParams, noRequire) => {
 
 // Require a JS file and return the exported object
 const requireConfig = (dir, name, noRequire) => {
-  const file = path.join(dir, name);
+  const file = path.posix.join(dir, name);
   // eslint-disable-next-line prefer-promise-reject-errors
   return () => (noRequire ? Promise.reject() : fs.access(file)).
     then(
@@ -156,8 +156,10 @@ const getAndProcessDirInfo = (tasks, dirToDirInfo, dir, noRequire, func) => {
     dirToDirInfo[dir] = dirInfo;
 
     // Load markdownlint-cli2 object(s)
-    const markdownlintCli2Jsonc = path.join(dir, ".markdownlint-cli2.jsonc");
-    const markdownlintCli2Yaml = path.join(dir, ".markdownlint-cli2.yaml");
+    const markdownlintCli2Jsonc =
+      path.posix.join(dir, ".markdownlint-cli2.jsonc");
+    const markdownlintCli2Yaml =
+      path.posix.join(dir, ".markdownlint-cli2.yaml");
     tasks.push(
       fs.access(markdownlintCli2Jsonc).
         then(
@@ -253,7 +255,7 @@ async (baseDir, globPatterns, dirToDirInfo, noRequire) => {
   };
   for await (const file of globby.stream(globPatterns, globbyOptions)) {
     // @ts-ignore
-    const dir = path.dirname(file);
+    const dir = path.posix.dirname(file);
     getAndProcessDirInfo(tasks, dirToDirInfo, dir, noRequire, (dirInfo) => {
       dirInfo.files.push(file);
     });
@@ -270,7 +272,7 @@ const enumerateParents = async (baseDir, dirToDirInfo, noRequire) => {
   let baseDirParent = baseDir;
   do {
     baseDirParents[baseDirParent] = true;
-    baseDirParent = path.dirname(baseDirParent);
+    baseDirParent = path.posix.dirname(baseDirParent);
   } while (!baseDirParents[baseDirParent]);
 
   // Visit parents of each dirInfo
@@ -279,7 +281,7 @@ const enumerateParents = async (baseDir, dirToDirInfo, noRequire) => {
     let lastDir = dir;
     while (
       !baseDirParents[dir] &&
-      (dir = path.dirname(dir)) &&
+      (dir = path.posix.dirname(dir)) &&
       (dir !== lastDir)
     ) {
       lastDir = dir;
@@ -428,9 +430,9 @@ const lintFiles = (dirInfos, fileContents) => {
       const ignores = markdownlintOptions.ignores.map(negateGlob);
       const micromatch = require("micromatch");
       filteredFiles = micromatch(
-        files.map((file) => path.relative(dir, file)),
+        files.map((file) => path.posix.relative(dir, file)),
         ignores
-      ).map((file) => path.join(dir, file));
+      ).map((file) => path.posix.join(dir, file));
     }
     // Create markdownlint options object
     const options = {
@@ -494,10 +496,9 @@ const createSummary = (baseDir, taskResults) => {
     for (const fileName in results) {
       const errorInfos = results[fileName];
       for (const errorInfo of errorInfos) {
-        const fileNameRelativePosix =
-          posixPath(path.relative(baseDir, fileName));
+        const fileNameRelative = path.posix.relative(baseDir, fileName);
         summary.push({
-          "fileName": fileNameRelativePosix,
+          "fileName": fileNameRelative,
           ...errorInfo,
           counter
         });
@@ -554,10 +555,10 @@ const main = async (params) => {
   } = params;
   const logMessage = params.logMessage || noop;
   const logError = params.logError || noop;
-  const baseDir = posixPath(
+  const baseDirSystem =
     (directory && path.resolve(directory)) ||
-    process.cwd()
-  );
+    process.cwd();
+  const baseDir = posixPath(baseDirSystem);
   // Output banner
   logMessage(
     `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`
@@ -579,7 +580,8 @@ const main = async (params) => {
   // Include any file overrides or non-file content
   const resolvedFileContents = {};
   for (const file in fileContents) {
-    resolvedFileContents[posixPath(path.resolve(baseDir, file))] =
+    const resolvedFile = posixPath(path.resolve(baseDirSystem, file));
+    resolvedFileContents[resolvedFile] =
       fileContents[file];
   }
   for (const nonFile in nonFileContents) {
