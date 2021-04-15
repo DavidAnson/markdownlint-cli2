@@ -136,8 +136,9 @@ in both cases), these two commands behave identically.
     rules for this part of the directory tree
     - If a `.markdownlint.{jsonc,json,yaml,yml,js}` file (see below) is present
       in the same directory, it overrides the value of this property
-  - `customRules`: `Array` of `String`s of module names/paths of
-    [custom rules][markdownlint-custom-rules] to load and use when linting
+  - `customRules`: `Array` of `String`s (or `Array`s of `String`s) of module
+    names/paths of [custom rules][markdownlint-custom-rules] to load and use
+    when linting
     - Each `String` is passed as the `id` parameter to Node's
       [require function][nodejs-require]
     - Relative paths are resolved based on the location of the `JSONC` file

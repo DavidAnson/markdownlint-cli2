@@ -324,12 +324,14 @@ async (baseDir, globPatterns, dirToDirInfo, optionsOverride, noRequire) => {
     } else {
       const { markdownlintOptions } = dirInfo;
       if (markdownlintOptions && markdownlintOptions.customRules) {
-        markdownlintOptions.customRules =
+        const customRules =
           requireIds(
             dir,
             markdownlintOptions.customRules,
             noRequire
           );
+        // Expand nested arrays (for packages that export multiple rules)
+        markdownlintOptions.customRules = [].concat(...customRules);
       }
       if (markdownlintOptions && markdownlintOptions.markdownItPlugins) {
         markdownlintOptions.markdownItPlugins =

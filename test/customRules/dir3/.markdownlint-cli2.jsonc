@@ -1,0 +1,6 @@
+{
+  "customRules": [
+    "../rules/all-rules",
+    "../rules/npm"
+  ]
+}
