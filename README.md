@@ -266,7 +266,7 @@ in both cases), these two commands behave identically.
 
 ### `vscode-markdownlint`
 
-- `.markdownlintrc` and `.markdownlintignore` are not supported.
+- `.markdownlintignore` is not supported.
 
 ## pre-commit
 
