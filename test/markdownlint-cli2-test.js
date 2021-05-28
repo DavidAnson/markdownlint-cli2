@@ -2,6 +2,7 @@
 
 "use strict";
 
+const path = require("path");
 const test = require("ava").default;
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 
@@ -220,4 +221,49 @@ test("extension scenario, empty", (t) => {
     }
   }).
     then((exitCode) => t.is(exitCode, 0));
+});
+
+test("extension scenario, fsApi", (t) => {
+  t.plan(4);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 1);
+  };
+  let accessCalls = 0;
+  const access = (file) => {
+    accessCalls++;
+    return (path.basename(file) === ".markdownlint-cli2.jsonc")
+      ? Promise.resolve()
+      : Promise.reject(new Error("No access"));
+  };
+  let readFileCalls = 0;
+  const readFile = () => {
+    readFileCalls++;
+    return Promise.resolve(JSON.stringify({
+      "config": {
+        "first-line-heading": false
+      }
+    }));
+  };
+  const writeFile = () => {
+    t.fail("writeFile called");
+  };
+  return markdownlintCli2({
+    "nonFileContents": {
+      "name": "Text"
+    },
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatter ] ]
+    },
+    "fsApi": {
+      access,
+      readFile,
+      writeFile
+    }
+  }).
+    then((exitCode) => {
+      t.is(exitCode, 1);
+      t.is(accessCalls, 6);
+      t.is(readFileCalls, 1);
+    });
 });
