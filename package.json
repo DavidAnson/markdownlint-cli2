@@ -37,11 +37,11 @@
     "resolve-and-require.js"
   ],
   "dependencies": {
-    "globby": "~11.0.3",
+    "globby": "~11.0.4",
     "markdownlint": "~0.23.1",
     "markdownlint-cli2-formatter-default": "^0.0.2",
     "markdownlint-rule-helpers": "~0.14.0",
-    "micromatch": "~4.0.2",
+    "micromatch": "~4.0.4",
     "strip-json-comments": "~3.1.1",
     "yaml": "~1.10.2"
   },
