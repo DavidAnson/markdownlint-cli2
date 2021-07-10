@@ -237,6 +237,7 @@ async (baseDir, globPatterns, optionsDefault, fixDefault, noRequire) => {
 
   // Pass base ignore globs as globby patterns (best performance)
   const ignorePatterns =
+    // eslint-disable-next-line unicorn/no-array-callback-reference
     (baseMarkdownlintOptions.ignores || []).map(negateGlob);
   appendToArray(globPatterns, ignorePatterns);
   delete baseMarkdownlintOptions.ignores;
@@ -335,7 +336,7 @@ async (baseDir, globPatterns, dirToDirInfo, optionsOverride, noRequire) => {
             noRequire
           );
         // Expand nested arrays (for packages that export multiple rules)
-        markdownlintOptions.customRules = [].concat(...customRules);
+        markdownlintOptions.customRules = customRules.flat();
       }
       if (markdownlintOptions && markdownlintOptions.markdownItPlugins) {
         markdownlintOptions.markdownItPlugins =
@@ -429,6 +430,7 @@ const lintFiles = (dirInfos, fileContents) => {
       (file) => fileContents[file] === undefined
     );
     if (markdownlintOptions.ignores) {
+      // eslint-disable-next-line unicorn/no-array-callback-reference
       const ignores = markdownlintOptions.ignores.map(negateGlob);
       const micromatch = require("micromatch");
       filteredFiles = micromatch(
