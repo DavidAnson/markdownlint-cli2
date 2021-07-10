@@ -93,7 +93,9 @@ const requireConfig = (dir, name, noRequire) => {
 
 // Process command-line arguments and return glob patterns
 const processArgv = (argv) => {
-  const globPatterns = argv.map((glob) => glob.replace(/^#/u, "!"));
+  const globPatterns = argv.map(
+    (glob) => glob.replace(/^#/u, "!").replace(/\\(?![$()*+?[\]^])/gu, "/")
+  );
   if ((globPatterns.length === 1) && (globPatterns[0] === ".")) {
     // Substitute a more reasonable pattern
     globPatterns[0] = dotOnlySubstitute;
@@ -132,9 +134,9 @@ Configuration via:
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules, so quoting glob arguments is recommended
 - Shells that expand globs do not support negated patterns (!node_modules), so quoting negated globs is required
-- Some Windows shells do not handle single-quoted (') arguments correctly, so double-quotes (") are recommended
-- Some UNIX shells handle exclamation (!) in double-quotes specially, so hashtag (#) is recommended for negated globs
-- Some shells use backslash (\\) to escape special characters, so forward slash (/) is the recommended path separator
+- Some Windows shells do not handle single-quoted (') arguments correctly, so double-quote (") is recommended
+- Some UNIX shells handle exclamation (!) in double-quotes, so hashtag (#) is recommended for negated globs
+- The path separator is forward slash (/) on all platforms; backslash (\\) is automatically converted on Windows
 
 Therefore, the most compatible glob syntax for cross-platform support:
 $ ${name} "**/*.md" "#node_modules"`

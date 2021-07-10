@@ -2,6 +2,7 @@
 
 "use strict";
 
+const path = require("path");
 const test = require("ava").default;
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 
@@ -220,4 +221,27 @@ test("extension scenario, empty", (t) => {
     }
   }).
     then((exitCode) => t.is(exitCode, 0));
+});
+
+test("backslash translation", (t) => {
+  t.plan(2);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 24);
+  };
+  return markdownlintCli2({
+    "directory": __dirname,
+    "argv": [
+      "./markdownlint-json/viewme.md",
+      "markdownlint-jsonc/viewme.md",
+      path.join(__dirname, "markdownlint-cli2-jsonc/viewme.md"),
+      ".\\markdownlint-yml\\viewme.md",
+      "markdownlint-yaml\\viewme.md",
+      path.join(__dirname, "markdownlint-cli2-yaml\\viewme.md")
+    ],
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatter ] ]
+    }
+  }).
+    then((exitCode) => t.is(exitCode, 1));
 });
