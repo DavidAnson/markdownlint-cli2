@@ -27,7 +27,7 @@
     "test-watch": "git ls-files | entr npm run test"
   },
   "engines": {
-    "node": ">=10.17.0"
+    "node": ">=12"
   },
   "files": [
     "append-to-array.js",
