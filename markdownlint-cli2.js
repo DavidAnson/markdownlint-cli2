@@ -132,11 +132,11 @@ Configuration via:
 - .markdownlint.js
 
 Cross-platform compatibility:
-- UNIX and Windows shells expand globs according to different rules, so quoting glob arguments is recommended
-- Shells that expand globs do not support negated patterns (!node_modules), so quoting negated globs is required
-- Some Windows shells do not handle single-quoted (') arguments correctly, so double-quote (") is recommended
-- Some UNIX shells handle exclamation (!) in double-quotes, so hashtag (#) is recommended for negated globs
-- The path separator is forward slash (/) on all platforms; backslash (\\) is automatically converted on Windows
+- UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended
+- Some Windows shells don't handle single-quoted (') arguments well; double-quote (") is recommended
+- Shells that expand globs do not support negated patterns (!node_modules); quoting is required here
+- Some UNIX shells parse exclamation (!) in double-quotes; hashtag (#) is recommended in these cases
+- The path separator is forward slash (/) on all platforms; backslash (\\) is automatically converted
 
 Therefore, the most compatible glob syntax for cross-platform support:
 $ ${name} "**/*.md" "#node_modules"`
