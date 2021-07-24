@@ -51,7 +51,7 @@
     "c8": "~7.7.3",
     "cpy": "~8.1.2",
     "del": "~6.0.0",
-    "eslint": "~7.30.0",
+    "eslint": "~7.31.0",
     "eslint-plugin-node": "~11.1.0",
     "eslint-plugin-unicorn": "~34.0.1",
     "execa": "~5.1.1",
