@@ -275,7 +275,7 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 
 ```yaml
 - repo: https://github.com/DavidAnson/markdownlint-cli2
-  rev: v0.1.3
+  rev: v0.2.0
   hooks:
   - id: markdownlint-cli2
 ```
@@ -303,6 +303,7 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
   - 0.1.1 - Restore previous use of `require`
   - 0.1.2 - Update use of `require` to be more flexible
   - 0.1.3 - Support rule collections
+- 0.2.0 - Improve handling of Windows paths using backslash
 
 <!-- markdownlint-disable line-length -->
 
