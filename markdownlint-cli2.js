@@ -420,10 +420,10 @@ const lintFiles = (dirInfos, fileContents) => {
   for (const dirInfo of dirInfos) {
     const { dir, files, markdownlintConfig, markdownlintOptions } = dirInfo;
     // Filter file/string inputs to only those in the dirInfo
-    const filteredFileContents = {};
+    const filteredStrings = {};
     for (const file in fileContents) {
       if (files.includes(file)) {
-        filteredFileContents[file] = fileContents[file];
+        filteredStrings[file] = fileContents[file];
       }
     }
     let filteredFiles = files.filter(
@@ -434,14 +434,14 @@ const lintFiles = (dirInfos, fileContents) => {
       const ignores = markdownlintOptions.ignores.map(negateGlob);
       const micromatch = require("micromatch");
       filteredFiles = micromatch(
-        files.map((file) => path.posix.relative(dir, file)),
+        filteredFiles.map((file) => path.posix.relative(dir, file)),
         ignores
       ).map((file) => path.posix.join(dir, file));
     }
     // Create markdownlint options object
     const options = {
       "files": filteredFiles,
-      "strings": filteredFileContents,
+      "strings": filteredStrings,
       "config": markdownlintConfig || markdownlintOptions.config,
       "customRules": markdownlintOptions.customRules,
       "frontMatter": markdownlintOptions.frontMatter

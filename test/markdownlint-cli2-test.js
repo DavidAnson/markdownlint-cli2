@@ -139,6 +139,30 @@ test("alternate file contents", (t) => {
     then((exitCode) => t.is(exitCode, 1));
 });
 
+test("alternate file contents with ignores", (t) => {
+  t.plan(2);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 4);
+  };
+  const argv = [
+    "./test/markdownlint-cli2-jsonc-example/viewme.md",
+    "./test/markdownlint-cli2-yaml-example/viewme.md"
+  ];
+  const fileContents = {
+    "./test/markdownlint-cli2-jsonc-example/viewme.md": "# Heading"
+  };
+  return markdownlintCli2({
+    argv,
+    fileContents,
+    "optionsOverride": {
+      "fix": false,
+      "outputFormatters": [ [ outputFormatter ] ]
+    }
+  }).
+    then((exitCode) => t.is(exitCode, 1));
+});
+
 test("extension scenario, no changes", (t) => {
   t.plan(2);
   const outputFormatter = (options) => {
