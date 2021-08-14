@@ -256,8 +256,8 @@ async (baseDir, globPatterns, dirToDirInfo, noRequire) => {
     "absolute": true,
     "cwd": baseDir
   };
-  for await (const file of globby.stream(globPatterns, globbyOptions)) {
-    // @ts-ignore
+  const files = await globby(globPatterns, globbyOptions);
+  for (const file of files) {
     const dir = path.posix.dirname(file);
     getAndProcessDirInfo(tasks, dirToDirInfo, dir, noRequire, (dirInfo) => {
       dirInfo.files.push(file);
