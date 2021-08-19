@@ -254,9 +254,25 @@ async (baseDir, globPatterns, dirToDirInfo, noRequire) => {
   const tasks = [];
   const globbyOptions = {
     "absolute": true,
-    "cwd": baseDir
+    "cwd": baseDir,
+    "expandDirectories": false
   };
-  const files = await globby(globPatterns, globbyOptions);
+  // Manually expand directories to avoid globby call to dir-glob.sync
+  const expandedDirectories = await Promise.all(
+    globPatterns.map((globPattern) => {
+      const globPath = path.resolve(
+        baseDir,
+        globPattern[0] === "!" ? globPattern.slice(1) : globPattern
+      );
+      return fs.stat(globPath).
+        then((stats) => (stats.isDirectory()
+          ? path.posix.join(globPattern, "**")
+          : globPattern)).
+        catch(() => globPattern);
+    })
+  );
+  // Process glob patterns
+  const files = await globby(expandedDirectories, globbyOptions);
   for (const file of files) {
     const dir = path.posix.dirname(file);
     getAndProcessDirInfo(tasks, dirToDirInfo, dir, noRequire, (dirInfo) => {
