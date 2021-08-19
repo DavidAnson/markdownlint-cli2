@@ -514,6 +514,13 @@ const testCases =
   });
 
   testCase({
+    "name": "nested-directories",
+    "args": [ "**", "!a", "a/b", "#a/b/c", "a/b/c/d" ],
+    "exitCode": 1,
+    "cwd": "nested-directories"
+  });
+
+  testCase({
     "name": "nested-options-config",
     "args": [ "**/*.md" ],
     "exitCode": 1

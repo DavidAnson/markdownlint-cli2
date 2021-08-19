@@ -1,0 +1,4 @@
+markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)
+Finding: ** !a a/b !a/b/c a/b/c/d
+Linting: 3 file(s)
+Summary: 15 error(s)
