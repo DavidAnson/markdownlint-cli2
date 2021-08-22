@@ -18,7 +18,14 @@ const testCases =
 
   const testCase = (options) => {
     const { name, script, args, exitCode, cwd, env, stderrRe, pre, post,
-      noRequire } = options;
+      noRequire, usesEnv, usesScript } = options;
+    if (
+      (noRequire && !includeNoRequire) ||
+      (usesEnv && !includeEnv) ||
+      (usesScript && !includeScript)
+    ) {
+      return;
+    }
     test(`${name} (${host})`, (t) => {
       t.plan(5);
       const directory = path.join(__dirname, cwd || name);
@@ -360,26 +367,24 @@ const testCases =
     "post": deleteDirectory
   });
 
-  if (includeScript) {
+  testCase({
+    "name": "fix-default-true",
+    "script": "markdownlint-cli2-fix.js",
+    "args": [ "**/*.md" ],
+    "exitCode": 1,
+    "cwd": directoryName("fix-default-true"),
+    "pre": copyDirectory,
+    "post": deleteDirectory,
+    "usesScript": true
+  });
 
-    testCase({
-      "name": "fix-default-true",
-      "script": "markdownlint-cli2-fix.js",
-      "args": [ "**/*.md" ],
-      "exitCode": 1,
-      "cwd": directoryName("fix-default-true"),
-      "pre": copyDirectory,
-      "post": deleteDirectory
-    });
-
-    testCase({
-      "name": "fix-default-true-override",
-      "script": "markdownlint-cli2-fix.js",
-      "args": [ "**/*.md" ],
-      "exitCode": 1
-    });
-
-  }
+  testCase({
+    "name": "fix-default-true-override",
+    "script": "markdownlint-cli2-fix.js",
+    "args": [ "**/*.md" ],
+    "exitCode": 1,
+    "usesScript": true
+  });
 
   testCase({
     "name": "customRules",
@@ -484,28 +489,26 @@ const testCases =
     "exitCode": 1
   });
 
-  if (includeEnv) {
+  testCase({
+    "name": "formatter-pretty",
+    "args": [ "**/*.md" ],
+    "env": {
+      "FORCE_COLOR": 1,
+      "FORCE_HYPERLINK": 1
+    },
+    "exitCode": 1,
+    "usesEnv": true
+  });
 
-    testCase({
-      "name": "formatter-pretty",
-      "args": [ "**/*.md" ],
-      "env": {
-        "FORCE_COLOR": 1,
-        "FORCE_HYPERLINK": 1
-      },
-      "exitCode": 1
-    });
-
-    testCase({
-      "name": "formatter-pretty-appendLink",
-      "args": [ "**/*.md" ],
-      "env": {
-        "FORCE_COLOR": 1
-      },
-      "exitCode": 1
-    });
-
-  }
+  testCase({
+    "name": "formatter-pretty-appendLink",
+    "args": [ "**/*.md" ],
+    "env": {
+      "FORCE_COLOR": 1
+    },
+    "exitCode": 1,
+    "usesEnv": true
+  });
 
   testCase({
     "name": "nested-files",
@@ -526,41 +529,38 @@ const testCases =
     "exitCode": 1
   });
 
-  if (includeNoRequire) {
+  testCase({
+    "name": "markdownlint-js-no-require",
+    "args": [ "**/*.md" ],
+    "exitCode": 1,
+    "cwd": "markdownlint-js",
+    "noRequire": true
+  });
 
-    testCase({
-      "name": "markdownlint-js-no-require",
-      "args": [ "**/*.md" ],
-      "exitCode": 1,
-      "cwd": "markdownlint-js",
-      "noRequire": true
-    });
+  testCase({
+    "name": "markdownlint-cli2-js-no-require",
+    "args": [ "**/*.md" ],
+    "exitCode": 1,
+    "cwd": "markdownlint-cli2-js",
+    "noRequire": true
+  });
 
-    testCase({
-      "name": "markdownlint-cli2-js-no-require",
-      "args": [ "**/*.md" ],
-      "exitCode": 1,
-      "cwd": "markdownlint-cli2-js",
-      "noRequire": true
-    });
+  testCase({
+    "name": "customRules-no-require",
+    "args": [ "**/*.md" ],
+    "exitCode": 1,
+    "cwd": "customRules",
+    "noRequire": true
+  });
 
-    testCase({
-      "name": "customRules-no-require",
-      "args": [ "**/*.md" ],
-      "exitCode": 1,
-      "cwd": "customRules",
-      "noRequire": true
-    });
+  testCase({
+    "name": "markdownItPlugins-no-require",
+    "args": [ "**/*.md" ],
+    "exitCode": 1,
+    "cwd": "markdownItPlugins",
+    "noRequire": true
+  });
 
-    testCase({
-      "name": "markdownItPlugins-no-require",
-      "args": [ "**/*.md" ],
-      "exitCode": 1,
-      "cwd": "markdownItPlugins",
-      "noRequire": true
-    });
-
-  }
 };
 
 module.exports = testCases;
