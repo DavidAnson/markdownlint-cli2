@@ -1,3 +1,4 @@
+multiple/multiple.md:3:15 MD044/proper-names Proper names should have the correct capitalization [Expected: SMILE; Actual: smile]
 multiple/multiple.md:5:13 MD044/proper-names Proper names should have the correct capitalization [Expected: FROWNING; Actual: frowning]
 multiple/multiple.md:15 MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]
 single/single.md:15 MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]
