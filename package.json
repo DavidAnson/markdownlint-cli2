@@ -24,7 +24,8 @@
     "lint-watch": "git ls-files | entr npm run lint",
     "test": "ava test/append-to-array-test.js test/markdownlint-cli2-test.js test/markdownlint-cli2-test-exec.js test/markdownlint-cli2-test-main.js test/merge-options-test.js test/resolve-and-require-test.js",
     "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 npm test",
-    "test-watch": "git ls-files | entr npm run test"
+    "test-watch": "git ls-files | entr npm run test",
+    "build-container": "docker build -t markdownlint-cli2:$SEMVAR -f docker/Dockerfile . && docker tag markdownlint-cli2:$SEMVAR markdownlint-cli2:latest"
   },
   "engines": {
     "node": ">=12"
