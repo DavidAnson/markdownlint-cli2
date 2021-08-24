@@ -26,7 +26,8 @@
     "test": "ava test/append-to-array-test.js test/markdownlint-cli2-test.js test/markdownlint-cli2-test-exec.js test/markdownlint-cli2-test-main.js test/merge-options-test.js test/resolve-and-require-test.js",
     "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 npm test",
     "test-watch": "git ls-files | entr npm run test",
-    "build-container": "docker build -t DavidAnson/markdownlint-cli2:$SEMVAR -f docker/Dockerfile . && docker tag DavidAnson/markdownlint-cli2:$SEMVAR DavidAnson/markdownlint-cli2:latest"
+    "build-container": "docker build -t davidanson/markdownlint-cli2:$SEMVAR -f docker/Dockerfile . && docker tag davidanson/markdownlint-cli2:$SEMVAR davidanson/markdownlint-cli2:latest",
+    "publish-container": "docker push davidanson/markdownlint-cli2:$SEMVAR && docker push davidanson/markdownlint-cli2:latest"
   },
   "engines": {
     "node": ">=12"
