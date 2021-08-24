@@ -28,6 +28,14 @@ jobs:
     - name: Run All Validations
       if: ${{ matrix.node-version != '10.x' && matrix.node-version != '12.x' }}
       run: npm run ci
+    - name: Lint Dockerfile
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      run: |
+        sudo apt-get -qq update && sudo apt-get -qq -y --no-install-recommends install ca-certificates curl jq
+        LATEST_RELEASE=$(curl -L -s -H "Accept: application/json" "https://github.com/hadolint/hadolint/releases/latest" | jq -r '.tag_name')
+        curl -sL -o hadolint "https://github.com/hadolint/hadolint/releases/download/${LATEST_RELEASE}/hadolint-Linux-x86_64"
+        sudo chmod +x hadolint
+        ./hadolint docker/Dockerfile 
     - name: Run Tests Only
       if: ${{ matrix.node-version == '10.x' || matrix.node-version == '12.x' }}
       run: npm run test
