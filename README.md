@@ -20,6 +20,9 @@ As a development dependency of the current package:
 npm install markdownlint-cli2 --save-dev
 ```
 
+Or skip the installation and [use the container image](#container-image)
+available on [DockerHub](https://hub.docker.com/r/davidanson/markdownlint-cli2).
+
 ## Overview
 
 - [`markdownlint`][markdownlint] is a library for linting [Markdown][markdown]/
@@ -40,6 +43,8 @@ npm install markdownlint-cli2 --save-dev
 - More about the [motivation for `markdownlint-cli2`][markdownlint-cli2-blog].
 
 ## Use
+
+### Command line
 
 ```text
 markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)
@@ -99,6 +104,27 @@ markdownlint-cli2-fix "**/*.md" "#node_modules"
 
 Other than the default behavior of the `fix` property (which can be overridden
 in both cases), these two commands behave identically.
+
+### Container Image
+
+<!-- markdownlint-disable-next-line MD013 -->
+You can also use the container image [`davidanson/markdownlint-cli2`](https://hub.docker.com/r/davidanson/markdownlint-cli2):
+
+```bash
+docker run -w /workdir -v $PWD:/workdir davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
+```
+
+Just like when calling the [command line](#command-line), glob
+patterns can be passed as arguments. `markdownlint-cli2` will
+execute within the `/workdir`
+[bind mount](https://docs.docker.com/storage/bind-mounts/).
+
+Should you want to call the `markdownlint-cli2-fix` command instead,
+you can do so by explicitly specifying it via Docker's `--entrypoint` flag:
+
+```bash
+docker run -w /workdir -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
+```
 
 ### Exit Codes
 
