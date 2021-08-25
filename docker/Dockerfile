@@ -1,9 +1,9 @@
 FROM node:lts-alpine AS build
 WORKDIR /pack
-COPY --chown=1000 . .
+COPY . .
 RUN npm pack
 
-FROM node:lts-alpine AS prod
+FROM node:lts-alpine
 # hadolint ignore=DL3010
 COPY --from=build /pack/markdownlint-cli2-*.tgz /
 RUN npm install --global --no-package-lock --production markdownlint-cli2-*.tgz && \
