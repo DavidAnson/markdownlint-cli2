@@ -4,6 +4,7 @@
 
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 const testCases = require("./markdownlint-cli2-test-cases");
+const FsMock = require("./fs-mock");
 
 const linesEndingWithNewLine =
   (lines) => lines.map((line) => `${line}\n`).join("");
@@ -12,11 +13,12 @@ const invoke = (directory, args, noRequire) => () => {
   const stdouts = [];
   const stderrs = [];
   return markdownlintCli2({
-    directory,
+    "directory": "/mock",
     "argv": args,
     "logMessage": (msg) => stdouts.push(msg),
     "logError": (msg) => stderrs.push(msg),
-    noRequire
+    noRequire,
+    "fs": new FsMock(directory)
   }).
     then(
       (exitCode) => exitCode,
@@ -32,4 +34,4 @@ const invoke = (directory, args, noRequire) => () => {
     }));
 };
 
-testCases("main", invoke, true, false, false, true);
+testCases("fs", invoke, true, false, false, false);

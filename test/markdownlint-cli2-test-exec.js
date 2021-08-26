@@ -17,4 +17,4 @@ const invoke = (directory, args, noRequire, env, script) => () => execa.node(
   }
 );
 
-testCases("exec", invoke, false, true, true);
+testCases("exec", invoke, false, true, true, true);
