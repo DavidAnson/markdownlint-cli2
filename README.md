@@ -21,7 +21,8 @@ npm install markdownlint-cli2 --save-dev
 ```
 
 Or skip the installation and [use the container image](#container-image)
-available on [DockerHub](https://hub.docker.com/r/davidanson/markdownlint-cli2).
+available on
+[DockerHub as davidanson/markdownlint-cli2][docker-hub-markdownlint-cli2].
 
 ## Overview
 
@@ -44,7 +45,7 @@ available on [DockerHub](https://hub.docker.com/r/davidanson/markdownlint-cli2).
 
 ## Use
 
-### Command line
+### Command Line
 
 ```text
 markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)
@@ -107,17 +108,17 @@ in both cases), these two commands behave identically.
 
 ### Container Image
 
-<!-- markdownlint-disable-next-line MD013 -->
-You can also use the container image [`davidanson/markdownlint-cli2`](https://hub.docker.com/r/davidanson/markdownlint-cli2):
+You can also use the container image
+[`davidanson/markdownlint-cli2`][docker-hub-markdownlint-cli2]:
 
 ```bash
 docker run -w /workdir -v $PWD:/workdir davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
 ```
 
 Just like when calling the [command line](#command-line), glob
-patterns can be passed as arguments. `markdownlint-cli2` will
+patterns are passed as arguments. `markdownlint-cli2` will
 execute within the `/workdir`
-[bind mount](https://docs.docker.com/storage/bind-mounts/).
+[bind mount][docker-bind-mounts].
 
 Should you want to call the `markdownlint-cli2-fix` command instead,
 you can do so by explicitly specifying it via Docker's `--entrypoint` flag:
@@ -335,6 +336,8 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 
 [commonmark]: https://commonmark.org/
 [commonjs-module]: https://nodejs.org/api/modules.html#modules_modules_commonjs_modules
+[docker-bind-mounts]: https://docs.docker.com/storage/bind-mounts/
+[docker-hub-markdownlint-cli2]: https://hub.docker.com/r/davidanson/markdownlint-cli2
 [front-matter]: https://jekyllrb.com/docs/frontmatter/
 [globby]: https://www.npmjs.com/package/globby
 [html-comment]: https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started
