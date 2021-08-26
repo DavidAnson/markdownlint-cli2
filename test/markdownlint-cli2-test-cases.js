@@ -14,14 +14,15 @@ const noop = () => null;
 const empty = () => "";
 
 const testCases =
-(host, invoke, includeNoRequire, includeEnv, includeScript) => {
+(host, invoke, includeNoRequire, includeEnv, includeScript, includeRequire) => {
 
   const testCase = (options) => {
     const { name, script, args, exitCode, cwd, env, stderrRe, pre, post,
-      noRequire, usesEnv, usesScript } = options;
+      noRequire, usesEnv, usesRequire, usesScript } = options;
     if (
       (noRequire && !includeNoRequire) ||
       (usesEnv && !includeEnv) ||
+      (usesRequire && !includeRequire) ||
       (usesScript && !includeScript)
     ) {
       return;
@@ -226,7 +227,8 @@ const testCases =
   testCase({
     "name": "markdownlint-js",
     "args": [ "**/*.md" ],
-    "exitCode": 1
+    "exitCode": 1,
+    "usesRequire": true
   });
 
   testCase({
@@ -253,7 +255,8 @@ const testCases =
     "name": "markdownlint-js-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unexpected end of input/u
+    "stderrRe": /Unexpected end of input/u,
+    "usesRequire": true
   });
 
   testCase({
@@ -268,7 +271,8 @@ const testCases =
     "exitCode": 1,
     "cwd": directoryName("markdownlint-cli2-jsonc-example"),
     "pre": copyDirectory,
-    "post": deleteDirectory
+    "post": deleteDirectory,
+    "usesRequire": true
   });
 
   testCase({
@@ -290,7 +294,8 @@ const testCases =
     "exitCode": 1,
     "cwd": directoryName("markdownlint-cli2-yaml-example"),
     "pre": copyDirectory,
-    "post": deleteDirectory
+    "post": deleteDirectory,
+    "usesRequire": true
   });
 
   testCase({
@@ -303,14 +308,16 @@ const testCases =
   testCase({
     "name": "markdownlint-cli2-js",
     "args": [ "**/*.md" ],
-    "exitCode": 1
+    "exitCode": 1,
+    "usesRequire": true
   });
 
   testCase({
     "name": "markdownlint-cli2-js-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unexpected end of input/u
+    "stderrRe": /Unexpected end of input/u,
+    "usesRequire": true
   });
 
   testCase({
@@ -389,46 +396,53 @@ const testCases =
   testCase({
     "name": "customRules",
     "args": [ "**/*.md" ],
-    "exitCode": 1
+    "exitCode": 1,
+    "usesRequire": true
   });
 
   testCase({
     "name": "customRules-pre-imported",
     "args": [ "**/*.md" ],
-    "exitCode": 1
+    "exitCode": 1,
+    "usesRequire": true
   });
 
   testCase({
     "name": "customRules-missing",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Cannot find module 'missing-package'/u
+    "stderrRe": /Cannot find module 'missing-package'/u,
+    "usesRequire": true
   });
 
   testCase({
     "name": "customRules-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Property 'names' of custom rule at index 0 is incorrect\./u
+    "stderrRe": /Property 'names' of custom rule at index 0 is incorrect\./u,
+    "usesRequire": true
   });
 
   testCase({
     "name": "customRules-throws",
     "args": [ "**/*.md" ],
-    "exitCode": 1
+    "exitCode": 1,
+    "usesRequire": true
   });
 
   testCase({
     "name": "markdownItPlugins",
     "args": [ "**/*.md" ],
-    "exitCode": 1
+    "exitCode": 1,
+    "usesRequire": true
   });
 
   testCase({
     "name": "markdownItPlugins-missing",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Cannot find module 'missing-package'/u
+    "stderrRe": /Cannot find module 'missing-package'/u,
+    "usesRequire": true
   });
 
   testCase({
@@ -437,7 +451,8 @@ const testCases =
     "exitCode": 1,
     "cwd": directoryName("outputFormatters"),
     "pre": copyDirectory,
-    "post": deleteDirectory
+    "post": deleteDirectory,
+    "usesRequire": true
   });
 
   testCase({
@@ -446,7 +461,8 @@ const testCases =
     "exitCode": 1,
     "cwd": directoryName("outputFormatters-npm"),
     "pre": copyDirectory,
-    "post": deleteDirectory
+    "post": deleteDirectory,
+    "usesRequire": true
   });
 
   testCase({
@@ -455,7 +471,8 @@ const testCases =
     "exitCode": 1,
     "cwd": directoryName("outputFormatters-params"),
     "pre": copyDirectory,
-    "post": deleteDirectory
+    "post": deleteDirectory,
+    "usesRequire": true
   });
 
   testCase({
@@ -464,7 +481,8 @@ const testCases =
     "exitCode": 1,
     "cwd": directoryName("outputFormatters-pre-imported"),
     "pre": copyDirectory,
-    "post": deleteDirectory
+    "post": deleteDirectory,
+    "usesRequire": true
   });
 
   testCase({
@@ -473,20 +491,23 @@ const testCases =
     "exitCode": 0,
     "cwd": directoryName("outputFormatters-clean"),
     "pre": copyDirectory,
-    "post": deleteDirectory
+    "post": deleteDirectory,
+    "usesRequire": true
   });
 
   testCase({
     "name": "outputFormatters-missing",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Cannot find module 'missing-package'/u
+    "stderrRe": /Cannot find module 'missing-package'/u,
+    "usesRequire": true
   });
 
   testCase({
     "name": "formatter-summarize",
     "args": [ "**/*.md" ],
-    "exitCode": 1
+    "exitCode": 1,
+    "usesRequire": true
   });
 
   testCase({
@@ -526,7 +547,8 @@ const testCases =
   testCase({
     "name": "nested-options-config",
     "args": [ "**/*.md" ],
-    "exitCode": 1
+    "exitCode": 1,
+    "usesRequire": true
   });
 
   testCase({

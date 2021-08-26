@@ -5,6 +5,7 @@
 const path = require("path");
 const test = require("ava").default;
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
+const FsMock = require("./fs-mock");
 
 test("name and version", (t) => {
   t.plan(2);
@@ -268,4 +269,106 @@ test("backslash translation", (t) => {
     }
   }).
     then((exitCode) => t.is(exitCode, 1));
+});
+
+test("custom fs, extension scenario for untitled", (t) => {
+  t.plan(4);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 1);
+  };
+  let accessCalls = 0;
+  const access = (file) => {
+    accessCalls++;
+    return (path.basename(file) === ".markdownlint-cli2.jsonc")
+      ? Promise.resolve()
+      : Promise.reject(new Error("No access"));
+  };
+  const readFile = (file) => {
+    t.is(path.basename(file), ".markdownlint-cli2.jsonc");
+    return Promise.resolve(JSON.stringify({
+      "config": {
+        "first-line-heading": false
+      }
+    }));
+  };
+  const writeFile = () => {
+    t.fail("writeFile called");
+  };
+  return markdownlintCli2({
+    "nonFileContents": {
+      "name": "Text"
+    },
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatter ] ]
+    },
+    "fs": {
+      "promises": {
+        access,
+        readFile,
+        writeFile
+      }
+    }
+  }).
+    then((exitCode) => {
+      t.is(exitCode, 1);
+      t.is(accessCalls, 5);
+    });
+});
+
+test("custom fs, using require(fs)", (t) => {
+  t.plan(2);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 9);
+  };
+  return markdownlintCli2({
+    "directory": "test/markdownlint-cli2-jsonc",
+    "argv": [ "**/*.md" ],
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatter ] ]
+    },
+    "fs": require("fs")
+  }).
+    then((exitCode) => {
+      t.is(exitCode, 1);
+    });
+});
+
+test("custom fs, using fsMock", (t) => {
+  t.plan(2);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 9);
+  };
+  return markdownlintCli2({
+    "directory": "/mock",
+    "argv": [ "**/*.md", "viewme.md" ],
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatter ] ]
+    },
+    "fs": new FsMock(path.join(__dirname, "markdownlint-cli2-jsonc"))
+  }).
+    then((exitCode) => {
+      t.is(exitCode, 1);
+    });
+});
+
+test("custom fs, using fsMock simulating symbolic links", (t) => {
+  t.plan(2);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 9);
+  };
+  return markdownlintCli2({
+    "directory": "/mock",
+    "argv": [ "**/*.md", "viewme.md" ],
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatter ] ]
+    },
+    "fs": new FsMock(path.join(__dirname, "markdownlint-cli2-jsonc"), true)
+  }).
+    then((exitCode) => {
+      t.is(exitCode, 1);
+    });
 });
