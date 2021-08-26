@@ -11,4 +11,6 @@ RUN npm install --global --no-package-lock --production markdownlint-cli2-*.tgz 
 
 USER node
 
+WORKDIR /workdir
+
 ENTRYPOINT ["/usr/local/bin/markdownlint-cli2"]

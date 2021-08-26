@@ -109,22 +109,32 @@ in both cases), these two commands behave identically.
 ### Container Image
 
 You can also use the container image
-[`davidanson/markdownlint-cli2`][docker-hub-markdownlint-cli2]:
+[`davidanson/markdownlint-cli2`][docker-hub-markdownlint-cli2] (e.g. as part of
+your CI pipeline):
 
 ```bash
-docker run -w /workdir -v $PWD:/workdir davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
+docker run -v $PWD:/workdir davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
 ```
 
-Just like when calling the [command line](#command-line), glob
-patterns are passed as arguments. `markdownlint-cli2` will
-execute within the `/workdir`
-[bind mount][docker-bind-mounts].
+Notes:
+
+- Just like when calling the [command line](#command-line), glob
+patterns are passed as arguments.
+- By default, `markdownlint-cli2` will execute within the `/workdir` directory
+_inside the container_. So, as shown above, [bind mount][docker-bind-mounts]
+your project's directory there.
+  - You can always specify your own working directory with docker's `-w` flag
+    and bind mount to that instead:
+
+    ```bash
+    docker run -w /myfolder -v $PWD:/myfolder davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
+    ```
 
 Should you want to call the `markdownlint-cli2-fix` command instead,
 you can do so by explicitly specifying it via Docker's `--entrypoint` flag:
 
 ```bash
-docker run -w /workdir -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
+docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
 ```
 
 ### Exit Codes
