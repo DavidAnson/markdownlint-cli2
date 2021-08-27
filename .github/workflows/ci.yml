@@ -69,4 +69,4 @@ jobs:
     container: hadolint/hadolint:latest-alpine
     steps:
     - uses: actions/checkout@v2
-      run: hadolint docker/Dockerfile
+    - run: hadolint docker/Dockerfile
