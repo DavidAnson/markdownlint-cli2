@@ -20,6 +20,9 @@ As a development dependency of the current package:
 npm install markdownlint-cli2 --save-dev
 ```
 
+Or [use the container image](#container-image) available on
+[Docker Hub as davidanson/markdownlint-cli2][docker-hub-markdownlint-cli2].
+
 ## Overview
 
 - [`markdownlint`][markdownlint] is a library for linting [Markdown][markdown]/
@@ -40,6 +43,8 @@ npm install markdownlint-cli2 --save-dev
 - More about the [motivation for `markdownlint-cli2`][markdownlint-cli2-blog].
 
 ## Use
+
+### Command Line
 
 ```text
 markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)
@@ -99,6 +104,35 @@ markdownlint-cli2-fix "**/*.md" "#node_modules"
 
 Other than the default behavior of the `fix` property (which can be overridden
 in both cases), these two commands behave identically.
+
+### Container Image
+
+A container image [`davidanson/markdownlint-cli2`][docker-hub-markdownlint-cli2]
+can also be used (e.g., as part of a CI pipeline):
+
+```bash
+docker run -v $PWD:/workdir davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
+```
+
+Notes:
+
+- As when using the [command line](#command-line), glob patterns are passed as
+  arguments.
+- By default, `markdownlint-cli2` will execute within the `/workdir` directory
+  _inside the container_. So, as shown above, [bind mount][docker-bind-mounts]
+  the project's directory there.
+  - A custom working directory can be specified with Docker's `-w` flag:
+
+    ```bash
+    docker run -w /myfolder -v $PWD:/myfolder davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
+    ```
+
+To invoke the `markdownlint-cli2-fix` command instead, specify it via Docker's
+`--entrypoint` flag:
+
+```bash
+docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
+```
 
 ### Exit Codes
 
@@ -309,6 +343,8 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 
 [commonmark]: https://commonmark.org/
 [commonjs-module]: https://nodejs.org/api/modules.html#modules_modules_commonjs_modules
+[docker-bind-mounts]: https://docs.docker.com/storage/bind-mounts/
+[docker-hub-markdownlint-cli2]: https://hub.docker.com/r/davidanson/markdownlint-cli2
 [front-matter]: https://jekyllrb.com/docs/frontmatter/
 [globby]: https://www.npmjs.com/package/globby
 [html-comment]: https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started
