@@ -20,9 +20,8 @@ As a development dependency of the current package:
 npm install markdownlint-cli2 --save-dev
 ```
 
-Or skip the installation and [use the container image](#container-image)
-available on
-[DockerHub as davidanson/markdownlint-cli2][docker-hub-markdownlint-cli2].
+Or [use the container image](#container-image) available on
+[Docker Hub as davidanson/markdownlint-cli2][docker-hub-markdownlint-cli2].
 
 ## Overview
 
@@ -108,9 +107,8 @@ in both cases), these two commands behave identically.
 
 ### Container Image
 
-You can also use the container image
-[`davidanson/markdownlint-cli2`][docker-hub-markdownlint-cli2] (e.g. as part of
-your CI pipeline):
+The container image [`davidanson/markdownlint-cli2`][docker-hub-markdownlint-cli2]
+can also be used (e.g., as part of a CI pipeline):
 
 ```bash
 docker run -v $PWD:/workdir davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
@@ -118,20 +116,19 @@ docker run -v $PWD:/workdir davidanson/markdownlint-cli2:latest "**/*.md" "#node
 
 Notes:
 
-- Just like when calling the [command line](#command-line), glob
-patterns are passed as arguments.
+- As when using the [command line](#command-line), glob patterns are passed as
+  arguments.
 - By default, `markdownlint-cli2` will execute within the `/workdir` directory
-_inside the container_. So, as shown above, [bind mount][docker-bind-mounts]
-your project's directory there.
-  - You can always specify your own working directory with docker's `-w` flag
-    and bind mount to that instead:
+  _inside the container_. So, as shown above, [bind mount][docker-bind-mounts]
+  the project's directory there.
+  - A custom working directory can be specified with Docker's `-w` flag:
 
     ```bash
     docker run -w /myfolder -v $PWD:/myfolder davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
     ```
 
-Should you want to call the `markdownlint-cli2-fix` command instead,
-you can do so by explicitly specifying it via Docker's `--entrypoint` flag:
+To invoke the `markdownlint-cli2-fix` command instead, specify it via Docker's
+`--entrypoint` flag:
 
 ```bash
 docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:latest "**/*.md" "#node_modules"
