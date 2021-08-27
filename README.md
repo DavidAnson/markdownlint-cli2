@@ -107,7 +107,7 @@ in both cases), these two commands behave identically.
 
 ### Container Image
 
-The container image [`davidanson/markdownlint-cli2`][docker-hub-markdownlint-cli2]
+A container image [`davidanson/markdownlint-cli2`][docker-hub-markdownlint-cli2]
 can also be used (e.g., as part of a CI pipeline):
 
 ```bash
