@@ -118,6 +118,10 @@ Notes:
 
 - As when using the [command line](#command-line), glob patterns are passed as
   arguments.
+- This image is built on the official [Node.js Docker image][nodejs-docker].
+  Per security best practices, the [default user `node`][nodejs-docker-non-root]
+  runs with restricted permissions. If it is necessary to run as `root`, pass
+  the `-u root` option when invoking `docker`.
 - By default, `markdownlint-cli2` will execute within the `/workdir` directory
   _inside the container_. So, as shown above, [bind mount][docker-bind-mounts]
   the project's directory there.
@@ -376,6 +380,8 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 [markdownlint-rule]: https://www.npmjs.com/search?q=keywords:markdownlint-rule
 [markdownlint-yaml]: https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.yaml
 [nodejs]: https://nodejs.org/
+[nodejs-docker]: https://github.com/nodejs/docker-node
+[nodejs-docker-non-root]: https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
 [nodejs-require]: https://nodejs.org/api/modules.html#modules_require_id
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2
