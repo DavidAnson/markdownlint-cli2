@@ -170,11 +170,9 @@ test("extension scenario, no changes", (t) => {
     const { results } = options;
     t.is(Object.keys(results).length, 4);
   };
-  const directory = __dirname;
-  const argv = [ "./markdownlint-json/viewme.md" ];
   return markdownlintCli2({
-    directory,
-    argv,
+    "directory": __dirname,
+    "argv": [ "./markdownlint-json/viewme.md" ],
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatter ] ]
     }
@@ -188,15 +186,12 @@ test("extension scenario, changes", (t) => {
     const { results } = options;
     t.is(Object.keys(results).length, 1);
   };
-  const directory = __dirname;
-  const argv = [ "./markdownlint-json/viewme.md" ];
-  const fileContents = {
-    "./markdownlint-json/viewme.md": "# Title\n\n> Tagline \n\n\n"
-  };
   return markdownlintCli2({
-    directory,
-    argv,
-    fileContents,
+    "directory": __dirname,
+    "argv": [ "./markdownlint-json/viewme.md" ],
+    "fileContents": {
+      "./markdownlint-json/viewme.md": "# Title\n\n> Tagline \n\n\n"
+    },
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatter ] ]
     }
@@ -210,15 +205,12 @@ test("extension scenario, untitled", (t) => {
     const { results } = options;
     t.is(Object.keys(results).length, 2);
   };
-  const directory = __dirname;
-  const argv = [];
-  const nonFileContents = {
-    "untitled-1": "# Title\n\nText\t\n"
-  };
   return markdownlintCli2({
-    directory,
-    argv,
-    nonFileContents,
+    "directory": __dirname,
+    "argv": [],
+    "nonFileContents": {
+      "untitled-1": "# Title\n\nText\t\n"
+    },
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatter ] ]
     }
@@ -232,15 +224,12 @@ test("extension scenario, empty", (t) => {
     const { results } = options;
     t.is(Object.keys(results).length, 0);
   };
-  const directory = __dirname;
-  const argv = [];
-  const nonFileContents = {
-    "untitled-1": ""
-  };
   return markdownlintCli2({
-    directory,
-    argv,
-    nonFileContents,
+    "directory": __dirname,
+    "argv": [],
+    "nonFileContents": {
+      "untitled-1": ""
+    },
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatter ] ]
     }
