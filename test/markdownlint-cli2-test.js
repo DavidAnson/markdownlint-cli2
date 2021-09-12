@@ -308,7 +308,8 @@ test("custom fs, extension scenario for untitled", (t) => {
         readFile,
         writeFile
       }
-    }
+    },
+    "noRequire": true
   }).
     then((exitCode) => {
       t.is(exitCode, 1);
@@ -316,7 +317,7 @@ test("custom fs, extension scenario for untitled", (t) => {
     });
 });
 
-test("custom fs, using require(fs)", (t) => {
+test("custom fs, using node:fs", (t) => {
   t.plan(2);
   const outputFormatter = (options) => {
     const { results } = options;
@@ -335,6 +336,46 @@ test("custom fs, using require(fs)", (t) => {
     });
 });
 
+test("custom fs, using node:fs and noRequire=false", (t) => {
+  t.plan(2);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 10);
+  };
+  return markdownlintCli2({
+    "directory": "test/markdownlint-js",
+    "argv": [ "**/*.md" ],
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatter ] ]
+    },
+    "fs": require("fs"),
+    "noRequire": false
+  }).
+    then((exitCode) => {
+      t.is(exitCode, 1);
+    });
+});
+
+test("custom fs, using node:fs and noRequire=true", (t) => {
+  t.plan(2);
+  const outputFormatter = (options) => {
+    const { results } = options;
+    t.is(Object.keys(results).length, 13);
+  };
+  return markdownlintCli2({
+    "directory": "test/markdownlint-js",
+    "argv": [ "**/*.md" ],
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatter ] ]
+    },
+    "fs": require("fs"),
+    "noRequire": true
+  }).
+    then((exitCode) => {
+      t.is(exitCode, 1);
+    });
+});
+
 test("custom fs, using fsMock", (t) => {
   t.plan(2);
   const outputFormatter = (options) => {
@@ -347,7 +388,8 @@ test("custom fs, using fsMock", (t) => {
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatter ] ]
     },
-    "fs": new FsMock(path.join(__dirname, "markdownlint-cli2-jsonc"))
+    "fs": new FsMock(path.join(__dirname, "markdownlint-cli2-jsonc")),
+    "noRequire": true
   }).
     then((exitCode) => {
       t.is(exitCode, 1);
@@ -366,7 +408,8 @@ test("custom fs, using fsMock simulating symbolic links", (t) => {
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatter ] ]
     },
-    "fs": new FsMock(path.join(__dirname, "markdownlint-cli2-jsonc"), true)
+    "fs": new FsMock(path.join(__dirname, "markdownlint-cli2-jsonc"), true),
+    "noRequire": true
   }).
     then((exitCode) => {
       t.is(exitCode, 1);

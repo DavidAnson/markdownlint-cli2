@@ -598,11 +598,11 @@ const main = async (params) => {
     optionsOverride,
     fixDefault,
     fileContents,
-    nonFileContents
+    nonFileContents,
+    noRequire
   } = params;
   const logMessage = params.logMessage || noop;
   const logError = params.logError || noop;
-  const noRequire = Boolean(params.fs) || params.noRequire;
   const fs = params.fs || require("fs");
   const baseDirSystem =
     (directory && path.resolve(directory)) ||
