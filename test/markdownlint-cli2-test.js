@@ -214,6 +214,33 @@ test("extension scenario, no file, empty", (t) => {
     then((exitCode) => t.is(exitCode, 0));
 });
 
+test("extension scenario, ignores handled", (t) => {
+  t.plan(2);
+  return markdownlintCli2({
+    "directory": path.join(__dirname, "extension-scenario-ignores"),
+    "argv": [
+      "viewme.md",
+      "ignoreme.md",
+      "dir/viewme.md",
+      "dir/ignoreme.md",
+      "dir/subdir/viewme.md",
+      "dir/subdir/ignoreme.md"
+    ],
+    "fileContents": {
+      "viewme.md": "Heading",
+      "ignoreme.md": "Heading\n",
+      "dir/viewme.md": "Heading",
+      "dir/ignoreme.md": "Heading\n",
+      "dir/subdir/viewme.md": "Heading",
+      "dir/subdir/ignoreme.md": "Heading\n"
+    },
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatterLengthIs(t, 6) ] ]
+    }
+  }).
+    then((exitCode) => t.is(exitCode, 1));
+});
+
 test("backslash translation", (t) => {
   t.plan(2);
   return markdownlintCli2({

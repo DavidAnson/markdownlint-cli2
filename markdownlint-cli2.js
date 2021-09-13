@@ -463,23 +463,24 @@ const lintFiles = (fs, dirInfos, fileContents) => {
   for (const dirInfo of dirInfos) {
     const { dir, files, markdownlintConfig, markdownlintOptions } = dirInfo;
     // Filter file/string inputs to only those in the dirInfo
-    const filteredStrings = {};
-    for (const file in fileContents) {
-      if (files.includes(file)) {
-        filteredStrings[file] = fileContents[file];
-      }
-    }
-    let filteredFiles = files.filter(
-      (file) => fileContents[file] === undefined
-    );
+    let filesAfterIgnores = files;
     if (markdownlintOptions.ignores) {
       // eslint-disable-next-line unicorn/no-array-callback-reference
       const ignores = markdownlintOptions.ignores.map(negateGlob);
       const micromatch = require("micromatch");
-      filteredFiles = micromatch(
-        filteredFiles.map((file) => path.posix.relative(dir, file)),
+      filesAfterIgnores = micromatch(
+        files.map((file) => path.posix.relative(dir, file)),
         ignores
       ).map((file) => path.posix.join(dir, file));
+    }
+    const filteredFiles = filesAfterIgnores.filter(
+      (file) => fileContents[file] === undefined
+    );
+    const filteredStrings = {};
+    for (const file of filesAfterIgnores) {
+      if (fileContents[file] !== undefined) {
+        filteredStrings[file] = fileContents[file];
+      }
     }
     // Create markdownlint options object
     const options = {
