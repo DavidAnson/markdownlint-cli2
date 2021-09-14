@@ -230,8 +230,15 @@ const getAndProcessDirInfo =
 };
 
 // Get base markdownlint-cli2 options object
-const getBaseOptions =
-async (fs, baseDir, globPatterns, optionsDefault, fixDefault, noRequire) => {
+const getBaseOptions = async (
+  fs,
+  baseDir,
+  globPatterns,
+  optionsDefault,
+  fixDefault,
+  noGlobs,
+  noRequire
+) => {
   const tasks = [];
   const dirToDirInfo = {};
   getAndProcessDirInfo(fs, tasks, dirToDirInfo, baseDir, noRequire);
@@ -243,9 +250,11 @@ async (fs, baseDir, globPatterns, optionsDefault, fixDefault, noRequire) => {
       dirToDirInfo[baseDir].markdownlintOptions
     );
 
-  // Append any globs specified in markdownlint-cli2 configuration
-  const globs = baseMarkdownlintOptions.globs || [];
-  appendToArray(globPatterns, globs);
+  if (!noGlobs) {
+    // Append any globs specified in markdownlint-cli2 configuration
+    const globs = baseMarkdownlintOptions.globs || [];
+    appendToArray(globPatterns, globs);
+  }
 
   // Pass base ignore globs as globby patterns (best performance)
   const ignorePatterns =
@@ -600,6 +609,7 @@ const main = async (params) => {
     fixDefault,
     fileContents,
     nonFileContents,
+    noGlobs,
     noRequire
   } = params;
   const logMessage = params.logMessage || noop;
@@ -622,6 +632,7 @@ const main = async (params) => {
       globPatterns,
       optionsDefault,
       fixDefault,
+      noGlobs,
       noRequire
     );
   if ((globPatterns.length === 0) && !nonFileContents) {

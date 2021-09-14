@@ -241,6 +241,28 @@ test("extension scenario, ignores handled", (t) => {
     then((exitCode) => t.is(exitCode, 1));
 });
 
+test("extension scenario, globs ignored", (t) => {
+  t.plan(2);
+  return markdownlintCli2({
+    "directory": path.join(__dirname, "extension-scenario-globs"),
+    "argv": [
+      "viewme.md",
+      "dir/viewme.md",
+      "dir/subdir/viewme.md"
+    ],
+    "fileContents": {
+      "viewme.md": "Heading",
+      "dir/viewme.md": "Heading",
+      "dir/subdir/viewme.md": "Heading"
+    },
+    "noGlobs": true,
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatterLengthIs(t, 6) ] ]
+    }
+  }).
+    then((exitCode) => t.is(exitCode, 1));
+});
+
 test("backslash translation", (t) => {
   t.plan(2);
   return markdownlintCli2({
