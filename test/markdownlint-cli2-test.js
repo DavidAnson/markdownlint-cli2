@@ -324,6 +324,28 @@ test("custom fs, extension scenario for untitled", (t) => {
     });
 });
 
+test("custom fs, extension scenario with exception", (t) => {
+  t.plan(1);
+  return markdownlintCli2({
+    "argv": [ "unused" ],
+    "fs": {
+      "promises": {
+        "access": () => Promise.reject(new Error("No access")),
+        "stat": () => Promise.reject(new Error("No stat"))
+      },
+      "access": null,
+      "lstat": null,
+      "stat": null,
+      "readdir": null,
+      "readFile": null
+    },
+    "noErrors": true
+  }).
+    then((exitCode) => {
+      t.is(exitCode, 0);
+    });
+});
+
 test("custom fs, using node:fs", (t) => {
   t.plan(2);
   return markdownlintCli2({

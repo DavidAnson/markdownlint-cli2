@@ -271,7 +271,7 @@ const getBaseOptions = async (
 
 // Enumerate files from globs and build directory infos
 const enumerateFiles =
-async (fs, baseDir, globPatterns, dirToDirInfo, noRequire) => {
+async (fs, baseDir, globPatterns, dirToDirInfo, noErrors, noRequire) => {
   const tasks = [];
   const globbyOptions = {
     "absolute": true,
@@ -279,6 +279,9 @@ async (fs, baseDir, globPatterns, dirToDirInfo, noRequire) => {
     "expandDirectories": false,
     fs
   };
+  if (noErrors) {
+    globbyOptions.suppressErrors = true;
+  }
   // Manually expand directories to avoid globby call to dir-glob.sync
   const expandedDirectories = await Promise.all(
     globPatterns.map((globPattern) => {
@@ -357,9 +360,22 @@ const enumerateParents = async (fs, baseDir, dirToDirInfo, noRequire) => {
 
 // Create directory info objects by enumerating file globs
 const createDirInfos =
-async (fs, baseDir, globPatterns, dirToDirInfo, optionsOverride, noRequire) => {
-  await enumerateFiles(fs, baseDir, globPatterns, dirToDirInfo, noRequire);
-  await enumerateParents(fs, baseDir, dirToDirInfo, noRequire);
+// eslint-disable-next-line max-len
+async (fs, baseDir, globPatterns, dirToDirInfo, optionsOverride, noErrors, noRequire) => {
+  await enumerateFiles(
+    fs,
+    baseDir,
+    globPatterns,
+    dirToDirInfo,
+    noErrors,
+    noRequire
+  );
+  await enumerateParents(
+    fs,
+    baseDir,
+    dirToDirInfo,
+    noRequire
+  );
 
   // Merge file lists with identical configuration
   const dirs = Object.keys(dirToDirInfo);
@@ -609,6 +625,7 @@ const main = async (params) => {
     fixDefault,
     fileContents,
     nonFileContents,
+    noErrors,
     noGlobs,
     noRequire
   } = params;
@@ -666,6 +683,7 @@ const main = async (params) => {
       globPatterns,
       dirToDirInfo,
       optionsOverride,
+      noErrors,
       noRequire
     );
   // Output linting status
