@@ -1,6 +1,8 @@
 {
   "ignores": [
     "*.md",
-    "dir*/*/*.md"
+    "dir*/*/*.md",
+    "dir7",
+    "dir8/subdir"
   ]
 }

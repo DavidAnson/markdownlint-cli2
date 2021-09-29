@@ -285,7 +285,7 @@ async (fs, baseDir, globPatterns, dirToDirInfo, noErrors, noRequire) => {
   // Manually expand directories to avoid globby call to dir-glob.sync
   const expandedDirectories = await Promise.all(
     globPatterns.map((globPattern) => {
-      const globPath = path.resolve(
+      const globPath = path.posix.join(
         baseDir,
         globPattern[0] === "!" ? globPattern.slice(1) : globPattern
       );
