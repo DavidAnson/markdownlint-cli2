@@ -261,7 +261,6 @@ const getBaseOptions = async (
     // eslint-disable-next-line unicorn/no-array-callback-reference
     (baseMarkdownlintOptions.ignores || []).map(negateGlob);
   appendToArray(globPatterns, ignorePatterns);
-  delete baseMarkdownlintOptions.ignores;
 
   return {
     baseMarkdownlintOptions,
@@ -489,7 +488,10 @@ const lintFiles = (fs, dirInfos, fileContents) => {
     const { dir, files, markdownlintConfig, markdownlintOptions } = dirInfo;
     // Filter file/string inputs to only those in the dirInfo
     let filesAfterIgnores = files;
-    if (markdownlintOptions.ignores) {
+    if (
+      markdownlintOptions.ignores &&
+      (markdownlintOptions.ignores.length > 0)
+    ) {
       // eslint-disable-next-line unicorn/no-array-callback-reference
       const ignores = markdownlintOptions.ignores.map(negateGlob);
       const micromatch = require("micromatch");

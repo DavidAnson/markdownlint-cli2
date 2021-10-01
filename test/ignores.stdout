@@ -1,4 +1,4 @@
 markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)
 Finding: **/*.md **/*.markdown !*.md !dir*/*/*.md !dir7 !dir8/subdir
-Linting: 9 file(s)
-Summary: 11 error(s)
+Linting: 13 file(s)
+Summary: 21 error(s)

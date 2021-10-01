@@ -216,24 +216,47 @@ test("extension scenario, no file, empty", (t) => {
 
 test("extension scenario, ignores handled", (t) => {
   t.plan(2);
+  const fileContents = {
+    "viewme.md": "Heading",
+    "ignoreme.md": "Heading\n",
+    "dir/viewme.md": "Heading",
+    "dir/ignoreme.md": "Heading\n",
+    "dir/subdir/viewme.md": "Heading",
+    "dir/subdir/ignoreme.md": "Heading\n"
+  };
+  const argv = Object.keys(fileContents);
   return markdownlintCli2({
     "directory": path.join(__dirname, "extension-scenario-ignores"),
-    "argv": [
-      "viewme.md",
-      "ignoreme.md",
-      "dir/viewme.md",
-      "dir/ignoreme.md",
-      "dir/subdir/viewme.md",
-      "dir/subdir/ignoreme.md"
-    ],
-    "fileContents": {
+    argv,
+    fileContents,
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatterLengthIs(t, 6) ] ]
+    }
+  }).
+    then((exitCode) => t.is(exitCode, 1));
+});
+
+test("extension scenario, ignores handled, absolute paths", (t) => {
+  t.plan(2);
+  const directory = path.join(__dirname, "extension-scenario-ignores");
+  const fileContents = Object.fromEntries(
+    Object.entries({
       "viewme.md": "Heading",
       "ignoreme.md": "Heading\n",
       "dir/viewme.md": "Heading",
       "dir/ignoreme.md": "Heading\n",
       "dir/subdir/viewme.md": "Heading",
       "dir/subdir/ignoreme.md": "Heading\n"
-    },
+    }).map((entry) => [
+      path.resolve(directory, entry[0]),
+      entry[1]
+    ])
+  );
+  const argv = Object.keys(fileContents);
+  return markdownlintCli2({
+    directory,
+    argv,
+    fileContents,
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatterLengthIs(t, 6) ] ]
     }
