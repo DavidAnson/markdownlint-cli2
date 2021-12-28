@@ -27,6 +27,7 @@ dir/subdir3/info.md:3 every-n-lines Rule that reports an error every N lines [Li
 dir/subdir3/info.md:4 MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]
 dir2/hr.md:3 sample-rule Sample rule [Sample error for hr]
 dir3/hr.md:1 first-line Rule that reports an error for the first line
+dir3/hr.md:2 second-line Rule that reports an error for the second line
 dir3/hr.md:3 every-n-lines Rule that reports an error every N lines [Line number 3]
 dir3/hr.md:3 sample-rule Sample rule [Sample error for hr]
 viewme.md:1 first-line Rule that reports an error for the first line
