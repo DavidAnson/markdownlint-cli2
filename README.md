@@ -123,7 +123,7 @@ Notes:
   runs with restricted permissions. If it is necessary to run as `root`, pass
   the `-u root` option when invoking `docker`.
 - By default, `markdownlint-cli2` will execute within the `/workdir` directory
-  _inside the container_. So, as shown above, [bind mount][docker-bind-mounts]
+  *inside the container*. So, as shown above, [bind mount][docker-bind-mounts]
   the project's directory there.
   - A custom working directory can be specified with Docker's `-w` flag:
 
