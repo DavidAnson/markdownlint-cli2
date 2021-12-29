@@ -284,10 +284,12 @@ async (fs, baseDir, globPatterns, dirToDirInfo, noErrors, noRequire) => {
   // Manually expand directories to avoid globby call to dir-glob.sync
   const expandedDirectories = await Promise.all(
     globPatterns.map((globPattern) => {
-      const globPath = path.posix.join(
-        baseDir,
-        globPattern[0] === "!" ? globPattern.slice(1) : globPattern
-      );
+      const barePattern =
+        (globPattern[0] === "!") ? globPattern.slice(1) : globPattern;
+      const globPath =
+        (path.posix.isAbsolute(barePattern) || path.isAbsolute(barePattern))
+          ? barePattern
+          : path.posix.join(baseDir, barePattern);
       return fs.promises.stat(globPath).
         then((stats) => (stats.isDirectory()
           ? path.posix.join(globPattern, "**")

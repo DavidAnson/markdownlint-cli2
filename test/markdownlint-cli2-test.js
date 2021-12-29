@@ -53,6 +53,13 @@ test("README files", (t) => {
     then((exitCode) => t.is(exitCode, 0));
 });
 
+test("absolute path to directory glob", async (t) => {
+  t.plan(1);
+  const argv = [ path.resolve("./test/no-config") ];
+  const exitCode = await markdownlintCli2({ argv });
+  t.is(exitCode, 1);
+});
+
 test("main options default", (t) => {
   t.plan(2);
   const uncalled = (msg) => t.fail(`message logged: ${msg}`);
