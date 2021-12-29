@@ -131,6 +131,27 @@ const testCases =
   });
 
   testCase({
+    "name": "no-files",
+    "args": [ "nothing-matches" ],
+    "exitCode": 0,
+    "cwd": "no-config"
+  });
+
+  testCase({
+    "name": "no-files-exclamation",
+    "args": [ "!" ],
+    "exitCode": 0,
+    "cwd": "no-config"
+  });
+
+  testCase({
+    "name": "no-files-octothorpe",
+    "args": [ "#" ],
+    "exitCode": 0,
+    "cwd": "no-config"
+  });
+
+  testCase({
     "name": "all-ok",
     "args": [ "**/*.md", "**/*.markdown" ],
     "exitCode": 0
