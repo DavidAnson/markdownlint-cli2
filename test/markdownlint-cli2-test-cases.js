@@ -12,6 +12,7 @@ const crRe = /\r/gu;
 const verRe = /\bv\d+\.\d+\.\d+\b/gu;
 const noop = () => null;
 const empty = () => "";
+const sanitize = (str) => str.replace(crRe, "").replace(verRe, "vX.Y.Z");
 
 const testCases =
 (host, invoke, includeNoRequire, includeEnv, includeScript, includeRequire) => {
@@ -28,7 +29,7 @@ const testCases =
       return;
     }
     test(`${name} (${host})`, (t) => {
-      t.plan(5);
+      t.plan(2);
       const directory = path.join(__dirname, cwd || name);
       return Promise.all([
         ((pre || noop)(name) || Promise.resolve()).
@@ -81,25 +82,30 @@ const testCases =
               formatterOutputJunit,
               formatterOutputJunitCustom
             ] = results;
-            t.is(child.exitCode, exitCode);
-            t.is(
-              child.stdout.replace(verRe, "vX.Y.Z"),
-              stdout.replace(crRe, ""));
+            const actual = {
+              "exitCode": child.exitCode,
+              "stdout": sanitize(child.stdout),
+              "stderr": sanitize(child.stderr),
+              "formatterJson":
+                sanitize(formatterOutputJson || formatterOutputJsonCustom),
+              "formatterJunit":
+                sanitize(formatterOutputJunit || formatterOutputJunitCustom)
+            };
+            const expected = {
+              exitCode,
+              "stdout": sanitize(stdout),
+              "stderr": sanitize(stderr),
+              "formatterJson": sanitize(formatterJson),
+              "formatterJunit": sanitize(formatterJunit)
+            };
             if (stderrRe) {
               t.regex(child.stderr, stderrRe);
+              delete actual.stderr;
+              delete expected.stderr;
             } else {
-              t.is(
-                child.stderr.replace(verRe, "vX.Y.Z"),
-                stderr.replace(crRe, ""));
+              t.true(true);
             }
-            t.is(
-              (formatterOutputJson || formatterOutputJsonCustom).
-                replace(crRe, "").replace(verRe, "vX.Y.Z"),
-              formatterJson.replace(crRe, ""));
-            t.is(
-              (formatterOutputJunit || formatterOutputJunitCustom).
-                replace(crRe, ""),
-              formatterJunit.replace(crRe, ""));
+            t.deepEqual(actual, expected);
             resolve();
           })
         ])).
