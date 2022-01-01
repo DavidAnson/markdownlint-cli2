@@ -92,10 +92,22 @@ const requireConfig = (fs, dir, name, noRequire) => (
     )
 );
 
-// Process command-line arguments and return glob patterns
+// Process/normalize command-line arguments and return glob patterns
 const processArgv = (argv) => {
   const globPatterns = (argv || []).map(
-    (glob) => glob.replace(/^#/u, "!").replace(/\\(?![$()*+?[\]^])/gu, "/")
+    (glob) => {
+      if (glob.startsWith(":")) {
+        return glob;
+      }
+      // Escape RegExp special characters recognized by fast-glob
+      // https://github.com/mrmlnc/fast-glob#advanced-syntax
+      const specialCharacters = /\\(?![$()*+?[\]^])/gu;
+      if (glob.startsWith("\\:")) {
+        return `\\:${glob.slice(2).replace(specialCharacters, "/")}`;
+      }
+      return (glob.startsWith("#") ? `!${glob.slice(1)}` : glob).
+        replace(specialCharacters, "/");
+    }
   );
   if ((globPatterns.length === 1) && (globPatterns[0] === ".")) {
     // Substitute a more reasonable pattern
@@ -115,9 +127,10 @@ Syntax: ${name} glob0 [glob1] [...] [globN]
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
 - ? matches a single character, but not /
-- ** matches any number of characters, including / (when it's the only thing in a path part)
+- ** matches any number of characters, including /
 - {} allows for a comma-separated list of "or" expressions
 - ! or # at the beginning of a pattern negate the match
+- : at the beginning identifies a literal file path
 
 Dot-only glob:
 - The command "${name} ." would lint every file in the current directory tree which is probably not intended
@@ -139,7 +152,7 @@ Cross-platform compatibility:
 - Some UNIX shells parse exclamation (!) in double-quotes; hashtag (#) is recommended in these cases
 - The path separator is forward slash (/) on all platforms; backslash (\\) is automatically converted
 
-Therefore, the most compatible glob syntax for cross-platform support:
+The most compatible syntax for cross-platform support:
 $ ${name} "**/*.md" "#node_modules"`
   );
   /* eslint-enable max-len */
@@ -270,7 +283,8 @@ const getBaseOptions = async (
 
 // Enumerate files from globs and build directory infos
 const enumerateFiles =
-async (fs, baseDir, globPatterns, dirToDirInfo, noErrors, noRequire) => {
+// eslint-disable-next-line max-len
+async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, noErrors, noRequire) => {
   const tasks = [];
   const globbyOptions = {
     "absolute": true,
@@ -281,11 +295,25 @@ async (fs, baseDir, globPatterns, dirToDirInfo, noErrors, noRequire) => {
   if (noErrors) {
     globbyOptions.suppressErrors = true;
   }
+  const literalFiles = [];
+  const filteredGlobPatterns = globPatterns.filter(
+    (globPattern) => {
+      if (globPattern.startsWith(":")) {
+        literalFiles.push(
+          posixPath(path.resolve(baseDirSystem, globPattern.slice(1)))
+        );
+        return false;
+      }
+      return true;
+    }
+  ).map((globPattern) => globPattern.replace(/^\\:/u, ":"));
   // Manually expand directories to avoid globby call to dir-glob.sync
   const expandedDirectories = await Promise.all(
-    globPatterns.map((globPattern) => {
+    filteredGlobPatterns.map((globPattern) => {
       const barePattern =
-        (globPattern[0] === "!") ? globPattern.slice(1) : globPattern;
+        globPattern.startsWith("!")
+          ? globPattern.slice(1)
+          : globPattern;
       const globPath =
         (path.posix.isAbsolute(barePattern) || path.isAbsolute(barePattern))
           ? barePattern
@@ -298,7 +326,10 @@ async (fs, baseDir, globPatterns, dirToDirInfo, noErrors, noRequire) => {
     })
   );
   // Process glob patterns
-  const files = await globby(expandedDirectories, globbyOptions);
+  const files = [
+    ...await globby(expandedDirectories, globbyOptions),
+    ...literalFiles
+  ];
   for (const file of files) {
     const dir = path.posix.dirname(file);
     getAndProcessDirInfo(
@@ -362,9 +393,10 @@ const enumerateParents = async (fs, baseDir, dirToDirInfo, noRequire) => {
 // Create directory info objects by enumerating file globs
 const createDirInfos =
 // eslint-disable-next-line max-len
-async (fs, baseDir, globPatterns, dirToDirInfo, optionsOverride, noErrors, noRequire) => {
+async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, optionsOverride, noErrors, noRequire) => {
   await enumerateFiles(
     fs,
+    baseDirSystem,
     baseDir,
     globPatterns,
     dirToDirInfo,
@@ -683,6 +715,7 @@ const main = async (params) => {
   const dirInfos =
     await createDirInfos(
       fs,
+      baseDirSystem,
       baseDir,
       globPatterns,
       dirToDirInfo,

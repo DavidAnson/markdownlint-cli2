@@ -55,9 +55,10 @@ Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN]
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
 - ? matches a single character, but not /
-- ** matches any number of characters, including / (when it's the only thing in a path part)
+- ** matches any number of characters, including /
 - {} allows for a comma-separated list of "or" expressions
 - ! or # at the beginning of a pattern negate the match
+- : at the beginning identifies a literal file path
 
 Dot-only glob:
 - The command "markdownlint-cli2 ." would lint every file in the current directory tree which is probably not intended
@@ -79,7 +80,7 @@ Cross-platform compatibility:
 - Some UNIX shells parse exclamation (!) in double-quotes; hashtag (#) is recommended in these cases
 - The path separator is forward slash (/) on all platforms; backslash (\) is automatically converted
 
-Therefore, the most compatible glob syntax for cross-platform support:
+The most compatible syntax for cross-platform support:
 $ markdownlint-cli2 "**/*.md" "#node_modules"
 ```
 

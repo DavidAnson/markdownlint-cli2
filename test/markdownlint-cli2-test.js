@@ -171,7 +171,7 @@ test("extension scenario, file, no changes", (t) => {
   t.plan(2);
   return markdownlintCli2({
     "directory": __dirname,
-    "argv": [ "./markdownlint-json/viewme.md" ],
+    "argv": [ ":./markdownlint-json/viewme.md" ],
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatterLengthIs(t, 4) ] ]
     }
@@ -183,7 +183,7 @@ test("extension scenario, file, changes", (t) => {
   t.plan(2);
   return markdownlintCli2({
     "directory": __dirname,
-    "argv": [ "./markdownlint-json/viewme.md" ],
+    "argv": [ ":./markdownlint-json/viewme.md" ],
     "fileContents": {
       "./markdownlint-json/viewme.md": "# Title\n\n> Tagline \n\n\n"
     },
@@ -234,7 +234,7 @@ test("extension scenario, ignores handled", (t) => {
     "dir/subdir/viewme.md": "Heading",
     "dir/subdir/ignoreme.md": "Heading\n"
   };
-  const argv = Object.keys(fileContents);
+  const argv = Object.keys(fileContents).map((key) => `:${key}`);
   return markdownlintCli2({
     "directory": path.join(__dirname, "extension-scenario-ignores"),
     argv,
@@ -262,7 +262,7 @@ test("extension scenario, ignores handled, absolute paths", (t) => {
       entry[1]
     ])
   );
-  const argv = Object.keys(fileContents);
+  const argv = Object.keys(fileContents).map((key) => `:${key}`);
   return markdownlintCli2({
     directory,
     argv,
@@ -279,9 +279,9 @@ test("extension scenario, globs ignored", (t) => {
   return markdownlintCli2({
     "directory": path.join(__dirname, "extension-scenario-globs"),
     "argv": [
-      "viewme.md",
-      "dir/viewme.md",
-      "dir/subdir/viewme.md"
+      ":viewme.md",
+      ":dir/viewme.md",
+      ":dir/subdir/viewme.md"
     ],
     "fileContents": {
       "viewme.md": "Heading",
@@ -373,6 +373,57 @@ test("custom fs, extension scenario with exception", (t) => {
       "readFile": null
     },
     "noErrors": true
+  }).
+    then((exitCode) => {
+      t.is(exitCode, 0);
+    });
+});
+
+test("custom fs, file and path including/escaping ':'", (t) => {
+  t.plan(7);
+  return markdownlintCli2({
+    "directory": "/custom",
+    "argv": [
+      "normal.md",
+      ":literal.md",
+      "\\:escaped.md",
+      "path/normal.md",
+      ":path/literal.md",
+      "\\:path/escaped.md"
+    ],
+    "fs": {
+      "promises": {
+        "access": () => Promise.reject(new Error("No access")),
+        "stat": () => Promise.reject(new Error("No stat"))
+      },
+      "lstat": (p, o, cb) => {
+        const stats = {
+          "isBlockDevice": () => false,
+          "isCharacterDevice": () => false,
+          "isDirectory": () => false,
+          "isFIFO": () => false,
+          "isFile": () => true,
+          "isSocket": () => false,
+          "isSymbolicLink": () => false
+        };
+        return (cb || o)(null, stats);
+      },
+      "readFile": (p, o, cb) => {
+        const normalized = p.replace(/^[^/]*/u, "");
+        t.true(
+          [
+            "/custom/normal.md",
+            "/custom/literal.md",
+            "/custom/:escaped.md",
+            "/custom/path/normal.md",
+            "/custom/path/literal.md",
+            "/custom/:path/escaped.md"
+          ].includes(normalized),
+          normalized
+        );
+        return (cb || o)(null, "# Heading\n");
+      }
+    }
   }).
     then((exitCode) => {
       t.is(exitCode, 0);

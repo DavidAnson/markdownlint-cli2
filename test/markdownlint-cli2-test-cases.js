@@ -8,14 +8,16 @@ const test = require("ava").default;
 const cpy = require("cpy");
 const del = require("del");
 
-const crRe = /\r/gu;
-const verRe = /\bv\d+\.\d+\.\d+\b/gu;
 const noop = () => null;
 const empty = () => "";
-const sanitize = (str) => str.replace(crRe, "").replace(verRe, "vX.Y.Z");
+const sanitize = (str) => str.
+  replace(/\r/gu, "").
+  replace(/\bv\d+\.\d+\.\d+\b/gu, "vX.Y.Z").
+  replace(/ :.+[/\\]sentinel/gu, " :[PATH]");
 
 const testCases =
-(host, invoke, includeNoRequire, includeEnv, includeScript, includeRequire) => {
+// eslint-disable-next-line max-len
+(host, invoke, absolute, includeNoRequire, includeEnv, includeScript, includeRequire) => {
 
   const testCase = (options) => {
     const { name, script, args, exitCode, cwd, env, stderrRe, pre, post,
@@ -381,6 +383,34 @@ const testCases =
     "name": "frontMatter",
     "args": [ "**/*.md" ],
     "exitCode": 0
+  });
+
+  testCase({
+    "name": "literal-files",
+    "args": [
+      ":view(me).md",
+      ":dir/view(me).md",
+      ":dir(1)/viewme.md",
+      ":dir(1)/(view)me.md"
+    ],
+    "exitCode": 1,
+    "cwd": "literal-files/sentinel"
+  });
+
+  const literalFilesAbsoluteFile = absolute(
+    path.join(__dirname, "literal-files"),
+    "sentinel/dir(1)/(view)me.md"
+  ).
+    split(path.sep).
+    join(path.posix.sep);
+  testCase({
+    "name": "literal-files-absolute",
+    "args": [
+      `:${literalFilesAbsoluteFile}`,
+      "sentinel/dir"
+    ],
+    "exitCode": 1,
+    "cwd": "literal-files"
   });
 
   testCase({

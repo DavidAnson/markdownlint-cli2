@@ -2,6 +2,7 @@
 
 "use strict";
 
+const path = require("path");
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 const testCases = require("./markdownlint-cli2-test-cases");
 
@@ -32,4 +33,6 @@ const invoke = (directory, args, noRequire) => () => {
     }));
 };
 
-testCases("main", invoke, true, false, false, true);
+const absolute = (rootDir, file) => path.join(rootDir, file);
+
+testCases("main", invoke, absolute, true, false, false, true);

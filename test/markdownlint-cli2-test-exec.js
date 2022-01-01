@@ -20,4 +20,6 @@ const invoke = (directory, args, noRequire, env, script) => async () => {
   );
 };
 
-testCases("exec", invoke, false, true, true, true);
+const absolute = (rootDir, file) => path.join(rootDir, file);
+
+testCases("exec", invoke, absolute, false, true, true, true);
