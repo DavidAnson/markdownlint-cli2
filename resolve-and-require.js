@@ -4,10 +4,9 @@
 
 /**
  * Wrapper for calling Node's require.resolve/require with an additional path.
- *
- * @param {Object} req Node's require function (or equivalent).
- * @param {*} id Package identifier to require.
- * @param {*} dir Directory to include when resolving paths.
+ * @param {Object} req Node's require implementation (or equivalent).
+ * @param {String} id Package identifier to require.
+ * @param {String} dir Directory to include when resolving paths.
  * @returns {Object} Exported module content.
  */
 const resolveAndRequire = (req, id, dir) => {
