@@ -92,6 +92,15 @@ const requireConfig = (fs, dir, name, noRequire) => (
     )
 );
 
+// Filter a list of files to ignore by glob
+const removeIgnoredFiles = (dir, files, ignores) => {
+  const micromatch = require("micromatch");
+  return micromatch(
+    files.map((file) => path.posix.relative(dir, file)),
+    ignores
+  ).map((file) => path.posix.join(dir, file));
+};
+
 // Process/normalize command-line arguments and return glob patterns
 const processArgv = (argv) => {
   const globPatterns = (argv || []).map(
@@ -295,6 +304,7 @@ async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, noErrors, noRequi
   if (noErrors) {
     globbyOptions.suppressErrors = true;
   }
+  // Special-case literal files
   const literalFiles = [];
   const filteredGlobPatterns = globPatterns.filter(
     (globPattern) => {
@@ -307,6 +317,14 @@ async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, noErrors, noRequi
       return true;
     }
   ).map((globPattern) => globPattern.replace(/^\\:/u, ":"));
+  const baseMarkdownlintOptions = dirToDirInfo[baseDir].markdownlintOptions;
+  const globsForIgnore =
+    (baseMarkdownlintOptions.globs || []).
+      filter((glob) => glob.startsWith("!"));
+  const filteredLiteralFiles =
+    ((literalFiles.length > 0) && (globsForIgnore.length > 0))
+      ? removeIgnoredFiles(baseDir, literalFiles, globsForIgnore)
+      : literalFiles;
   // Manually expand directories to avoid globby call to dir-glob.sync
   const expandedDirectories = await Promise.all(
     filteredGlobPatterns.map((globPattern) => {
@@ -328,7 +346,7 @@ async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, noErrors, noRequi
   // Process glob patterns
   const files = [
     ...await globby(expandedDirectories, globbyOptions),
-    ...literalFiles
+    ...filteredLiteralFiles
   ];
   for (const file of files) {
     const dir = path.posix.dirname(file);
@@ -528,11 +546,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
     ) {
       // eslint-disable-next-line unicorn/no-array-callback-reference
       const ignores = markdownlintOptions.ignores.map(negateGlob);
-      const micromatch = require("micromatch");
-      filesAfterIgnores = micromatch(
-        files.map((file) => path.posix.relative(dir, file)),
-        ignores
-      ).map((file) => path.posix.join(dir, file));
+      filesAfterIgnores = removeIgnoredFiles(dir, files, ignores);
     }
     const filteredFiles = filesAfterIgnores.filter(
       (file) => fileContents[file] === undefined

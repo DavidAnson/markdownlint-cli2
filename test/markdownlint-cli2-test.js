@@ -274,23 +274,25 @@ test("extension scenario, ignores handled, absolute paths", (t) => {
     then((exitCode) => t.is(exitCode, 1));
 });
 
-test("extension scenario, globs ignored", (t) => {
+test("extension scenario, globs ignored/filtered", (t) => {
   t.plan(2);
   return markdownlintCli2({
     "directory": path.join(__dirname, "extension-scenario-globs"),
     "argv": [
       ":viewme.md",
       ":dir/viewme.md",
-      ":dir/subdir/viewme.md"
+      ":dir/subdir/viewme.md",
+      ":dir2/viewme.md"
     ],
     "fileContents": {
       "viewme.md": "Heading",
       "dir/viewme.md": "Heading",
-      "dir/subdir/viewme.md": "Heading"
+      "dir/subdir/viewme.md": "Heading",
+      "dir2/viewme.md": "Heading"
     },
     "noGlobs": true,
     "optionsOverride": {
-      "outputFormatters": [ [ outputFormatterLengthIs(t, 6) ] ]
+      "outputFormatters": [ [ outputFormatterLengthIs(t, 4) ] ]
     }
   }).
     then((exitCode) => t.is(exitCode, 1));
