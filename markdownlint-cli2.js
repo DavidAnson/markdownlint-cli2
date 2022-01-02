@@ -127,7 +127,8 @@ const processArgv = (argv) => {
 
 // Show help if missing arguments
 const showHelp = (logMessage) => {
-  const { name, homepage } = require("./package.json");
+  const name = "markdownlint-cli2";
+  const homepage = "https://github.com/DavidAnson/markdownlint-cli2";
   /* eslint-disable max-len */
   logMessage(`${homepage}
 
