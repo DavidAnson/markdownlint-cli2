@@ -1,8 +1,0 @@
-function/function.md:3:6 MD039/no-space-in-links Spaces inside link text [Context: "[ link ]"]
-multiple/multiple.md:3:15 MD044/proper-names Proper names should have the correct capitalization [Expected: SMILE; Actual: smile]
-multiple/multiple.md:5:13 MD044/proper-names Proper names should have the correct capitalization [Expected: FROWNING; Actual: frowning]
-multiple/multiple.md:12 MD032/blanks-around-lists Lists should be surrounded by blank lines [Context: "+ 2"]
-multiple/multiple.md:15 MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]
-pre-imported/pre-imported.md:3:6 MD039/no-space-in-links Spaces inside link text [Context: "[ link ]"]
-single/single.md:12 MD032/blanks-around-lists Lists should be surrounded by blank lines [Context: "+ 2"]
-single/single.md:15 MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]

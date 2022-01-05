@@ -1,6 +1,0 @@
-no-fixable-issues.md:3:13 MD033/no-inline-html Inline HTML [Element: br]
-no-fixable-issues.md:5 MD040/fenced-code-language Fenced code blocks should have a language specified [Context: "```"]
-no-fixable-issues.md:9 MD036/no-emphasis-as-heading/no-emphasis-as-header Emphasis used instead of a heading [Context: "Emphasis as heading"]
-some-fixable-issues.md:3:13 MD033/no-inline-html Inline HTML [Element: br]
-some-fixable-issues.md:7 MD040/fenced-code-language Fenced code blocks should have a language specified [Context: "```"]
-some-fixable-issues.md:13 MD036/no-emphasis-as-heading/no-emphasis-as-header Emphasis used instead of a heading [Context: "Emphasis as heading"]

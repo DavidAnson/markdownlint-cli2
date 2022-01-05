@@ -1,4 +1,0 @@
-markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)
-Finding: :view(me).md :dir/view(me).md :dir(1)/viewme.md :dir(1)/(view)me.md
-Linting: 4 file(s)
-Summary: 20 error(s)

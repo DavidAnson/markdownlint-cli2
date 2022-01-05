@@ -32,6 +32,7 @@
     "test-docker-hub-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker image rm davidanson/markdownlint-cli2:$VERSION davidanson/markdownlint-cli2:latest || true && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2:$VERSION \"*.md\" && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2:latest \"*.md\"",
     "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 npm test",
     "test-watch": "git ls-files | entr npm run test",
+    "update-snapshots": "ava --update-snapshots test/markdownlint-cli2-test-exec.js test/markdownlint-cli2-test-fs.js test/markdownlint-cli2-test-main.js",
     "upgrade": "npx npm-check-updates --upgrade"
   },
   "engines": {
