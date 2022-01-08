@@ -7,6 +7,5 @@
 const { run } = require("./markdownlint-cli2");
 
 run({
-  "fixDefault": true,
-  "name": "markdownlint-cli2-fix"
+  "name": "markdownlint-cli2-config"
 });

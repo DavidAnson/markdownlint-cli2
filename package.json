@@ -11,6 +11,7 @@
   "main": "markdownlint-cli2.js",
   "bin": {
     "markdownlint-cli2": "markdownlint-cli2.js",
+    "markdownlint-cli2-config": "markdownlint-cli2-config.js",
     "markdownlint-cli2-fix": "markdownlint-cli2-fix.js"
   },
   "homepage": "https://github.com/DavidAnson/markdownlint-cli2",
@@ -28,7 +29,7 @@
     "lint-dockerfile": "docker run --rm -i hadolint/hadolint:latest-alpine < docker/Dockerfile",
     "lint-watch": "git ls-files | entr npm run lint",
     "publish-docker-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker buildx build --platform linux/arm64,linux/amd64 -t davidanson/markdownlint-cli2:$VERSION -t davidanson/markdownlint-cli2:latest -f docker/Dockerfile --push .",
-    "test": "ava test/append-to-array-test.js test/fs-mock-test.js test/markdownlint-cli2-test.js test/markdownlint-cli2-test-exec.js test/markdownlint-cli2-test-fs.js test/markdownlint-cli2-test-main.js test/merge-options-test.js test/resolve-and-require-test.js",
+    "test": "ava --timeout=1m test/append-to-array-test.js test/fs-mock-test.js test/markdownlint-cli2-test.js test/markdownlint-cli2-test-exec.js test/markdownlint-cli2-test-fs.js test/markdownlint-cli2-test-main.js test/merge-options-test.js test/resolve-and-require-test.js",
     "test-docker-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2:$VERSION \"*.md\"",
     "test-docker-hub-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker image rm davidanson/markdownlint-cli2:$VERSION davidanson/markdownlint-cli2:latest || true && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2:$VERSION \"*.md\" && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2:latest \"*.md\"",
     "test-cover": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 npm test",
@@ -42,6 +43,7 @@
   "files": [
     "append-to-array.js",
     "markdownlint-cli2.js",
+    "markdownlint-cli2-config.js",
     "markdownlint-cli2-fix.js",
     "merge-options.js",
     "resolve-and-require.js"

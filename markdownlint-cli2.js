@@ -92,6 +92,32 @@ const requireConfig = (fs, dir, name, noRequire) => (
     )
 );
 
+// Read an options or config file in any format and return the object
+const readOptionsOrConfig = async (configPath, fs, noRequire) => {
+  const basename = path.basename(configPath);
+  const dirname = path.dirname(configPath);
+  let options = null;
+  let config = null;
+  if (basename.endsWith(".markdownlint-cli2.jsonc")) {
+    options = jsoncParse(await fs.promises.readFile(configPath, utf8));
+  } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
+    options = yamlParse(await fs.promises.readFile(configPath, utf8));
+  } else if (basename.endsWith(".markdownlint-cli2.js")) {
+    options = await (requireConfig(fs, dirname, basename, noRequire)());
+  } else if (
+    basename.endsWith(".markdownlint.jsonc") ||
+    basename.endsWith(".markdownlint.json") ||
+    basename.endsWith(".markdownlint.yaml") ||
+    basename.endsWith(".markdownlint.yml")
+  ) {
+    config =
+      await markdownlintReadConfig(configPath, [ jsoncParse, yamlParse ], fs);
+  } else if (basename.endsWith(".markdownlint.js")) {
+    config = await (requireConfig(fs, dirname, basename, noRequire)());
+  }
+  return options || { config };
+};
+
 // Filter a list of files to ignore by glob
 const removeIgnoredFiles = (dir, files, ignores) => {
   const micromatch = require("micromatch");
@@ -127,12 +153,12 @@ const processArgv = (argv) => {
 
 // Show help if missing arguments
 const showHelp = (logMessage) => {
-  const name = "markdownlint-cli2";
-  const homepage = "https://github.com/DavidAnson/markdownlint-cli2";
   /* eslint-disable max-len */
-  logMessage(`${homepage}
+  logMessage(`https://github.com/DavidAnson/markdownlint-cli2
 
-Syntax: ${name} glob0 [glob1] [...] [globN]
+Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN]
+        markdownlint-cli2-fix glob0 [glob1] [...] [globN]
+        markdownlint-cli2-config config-file glob0 [glob1] [...] [globN]
 
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
@@ -143,9 +169,9 @@ Glob expressions (from the globby library):
 - : at the beginning identifies a literal file path
 
 Dot-only glob:
-- The command "${name} ." would lint every file in the current directory tree which is probably not intended
-- Instead, it is mapped to "${name} ${dotOnlySubstitute}" which lints all Markdown files in the current directory
-- To lint every file in the current directory tree, the command "${name} **" can be used instead
+- The command "markdownlint-cli2 ." would lint every file in the current directory tree which is probably not intended
+- Instead, it is mapped to "markdownlint-cli2 ${dotOnlySubstitute}" which lints all Markdown files in the current directory
+- To lint every file in the current directory tree, the command "markdownlint-cli2 **" can be used instead
 
 Configuration via:
 - .markdownlint-cli2.jsonc
@@ -163,7 +189,7 @@ Cross-platform compatibility:
 - The path separator is forward slash (/) on all platforms; backslash (\\) is automatically converted
 
 The most compatible syntax for cross-platform support:
-$ ${name} "**/*.md" "#node_modules"`
+$ markdownlint-cli2 "**/*.md" "#node_modules"`
   );
   /* eslint-enable max-len */
 };
@@ -678,7 +704,8 @@ const main = async (params) => {
     nonFileContents,
     noErrors,
     noGlobs,
-    noRequire
+    noRequire,
+    name
   } = params;
   const logMessage = params.logMessage || noop;
   const logError = params.logError || noop;
@@ -689,16 +716,24 @@ const main = async (params) => {
   const baseDir = posixPath(baseDirSystem);
   // Output banner
   logMessage(
-    `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`
+    // eslint-disable-next-line max-len
+    `${name || packageName} v${packageVersion} (${libraryName} v${libraryVersion})`
   );
+  // Read argv configuration file (if relevant and present)
+  let optionsArgv = null;
+  const [ configPath ] = (argv || []);
+  if ((name === "markdownlint-cli2-config") && configPath) {
+    optionsArgv =
+      await readOptionsOrConfig(configPath, fs, noRequire);
+  }
   // Process arguments and get base options
-  const globPatterns = processArgv(argv);
+  const globPatterns = processArgv(optionsArgv ? argv.slice(1) : argv);
   const { baseMarkdownlintOptions, dirToDirInfo } =
     await getBaseOptions(
       fs,
       baseDir,
       globPatterns,
-      optionsDefault,
+      optionsArgv || optionsDefault,
       fixDefault,
       noGlobs,
       noRequire

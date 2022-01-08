@@ -51,6 +51,8 @@ markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)
 https://github.com/DavidAnson/markdownlint-cli2
 
 Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN]
+        markdownlint-cli2-fix glob0 [glob1] [...] [globN]
+        markdownlint-cli2-config config-file glob0 [glob1] [...] [globN]
 
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
@@ -89,22 +91,32 @@ configuration file, the `globs` property of `.markdownlint-cli2.jsonc` or
 `.markdownlint-cli2.yaml` or `.markdownlint-cli2.js` may be used instead of (or
 in addition to) passing `glob0 ... globN` on the command-line.
 
-As shown above, the default command-line for `markdownlint-cli2` looks something
+As shown above, a typical command-line for `markdownlint-cli2` looks something
 like:
 
 ```bash
 markdownlint-cli2 "**/*.md" "#node_modules"
 ```
 
-However, because sharing configuration between "normal" and "fix" modes is so
+Because sharing the same configuration between "normal" and "fix" modes is
 common, the following command defaults the `fix` property (see below) to `true`:
 
 ```bash
 markdownlint-cli2-fix "**/*.md" "#node_modules"
 ```
 
-Other than the default behavior of the `fix` property (which can be overridden
-in both cases), these two commands behave identically.
+Other than the default behavior of the `fix` property (which can be overridden),
+these two commands behave identically.
+
+In cases where it is not convenient to store a configuration file in the root
+of a project, the `markdownlint-cli2-config` command can be used. This command
+accepts a path to any supported configuration file as its first argument:
+
+```bash
+markdownlint-cli2-config "config/.markdownlint-cli2.jsonc" "**/*.md" "#node_modules"
+```
+
+Otherwise, this command behaves identically to `markdownlint-cli2`.
 
 ### Container Image
 
@@ -132,8 +144,8 @@ Notes:
     docker run -w /myfolder -v $PWD:/myfolder davidanson/markdownlint-cli2:0.3.2 "**/*.md" "#node_modules"
     ```
 
-To invoke the `markdownlint-cli2-fix` command instead, specify it via Docker's
-`--entrypoint` flag:
+To invoke the `markdownlint-cli2-config` or `markdownlint-cli2-fix` commands
+instead, use Docker's `--entrypoint` flag:
 
 ```bash
 docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:0.3.2 "**/*.md" "#node_modules"

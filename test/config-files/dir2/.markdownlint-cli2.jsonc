@@ -1,0 +1,8 @@
+{
+  "config": {
+    "no-trailing-spaces": false,
+    "no-multiple-blanks": false,
+    "no-multiple-space-atx": false,
+    "single-trailing-newline": false
+  }
+}

@@ -108,6 +108,33 @@ const testCases =
   });
 
   testCase({
+    "name": "no-arguments-fix",
+    "script": "markdownlint-cli2-fix.js",
+    "args": [],
+    "exitCode": 1,
+    "cwd": "no-config",
+    "usesScript": true
+  });
+
+  testCase({
+    "name": "no-arguments-config",
+    "script": "markdownlint-cli2-config.js",
+    "args": [],
+    "exitCode": 1,
+    "cwd": "no-config",
+    "usesScript": true
+  });
+
+  testCase({
+    "name": "one-argument-config",
+    "script": "markdownlint-cli2-config.js",
+    "args": [ "../config-files/cfg/.markdownlint-cli2.jsonc" ],
+    "exitCode": 1,
+    "cwd": "no-config",
+    "usesScript": true
+  });
+
+  testCase({
     "name": "no-files",
     "args": [ "nothing-matches" ],
     "cwd": "no-config"
@@ -375,6 +402,82 @@ const testCases =
     "args": [ "**/*.md" ],
     "usesScript": true
   });
+
+  const configFiles = [
+    ".markdownlint-cli2.jsonc",
+    ".markdownlint-cli2.yaml",
+    ".markdownlint-cli2.js",
+    ".markdownlint.jsonc",
+    ".markdownlint.json",
+    ".markdownlint.yaml",
+    ".markdownlint.yml",
+    ".markdownlint.js"
+  ];
+  for (const configFile of configFiles) {
+    testCase({
+      "name": `config-files-${configFile}`,
+      "script": "markdownlint-cli2-config.js",
+      "args": [ `cfg/${configFile}`, "**/*.md" ],
+      "exitCode": 1,
+      "cwd": "config-files",
+      "usesScript": true
+    });
+    testCase({
+      "name": `config-files-${configFile}-alternate`,
+      "script": "markdownlint-cli2-config.js",
+      "args": [ `cfg/alternate${configFile}`, "**/*.md" ],
+      "exitCode": 1,
+      "cwd": "config-files",
+      "usesScript": true
+    });
+    testCase({
+      "name": `config-files-${configFile}-absolute`,
+      "script": "markdownlint-cli2-config.js",
+      "args": [
+        path.join(__dirname, "config-files", `cfg/${configFile}`),
+        "**/*.md"
+      ],
+      "exitCode": 1,
+      "cwd": "config-files",
+      "usesScript": true
+    });
+  }
+
+  const invalidConfigFiles = [
+    [ "invalid.markdownlint-cli2.jsonc", /Unexpected end of JSON input/u ],
+    [ "invalid.markdownlint-cli2.js", /Unexpected end of input/u ],
+    [ "invalid.markdownlint.json", /Unexpected end of JSON input/u ],
+    [ "invalid.markdownlint.yaml", /Map keys must be unique/u ],
+    [ "invalid.markdownlint.js", /Unexpected end of input/u ]
+  ];
+  for (const [ invalidConfigFile, stderrRe ] of invalidConfigFiles) {
+    testCase({
+      "name": `config-files-${invalidConfigFile}-invalid`,
+      "script": "markdownlint-cli2-config.js",
+      "args": [ `cfg/${invalidConfigFile}`, "**/*.md" ],
+      "exitCode": 2,
+      stderrRe,
+      "cwd": "config-files",
+      "usesRequire": true,
+      "usesScript": true
+    });
+  }
+
+  const redundantConfigFiles = [
+    ".markdownlint-cli2.jsonc",
+    ".markdownlint.json",
+    ".markdownlint.js"
+  ];
+  for (const redundantConfigFile of redundantConfigFiles) {
+    testCase({
+      "name": `config-files-${redundantConfigFile}-redundant`,
+      "script": "markdownlint-cli2-config.js",
+      "args": [ redundantConfigFile, "*.md" ],
+      "exitCode": 1,
+      "cwd": redundantConfigFile.slice(1).replace(".", "-"),
+      "usesScript": true
+    });
+  }
 
   testCase({
     "name": "customRules",
