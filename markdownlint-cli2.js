@@ -31,10 +31,16 @@ const utf8 = "utf8";
 // No-op function
 const noop = () => null;
 
-// Parse JSONC text
-const jsoncParse = (text) => JSON.parse(require("strip-json-comments")(text));
+// Gets a synchronous function to parse JSONC text
+const getJsoncParse = async () => {
+  const { "default": stripJsonComments } =
+    // eslint-disable-next-line max-len
+    // eslint-disable-next-line no-inline-comments, node/no-unsupported-features/es-syntax
+    await import(/* webpackMode: "eager" */ "strip-json-comments");
+  return (text) => JSON.parse(stripJsonComments(text));
+};
 
-// Parse YAML text
+// Synchronous function to parse YAML text
 const yamlParse = (text) => require("yaml").parse(text);
 
 // Negate a glob
@@ -48,8 +54,13 @@ const readConfig = (fs, dir, name, otherwise) => {
   const file = path.posix.join(dir, name);
   return () => fs.promises.access(file).
     then(
-      // @ts-ignore
-      () => markdownlintReadConfig(file, [ jsoncParse, yamlParse ], fs),
+      () => getJsoncParse().then(
+        (jsoncParse) => markdownlintReadConfig(
+          file,
+          [ jsoncParse, yamlParse ],
+          fs
+        )
+      ),
       otherwise
     );
 };
@@ -99,6 +110,7 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
   let options = null;
   let config = null;
   if (basename.endsWith(".markdownlint-cli2.jsonc")) {
+    const jsoncParse = await getJsoncParse();
     options = jsoncParse(await fs.promises.readFile(configPath, utf8));
   } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
     options = yamlParse(await fs.promises.readFile(configPath, utf8));
@@ -110,6 +122,7 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
     basename.endsWith(".markdownlint.yaml") ||
     basename.endsWith(".markdownlint.yml")
   ) {
+    const jsoncParse = await getJsoncParse();
     config =
       await markdownlintReadConfig(configPath, [ jsoncParse, yamlParse ], fs);
   } else if (basename.endsWith(".markdownlint.js")) {
@@ -218,7 +231,10 @@ const getAndProcessDirInfo =
         then(
           () => fs.promises.
             readFile(markdownlintCli2Jsonc, utf8).
-            then(jsoncParse),
+            then(
+              (content) => getJsoncParse().
+                then((jsoncParse) => jsoncParse(content))
+            ),
           () => fs.promises.access(markdownlintCli2Yaml).
             then(
               () => fs.promises.
