@@ -11,7 +11,6 @@ const dynamicRequire = (typeof __non_webpack_require__ === "undefined") ? requir
 
 // Requires
 const path = require("path");
-const globby = require("globby");
 const markdownlintLibrary = require("markdownlint");
 const { markdownlint, "readConfig": markdownlintReadConfig } =
   markdownlintLibrary.promises;
@@ -387,6 +386,9 @@ async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, noErrors, noRequi
     })
   );
   // Process glob patterns
+  // eslint-disable-next-line max-len
+  // eslint-disable-next-line no-inline-comments, node/no-unsupported-features/es-syntax
+  const { globby } = await import(/* webpackMode: "eager" */ "globby");
   const files = [
     ...await globby(expandedDirectories, globbyOptions),
     ...filteredLiteralFiles
