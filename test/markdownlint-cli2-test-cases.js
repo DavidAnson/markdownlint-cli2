@@ -539,6 +539,11 @@ const testCases =
     "cwd": directoryName("outputFormatters-npm"),
     "pre": copyDirectory,
     "post": deleteDirectory,
+    "env": {
+      "FORCE_COLOR": 1,
+      "FORCE_HYPERLINK": 1
+    },
+    "usesEnv": true,
     "usesRequire": true
   });
 
