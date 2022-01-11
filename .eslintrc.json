@@ -54,7 +54,10 @@
     "node/no-extraneous-require": "error",
     "node/no-missing-import": "error",
     "node/no-missing-require": ["error", {
-      "allowModules": ["ava"]
+      "allowModules": [
+        "ava",
+        "chalk"
+      ]
     }],
     "node/no-new-require": "error",
     "node/no-path-concat": "error",
