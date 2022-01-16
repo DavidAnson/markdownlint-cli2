@@ -52,11 +52,14 @@
     "node/no-exports-assign": "error",
     "node/no-extraneous-import": "error",
     "node/no-extraneous-require": "error",
-    "node/no-missing-import": "error",
+    "node/no-missing-import": ["error", {
+      "allowModules": [
+        "chalk"
+      ]
+    }],
     "node/no-missing-require": ["error", {
       "allowModules": [
-        "ava",
-        "chalk"
+        "ava"
       ]
     }],
     "node/no-new-require": "error",

@@ -2,14 +2,15 @@
 
 "use strict";
 
-const chalk = require("chalk");
-const terminalLink = require("terminal-link");
-
 // Formats markdownlint-cli2 results in the style of `markdownlint-cli` with
 // color and clickable links
-const outputFormatter = (options, params) => {
+const outputFormatter = async (options, params) => {
   const { results, logError } = options;
   const { appendLink } = (params || {});
+  // eslint-disable-next-line node/no-unsupported-features/es-syntax
+  const { "default": chalk } = await import("chalk");
+  // eslint-disable-next-line node/no-unsupported-features/es-syntax
+  const { "default": terminalLink } = await import("terminal-link");
   for (const errorInfo of results) {
     const { fileName, lineNumber, ruleNames, ruleDescription, ruleInformation,
       errorDetail, errorContext, errorRange } = errorInfo;
@@ -38,7 +39,6 @@ const outputFormatter = (options, params) => {
       (appendText.length > 0 ? chalk.blueBright(appendText) : "")
     );
   }
-  return Promise.resolve();
 };
 
 module.exports = outputFormatter;
