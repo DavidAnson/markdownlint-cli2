@@ -113,7 +113,7 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
     options = jsoncParse(await fs.promises.readFile(configPath, utf8));
   } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
     options = yamlParse(await fs.promises.readFile(configPath, utf8));
-  } else if (basename.endsWith(".markdownlint-cli2.js")) {
+  } else if (basename.endsWith(".markdownlint-cli2.cjs")) {
     options = await (requireConfig(fs, dirname, basename, noRequire)());
   } else if (
     basename.endsWith(".markdownlint.jsonc") ||
@@ -124,7 +124,7 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
     const jsoncParse = await getJsoncParse();
     config =
       await markdownlintReadConfig(configPath, [ jsoncParse, yamlParse ], fs);
-  } else if (basename.endsWith(".markdownlint.js")) {
+  } else if (basename.endsWith(".markdownlint.cjs")) {
     config = await (requireConfig(fs, dirname, basename, noRequire)());
   }
   return options || { config };
@@ -188,10 +188,10 @@ Dot-only glob:
 Configuration via:
 - .markdownlint-cli2.jsonc
 - .markdownlint-cli2.yaml
-- .markdownlint-cli2.js
+- .markdownlint-cli2.cjs
 - .markdownlint.jsonc or .markdownlint.json
 - .markdownlint.yaml or .markdownlint.yml
-- .markdownlint.js
+- .markdownlint.cjs
 
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended
@@ -242,7 +242,7 @@ const getAndProcessDirInfo =
               requireConfig(
                 fs,
                 dir,
-                ".markdownlint-cli2.js",
+                ".markdownlint-cli2.cjs",
                 noRequire
               )
             )
@@ -273,7 +273,7 @@ const getAndProcessDirInfo =
               requireConfig(
                 fs,
                 dir,
-                ".markdownlint.js",
+                ".markdownlint.cjs",
                 noRequire
               )
             )

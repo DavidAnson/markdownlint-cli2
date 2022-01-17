@@ -232,7 +232,7 @@ const testCases =
   });
 
   testCase({
-    "name": "markdownlint-js",
+    "name": "markdownlint-cjs",
     "args": [ "**/*.md" ],
     "usesRequire": true
   });
@@ -255,7 +255,7 @@ const testCases =
   });
 
   testCase({
-    "name": "markdownlint-js-invalid",
+    "name": "markdownlint-cjs-invalid",
     "args": [ ".*" ],
     "stderrRe": /Unexpected end of input/u,
     "usesRequire": true
@@ -302,13 +302,13 @@ const testCases =
   });
 
   testCase({
-    "name": "markdownlint-cli2-js",
+    "name": "markdownlint-cli2-cjs",
     "args": [ "**/*.md" ],
     "usesRequire": true
   });
 
   testCase({
-    "name": "markdownlint-cli2-js-invalid",
+    "name": "markdownlint-cli2-cjs-invalid",
     "args": [ ".*" ],
     "stderrRe": /Unexpected end of input/u,
     "usesRequire": true
@@ -406,12 +406,12 @@ const testCases =
   const configFiles = [
     ".markdownlint-cli2.jsonc",
     ".markdownlint-cli2.yaml",
-    ".markdownlint-cli2.js",
+    ".markdownlint-cli2.cjs",
     ".markdownlint.jsonc",
     ".markdownlint.json",
     ".markdownlint.yaml",
     ".markdownlint.yml",
-    ".markdownlint.js"
+    ".markdownlint.cjs"
   ];
   for (const configFile of configFiles) {
     testCase({
@@ -445,10 +445,10 @@ const testCases =
 
   const invalidConfigFiles = [
     [ "invalid.markdownlint-cli2.jsonc", /Unexpected end of JSON input/u ],
-    [ "invalid.markdownlint-cli2.js", /Unexpected end of input/u ],
+    [ "invalid.markdownlint-cli2.cjs", /Unexpected end of input/u ],
     [ "invalid.markdownlint.json", /Unexpected end of JSON input/u ],
     [ "invalid.markdownlint.yaml", /Map keys must be unique/u ],
-    [ "invalid.markdownlint.js", /Unexpected end of input/u ]
+    [ "invalid.markdownlint.cjs", /Unexpected end of input/u ]
   ];
   for (const [ invalidConfigFile, stderrRe ] of invalidConfigFiles) {
     testCase({
@@ -466,7 +466,7 @@ const testCases =
   const redundantConfigFiles = [
     ".markdownlint-cli2.jsonc",
     ".markdownlint.json",
-    ".markdownlint.js"
+    ".markdownlint.cjs"
   ];
   for (const redundantConfigFile of redundantConfigFiles) {
     testCase({
@@ -624,16 +624,16 @@ const testCases =
   });
 
   testCase({
-    "name": "markdownlint-js-no-require",
+    "name": "markdownlint-cjs-no-require",
     "args": [ "**/*.md" ],
-    "cwd": "markdownlint-js",
+    "cwd": "markdownlint-cjs",
     "noRequire": true
   });
 
   testCase({
-    "name": "markdownlint-cli2-js-no-require",
+    "name": "markdownlint-cli2-cjs-no-require",
     "args": [ "**/*.md" ],
-    "cwd": "markdownlint-cli2-js",
+    "cwd": "markdownlint-cli2-cjs",
     "noRequire": true
   });
 

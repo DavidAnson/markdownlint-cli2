@@ -450,7 +450,7 @@ test("custom fs, using node:fs", (t) => {
 test("custom fs, using node:fs and noRequire=false", (t) => {
   t.plan(2);
   return markdownlintCli2({
-    "directory": "test/markdownlint-js",
+    "directory": "test/markdownlint-cjs",
     "argv": [ "**/*.md" ],
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
@@ -466,7 +466,7 @@ test("custom fs, using node:fs and noRequire=false", (t) => {
 test("custom fs, using node:fs and noRequire=true", (t) => {
   t.plan(2);
   return markdownlintCli2({
-    "directory": "test/markdownlint-js",
+    "directory": "test/markdownlint-cjs",
     "argv": [ "**/*.md" ],
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatterLengthIs(t, 13) ] ]

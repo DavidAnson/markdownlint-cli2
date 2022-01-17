@@ -70,10 +70,10 @@ Dot-only glob:
 Configuration via:
 - .markdownlint-cli2.jsonc
 - .markdownlint-cli2.yaml
-- .markdownlint-cli2.js
+- .markdownlint-cli2.cjs
 - .markdownlint.jsonc or .markdownlint.json
 - .markdownlint.yaml or .markdownlint.yml
-- .markdownlint.js
+- .markdownlint.cjs
 
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended
@@ -88,7 +88,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 
 For scenarios where it is preferable to specify glob expressions in a
 configuration file, the `globs` property of `.markdownlint-cli2.jsonc` or
-`.markdownlint-cli2.yaml` or `.markdownlint-cli2.js` may be used instead of (or
+`.markdownlint-cli2.yaml` or `.markdownlint-cli2.cjs` may be used instead of (or
 in addition to) passing `glob0 ... globN` on the command-line.
 
 As shown above, a typical command-line for `markdownlint-cli2` looks something
@@ -258,7 +258,7 @@ docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/mark
 - For example: [`.markdownlint-cli2.yaml`][markdownlint-cli2-yaml] with all
   properties set
 
-### `.markdownlint-cli2.js`
+### `.markdownlint-cli2.cjs`
 
 - The format of this file is a [CommonJS module][commonjs-module] that exports
   the object described above for `.markdownlint-cli2.jsonc`.
@@ -268,7 +268,7 @@ docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/mark
 - Other details are the same as for `.markdownlint-cli2.jsonc` described above.
 - If a `.markdownlint-cli2.jsonc` or `.markdownlint-cli2.yaml` file is present
   in the same directory, it takes precedence.
-- For example: [`.markdownlint-cli2.js`][markdownlint-cli2-js]
+- For example: [`.markdownlint-cli2.cjs`][markdownlint-cli2-cjs]
 
 ### `.markdownlint.jsonc` or `.markdownlint.json`
 
@@ -295,14 +295,14 @@ docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/mark
   precedence.
 - For example: [`.markdownlint.yaml`][markdownlint-yaml]
 
-### `.markdownlint.js`
+### `.markdownlint.cjs`
 
 - The format of this file is a [CommonJS module][commonjs-module] that exports
   the [`markdownlint` `config` object][markdownlint-config].
 - Other details are the same as for `jsonc`/`json` files described above.
 - If a `jsonc`, `json`, `yaml`, or `yml` file is present in the same directory,
   it takes precedence.
-- For example: [`.markdownlint.js`][markdownlint-js]
+- For example: [`.markdownlint.cjs`][markdownlint-cjs]
 
 ## Compatibility
 
@@ -387,10 +387,10 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 [markdownlint-cli2]: https://github.com/DavidAnson/markdownlint-cli2
 [markdownlint-cli2-blog]: https://dlaa.me/blog/post/markdownlintcli2
 [markdownlint-cli2-formatter]: https://www.npmjs.com/search?q=keywords:markdownlint-cli2-formatter
-[markdownlint-cli2-js]: test/markdownlint-cli2-js/.markdownlint-cli2.js
+[markdownlint-cli2-cjs]: test/markdownlint-cli2-cjs/.markdownlint-cli2.cjs
 [markdownlint-cli2-jsonc]: test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc
 [markdownlint-cli2-yaml]: test/markdownlint-cli2-yaml-example/.markdownlint-cli2.yaml
-[markdownlint-js]: test/markdownlint-js/.markdownlint.js
+[markdownlint-cjs]: test/markdownlint-cjs/.markdownlint.cjs
 [markdownlint-jsonc]: https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.jsonc
 [markdownlint-rule]: https://www.npmjs.com/search?q=keywords:markdownlint-rule
 [markdownlint-yaml]: https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.yaml
