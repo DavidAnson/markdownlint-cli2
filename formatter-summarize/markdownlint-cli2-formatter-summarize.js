@@ -11,72 +11,72 @@ const outputFormatter = (options, params) => {
   const { logMessage, results } = options;
   const { byFile, byRule, byFileByRule, byRuleByFile } = (params || {});
   // Calculate statistics
-  const countByFile = {};
-  const countByRule = {};
-  const countByFileByRule = {};
-  const countByRuleByFile = {};
+  const countByFile = new Map();
+  const countByRule = new Map();
+  const countByFileByRule = new Map();
+  const countByRuleByFile = new Map();
   for (const result of results) {
     const { fileName, ruleNames } = result;
-    countByFile[fileName] = (countByFile[fileName] || 0) + 1;
+    countByFile.set(fileName, (countByFile.get(fileName) || 0) + 1);
     const ruleName = ruleNames.join("/");
-    countByRule[ruleName] = (countByRule[ruleName] || 0) + 1;
-    const countByRuleOfFile = countByFileByRule[fileName] || {};
-    countByRuleOfFile[ruleName] = (countByRuleOfFile[ruleName] || 0) + 1;
-    countByFileByRule[fileName] = countByRuleOfFile;
-    const countByFileOfRule = countByRuleByFile[ruleName] || {};
-    countByFileOfRule[fileName] = (countByFileOfRule[fileName] || 0) + 1;
-    countByRuleByFile[ruleName] = countByFileOfRule;
+    countByRule.set(ruleName, (countByRule.get(ruleName) || 0) + 1);
+    const countByRuleOfFile = countByFileByRule.get(fileName) || new Map();
+    countByRuleOfFile.set(ruleName, (countByRuleOfFile.get(ruleName) || 0) + 1);
+    countByFileByRule.set(fileName, countByRuleOfFile);
+    const countByFileOfRule = countByRuleByFile.get(ruleName) || new Map();
+    countByFileOfRule.set(fileName, (countByFileOfRule.get(fileName) || 0) + 1);
+    countByRuleByFile.set(ruleName, countByFileOfRule);
   }
   // Show statistics by...
   if (byFile) {
     logColumns(logMessage, "Count", "File");
-    const files = Object.keys(countByFile);
+    const files = [ ...countByFile.keys() ];
     files.sort();
     for (const file of files) {
-      logColumns(logMessage, countByFile[file], file);
+      logColumns(logMessage, countByFile.get(file), file);
     }
     const total = results.length;
     logColumns(logMessage, total, "[Total]");
   }
   if (byRule) {
     logColumns(logMessage, "Count", "Rule");
-    const rules = Object.keys(countByRule);
+    const rules = [ ...countByRule.keys() ];
     rules.sort();
     for (const rule of rules) {
-      logColumns(logMessage, countByRule[rule], rule);
+      logColumns(logMessage, countByRule.get(rule), rule);
     }
     const total = results.length;
     logColumns(logMessage, total, "[Total]");
   }
   if (byFileByRule) {
-    const files = Object.keys(countByFileByRule);
+    const files = [ ...countByFileByRule.keys() ];
     files.sort();
     for (const file of files) {
       logMessage(file);
       logColumns(logMessage, "Count", "Rule", 2);
-      const countByRuleOfFile = countByFileByRule[file];
-      const rules = Object.keys(countByRuleOfFile);
+      const countByRuleOfFile = countByFileByRule.get(file);
+      const rules = [ ...countByRuleOfFile.keys() ];
       rules.sort();
       for (const rule of rules) {
-        logColumns(logMessage, countByRuleOfFile[rule], rule, 2);
+        logColumns(logMessage, countByRuleOfFile.get(rule), rule, 2);
       }
-      const total = countByFile[file];
+      const total = countByFile.get(file);
       logColumns(logMessage, total, "[Total]", 2);
     }
   }
   if (byRuleByFile) {
-    const rules = Object.keys(countByRuleByFile);
+    const rules = [ ...countByRuleByFile.keys() ];
     rules.sort();
     for (const rule of rules) {
       logMessage(rule);
       logColumns(logMessage, "Count", "File", 2);
-      const countByFileOfRule = countByRuleByFile[rule];
-      const files = Object.keys(countByFileOfRule);
+      const countByFileOfRule = countByRuleByFile.get(rule);
+      const files = [ ...countByFileOfRule.keys() ];
       files.sort();
       for (const file of files) {
-        logColumns(logMessage, countByFileOfRule[file], file, 2);
+        logColumns(logMessage, countByFileOfRule.get(file), file, 2);
       }
-      const total = countByRule[rule];
+      const total = countByRule.get(rule);
       logColumns(logMessage, total, "[Total]", 2);
     }
   }
