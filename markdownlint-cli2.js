@@ -478,6 +478,7 @@ async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, optionsOverride, 
   dirs.sort((a, b) => b.length - a.length);
   const dirInfos = [];
   const noConfigDirInfo =
+    // eslint-disable-next-line unicorn/consistent-function-scoping
     (dirInfo) => (
       dirInfo.parent &&
       !dirInfo.markdownlintConfig &&
