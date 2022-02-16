@@ -11,7 +11,7 @@ const outputFormatter = (options, params) => {
   const { name, spaces } = (params || {});
   const content = JSON.stringify(results, null, spaces || 2);
   return fs.writeFile(
-    path.join(
+    path.resolve(
       // eslint-disable-next-line no-inline-comments
       directory /* c8 ignore next */ || "",
       name || "markdownlint-cli2-results.json"
