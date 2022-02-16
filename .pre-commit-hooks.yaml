@@ -7,7 +7,7 @@
   minimum_pre_commit_version: 0.15.0
 - id: markdownlint-cli2-config
   name: markdownlint-cli2-config
-  description: "Checks the style of Markdown/CommonMark files with a non-root configuration file."
+  description: "Checks the style of Markdown/CommonMark files with a non-root configuration."
   entry: markdownlint-cli2-config
   language: node
   types: [markdown]
