@@ -557,6 +557,15 @@ const testCases =
   });
 
   testCase({
+    "name": "outputFormatters-params-absolute",
+    "args": [ "**/*.md" ],
+    "cwd": directoryName("outputFormatters-params-absolute"),
+    "pre": copyDirectory,
+    "post": deleteDirectory,
+    "usesRequire": true
+  });
+
+  testCase({
     "name": "outputFormatters-pre-imported",
     "args": [ "**/*.md" ],
     "cwd": directoryName("outputFormatters-pre-imported"),
