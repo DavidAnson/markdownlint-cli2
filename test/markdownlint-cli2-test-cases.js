@@ -5,7 +5,6 @@
 const fs = require("fs").promises;
 const path = require("path");
 const test = require("ava").default;
-const cpy = require("cpy");
 const del = require("del");
 
 const noop = () => null;
@@ -88,18 +87,17 @@ const testCases =
 
   const directoryName = (dir) => `${dir}-copy-${host}`;
 
-  const copyDirectory = (dir) => {
-    const target = path.join("..", directoryName(dir));
-    return cpy([ "**/*", "**/.*" ], target, {
-      "cwd": path.join(__dirname, dir),
-      "parents": true
-    });
-  };
+  // eslint-disable-next-line node/no-unsupported-features/es-syntax
+  const copyDirectory = (dir) => import("cpy").then((cpy) => (
+    cpy.default(
+      path.join(__dirname, dir, "**"),
+      path.join(__dirname, directoryName(dir))
+    )
+  ));
 
-  const deleteDirectory = (dir) => {
-    const target = directoryName(dir);
-    return del(path.join(__dirname, target));
-  };
+  const deleteDirectory = (dir) => (
+    del(path.join(__dirname, directoryName(dir)))
+  );
 
   testCase({
     "name": "no-arguments",
