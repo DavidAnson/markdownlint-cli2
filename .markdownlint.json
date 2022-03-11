@@ -2,5 +2,17 @@
   "line-length": {
     "strict": true,
     "code_blocks": false
+  },
+  "proper-names": {
+    "code_blocks": false,
+    "names": [
+      "CommonMark",
+      "JavaScript",
+      "Markdown",
+      "markdown-it",
+      "markdownlint",
+      "markdownlint-cli2",
+      "Node.js"
+    ]
   }
 }
