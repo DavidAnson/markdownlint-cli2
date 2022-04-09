@@ -3,7 +3,7 @@
 "use strict";
 
 const { URL } = require("url");
-const { filterTokens } = require("markdownlint-rule-helpers");
+const { filterTokens } = require("markdownlint/helpers");
 
 module.exports = {
   "names": [ "any-blockquote" ],

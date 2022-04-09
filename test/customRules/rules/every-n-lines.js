@@ -2,7 +2,7 @@
 
 "use strict";
 
-const { forEachLine, getLineMetadata } = require("markdownlint-rule-helpers");
+const { forEachLine, getLineMetadata } = require("markdownlint/helpers");
 
 module.exports = {
   "names": [ "every-n-lines" ],

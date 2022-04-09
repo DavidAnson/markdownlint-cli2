@@ -14,7 +14,7 @@ const path = require("path");
 const markdownlintLibrary = require("markdownlint");
 const { markdownlint, "readConfig": markdownlintReadConfig } =
   markdownlintLibrary.promises;
-const markdownlintRuleHelpers = require("markdownlint-rule-helpers");
+const markdownlintRuleHelpers = require("markdownlint/helpers");
 const appendToArray = require("./append-to-array");
 const mergeOptions = require("./merge-options");
 const resolveAndRequire = require("./resolve-and-require");
