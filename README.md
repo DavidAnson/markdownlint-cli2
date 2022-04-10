@@ -20,8 +20,11 @@ As a development dependency of the current package:
 npm install markdownlint-cli2 --save-dev
 ```
 
-Or [use the container image](#container-image) available on
-[Docker Hub as davidanson/markdownlint-cli2][docker-hub-markdownlint-cli2].
+Or as a Docker container image:
+
+```shell
+docker pull davidanson/markdownlint-cli2
+```
 
 ## Overview
 
