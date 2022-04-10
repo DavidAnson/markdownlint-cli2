@@ -14,3 +14,9 @@ USER node
 WORKDIR /workdir
 
 ENTRYPOINT ["/usr/local/bin/markdownlint-cli2"]
+
+LABEL org.opencontainers.image.description="A fast, flexible, configuration-based command-line interface for linting Markdown/CommonMark files with the `markdownlint` library"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.source="https://github.com/DavidAnson/markdownlint-cli2"
+LABEL org.opencontainers.image.title="markdownlint-cli2"
+LABEL org.opencontainers.image.url="https://github.com/DavidAnson/markdownlint-cli2"
