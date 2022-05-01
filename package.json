@@ -38,7 +38,7 @@
     "upgrade": "npx --yes npm-check-updates --upgrade"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "files": [
     "append-to-array.js",
