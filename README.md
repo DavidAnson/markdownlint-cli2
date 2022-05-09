@@ -118,6 +118,16 @@ markdownlint-cli2-config "config/.markdownlint-cli2.jsonc" "**/*.md" "#node_modu
 
 Otherwise, this command behaves identically to `markdownlint-cli2`.
 
+Please note that the filename used must still be one of the supported
+configuration files, that is:
+
+- .markdownlint-cli2.jsonc
+- .markdownlint-cli2.yaml
+- .markdownlint-cli2.cjs
+- .markdownlint.jsonc or .markdownlint.json
+- .markdownlint.yaml or .markdownlint.yml
+- .markdownlint.cjs
+
 ### Container Image
 
 A container image [`davidanson/markdownlint-cli2`][docker-hub-markdownlint-cli2]
