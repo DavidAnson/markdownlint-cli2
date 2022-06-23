@@ -50,7 +50,7 @@
   ],
   "dependencies": {
     "globby": "12.1.0",
-    "markdownlint": "0.25.1",
+    "markdownlint": "0.26.0",
     "markdownlint-cli2-formatter-default": "0.0.3",
     "micromatch": "4.0.4",
     "strip-json-comments": "4.0.0",
