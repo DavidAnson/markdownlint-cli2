@@ -45,10 +45,7 @@ test("README files", (t) => {
   ];
   return markdownlintCli2({
     argv,
-    "logError": uncalled,
-    "optionsDefault": {
-      "customRules": [ require("markdownlint-rule-github-internal-links") ]
-    }
+    "logError": uncalled
   }).
     then((exitCode) => t.is(exitCode, 0));
 });
