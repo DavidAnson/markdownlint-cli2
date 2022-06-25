@@ -190,6 +190,17 @@ const testCases =
   });
 
   testCase({
+    "name": "dotfiles",
+    "args": [ "**" ]
+  });
+
+  testCase({
+    "name": "dotfiles-exclude",
+    "args": [ "**", "!.dir", "!**/.info.md" ],
+    "cwd": "dotfiles"
+  });
+
+  testCase({
     "name": "globs",
     "args": []
   });

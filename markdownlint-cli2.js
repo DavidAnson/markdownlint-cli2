@@ -346,6 +346,7 @@ async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, noErrors, noRequi
   const globbyOptions = {
     "absolute": true,
     "cwd": baseDir,
+    "dot": true,
     "expandDirectories": false,
     fs
   };
