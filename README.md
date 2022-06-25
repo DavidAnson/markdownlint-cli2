@@ -119,6 +119,9 @@ accepts a path to any supported configuration file as its first argument:
 markdownlint-cli2-config "config/.markdownlint-cli2.jsonc" "**/*.md" "#node_modules"
 ```
 
+The configuration file name must be (or end with) one of the supported types
+above. For example, `.markdownlint.json` or `example.markdownlint-cli2.jsonc`.
+
 Otherwise, this command behaves identically to `markdownlint-cli2`.
 
 ### Container Image

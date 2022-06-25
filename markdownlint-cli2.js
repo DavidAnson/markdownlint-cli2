@@ -126,6 +126,12 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
       await markdownlintReadConfig(configPath, [ jsoncParse, yamlParse ], fs);
   } else if (basename.endsWith(".markdownlint.cjs")) {
     config = await (requireConfig(fs, dirname, basename, noRequire)());
+  } else {
+    throw new Error(
+      `Configuration file "${configPath}" is unrecognized; ` +
+      "its name should be (or end with) one of the supported types " +
+      "(e.g., \".markdownlint.json\" or \"example.markdownlint-cli2.jsonc\")."
+    );
   }
   return options || { config };
 };

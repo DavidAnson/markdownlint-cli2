@@ -79,7 +79,7 @@ const testCases =
               t.true(true);
             }
             t.snapshot(actual);
-            resolve();
+            resolve(null);
           })
         ]));
     });
@@ -476,6 +476,18 @@ const testCases =
       "usesScript": true
     });
   }
+
+  testCase({
+    "name": "config-file-unrecognized",
+    "script": "markdownlint-cli2-config.js",
+    "args": [ "cfg/unrecognized.jsonc", "**/*.md" ],
+    "exitCode": 2,
+    "stderrRe":
+      // eslint-disable-next-line max-len
+      /Configuration file "cfg\/unrecognized\.jsonc" is unrecognized; its name should be \(or end with\) one of the supported types \(e\.g\., "\.markdownlint\.json" or "example\.markdownlint-cli2\.jsonc"\)\./u,
+    "cwd": "config-files",
+    "usesScript": true
+  });
 
   testCase({
     "name": "customRules",
