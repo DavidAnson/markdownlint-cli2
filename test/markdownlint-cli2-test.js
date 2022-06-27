@@ -18,6 +18,7 @@ test("name and version", (t) => {
   const logMessage = (msg) => {
     const match = (/^(?<name>\S+)\sv(?<version>\S+)\s/u).exec(msg);
     if (match) {
+      // @ts-ignore
       const { name, version } = match.groups;
       t.is(name, packageJson.name);
       t.is(version, packageJson.version);

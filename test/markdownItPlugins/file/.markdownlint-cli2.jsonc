@@ -1,0 +1,5 @@
+{
+  "markdownItPlugins": [
+    [ "./custom-markdown-it-plugin.cjs" ]
+  ]
+}
