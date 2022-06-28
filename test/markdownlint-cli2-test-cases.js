@@ -605,6 +605,12 @@ const testCases =
   });
 
   testCase({
+    "name": "outputFormatters-file",
+    "args": [ "**/*.md" ],
+    "usesRequire": true
+  });
+
+  testCase({
     "name": "outputFormatters-missing",
     "args": [ ".*" ],
     "stderrRe": /Cannot find module 'missing-package'/u,
