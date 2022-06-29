@@ -501,6 +501,15 @@ const testCases =
   });
 
   testCase({
+    "name": "config-relative",
+    "script": "markdownlint-cli2-config.js",
+    "args": [ "config/.markdownlint-cli2.jsonc", "viewme.md", "file.md" ],
+    "exitCode": 1,
+    "usesRequire": true,
+    "usesScript": true
+  });
+
+  testCase({
     "name": "customRules",
     "args": [ "**/*.md" ],
     "usesRequire": true

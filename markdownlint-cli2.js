@@ -214,11 +214,12 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"`
 
 // Get (creating if necessary) and process a directory's info object
 const getAndProcessDirInfo =
-(fs, tasks, dirToDirInfo, dir, noRequire, func) => {
+(fs, tasks, dirToDirInfo, dir, relativeDir, noRequire, func) => {
   let dirInfo = dirToDirInfo[dir];
   if (!dirInfo) {
     dirInfo = {
       dir,
+      relativeDir,
       "parent": null,
       "files": [],
       "markdownlintConfig": null,
@@ -303,6 +304,7 @@ const getAndProcessDirInfo =
 const getBaseOptions = async (
   fs,
   baseDir,
+  relativeDir,
   globPatterns,
   optionsDefault,
   fixDefault,
@@ -311,7 +313,14 @@ const getBaseOptions = async (
 ) => {
   const tasks = [];
   const dirToDirInfo = {};
-  getAndProcessDirInfo(fs, tasks, dirToDirInfo, baseDir, noRequire);
+  getAndProcessDirInfo(
+    fs,
+    tasks,
+    dirToDirInfo,
+    baseDir,
+    relativeDir,
+    noRequire
+  );
   await Promise.all(tasks);
   // eslint-disable-next-line no-multi-assign
   const baseMarkdownlintOptions = dirToDirInfo[baseDir].markdownlintOptions =
@@ -407,6 +416,7 @@ async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, noErrors, noRequi
       tasks,
       dirToDirInfo,
       dir,
+      null,
       noRequire,
       (dirInfo) => {
         dirInfo.files.push(file);
@@ -444,6 +454,7 @@ const enumerateParents = async (fs, baseDir, dirToDirInfo, noRequire) => {
           tasks,
           dirToDirInfo,
           dir,
+          null,
           noRequire,
           // eslint-disable-next-line no-loop-func
           (dirInfo) => {
@@ -499,11 +510,11 @@ async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, optionsOverride, 
       }
       dirToDirInfo[dir] = null;
     } else {
-      const { markdownlintOptions } = dirInfo;
+      const { markdownlintOptions, relativeDir } = dirInfo;
       if (markdownlintOptions && markdownlintOptions.customRules) {
         const customRules =
           requireIds(
-            dir,
+            relativeDir || dir,
             markdownlintOptions.customRules,
             noRequire
           );
@@ -513,7 +524,7 @@ async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, optionsOverride, 
       if (markdownlintOptions && markdownlintOptions.markdownItPlugins) {
         markdownlintOptions.markdownItPlugins =
           requireIdsAndParams(
-            dir,
+            relativeDir || dir,
             markdownlintOptions.markdownItPlugins,
             noRequire
           );
@@ -696,26 +707,32 @@ const createSummary = (baseDir, taskResults) => {
 };
 
 // Output summary via formatters
-const outputSummary =
-  async (baseDir, summary, outputFormatters, logMessage, logError) => {
-    const errorsPresent = (summary.length > 0);
-    if (errorsPresent || outputFormatters) {
-      const formatterOptions = {
-        "directory": baseDir,
-        "results": summary,
-        logMessage,
-        logError
-      };
-      const formattersAndParams = outputFormatters
-        ? requireIdsAndParams(baseDir, outputFormatters)
-        : [ [ require("markdownlint-cli2-formatter-default") ] ];
-      await Promise.all(formattersAndParams.map((formatterAndParams) => {
-        const [ formatter, ...formatterParams ] = formatterAndParams;
-        return formatter(formatterOptions, ...formatterParams);
-      }));
-    }
-    return errorsPresent;
-  };
+const outputSummary = async (
+  baseDir,
+  relativeDir,
+  summary,
+  outputFormatters,
+  logMessage,
+  logError
+) => {
+  const errorsPresent = (summary.length > 0);
+  if (errorsPresent || outputFormatters) {
+    const formatterOptions = {
+      "directory": baseDir,
+      "results": summary,
+      logMessage,
+      logError
+    };
+    const formattersAndParams = outputFormatters
+      ? requireIdsAndParams(relativeDir || baseDir, outputFormatters)
+      : [ [ require("markdownlint-cli2-formatter-default") ] ];
+    await Promise.all(formattersAndParams.map((formatterAndParams) => {
+      const [ formatter, ...formatterParams ] = formatterAndParams;
+      return formatter(formatterOptions, ...formatterParams);
+    }));
+  }
+  return errorsPresent;
+};
 
 // Main function
 const main = async (params) => {
@@ -747,10 +764,12 @@ const main = async (params) => {
   );
   // Read argv configuration file (if relevant and present)
   let optionsArgv = null;
+  let relativeDir = null;
   const [ configPath ] = (argv || []);
   if ((name === "markdownlint-cli2-config") && configPath) {
     optionsArgv =
       await readOptionsOrConfig(configPath, fs, noRequire);
+    relativeDir = path.dirname(configPath);
   }
   // Process arguments and get base options
   const globPatterns = processArgv(optionsArgv ? argv.slice(1) : argv);
@@ -758,6 +777,7 @@ const main = async (params) => {
     await getBaseOptions(
       fs,
       baseDir,
+      relativeDir,
       globPatterns,
       optionsArgv || optionsDefault,
       fixDefault,
@@ -818,7 +838,7 @@ const main = async (params) => {
     (optionsOverride && optionsOverride.outputFormatters) ||
     baseMarkdownlintOptions.outputFormatters;
   const errorsPresent = await outputSummary(
-    baseDir, summary, outputFormatters, logMessage, logError
+    baseDir, relativeDir, summary, outputFormatters, logMessage, logError
   );
   // Return result
   return errorsPresent ? 1 : 0;
