@@ -178,11 +178,11 @@ docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/mark
 - See the [Configuration][markdownlint-configuration] section of the
   `markdownlint` documentation for information about the inline comment syntax
   for enabling and disabling rules with HTML comments.
-- In general, glob expressions match files under the current directory and
-  configuration for that (top-level) directory applies to the entire tree
+- In general, glob expressions match files under the current directory and the
+  configuration for that directory applies to the entire tree.
   - When glob expressions match files *not* under the current directory,
-    configuration for the current (top-level) directory is applied to the
-    closest common parent directory
+    configuration for the current directory is applied to the closest common
+    parent directory.
 
 ### `.markdownlint-cli2.jsonc`
 
@@ -250,7 +250,7 @@ docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/mark
     - Search [`markdownlint-cli2-formatter` on npm][markdownlint-cli2-formatter]
 - Settings in this file apply to the directory it is in and all subdirectories.
 - Settings **merge with** those applied by any versions of this file in a parent
-  directory.
+  directory (up to the current directory).
 - For example: [`.markdownlint-cli2.jsonc`][markdownlint-cli2-jsonc] with all
   properties set
 
@@ -282,7 +282,7 @@ docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/mark
   the [`markdownlint` `config` object][markdownlint-config].
 - Settings in this file apply to the directory it is in and all subdirectories
 - Settings **override** those applied by any versions of this file in a parent
-  directory.
+  directory (up to the current directory).
 - If `jsonc` and `json` files are present in the same directory, the `jsonc`
   version takes precedence.
 - To merge the settings of these files or share configuration, use the `extends`
