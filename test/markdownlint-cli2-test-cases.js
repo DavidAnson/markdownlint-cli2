@@ -503,7 +503,7 @@ const testCases =
   testCase({
     "name": "config-relative",
     "script": "markdownlint-cli2-config.js",
-    "args": [ "config/.markdownlint-cli2.jsonc", "viewme.md", "file.md" ],
+    "args": [ "config/.markdownlint-cli2.jsonc", "viewme.md", "link.md" ],
     "exitCode": 1,
     "usesRequire": true,
     "usesScript": true
