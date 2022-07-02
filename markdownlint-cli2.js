@@ -306,7 +306,7 @@ const getBaseOptions = async (
   baseDir,
   relativeDir,
   globPatterns,
-  optionsDefault,
+  options,
   fixDefault,
   noGlobs,
   noRequire
@@ -325,7 +325,7 @@ const getBaseOptions = async (
   // eslint-disable-next-line no-multi-assign
   const baseMarkdownlintOptions = dirToDirInfo[baseDir].markdownlintOptions =
     mergeOptions(
-      mergeOptions(optionsDefault, { "fix": fixDefault }),
+      mergeOptions(options, { "fix": fixDefault }),
       dirToDirInfo[baseDir].markdownlintOptions
     );
 

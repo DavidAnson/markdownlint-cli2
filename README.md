@@ -121,7 +121,8 @@ markdownlint-cli2-config "config/.markdownlint-cli2.jsonc" "**/*.md" "#node_modu
 
 The configuration file name must be (or end with) one of the supported types
 above. For example, `.markdownlint.json` or `example.markdownlint-cli2.jsonc`.
-
+The specified configuration file will be loaded, parsed, and applied as a base
+configuration for the current directory - which will then be handled normally.
 Otherwise, this command behaves identically to `markdownlint-cli2`.
 
 ### Container Image
