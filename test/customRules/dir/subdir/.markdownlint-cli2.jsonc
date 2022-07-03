@@ -1,7 +1,7 @@
 {
   "customRules": [
     "../../rules/first-line.js",
-    "../../rules/npm",
+    "../../node_modules/markdownlint-rule-sample",
     "markdownlint-rule-titlecase"
   ]
 }
