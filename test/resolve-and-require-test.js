@@ -27,10 +27,10 @@ test("locally-installed module", (t) => {
 test("relative (to __dirname) path to module", (t) => {
   t.plan(1);
   t.deepEqual(
-    require("./customRules/node_modules/markdownlint-rule-sample"),
+    require("./customRules/node_modules/markdownlint-rule-sample-commonjs"),
     resolveAndRequire(
       require,
-      "./customRules/node_modules/markdownlint-rule-sample",
+      "./customRules/node_modules/markdownlint-rule-sample-commonjs",
       __dirname
     )
   );
@@ -40,14 +40,14 @@ test("module in alternate node_modules", (t) => {
   t.plan(2);
   t.throws(
     // @ts-ignore
-    () => require("markdownlint-rule-sample"),
+    () => require("markdownlint-rule-sample-commonjs"),
     { "code": "MODULE_NOT_FOUND" }
   );
   t.deepEqual(
-    require("./customRules/node_modules/markdownlint-rule-sample"),
+    require("./customRules/node_modules/markdownlint-rule-sample-commonjs"),
     resolveAndRequire(
       require,
-      "markdownlint-rule-sample",
+      "markdownlint-rule-sample-commonjs",
       path.join(__dirname, "customRules")
     )
   );
@@ -59,14 +59,14 @@ test("module in alternate node_modules and no require.resolve.paths", (t) => {
   delete require.resolve.paths;
   t.throws(
     // @ts-ignore
-    () => require("markdownlint-rule-sample"),
+    () => require("markdownlint-rule-sample-commonjs"),
     { "code": "MODULE_NOT_FOUND" }
   );
   t.deepEqual(
-    require("./customRules/node_modules/markdownlint-rule-sample"),
+    require("./customRules/node_modules/markdownlint-rule-sample-commonjs"),
     resolveAndRequire(
       require,
-      "markdownlint-rule-sample",
+      "markdownlint-rule-sample-commonjs",
       path.join(__dirname, "customRules")
     )
   );

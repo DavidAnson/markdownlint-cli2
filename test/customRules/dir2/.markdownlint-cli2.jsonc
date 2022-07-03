@@ -1,5 +1,5 @@
 {
   "customRules": [
-    "markdownlint-rule-sample"
+    "markdownlint-rule-sample-commonjs"
   ]
 }

@@ -1,6 +1,6 @@
 {
   "customRules": [
     "../rules/all-rules",
-    "../node_modules/markdownlint-rule-sample"
+    "../node_modules/markdownlint-rule-sample-commonjs"
   ]
 }
