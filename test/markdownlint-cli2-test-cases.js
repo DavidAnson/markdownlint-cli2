@@ -501,7 +501,7 @@ const testCases =
   });
 
   testCase({
-    "name": "config-relative",
+    "name": "config-relative-commonjs",
     "script": "markdownlint-cli2-config.js",
     "args": [ "config/.markdownlint-cli2.jsonc", "viewme.md", "link.md" ],
     "exitCode": 1,

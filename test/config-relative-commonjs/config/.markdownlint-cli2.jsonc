@@ -1,6 +1,6 @@
 {
   "customRules": [
-    "./any-blockquote.js"
+    "./any-blockquote.cjs"
   ],
   "markdownItPlugins": [
     [ "./custom-markdown-it-plugin.cjs" ]
