@@ -64,40 +64,54 @@ const readConfig = (fs, dir, name, otherwise) => {
     );
 };
 
-// Require a module ID with the specified directory in the path
-const requireResolve = (dir, id) => {
+// Import or resolve/require a module ID with a custom directory in the path
+const importOrRequireResolve = async (dir, id) => {
   if (typeof id === "string") {
-    return resolveAndRequire(dynamicRequire, id, dir);
+    const errors = [];
+    try {
+      return resolveAndRequire(dynamicRequire, id, dir);
+    } catch (error) {
+      errors.push(error);
+    }
+    try {
+      // eslint-disable-next-line node/no-unsupported-features/es-syntax
+      const module = await import(path.resolve(dir, id));
+      return module.default;
+    } catch (error) {
+      errors.push(error);
+    }
+    // Use AggregateError once available in Node 15+
+    throw new Error(errors.map((error) => error.message).join(" / "));
   }
   return id;
 };
 
-// Require an array of modules by ID
-const requireIds = (dir, ids, noRequire) => (
-  noRequire ? [] : ids.map((id) => requireResolve(dir, id))
+// Import or require an array of modules by ID
+const importOrRequireIds = (dir, ids, noRequire) => (
+  Promise.all(noRequire ? [] : ids.map((id) => importOrRequireResolve(dir, id)))
 );
 
-// Require an array of modules by ID (preserving parameters)
-const requireIdsAndParams = (dir, idsAndParams, noRequire) => {
+// Import or require an array of modules by ID (preserving parameters)
+const importOrRequireIdsAndParams = async (dir, idsAndParams, noRequire) => {
   if (noRequire) {
     return [];
   }
   const ids = idsAndParams.map((entry) => entry[0]);
-  const modules = requireIds(dir, ids);
+  const modules = await importOrRequireIds(dir, ids);
   const modulesAndParams = idsAndParams.
     map((entry, i) => [ modules[i], ...entry.slice(1) ]);
   return modulesAndParams;
 };
 
-// Require a JS file and return the exported object
-const requireConfig = (fs, dir, name, noRequire) => (
+// Import or require a JavaScript file and return the exported object
+const importOrRequireConfig = (fs, dir, name, noRequire) => (
   () => (noRequire
     // eslint-disable-next-line prefer-promise-reject-errors
     ? Promise.reject()
     : fs.promises.access(path.posix.join(dir, name))
   ).
     then(
-      () => requireResolve(dir, `./${name}`),
+      () => importOrRequireResolve(dir, `./${name}`),
       noop
     )
 );
@@ -114,7 +128,7 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
   } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
     options = yamlParse(await fs.promises.readFile(configPath, utf8));
   } else if (basename.endsWith(".markdownlint-cli2.cjs")) {
-    options = await (requireConfig(fs, dirname, basename, noRequire)());
+    options = await (importOrRequireConfig(fs, dirname, basename, noRequire)());
   } else if (
     basename.endsWith(".markdownlint.jsonc") ||
     basename.endsWith(".markdownlint.json") ||
@@ -125,7 +139,7 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
     config =
       await markdownlintReadConfig(configPath, [ jsoncParse, yamlParse ], fs);
   } else if (basename.endsWith(".markdownlint.cjs")) {
-    config = await (requireConfig(fs, dirname, basename, noRequire)());
+    config = await (importOrRequireConfig(fs, dirname, basename, noRequire)());
   } else {
     throw new Error(
       `Configuration file "${configPath}" is unrecognized; ` +
@@ -246,7 +260,7 @@ const getAndProcessDirInfo =
               () => fs.promises.
                 readFile(markdownlintCli2Yaml, utf8).
                 then(yamlParse),
-              requireConfig(
+              importOrRequireConfig(
                 fs,
                 dir,
                 ".markdownlint-cli2.cjs",
@@ -277,7 +291,7 @@ const getAndProcessDirInfo =
               fs,
               dir,
               ".markdownlint.yml",
-              requireConfig(
+              importOrRequireConfig(
                 fs,
                 dir,
                 ".markdownlint.cjs",
@@ -502,6 +516,7 @@ async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, optionsOverride, 
       !dirInfo.markdownlintConfig &&
       !dirInfo.markdownlintOptions
     );
+  const tasks = [];
   for (const dir of dirs) {
     const dirInfo = dirToDirInfo[dir];
     if (noConfigDirInfo(dirInfo)) {
@@ -512,26 +527,32 @@ async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, optionsOverride, 
     } else {
       const { markdownlintOptions, relativeDir } = dirInfo;
       if (markdownlintOptions && markdownlintOptions.customRules) {
-        const customRules =
-          requireIds(
+        tasks.push(
+          importOrRequireIds(
             relativeDir || dir,
             markdownlintOptions.customRules,
             noRequire
-          );
-        // Expand nested arrays (for packages that export multiple rules)
-        markdownlintOptions.customRules = customRules.flat();
+          ).then((customRules) => {
+            // Expand nested arrays (for packages that export multiple rules)
+            markdownlintOptions.customRules = customRules.flat();
+          })
+        );
       }
       if (markdownlintOptions && markdownlintOptions.markdownItPlugins) {
-        markdownlintOptions.markdownItPlugins =
-          requireIdsAndParams(
+        tasks.push(
+          importOrRequireIdsAndParams(
             relativeDir || dir,
             markdownlintOptions.markdownItPlugins,
             noRequire
-          );
+          ).then((markdownItPlugins) => {
+            markdownlintOptions.markdownItPlugins = markdownItPlugins;
+          })
+        );
       }
       dirInfos.push(dirInfo);
     }
   }
+  await Promise.all(tasks);
   for (const dirInfo of dirInfos) {
     while (dirInfo.parent && !dirToDirInfo[dirInfo.parent.dir]) {
       dirInfo.parent = dirInfo.parent.parent;
@@ -723,8 +744,9 @@ const outputSummary = async (
       logMessage,
       logError
     };
+    const dir = relativeDir || baseDir;
     const formattersAndParams = outputFormatters
-      ? requireIdsAndParams(relativeDir || baseDir, outputFormatters)
+      ? await importOrRequireIdsAndParams(dir, outputFormatters)
       : [ [ require("markdownlint-cli2-formatter-default") ] ];
     await Promise.all(formattersAndParams.map((formatterAndParams) => {
       const [ formatter, ...formatterParams ] = formatterAndParams;

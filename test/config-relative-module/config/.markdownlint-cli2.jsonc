@@ -1,0 +1,11 @@
+{
+  "customRules": [
+    "./any-blockquote.mjs"
+  ],
+  "markdownItPlugins": [
+    [ "./custom-markdown-it-plugin.mjs" ]
+  ],
+  "outputFormatters": [
+    [ "./custom-output-formatter.mjs" ]
+  ]
+}

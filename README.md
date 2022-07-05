@@ -197,8 +197,6 @@ docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/mark
   - `customRules`: `Array` of `String`s (or `Array`s of `String`s) of module
     names/paths of [custom rules][markdownlint-custom-rules] to load and use
     when linting
-    - Each `String` is passed as the `id` parameter to Node's
-      [require function][nodejs-require]
     - Relative paths are resolved based on the location of the `JSONC` file
     - Search [`markdownlint-rule` on npm][markdownlint-rule]
   - `fix`: `Boolean` value to enable fixing of linting errors reported by rules
@@ -249,6 +247,13 @@ docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/mark
     - This top-level setting is valid **only** in the directory from which
       `markdownlint-cli2` is run
     - Search [`markdownlint-cli2-formatter` on npm][markdownlint-cli2-formatter]
+- When referencing a module via the `customRules`, `markdownItPlugins`, or
+  `outputFormatters` properties, each `String` identifier is passed to Node's
+  [`require` function][nodejs-require] then (if that failed) its
+  [`import` expression][nodejs-import-expression]
+  - Importing a locally-installed module using a bare specifier (ex:
+    `package-name`) or using a directory name (ex: `./package-dir`) will not
+    work until [`import.meta.resolve`][nodejs-import-meta-resolve] is available
 - Settings in this file apply to the directory it is in and all subdirectories.
 - Settings **merge with** those applied by any versions of this file in a parent
   directory (up to the current directory).
@@ -405,6 +410,8 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 [nodejs]: https://nodejs.org/
 [nodejs-docker]: https://github.com/nodejs/docker-node
 [nodejs-docker-non-root]: https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
+[nodejs-import-expression]: https://nodejs.org/api/esm.html#import-expressions
+[nodejs-import-meta-resolve]: https://nodejs.org/api/esm.html#importmetaresolvespecifier-parent
 [nodejs-require]: https://nodejs.org/api/modules.html#modules_require_id
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2
