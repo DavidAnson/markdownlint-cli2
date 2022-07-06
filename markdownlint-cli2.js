@@ -11,6 +11,7 @@ const dynamicRequire = (typeof __non_webpack_require__ === "undefined") ? requir
 
 // Requires
 const path = require("path");
+const { pathToFileURL } = require("url");
 const markdownlintLibrary = require("markdownlint");
 const { markdownlint, "readConfig": markdownlintReadConfig } =
   markdownlintLibrary.promises;
@@ -74,8 +75,9 @@ const importOrRequireResolve = async (dir, id) => {
       errors.push(error);
     }
     try {
+      const fileUrlString = pathToFileURL(path.resolve(dir, id)).toString();
       // eslint-disable-next-line node/no-unsupported-features/es-syntax
-      const module = await import(path.resolve(dir, id));
+      const module = await import(fileUrlString);
       return module.default;
     } catch (error) {
       errors.push(error);
