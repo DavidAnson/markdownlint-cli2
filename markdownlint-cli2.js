@@ -106,7 +106,7 @@ const importOrRequireIdsAndParams = async (dir, idsAndParams, noRequire) => {
 };
 
 // Import or require a JavaScript file and return the exported object
-const importOrRequireConfig = (fs, dir, name, noRequire) => (
+const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => (
   () => (noRequire
     // eslint-disable-next-line prefer-promise-reject-errors
     ? Promise.reject()
@@ -114,7 +114,7 @@ const importOrRequireConfig = (fs, dir, name, noRequire) => (
   ).
     then(
       () => importOrRequireResolve(dir, `./${name}`),
-      noop
+      otherwise
     )
 );
 
@@ -129,8 +129,13 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
     options = jsoncParse(await fs.promises.readFile(configPath, utf8));
   } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
     options = yamlParse(await fs.promises.readFile(configPath, utf8));
-  } else if (basename.endsWith(".markdownlint-cli2.cjs")) {
-    options = await (importOrRequireConfig(fs, dirname, basename, noRequire)());
+  } else if (
+    basename.endsWith(".markdownlint-cli2.cjs") ||
+    basename.endsWith(".markdownlint-cli2.mjs")
+  ) {
+    options = await (
+      importOrRequireConfig(fs, dirname, basename, noRequire, noop)()
+    );
   } else if (
     basename.endsWith(".markdownlint.jsonc") ||
     basename.endsWith(".markdownlint.json") ||
@@ -140,8 +145,13 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
     const jsoncParse = await getJsoncParse();
     config =
       await markdownlintReadConfig(configPath, [ jsoncParse, yamlParse ], fs);
-  } else if (basename.endsWith(".markdownlint.cjs")) {
-    config = await (importOrRequireConfig(fs, dirname, basename, noRequire)());
+  } else if (
+    basename.endsWith(".markdownlint.cjs") ||
+    basename.endsWith(".markdownlint.mjs")
+  ) {
+    config = await (
+      importOrRequireConfig(fs, dirname, basename, noRequire, noop)()
+    );
   } else {
     throw new Error(
       `Configuration file "${configPath}" is unrecognized; ` +
@@ -210,10 +220,10 @@ Dot-only glob:
 Configuration via:
 - .markdownlint-cli2.jsonc
 - .markdownlint-cli2.yaml
-- .markdownlint-cli2.cjs
+- .markdownlint-cli2.cjs or .markdownlint-cli2.mjs
 - .markdownlint.jsonc or .markdownlint.json
 - .markdownlint.yaml or .markdownlint.yml
-- .markdownlint.cjs
+- .markdownlint.cjs or .markdownlint.mjs
 
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended
@@ -266,7 +276,14 @@ const getAndProcessDirInfo =
                 fs,
                 dir,
                 ".markdownlint-cli2.cjs",
-                noRequire
+                noRequire,
+                importOrRequireConfig(
+                  fs,
+                  dir,
+                  ".markdownlint-cli2.mjs",
+                  noRequire,
+                  noop
+                )
               )
             )
         ).
@@ -297,7 +314,14 @@ const getAndProcessDirInfo =
                 fs,
                 dir,
                 ".markdownlint.cjs",
-                noRequire
+                noRequire,
+                importOrRequireConfig(
+                  fs,
+                  dir,
+                  ".markdownlint.mjs",
+                  noRequire,
+                  noop
+                )
               )
             )
           )

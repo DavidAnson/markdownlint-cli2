@@ -73,10 +73,10 @@ Dot-only glob:
 Configuration via:
 - .markdownlint-cli2.jsonc
 - .markdownlint-cli2.yaml
-- .markdownlint-cli2.cjs
+- .markdownlint-cli2.cjs or .markdownlint-cli2.mjs
 - .markdownlint.jsonc or .markdownlint.json
 - .markdownlint.yaml or .markdownlint.yml
-- .markdownlint.cjs
+- .markdownlint.cjs or .markdownlint.mjs
 
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended
@@ -90,9 +90,9 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 ```
 
 For scenarios where it is preferable to specify glob expressions in a
-configuration file, the `globs` property of `.markdownlint-cli2.jsonc` or
-`.markdownlint-cli2.yaml` or `.markdownlint-cli2.cjs` may be used instead of (or
-in addition to) passing `glob0 ... globN` on the command-line.
+configuration file, the `globs` property of `.markdownlint-cli2.jsonc`, `.yaml`,
+`.cjs`, or `.mjs` may be used instead of (or in addition to) passing
+`glob0 ... globN` on the command-line.
 
 As shown above, a typical command-line for `markdownlint-cli2` looks something
 like:
@@ -270,17 +270,20 @@ docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/mark
 - For example: [`.markdownlint-cli2.yaml`][markdownlint-cli2-yaml] with all
   properties set
 
-### `.markdownlint-cli2.cjs`
+### `.markdownlint-cli2.cjs` or `.markdownlint-cli2.mjs`
 
-- The format of this file is a [CommonJS module][commonjs-module] that exports
-  the object described above for `.markdownlint-cli2.jsonc`.
+- The format of this file is a [CommonJS module][commonjs-module] (`.cjs`) or
+  [ECMAScript module][ecmascript-module] (`.mjs`) that exports the object
+  described above for `.markdownlint-cli2.jsonc`.
 - Instead of passing a `String` to identify the module name/path to load for
   `customRules`, `markdownItPlugins`, and `outputFormatters`, the corresponding
   `Object` or `Function` can be provided directly.
 - Other details are the same as for `.markdownlint-cli2.jsonc` described above.
 - If a `.markdownlint-cli2.jsonc` or `.markdownlint-cli2.yaml` file is present
-  in the same directory, it takes precedence.
-- For example: [`.markdownlint-cli2.cjs`][markdownlint-cli2-cjs]
+  in the same directory, it takes precedence; `.markdownlint-cli2.cjs` takes
+  precedence over `.markdownlint-cli2.mjs`.
+- For example: [`.markdownlint-cli2.cjs`][markdownlint-cli2-cjs] or
+  [`.markdownlint-cli2.mjs`][markdownlint-cli2-mjs]
 
 ### `.markdownlint.jsonc` or `.markdownlint.json`
 
@@ -307,14 +310,17 @@ docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/mark
   precedence.
 - For example: [`.markdownlint.yaml`][markdownlint-yaml]
 
-### `.markdownlint.cjs`
+### `.markdownlint.cjs` or `.markdownlint.mjs`
 
-- The format of this file is a [CommonJS module][commonjs-module] that exports
-  the [`markdownlint` `config` object][markdownlint-config].
+- The format of this file is a [CommonJS module][commonjs-module] (`.cjs`) or
+  [ECMAScript module][ecmascript-module] (`.mjs`) that exports the
+  [`markdownlint` `config` object][markdownlint-config].
 - Other details are the same as for `jsonc`/`json` files described above.
-- If a `jsonc`, `json`, `yaml`, or `yml` file is present in the same directory,
-  it takes precedence.
-- For example: [`.markdownlint.cjs`][markdownlint-cjs]
+- If a `.markdownlint.jsonc`, `.json`, `.yaml`, or `.yml` file is present in the
+  same directory, it takes precedence; `.markdownlint.cjs` takes precedence over
+  `.markdownlint.mjs`.
+- For example: [`.markdownlint.cjs`][markdownlint-cjs] or
+  [`.markdownlint.mjs`][markdownlint-mjs]
 
 ## Compatibility
 
@@ -376,6 +382,7 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 
 [commonmark]: https://commonmark.org/
 [commonjs-module]: https://nodejs.org/api/modules.html#modules_modules_commonjs_modules
+[ecmascript-module]: https://nodejs.org/api/esm.html#modules-ecmascript-modules
 [docker-bind-mounts]: https://docs.docker.com/storage/bind-mounts/
 [docker-hub-markdownlint-cli2]: https://hub.docker.com/r/davidanson/markdownlint-cli2
 [front-matter]: https://jekyllrb.com/docs/frontmatter/
@@ -402,9 +409,11 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 [markdownlint-cli2-formatter]: https://www.npmjs.com/search?q=keywords:markdownlint-cli2-formatter
 [markdownlint-cli2-cjs]: test/markdownlint-cli2-cjs/.markdownlint-cli2.cjs
 [markdownlint-cli2-jsonc]: test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc
+[markdownlint-cli2-mjs]: test/markdownlint-cli2-mjs/.markdownlint-cli2.mjs
 [markdownlint-cli2-yaml]: test/markdownlint-cli2-yaml-example/.markdownlint-cli2.yaml
 [markdownlint-cjs]: test/markdownlint-cjs/.markdownlint.cjs
 [markdownlint-jsonc]: https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.jsonc
+[markdownlint-mjs]: test/markdownlint-mjs/.markdownlint.mjs
 [markdownlint-rule]: https://www.npmjs.com/search?q=keywords:markdownlint-rule
 [markdownlint-yaml]: https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.yaml
 [nodejs]: https://nodejs.org/

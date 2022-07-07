@@ -247,6 +247,12 @@ const testCases =
   });
 
   testCase({
+    "name": "markdownlint-mjs",
+    "args": [ "**/*.md" ],
+    "usesRequire": true
+  });
+
+  testCase({
     "name": "markdownlint-json-yaml",
     "args": [ "**/*.md" ]
   });
@@ -265,6 +271,13 @@ const testCases =
 
   testCase({
     "name": "markdownlint-cjs-invalid",
+    "args": [ ".*" ],
+    "stderrRe": /Unexpected end of input/u,
+    "usesRequire": true
+  });
+
+  testCase({
+    "name": "markdownlint-mjs-invalid",
     "args": [ ".*" ],
     "stderrRe": /Unexpected end of input/u,
     "usesRequire": true
@@ -317,7 +330,20 @@ const testCases =
   });
 
   testCase({
+    "name": "markdownlint-cli2-mjs",
+    "args": [ "**/*.md" ],
+    "usesRequire": true
+  });
+
+  testCase({
     "name": "markdownlint-cli2-cjs-invalid",
+    "args": [ ".*" ],
+    "stderrRe": /Unexpected end of input/u,
+    "usesRequire": true
+  });
+
+  testCase({
+    "name": "markdownlint-cli2-mjs-invalid",
     "args": [ ".*" ],
     "stderrRe": /Unexpected end of input/u,
     "usesRequire": true
@@ -416,11 +442,13 @@ const testCases =
     ".markdownlint-cli2.jsonc",
     ".markdownlint-cli2.yaml",
     ".markdownlint-cli2.cjs",
+    ".markdownlint-cli2.mjs",
     ".markdownlint.jsonc",
     ".markdownlint.json",
     ".markdownlint.yaml",
     ".markdownlint.yml",
-    ".markdownlint.cjs"
+    ".markdownlint.cjs",
+    ".markdownlint.mjs"
   ];
   for (const configFile of configFiles) {
     testCase({
@@ -455,9 +483,11 @@ const testCases =
   const invalidConfigFiles = [
     [ "invalid.markdownlint-cli2.jsonc", /Unexpected end of JSON input/u ],
     [ "invalid.markdownlint-cli2.cjs", /Unexpected end of input/u ],
+    [ "invalid.markdownlint-cli2.mjs", /Unexpected end of input/u ],
     [ "invalid.markdownlint.json", /Unexpected end of JSON input/u ],
     [ "invalid.markdownlint.yaml", /Map keys must be unique/u ],
-    [ "invalid.markdownlint.cjs", /Unexpected end of input/u ]
+    [ "invalid.markdownlint.cjs", /Unexpected end of input/u ],
+    [ "invalid.markdownlint.mjs", /Unexpected end of input/u ]
   ];
   for (const [ invalidConfigFile, stderrRe ] of invalidConfigFiles) {
     testCase({
@@ -684,9 +714,23 @@ const testCases =
   });
 
   testCase({
+    "name": "markdownlint-mjs-no-require",
+    "args": [ "**/*.md" ],
+    "cwd": "markdownlint-mjs",
+    "noRequire": true
+  });
+
+  testCase({
     "name": "markdownlint-cli2-cjs-no-require",
     "args": [ "**/*.md" ],
     "cwd": "markdownlint-cli2-cjs",
+    "noRequire": true
+  });
+
+  testCase({
+    "name": "markdownlint-cli2-mjs-no-require",
+    "args": [ "**/*.md" ],
+    "cwd": "markdownlint-cli2-mjs",
     "noRequire": true
   });
 
