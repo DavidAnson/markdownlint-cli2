@@ -644,7 +644,8 @@ async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, optionsOverride, 
 };
 
 // Lint files in groups by shared configuration
-const lintFiles = (fs, dirInfos, fileContents) => {
+const lintFiles = async (fs, dirInfos, fileContents) => {
+  const jsoncParse = await getJsoncParse();
   const tasks = [];
   // For each dirInfo
   for (const dirInfo of dirInfos) {
@@ -673,6 +674,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
       "files": filteredFiles,
       "strings": filteredStrings,
       "config": markdownlintConfig || markdownlintOptions.config,
+      "configParsers": [ jsoncParse ],
       "customRules": markdownlintOptions.customRules,
       "frontMatter": markdownlintOptions.frontMatter
         ? new RegExp(markdownlintOptions.frontMatter, "u")
