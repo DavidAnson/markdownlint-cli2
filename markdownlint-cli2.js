@@ -68,14 +68,17 @@ const readConfig = (fs, dir, name, otherwise) => {
 // Import or resolve/require a module ID with a custom directory in the path
 const importOrRequireResolve = async (dir, id) => {
   if (typeof id === "string") {
+    const expandId =
+      markdownlintRuleHelpers.expandTildePath(id, require("os"));
     const errors = [];
     try {
-      return resolveAndRequire(dynamicRequire, id, dir);
+      return resolveAndRequire(dynamicRequire, expandId, dir);
     } catch (error) {
       errors.push(error);
     }
     try {
-      const fileUrlString = pathToFileURL(path.resolve(dir, id)).toString();
+      const fileUrlString =
+        pathToFileURL(path.resolve(dir, expandId)).toString();
       // eslint-disable-next-line node/no-unsupported-features/es-syntax
       const module = await import(fileUrlString);
       return module.default;

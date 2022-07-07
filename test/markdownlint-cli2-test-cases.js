@@ -3,6 +3,7 @@
 "use strict";
 
 const fs = require("fs").promises;
+const os = require("os");
 const path = require("path");
 const test = require("ava").default;
 const del = require("del");
@@ -13,6 +14,7 @@ const sanitize = (str) => str.
   replace(/\r/gu, "").
   replace(/\bv\d+\.\d+\.\d+\b/gu, "vX.Y.Z").
   replace(/ :.+[/\\]sentinel/gu, " :[PATH]");
+const sameFileSystem = (path.relative(os.homedir(), __dirname) !== __dirname);
 
 const testCases =
 // eslint-disable-next-line max-len
@@ -747,6 +749,22 @@ const testCases =
     "cwd": "markdownItPlugins",
     "noRequire": true
   });
+
+  if (sameFileSystem) {
+
+    testCase({
+      "name": "tilde-paths-commonjs",
+      "args": [ "*.md" ],
+      "usesRequire": true
+    });
+
+    testCase({
+      "name": "tilde-paths-module",
+      "args": [ "*.md" ],
+      "usesRequire": true
+    });
+
+  }
 
 };
 
