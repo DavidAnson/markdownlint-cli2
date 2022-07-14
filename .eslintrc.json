@@ -16,9 +16,16 @@
     "plugin:unicorn/all"
   ],
   "ignorePatterns": [
-    "test/*/**"
+    "test/*/**",
+    "webworker/markdownlint-cli2-webworker.js"
   ],
   "reportUnusedDisableDirectives": true,
+  "overrides": [
+    {
+      "files": [ "webworker/*.js "],
+      "reportUnusedDisableDirectives": false
+    }
+  ],
   "rules": {
     "array-bracket-spacing": ["error", "always"],
     "array-element-newline": "off",
