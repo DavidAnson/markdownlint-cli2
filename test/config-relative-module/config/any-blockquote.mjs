@@ -1,7 +1,7 @@
 // @ts-check
 
 import { URL } from "url";
-import { filterTokens } from "markdownlint/helpers/helpers.js";
+import { filterTokens } from "markdownlint/helpers";
 
 const rule = {
   "names": [ "any-blockquote" ],
