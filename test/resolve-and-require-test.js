@@ -3,7 +3,7 @@
 "use strict";
 
 const test = require("ava").default;
-const path = require("path");
+const path = require("node:path");
 const resolveAndRequire = require("../resolve-and-require");
 
 /* eslint-disable node/no-missing-require */
@@ -11,7 +11,7 @@ const resolveAndRequire = require("../resolve-and-require");
 test("built-in module", (t) => {
   t.plan(1);
   t.deepEqual(
-    require("fs"),
+    require("node:fs"),
     resolveAndRequire(require, "fs", __dirname)
   );
 });

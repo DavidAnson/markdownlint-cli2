@@ -2,7 +2,7 @@
 
 "use strict";
 
-const path = require("path");
+const path = require("node:path");
 const test = require("ava").default;
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 const FsMock = require("./fs-mock");
@@ -438,7 +438,7 @@ test("custom fs, using node:fs", (t) => {
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatterLengthIs(t, 9) ] ]
     },
-    "fs": require("fs")
+    "fs": require("node:fs")
   }).
     then((exitCode) => {
       t.is(exitCode, 1);
@@ -453,7 +453,7 @@ test("custom fs, using node:fs and noRequire=false", (t) => {
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
     },
-    "fs": require("fs"),
+    "fs": require("node:fs"),
     "noRequire": false
   }).
     then((exitCode) => {
@@ -469,7 +469,7 @@ test("custom fs, using node:fs and noRequire=true", (t) => {
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatterLengthIs(t, 13) ] ]
     },
-    "fs": require("fs"),
+    "fs": require("node:fs"),
     "noRequire": true
   }).
     then((exitCode) => {

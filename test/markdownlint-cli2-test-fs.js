@@ -2,7 +2,7 @@
 
 "use strict";
 
-const path = require("path");
+const path = require("node:path");
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 const testCases = require("./markdownlint-cli2-test-cases");
 const FsMock = require("./fs-mock");

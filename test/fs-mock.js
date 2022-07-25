@@ -2,11 +2,10 @@
 
 "use strict";
 
-/* eslint-disable node/prefer-promises/fs */
-const fs = require("fs");
+const fs = require("node:fs");
 
 const mapPath = (base, mockPath) => {
-  const path = require("path");
+  const path = require("node:path");
   return path.resolve(base, path.relative("/mock", mockPath));
 };
 

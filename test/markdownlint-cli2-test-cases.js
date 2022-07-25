@@ -2,11 +2,10 @@
 
 "use strict";
 
-const fs = require("fs").promises;
-const os = require("os");
-const path = require("path");
+const fs = require("node:fs").promises;
+const os = require("node:os");
+const path = require("node:path");
 const test = require("ava").default;
-const del = require("del");
 
 const noop = () => null;
 const empty = () => "";
@@ -97,9 +96,10 @@ const testCases =
     )
   ));
 
-  const deleteDirectory = (dir) => (
-    del(path.join(__dirname, directoryName(dir)))
-  );
+  // eslint-disable-next-line node/no-unsupported-features/es-syntax
+  const deleteDirectory = (dir) => import("del").then((del) => (
+    del.deleteAsync(path.join(__dirname, directoryName(dir)))
+  ));
 
   testCase({
     "name": "no-arguments",

@@ -10,8 +10,8 @@ const dynamicRequire = (typeof __non_webpack_require__ === "undefined") ? requir
 // Capture native require implementation for dynamic loading of modules
 
 // Requires
-const path = require("path");
-const { pathToFileURL } = require("url");
+const path = require("node:path");
+const { pathToFileURL } = require("node:url");
 const markdownlintLibrary = require("markdownlint");
 const { markdownlint, "readConfig": markdownlintReadConfig } =
   markdownlintLibrary.promises;
@@ -69,7 +69,7 @@ const readConfig = (fs, dir, name, otherwise) => {
 const importOrRequireResolve = async (dir, id) => {
   if (typeof id === "string") {
     const expandId =
-      markdownlintRuleHelpers.expandTildePath(id, require("os"));
+      markdownlintRuleHelpers.expandTildePath(id, require("node:os"));
     const errors = [];
     try {
       return resolveAndRequire(dynamicRequire, expandId, dir);
@@ -805,7 +805,7 @@ const main = async (params) => {
   } = params;
   const logMessage = params.logMessage || noop;
   const logError = params.logError || noop;
-  const fs = params.fs || require("fs");
+  const fs = params.fs || require("node:fs");
   const baseDirSystem =
     (directory && path.resolve(directory)) ||
     process.cwd();

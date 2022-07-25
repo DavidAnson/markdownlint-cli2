@@ -2,8 +2,8 @@
 
 "use strict";
 
-const fs = require("fs").promises;
-const path = require("path");
+const fs = require("node:fs").promises;
+const path = require("node:path");
 const junitReportBuilder = require("junit-report-builder");
 
 // Writes markdownlint-cli2 results to a file in JUnit XML format

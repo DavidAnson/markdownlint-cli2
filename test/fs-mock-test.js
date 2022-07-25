@@ -2,8 +2,8 @@
 
 "use strict";
 
-const path = require("path");
-const { promisify } = require("util");
+const path = require("node:path");
+const { promisify } = require("node:util");
 const test = require("ava").default;
 const FsMock = require("./fs-mock");
 
@@ -82,5 +82,5 @@ test("fsMock.promises.*", async (t) => {
   await fs.promises.access(tempFile);
   await fs.promises.stat(tempFile);
   t.is(await fs.promises.readFile(tempFile, "utf8"), tempFile);
-  await require("fs").promises.unlink(path.join(__dirname, tempName));
+  await require("node:fs").promises.unlink(path.join(__dirname, tempName));
 });
