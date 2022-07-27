@@ -131,7 +131,7 @@ A container image [`davidanson/markdownlint-cli2`][docker-hub-markdownlint-cli2]
 can also be used (e.g., as part of a CI pipeline):
 
 ```bash
-docker run -v $PWD:/workdir davidanson/markdownlint-cli2:0.4.0 "**/*.md" "#node_modules"
+docker run -v $PWD:/workdir davidanson/markdownlint-cli2:0.5.0 "**/*.md" "#node_modules"
 ```
 
 Notes:
@@ -148,14 +148,14 @@ Notes:
   - A custom working directory can be specified with Docker's `-w` flag:
 
     ```bash
-    docker run -w /myfolder -v $PWD:/myfolder davidanson/markdownlint-cli2:0.4.0 "**/*.md" "#node_modules"
+    docker run -w /myfolder -v $PWD:/myfolder davidanson/markdownlint-cli2:0.5.0 "**/*.md" "#node_modules"
     ```
 
 To invoke the `markdownlint-cli2-config` or `markdownlint-cli2-fix` commands
 instead, use Docker's `--entrypoint` flag:
 
 ```bash
-docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:0.4.0 "**/*.md" "#node_modules"
+docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:0.5.0 "**/*.md" "#node_modules"
 ```
 
 ### Exit Codes
@@ -344,7 +344,7 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 
 ```yaml
 - repo: https://github.com/DavidAnson/markdownlint-cli2
-  rev: v0.4.0
+  rev: v0.5.0
   hooks:
   - id: markdownlint-cli2
 ```
@@ -377,6 +377,7 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
   - 0.3.1 - Extensibility tweaks
   - 0.3.2 - Extensibility/Windows/consistency improvements
 - 0.4.0 - New rules, async custom rules, explicit config, CJS (breaking)
+- 0.5.0 - New rules, support modules (MJS) everywhere, include dotfiles
 
 <!-- markdownlint-disable line-length -->
 
