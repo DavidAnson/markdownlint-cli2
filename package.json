@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "type": "commonjs",
+  "main": "./markdownlint-cli2.js",
   "exports": "./markdownlint-cli2.js",
   "bin": {
     "markdownlint-cli2": "markdownlint-cli2.js",
