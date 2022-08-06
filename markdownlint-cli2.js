@@ -79,8 +79,9 @@ const importOrRequireResolve = async (dir, id) => {
     try {
       const fileUrlString =
         pathToFileURL(path.resolve(dir, expandId)).toString();
-      // eslint-disable-next-line node/no-unsupported-features/es-syntax
-      const module = await import(fileUrlString);
+      // eslint-disable-next-line max-len
+      // eslint-disable-next-line no-inline-comments, node/no-unsupported-features/es-syntax
+      const module = await import(/* webpackIgnore: true */ fileUrlString);
       return module.default;
     } catch (error) {
       errors.push(error);
