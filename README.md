@@ -131,7 +131,7 @@ A container image [`davidanson/markdownlint-cli2`][docker-hub-markdownlint-cli2]
 can also be used (e.g., as part of a CI pipeline):
 
 ```bash
-docker run -v $PWD:/workdir davidanson/markdownlint-cli2:0.5.1 "**/*.md" "#node_modules"
+docker run -v $PWD:/workdir davidanson/markdownlint-cli2:v0.5.1 "**/*.md" "#node_modules"
 ```
 
 Notes:
@@ -148,14 +148,14 @@ Notes:
   - A custom working directory can be specified with Docker's `-w` flag:
 
     ```bash
-    docker run -w /myfolder -v $PWD:/myfolder davidanson/markdownlint-cli2:0.5.1 "**/*.md" "#node_modules"
+    docker run -w /myfolder -v $PWD:/myfolder davidanson/markdownlint-cli2:v0.5.1 "**/*.md" "#node_modules"
     ```
 
 To invoke the `markdownlint-cli2-config` or `markdownlint-cli2-fix` commands
 instead, use Docker's `--entrypoint` flag:
 
 ```bash
-docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:0.5.1 "**/*.md" "#node_modules"
+docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:v0.5.1 "**/*.md" "#node_modules"
 ```
 
 ### Exit Codes
