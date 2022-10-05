@@ -67,7 +67,7 @@
     "del": "7.0.0",
     "eslint": "8.24.0",
     "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-unicorn": "44.0.0",
+    "eslint-plugin-unicorn": "44.0.1",
     "execa": "6.1.0",
     "markdown-it-emoji": "2.0.2",
     "markdown-it-for-inline": "0.1.1",
