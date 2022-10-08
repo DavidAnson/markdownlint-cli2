@@ -678,7 +678,7 @@ const lintFiles = async (fs, dirInfos, fileContents) => {
       "files": filteredFiles,
       "strings": filteredStrings,
       "config": markdownlintConfig || markdownlintOptions.config,
-      "configParsers": [ jsoncParse ],
+      "configParsers": [ jsoncParse, yamlParse ],
       "customRules": markdownlintOptions.customRules,
       "frontMatter": markdownlintOptions.frontMatter
         ? new RegExp(markdownlintOptions.frontMatter, "u")
