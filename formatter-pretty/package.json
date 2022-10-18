@@ -26,5 +26,8 @@
   },
   "keywords": [
     "markdownlint-cli2-formatter"
-  ]
+  ],
+  "engines": {
+    "node": ">=14.18.0"
+  }
 }

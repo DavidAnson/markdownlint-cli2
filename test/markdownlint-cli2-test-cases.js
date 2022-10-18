@@ -88,7 +88,6 @@ const testCases =
 
   const directoryName = (dir) => `${dir}-copy-${host}`;
 
-  // eslint-disable-next-line node/no-unsupported-features/es-syntax
   const copyDirectory = (dir) => import("cpy").then((cpy) => (
     cpy.default(
       path.join(__dirname, dir, "**"),
@@ -96,7 +95,6 @@ const testCases =
     )
   ));
 
-  // eslint-disable-next-line node/no-unsupported-features/es-syntax
   const deleteDirectory = (dir) => import("del").then((del) => (
     del.deleteAsync(path.join(__dirname, directoryName(dir)))
   ));

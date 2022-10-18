@@ -1,5 +1,8 @@
 "use strict";
 
+/* eslint-env qunit */
+/* globals markdownlintCli2, FsVirtual */
+
 const oneViolation = "# Title\n\nText \n";
 const twoViolations = "# Title\n\nText\t\n";
 const noViolationsIgnoringTabs = "# Title\n\n\tText\n";
@@ -21,8 +24,6 @@ const outputFormatterLengthIs = (assert, length) => (options) => {
   const { results } = options;
   assert.equal(Object.keys(results).length, length);
 };
-
-/* eslint-disable no-undef */
 
 QUnit.test("script loads", (assert) => {
   assert.expect(1);

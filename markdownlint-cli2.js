@@ -34,8 +34,7 @@ const noop = () => null;
 // Gets a synchronous function to parse JSONC text
 const getJsoncParse = async () => {
   const { "default": stripJsonComments } =
-    // eslint-disable-next-line max-len
-    // eslint-disable-next-line no-inline-comments, node/no-unsupported-features/es-syntax
+    // eslint-disable-next-line no-inline-comments
     await import(/* webpackMode: "eager" */ "strip-json-comments");
   return (text) => JSON.parse(stripJsonComments(text));
 };
@@ -79,8 +78,7 @@ const importOrRequireResolve = async (dir, id) => {
     try {
       const fileUrlString =
         pathToFileURL(path.resolve(dir, expandId)).toString();
-      // eslint-disable-next-line max-len
-      // eslint-disable-next-line no-inline-comments, node/no-unsupported-features/es-syntax
+      // eslint-disable-next-line no-inline-comments
       const module = await import(/* webpackIgnore: true */ fileUrlString);
       return module.default;
     } catch (error) {
@@ -446,8 +444,7 @@ async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, noErrors, noRequi
     })
   );
   // Process glob patterns
-  // eslint-disable-next-line max-len
-  // eslint-disable-next-line no-inline-comments, node/no-unsupported-features/es-syntax
+  // eslint-disable-next-line no-inline-comments
   const { globby } = await import(/* webpackMode: "eager" */ "globby");
   const files = [
     ...await globby(expandedDirectories, globbyOptions),
