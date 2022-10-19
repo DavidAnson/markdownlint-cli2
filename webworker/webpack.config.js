@@ -2,7 +2,7 @@
 
 "use strict";
 
-/* eslint-disable node/no-extraneous-require,node/no-missing-require */
+/* eslint-disable n/no-missing-require */
 
 const webpack = require("webpack");
 const nodeModulePrefixRe = /^node:/u;

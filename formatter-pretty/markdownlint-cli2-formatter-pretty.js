@@ -7,9 +7,7 @@
 const outputFormatter = async (options, params) => {
   const { results, logError } = options;
   const { appendLink } = (params || {});
-  // eslint-disable-next-line node/no-unsupported-features/es-syntax
   const { "default": chalk } = await import("chalk");
-  // eslint-disable-next-line node/no-unsupported-features/es-syntax
   const { "default": terminalLink } = await import("terminal-link");
   for (const errorInfo of results) {
     const { fileName, lineNumber, ruleNames, ruleDescription, ruleInformation,

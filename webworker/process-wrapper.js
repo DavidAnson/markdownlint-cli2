@@ -2,9 +2,7 @@
 
 "use strict";
 
-/* eslint-disable node/no-extraneous-require,node/no-missing-require */
-
-// eslint-disable-next-line unicorn/prefer-node-protocol
+// eslint-disable-next-line unicorn/prefer-node-protocol, n/no-missing-require
 const processBrowser = require("process/browser");
 processBrowser.versions = {
   "node": "0.0"

@@ -6,7 +6,7 @@ const test = require("ava").default;
 const path = require("node:path");
 const resolveAndRequire = require("../resolve-and-require");
 
-/* eslint-disable node/no-missing-require */
+/* eslint-disable n/no-missing-require */
 
 test("built-in module", (t) => {
   t.plan(1);
