@@ -20,10 +20,16 @@ As a development dependency of the current package:
 npm install markdownlint-cli2 --save-dev
 ```
 
-Or as a Docker container image:
+As a Docker container image:
 
 ```shell
 docker pull davidanson/markdownlint-cli2
+```
+
+Or as a global CLI with [`brew`][homebrew]:
+
+```shell
+brew install markdownlint-cli2
 ```
 
 ## Overview
@@ -389,6 +395,7 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 [docker-hub-markdownlint-cli2]: https://hub.docker.com/r/davidanson/markdownlint-cli2
 [front-matter]: https://jekyllrb.com/docs/frontmatter/
 [globby]: https://www.npmjs.com/package/globby
+[homebrew]: https://brew.sh
 [html-comment]: https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started
 [json]: https://wikipedia.org/wiki/JSON
 [jsonc]: https://code.visualstudio.com/Docs/languages/json#_json-with-comments
