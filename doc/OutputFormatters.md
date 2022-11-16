@@ -51,12 +51,14 @@ For a `.markdownlint-cli2.jsonc` like:
 ## Examples
 
 - [Default formatter][formatter-default]
+- [Code Quality formatter][formatter-codequality]
 - [JUnit formatter][formatter-junit]
 
 <!-- markdownlint-disable line-length -->
 
 [configuration-file]: https://github.com/DavidAnson/markdownlint-cli2#configuration
 [formatter-default]: ../formatter-default/markdownlint-cli2-formatter-default.js
+[formatter-codequality]: ../formatter-codequality/markdownlint-cli2-formatter-codequality.js
 [formatter-junit]: ../formatter-junit/markdownlint-cli2-formatter-junit.js
 [markdownlint-cli2-formatter]: https://www.npmjs.com/search?q=keywords:markdownlint-cli2-formatter
 [markdownlint-d-ts]: https://github.com/DavidAnson/markdownlint/blob/main/lib/markdownlint.d.ts
