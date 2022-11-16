@@ -1,0 +1,26 @@
+{
+  "name": "markdownlint-cli2-formatter-codequality",
+  "version": "0.0.1",
+  "description": "An output formatter for markdownlint-cli2 that writes results to a GitLab code quality report artifact JSON file",
+  "author": {
+    "name": "Matthias Schoettle",
+    "url": "https://mattsch.com/"
+  },
+  "license": "MIT",
+  "main": "markdownlint-cli2-formatter-codequality.js",
+  "homepage": "https://github.com/DavidAnson/markdownlint-cli2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DavidAnson/markdownlint-cli2.git"
+  },
+  "bugs": "https://github.com/DavidAnson/markdownlint-cli2/issues",
+  "files": [
+    "markdownlint-cli2-formatter-codequality.js"
+  ],
+  "peerDependencies": {
+    "markdownlint-cli2": ">=0.0.4"
+  },
+  "keywords": [
+    "markdownlint-cli2-formatter"
+  ]
+}

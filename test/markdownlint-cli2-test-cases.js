@@ -38,6 +38,10 @@ const testCases =
         then((result) => Promise.all([
           result,
           fs.readFile(
+            path.join(directory, "markdownlint-cli2-codequality.json"),
+            "utf8"
+          ).catch(empty),
+          fs.readFile(
             path.join(directory, "markdownlint-cli2-results.json"),
             "utf8"
           ).catch(empty),
@@ -59,6 +63,7 @@ const testCases =
           new Promise((resolve) => {
             const [
               child,
+              formatterOutputCodeQuality,
               formatterOutputJson,
               formatterOutputJsonCustom,
               formatterOutputJunit,
@@ -68,6 +73,7 @@ const testCases =
               "exitCode": child.exitCode,
               "stdout": sanitize(child.stdout),
               "stderr": sanitize(child.stderr),
+              "formatterCodeQuality": sanitize(formatterOutputCodeQuality),
               "formatterJson":
                 sanitize(formatterOutputJson || formatterOutputJsonCustom),
               "formatterJunit":
