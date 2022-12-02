@@ -60,7 +60,8 @@ const outputFormatter = (options) => {
   const content = JSON.stringify(issues);
   return fs.writeFile(
     path.resolve(
-      directory,
+      // eslint-disable-next-line no-inline-comments
+      directory /* c8 ignore next */ || "",
       "markdownlint-cli2-codequality.json"
     ),
     content,
