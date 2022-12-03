@@ -54,7 +54,7 @@ markdownlint:
     "check_name": "MD009/no-trailing-spaces",
     "description": "MD009/no-trailing-spaces: Trailing spaces [Expected: 0 or 2; Actual: 1]",
     "severity": "minor",
-    "fingerprint": "3aa1153b47e6e931b5c75c8d225c0e5115d0b5b7ddb866f07d1c055ebefce9ba",
+    "fingerprint": "f34a01e4a119d7df262993933665d4c97cc601702eeca2814ccad9606a3ccb48",
     "location": {
       "path": "viewme.md",
       "lines": {
@@ -67,7 +67,7 @@ markdownlint:
     "check_name": "MD012/no-multiple-blanks",
     "description": "MD012/no-multiple-blanks: Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "severity": "minor",
-    "fingerprint": "17a92ede614b1a8ae84d4c9280ccf81597d743b1468a9b1fa772f2a3ec7b24a7",
+    "fingerprint": "a3d9b647ce8d929904e64fbbb0a47223617e8985d0a4d31e674b22f919f736fb",
     "location": {
       "path": "viewme.md",
       "lines": {
@@ -80,7 +80,7 @@ markdownlint:
     "check_name": "MD025/single-title/single-h1",
     "description": "MD025/single-title/single-h1: Multiple top-level headings in the same document",
     "severity": "minor",
-    "fingerprint": "fdaf89fa8699a65b8643bb84683f92877e7e265b3b2f72693db0573a51fd35e0",
+    "fingerprint": "ef26889ac26be010b8bb6d2bd8c846c70bccf90506c0adffb763bef774f93f80",
     "location": {
       "path": "viewme.md",
       "lines": {
@@ -93,7 +93,7 @@ markdownlint:
     "check_name": "MD019/no-multiple-space-atx",
     "description": "MD019/no-multiple-space-atx: Multiple spaces after hash on atx style heading",
     "severity": "minor",
-    "fingerprint": "9bdc18e30b15325e3244aacbc829c0dedd4b8e98623ec493c722467904f6e185",
+    "fingerprint": "244fe04169875709c7854fc0ddef5c2639aa57bad8a9319e3a9ed6a5f8504c89",
     "location": {
       "path": "viewme.md",
       "lines": {
@@ -106,7 +106,7 @@ markdownlint:
     "check_name": "MD047/single-trailing-newline",
     "description": "MD047/single-trailing-newline: Files should end with a single newline character",
     "severity": "minor",
-    "fingerprint": "93ae8c90e68289845adbba6f576b307cb8715fbc8709c78aeb56a1dbb439f641",
+    "fingerprint": "bf74eade0ee3301ccaa826907651e0d6925b60d517e1110c29b081c7b6ce1acf",
     "location": {
       "path": "viewme.md",
       "lines": {

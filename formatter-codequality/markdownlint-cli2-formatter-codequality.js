@@ -57,7 +57,7 @@ const outputFormatter = (options) => {
     issues.push(issue);
   }
 
-  const content = JSON.stringify(issues);
+  const content = JSON.stringify(issues, null, 2);
   return fs.writeFile(
     path.resolve(
       // eslint-disable-next-line no-inline-comments
