@@ -71,6 +71,7 @@
     "execa": "6.1.0",
     "markdown-it-emoji": "2.0.2",
     "markdown-it-for-inline": "0.1.1",
+    "markdownlint-cli2-formatter-codequality": "0.0.1",
     "markdownlint-cli2-formatter-json": "0.0.6",
     "markdownlint-cli2-formatter-junit": "0.0.5",
     "markdownlint-cli2-formatter-pretty": "0.0.3",
