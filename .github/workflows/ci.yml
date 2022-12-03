@@ -41,6 +41,8 @@ jobs:
       run: markdownlint-cli2 CONTRIBUTING.md README.md
     - name: Package formatter-default
       run: cd formatter-default && npm pack
+    - name: Package formatter-codequality
+      run: cd formatter-codequality && npm pack
     - name: Package formatter-json
       run: cd formatter-json && npm pack
     - name: Package formatter-junit
@@ -50,7 +52,7 @@ jobs:
     - name: Package formatter-summarize
       run: cd formatter-summarize && npm pack
     - name: Install formatters globally
-      run: sudo npm install --global --no-package-lock --production ./formatter-default/*.tgz ./formatter-json/*.tgz ./formatter-junit/*.tgz ./formatter-pretty/*.tgz ./formatter-summarize/*.tgz
+      run: sudo npm install --global --no-package-lock --production ./formatter-default/*.tgz ./formatter-codequality/*.tgz ./formatter-json/*.tgz ./formatter-junit/*.tgz ./formatter-pretty/*.tgz ./formatter-summarize/*.tgz
     - name: Lint with formatters
       run: cp test/outputFormatters-npm/.markdownlint-cli2.jsonc . && markdownlint-cli2 CONTRIBUTING.md README.md
     - name: Uninstall markdownlint-cli2 globally
