@@ -1,3 +1,5 @@
+# hadolint global ignore=DL3003,DL3059
+
 FROM node:lts-alpine AS build
 WORKDIR /pack
 COPY . .
