@@ -2,11 +2,17 @@ FROM node:lts-alpine AS build
 WORKDIR /pack
 COPY . .
 RUN npm pack
+RUN cd formatter-codequality && npm pack --pack-destination=..
+RUN cd formatter-default && npm pack --pack-destination=..
+RUN cd formatter-json && npm pack --pack-destination=..
+RUN cd formatter-junit && npm pack --pack-destination=..
+RUN cd formatter-pretty && npm pack --pack-destination=..
+RUN cd formatter-summarize && npm pack --pack-destination=..
 
 FROM node:lts-alpine
 COPY --from=build /pack/markdownlint-cli2-*.tgz /
-RUN npm install --global --no-package-lock --production markdownlint-cli2-*.tgz && \
-    rm /markdownlint-cli2-*.tgz
+RUN npm install --global --no-package-lock --production /markdownlint-cli2-*.tgz
+RUN rm /markdownlint-cli2-*.tgz
 
 USER node
 
