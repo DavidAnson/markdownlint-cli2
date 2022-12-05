@@ -66,7 +66,7 @@
     "cpy": "9.0.1",
     "del": "7.0.0",
     "eslint": "8.29.0",
-    "eslint-plugin-n": "15.5.1",
+    "eslint-plugin-n": "15.6.0",
     "eslint-plugin-unicorn": "45.0.1",
     "execa": "6.1.0",
     "markdown-it-emoji": "2.0.2",
