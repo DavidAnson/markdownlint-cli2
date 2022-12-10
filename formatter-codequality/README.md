@@ -33,8 +33,6 @@ markdownlint:
   image:
     name: davidanson/markdownlint-cli2:<version>
     entrypoint: [""]
-  before_script:
-    - npm install markdownlint-cli2-formatter-codequality
   script:
     - markdownlint-cli2 "**/*.md"
   artifacts:
