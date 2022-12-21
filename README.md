@@ -10,26 +10,33 @@
 
 As a global CLI:
 
-```shell
+```bash
 npm install markdownlint-cli2 --global
 ```
 
 As a development dependency of the current package:
 
-```shell
+```bash
 npm install markdownlint-cli2 --save-dev
 ```
 
 As a Docker container image:
 
-```shell
+```bash
 docker pull davidanson/markdownlint-cli2
 ```
 
-Or as a global CLI with [`brew`][homebrew]:
+As a global CLI with [`brew`][homebrew]:
 
-```shell
+```bash
 brew install markdownlint-cli2
+```
+
+As a GitHub Action via [`markdownlint-cli2-action`][markdownlint-cli2-action]:
+
+```yaml
+- name: markdownlint-cli2-action
+  uses: DavidAnson/markdownlint-cli2-action
 ```
 
 ## Overview
@@ -414,6 +421,7 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 [markdownlint-rules-tags]: https://github.com/DavidAnson/markdownlint/blob/main/README.md#tags
 [markdownlint-cli]: https://github.com/igorshubovych/markdownlint-cli
 [markdownlint-cli2]: https://github.com/DavidAnson/markdownlint-cli2
+[markdownlint-cli2-action]: https://github.com/marketplace/actions/markdownlint-cli2-action
 [markdownlint-cli2-blog]: https://dlaa.me/blog/post/markdownlintcli2
 [markdownlint-cli2-formatter]: https://www.npmjs.com/search?q=keywords:markdownlint-cli2-formatter
 [markdownlint-cli2-cjs]: test/markdownlint-cli2-cjs/.markdownlint-cli2.cjs
