@@ -14,25 +14,26 @@ As a global CLI:
 npm install markdownlint-cli2 --global
 ```
 
-As a development dependency of the current package:
+As a development dependency of the current [Node.js][nodejs] package:
 
 ```bash
 npm install markdownlint-cli2 --save-dev
 ```
 
-As a Docker container image:
+As a [Docker][docker] container image:
 
 ```bash
 docker pull davidanson/markdownlint-cli2
 ```
 
-As a global CLI with [`brew`][homebrew]:
+As a global CLI with [Homebrew][homebrew]:
 
 ```bash
 brew install markdownlint-cli2
 ```
 
-As a GitHub Action via [`markdownlint-cli2-action`][markdownlint-cli2-action]:
+As a [GitHub Action][github-action] via
+[`markdownlint-cli2-action`][markdownlint-cli2-action]:
 
 ```yaml
 - name: markdownlint-cli2-action
@@ -398,9 +399,11 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 [commonmark]: https://commonmark.org/
 [commonjs-module]: https://nodejs.org/api/modules.html#modules_modules_commonjs_modules
 [ecmascript-module]: https://nodejs.org/api/esm.html#modules-ecmascript-modules
+[docker]: https://www.docker.com
 [docker-bind-mounts]: https://docs.docker.com/storage/bind-mounts/
 [docker-hub-markdownlint-cli2]: https://hub.docker.com/r/davidanson/markdownlint-cli2
 [front-matter]: https://jekyllrb.com/docs/frontmatter/
+[github-action]: https://docs.github.com/actions
 [globby]: https://www.npmjs.com/package/globby
 [homebrew]: https://brew.sh
 [html-comment]: https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started
