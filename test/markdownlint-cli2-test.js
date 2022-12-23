@@ -9,7 +9,7 @@ const FsMock = require("./fs-mock");
 
 const outputFormatterLengthIs = (t, length) => (options) => {
   const { results } = options;
-  t.is(Object.keys(results).length, length);
+  t.is(Object.keys(results).length, length, JSON.stringify(results, null, 2));
 };
 
 test("name and version", (t) => {
@@ -141,7 +141,7 @@ test("alternate file contents", (t) => {
     fileContents,
     nonFileContents,
     "optionsOverride": {
-      "outputFormatters": [ [ outputFormatterLengthIs(t, 6) ] ]
+      "outputFormatters": [ [ outputFormatterLengthIs(t, 7) ] ]
     }
   }).
     then((exitCode) => t.is(exitCode, 1));
