@@ -15,7 +15,9 @@
       "javascript",
       "json",
       "markdown",
-      "text"
+      "text",
+      "xml",
+      "yaml"
     ],
     "language_only": true
   },

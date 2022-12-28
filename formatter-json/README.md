@@ -8,7 +8,7 @@
 
 ## Install
 
-```shell
+```bash
 npm install markdownlint-cli2-formatter-json --save-dev
 ```
 
