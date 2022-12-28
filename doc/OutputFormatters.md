@@ -14,7 +14,7 @@ or `void` if execution completes synchronously.
 
 Output formatters export a function like:
 
-```js
+```javascript
 module.exports = (options, params) => { ... }
 ```
 

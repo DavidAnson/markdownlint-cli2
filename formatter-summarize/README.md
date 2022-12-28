@@ -8,7 +8,7 @@
 
 ## Install
 
-```shell
+```bash
 npm install markdownlint-cli2-formatter-summarize --save-dev
 ```
 
