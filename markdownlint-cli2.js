@@ -367,7 +367,10 @@ const getBaseOptions = async (
   // eslint-disable-next-line no-multi-assign
   const baseMarkdownlintOptions = dirToDirInfo[baseDir].markdownlintOptions =
     mergeOptions(
-      mergeOptions(options, { "fix": fixDefault }),
+      mergeOptions(
+        { "fix": fixDefault },
+        options
+      ),
       dirToDirInfo[baseDir].markdownlintOptions
     );
 

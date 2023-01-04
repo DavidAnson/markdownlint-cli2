@@ -554,6 +554,16 @@ const testCases =
   });
 
   testCase({
+    "name": "config-with-fix",
+    "script": "markdownlint-cli2-config.js",
+    "args": [ "config/.markdownlint-cli2.jsonc", "viewme.md", "info.md" ],
+    "cwd": directoryName("config-with-fix"),
+    "pre": copyDirectory,
+    "post": deleteDirectory,
+    "usesScript": true
+  });
+
+  testCase({
     "name": "customRules",
     "args": [ "**/*.md" ],
     "usesRequire": true
