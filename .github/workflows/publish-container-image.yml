@@ -36,7 +36,7 @@ jobs:
           images: ${{ github.repository }}
 
       - name: Build container image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: docker/Dockerfile
@@ -48,7 +48,7 @@ jobs:
         run: docker run --rm -v $PWD:/workdir local:test "*.md"
 
       - name: Push container image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: docker/Dockerfile
