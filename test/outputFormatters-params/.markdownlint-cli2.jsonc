@@ -1,6 +1,7 @@
 {
   "outputFormatters": [
     [ "../../formatter-json", { "name": "custom-name.json", "spaces": 1 } ],
-    [ "../../formatter-junit", { "name": "custom-name.xml" } ]
+    [ "../../formatter-junit", { "name": "custom-name.xml" } ],
+    [ "../../formatter-codequality", { "name": "custom-name-codequality.json", "spaces": 1 } ]
   ]
 }

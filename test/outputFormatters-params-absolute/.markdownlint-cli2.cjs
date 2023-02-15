@@ -18,6 +18,13 @@ module.exports = {
       {
         "name": path.resolve(__dirname, "custom-name.xml")
       }
+    ],
+    [
+      "../../formatter-codequality",
+      {
+        "name": path.resolve(__dirname, "custom-name-codequality.json"),
+        "spaces": 1
+      }
     ]
   ]
 };

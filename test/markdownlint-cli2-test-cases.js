@@ -42,6 +42,10 @@ const testCases =
             "utf8"
           ).catch(empty),
           fs.readFile(
+            path.join(directory, "custom-name-codequality.json"),
+            "utf8"
+          ).catch(empty),
+          fs.readFile(
             path.join(directory, "markdownlint-cli2-results.json"),
             "utf8"
           ).catch(empty),
@@ -64,6 +68,7 @@ const testCases =
             const [
               child,
               formatterOutputCodeQuality,
+              formatterOutputCodeQualityCustom,
               formatterOutputJson,
               formatterOutputJsonCustom,
               formatterOutputJunit,
@@ -73,7 +78,11 @@ const testCases =
               "exitCode": child.exitCode,
               "stdout": sanitize(child.stdout),
               "stderr": sanitize(child.stderr),
-              "formatterCodeQuality": sanitize(formatterOutputCodeQuality),
+              "formatterCodeQuality":
+                sanitize(
+                  formatterOutputCodeQuality ||
+                  formatterOutputCodeQualityCustom
+                ),
               "formatterJson":
                 sanitize(formatterOutputJson || formatterOutputJsonCustom),
               "formatterJunit":
