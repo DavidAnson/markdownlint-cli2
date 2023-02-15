@@ -12,10 +12,11 @@ const outputFormatter = (options, params) => {
   const { name } = (params || {});
   // Get a new builder instance because the default builder is shared
   const builder = junitReportBuilder.newBuilder();
+  const outputFormatterName = path.basename(__filename).replace(/\.js$/u, "");
   const suite =
     builder.
       testSuite().
-      name(path.basename(__filename).replace(/\.js$/u, "")).
+      name(outputFormatterName).
       time(0);
   for (const errorInfo of results) {
     const { fileName, lineNumber, ruleNames, ruleDescription, errorDetail,
@@ -38,7 +39,7 @@ const outputFormatter = (options, params) => {
   if (results.length === 0) {
     suite.
       testCase().
-      name(path.basename(__filename).replace(/\.js$/u, "")).
+      name(outputFormatterName).
       time(0);
   }
   const content = builder.build();
