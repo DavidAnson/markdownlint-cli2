@@ -38,6 +38,7 @@ const outputFormatter = (options, params) => {
   if (results.length === 0) {
     suite.
       testCase().
+      name(path.basename(__filename).replace(/\.js$/u, "")).
       time(0);
   }
   const content = builder.build();
