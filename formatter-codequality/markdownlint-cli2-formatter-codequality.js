@@ -21,7 +21,7 @@ const createFingerprint = function createFingerprint (violation) {
 // See: https://docs.gitlab.com/ee/ci/testing/code_quality.html#implementing-a-custom-tool
 const outputFormatter = (options, params) => {
   const { directory, results } = options;
-  const { name, spaces } = (params || {});
+  const { name } = (params || {});
   const issues = [];
 
   for (const errorInfo of results) {
@@ -58,7 +58,7 @@ const outputFormatter = (options, params) => {
     issues.push(issue);
   }
 
-  const content = JSON.stringify(issues, null, spaces || 2);
+  const content = JSON.stringify(issues, null, 2);
   return fs.writeFile(
     path.resolve(
       // eslint-disable-next-line no-inline-comments

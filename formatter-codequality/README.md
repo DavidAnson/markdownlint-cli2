@@ -26,19 +26,12 @@ the following `.markdownlint-cli2.jsonc`:
 }
 ```
 
-To customize the output file name or number of spaces to indent, use the
-following `.markdownlint-cli2.jsonc`:
+To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
 
 ```json
 {
   "outputFormatters": [
-    [
-      "markdownlint-cli2-formatter-codequality",
-      {
-        "name": "custom-name.json",
-        "spaces": 1
-      }
-    ]
+    [ "markdownlint-cli2-formatter-codequality", { "name": "custom-name.json" } ]
   ]
 }
 ```
