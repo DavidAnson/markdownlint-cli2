@@ -15,12 +15,23 @@ npm install markdownlint-cli2-formatter-codequality --save-dev
 
 ## Use
 
-Use the following `.markdownlint-cli2.jsonc`:
+For the default output file name of `"markdownlint-cli2-codequality.json"`, use
+the following `.markdownlint-cli2.jsonc`:
 
 ```json
 {
   "outputFormatters": [
     [ "markdownlint-cli2-formatter-codequality" ]
+  ]
+}
+```
+
+To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
+
+```json
+{
+  "outputFormatters": [
+    [ "markdownlint-cli2-formatter-codequality", { "name": "custom-name.json" } ]
   ]
 }
 ```
