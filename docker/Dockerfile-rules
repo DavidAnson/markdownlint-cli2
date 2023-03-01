@@ -1,0 +1,20 @@
+ARG VERSION
+FROM davidanson/markdownlint-cli2:${VERSION}
+
+USER root
+
+RUN npm install --global --no-package-lock --production \
+    @github/markdownlint-github \
+    markdownlint-rule-enhanced-proper-names \
+    markdownlint-rule-github-internal-links \
+    markdownlint-rule-header-id \
+    markdownlint-rule-list-duplicates \
+    markdownlint-rule-no-trailing-slash-in-links \
+    markdownlint-rule-olstart \
+    markdownlint-rule-relative-links \
+    markdownlint-rule-search-replace \
+    markdownlint-rule-titlecase \
+    markdownlint-rules-foliant \
+    markdownlint-rules-grav-pages
+
+USER node

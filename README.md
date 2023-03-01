@@ -172,6 +172,15 @@ instead, use Docker's `--entrypoint` flag:
 docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:v0.6.0 "**/*.md" "#node_modules"
 ```
 
+For convenience, the container image
+[`davidanson/markdownlint-cli2-rules`][docker-hub-markdownlint-cli2-rules]
+includes the latest versions of custom rules published to npm with the tag
+[`markdownlint-rule`][markdownlint-rule]. These rules are installed globally
+onto the base image `davidanson/markdownlint-cli2`.
+
+**Note**: This container image exists for convenience and is not an endorsement
+of the rules within.
+
 ### Exit Codes
 
 - `0`: Linting was successful and there were no errors
@@ -403,6 +412,7 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 [docker]: https://www.docker.com
 [docker-bind-mounts]: https://docs.docker.com/storage/bind-mounts/
 [docker-hub-markdownlint-cli2]: https://hub.docker.com/r/davidanson/markdownlint-cli2
+[docker-hub-markdownlint-cli2-rules]: https://hub.docker.com/r/davidanson/markdownlint-cli2-rules
 [front-matter]: https://jekyllrb.com/docs/frontmatter/
 [github-action]: https://docs.github.com/actions
 [globby]: https://www.npmjs.com/package/globby
