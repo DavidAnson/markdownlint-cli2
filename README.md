@@ -190,6 +190,17 @@ docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/mark
 
 ## Configuration
 
+There are two kinds of configuration file that are supported: a simpler version
+that can only be used to configure built-in rules and a more feature-rich
+version that can be used to configure other things (like custom rules) as well.
+File names for the simpler version look like `.markdownlint.*` and for the more
+capable version `.markdownlint-cli2.*`.
+
+If you use VS Code with the
+[markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
+extension, it includes schema validation for the JSON formats and should help
+guide you to use the appropriate syntax for each format.
+
 - See the [Configuration][markdownlint-configuration] section of the
   `markdownlint` documentation for information about the inline comment syntax
   for enabling and disabling rules with HTML comments.
