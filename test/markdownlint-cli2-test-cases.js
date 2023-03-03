@@ -275,7 +275,7 @@ const testCases =
   testCase({
     "name": "markdownlint-json-invalid",
     "args": [ ".*" ],
-    "stderrRe": /Unexpected end of JSON input/u
+    "stderrRe": /(?:Unexpected end)|(?:Expected property name)/u
   });
 
   testCase({
@@ -315,7 +315,7 @@ const testCases =
   testCase({
     "name": "markdownlint-cli2-jsonc-invalid",
     "args": [ ".*" ],
-    "stderrRe": /Unexpected end of JSON input/u
+    "stderrRe": /(?:Unexpected end)|(?:Expected property name)/u
   });
 
   testCase({
@@ -496,10 +496,16 @@ const testCases =
   }
 
   const invalidConfigFiles = [
-    [ "invalid.markdownlint-cli2.jsonc", /Unexpected end of JSON input/u ],
+    [
+      "invalid.markdownlint-cli2.jsonc",
+      /(?:Unexpected end)|(?:Expected property name)/u
+    ],
     [ "invalid.markdownlint-cli2.cjs", /Unexpected end of input/u ],
     [ "invalid.markdownlint-cli2.mjs", /Unexpected end of input/u ],
-    [ "invalid.markdownlint.json", /Unexpected end of JSON input/u ],
+    [
+      "invalid.markdownlint.json",
+      /(?:Unexpected end)|(?:Expected property name)/u
+    ],
     [ "invalid.markdownlint.yaml", /Map keys must be unique/u ],
     [ "invalid.markdownlint.cjs", /Unexpected end of input/u ],
     [ "invalid.markdownlint.mjs", /Unexpected end of input/u ]
