@@ -57,14 +57,22 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           push: true
 
-      - name: Build and push -rules container image
+      - name: Extract tags and labels for -rules
+        id: meta-rules
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ github.repository }}
+          flavor: |
+            suffix=-rules
+
+      - name: Build and push container image for -rules
         uses: docker/build-push-action@v4
         with:
           context: .
           file: docker/Dockerfile-rules
           platforms: linux/arm64,linux/amd64
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta-rules.outputs.tags }}
+          labels: ${{ steps.meta-rules.outputs.labels }}
           build-args: |
-            VERSION=${{ steps.meta.outputs.version }}
+            VERSION=${{ steps.meta-rules.outputs.version }}
           push: true
