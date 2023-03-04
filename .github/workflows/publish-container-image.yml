@@ -61,9 +61,7 @@ jobs:
         id: meta-rules
         uses: docker/metadata-action@v4
         with:
-          images: ${{ github.repository }}
-          flavor: |
-            suffix=-rules
+          images: ${{ github.repository }}-rules
 
       - name: Build and push container image for -rules
         uses: docker/build-push-action@v4
@@ -74,5 +72,5 @@ jobs:
           tags: ${{ steps.meta-rules.outputs.tags }}
           labels: ${{ steps.meta-rules.outputs.labels }}
           build-args: |
-            VERSION=${{ steps.meta-rules.outputs.version }}
-          push: true
+            VERSION=${{ steps.meta.outputs.version }}
+          load: true
