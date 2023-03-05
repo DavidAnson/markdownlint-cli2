@@ -9,6 +9,7 @@ RUN npm install --global --no-package-lock --production \
     markdownlint-rule-github-internal-links \
     markdownlint-rule-header-id \
     markdownlint-rule-list-duplicates \
+    markdownlint-rule-max-one-sentence-per-line \
     markdownlint-rule-no-trailing-slash-in-links \
     markdownlint-rule-olstart \
     markdownlint-rule-relative-links \
