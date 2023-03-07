@@ -202,11 +202,20 @@ of the rules within.
 - See the [Configuration][markdownlint-configuration] section of the
   `markdownlint` documentation for information about the inline comment syntax
   for enabling and disabling rules with HTML comments.
-- In general, glob expressions match files under the current directory and the
-  configuration for that directory applies to the entire tree.
+- In general, glob expressions should match files under the current directory;
+  the configuration for that directory will apply to the entire tree.
   - When glob expressions match files *not* under the current directory,
     configuration for the current directory is applied to the closest common
     parent directory.
+- There are two kinds of configuration file (both detailed below):
+  - Configuration files like `.markdownlint-cli2.*` allow complete control of
+    `markdownlint-cli2` behavior and are also used by `vscode-markdownlint`.
+  - Configuration files like `.markdownlint.*` allow control over only the
+    `markdownlint` `config` object and tend to be supported more broadly (such
+    as by `markdownlint-cli`).
+- The VS Code extension `vscode-markdownlint` includes a schema definition for
+  the `JSON(C)` configuration files described below. This adds auto-complete and
+  can make it easier to define proper structure.
 
 ### `.markdownlint-cli2.jsonc`
 
