@@ -7,6 +7,7 @@ RUN npm install --global --no-package-lock --production \
     @github/markdownlint-github \
     markdownlint-rule-enhanced-proper-names \
     markdownlint-rule-github-internal-links \
+    markdownlint-rule-github-admonition \
     markdownlint-rule-header-id \
     markdownlint-rule-list-duplicates \
     markdownlint-rule-max-one-sentence-per-line \
