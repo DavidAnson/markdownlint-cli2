@@ -9,7 +9,11 @@
   "license": "MIT",
   "type": "commonjs",
   "main": "./markdownlint-cli2.js",
-  "exports": "./markdownlint-cli2.js",
+  "exports": {
+    ".": "./markdownlint-cli2.js",
+    "./markdownlint": "./export-markdownlint.js",
+    "./markdownlint/helpers": "./export-markdownlint-helpers.js"
+  },
   "bin": {
     "markdownlint-cli2": "markdownlint-cli2.js",
     "markdownlint-cli2-config": "markdownlint-cli2-config.js",
@@ -48,6 +52,8 @@
   },
   "files": [
     "append-to-array.js",
+    "export-markdownlint.js",
+    "export-markdownlint-helpers.js",
     "markdownlint-cli2.js",
     "markdownlint-cli2-config.js",
     "markdownlint-cli2-fix.js",
