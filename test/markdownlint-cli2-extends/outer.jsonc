@@ -1,0 +1,4 @@
+{
+  "extends": "./inner.yaml",
+  "single-title": false
+}

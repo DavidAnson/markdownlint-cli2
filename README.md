@@ -226,6 +226,8 @@ of the rules within.
     rules for this part of the directory tree
     - If a `.markdownlint.{jsonc,json,yaml,yml,js}` file (see below) is present
       in the same directory, it overrides the value of this property
+    - If the `config` object contains an `extends` property, it will be resolved
+      the same as `.markdownlint.{jsonc,json,yaml,yml,js}` (see below)
   - `customRules`: `Array` of `String`s (or `Array`s of `String`s) of module
     names/paths of [custom rules][markdownlint-custom-rules] to load and use
     when linting

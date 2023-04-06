@@ -365,6 +365,12 @@ const testCases =
   });
 
   testCase({
+    "name": "markdownlint-cli2-extends",
+    "args": [ "**/*.md" ],
+    "usesRequire": true
+  });
+
+  testCase({
     "name": "config-overrides-options",
     "args": [ "viewme.md" ]
   });

@@ -1,0 +1,6 @@
+{
+  "config": {
+    "extends": "../outer.jsonc",
+    "no-multiple-blanks": false
+  }
+}

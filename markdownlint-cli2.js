@@ -13,8 +13,11 @@ const dynamicRequire = (typeof __non_webpack_require__ === "undefined") ? requir
 const path = require("node:path");
 const { pathToFileURL } = require("node:url");
 const markdownlintLibrary = require("markdownlint");
-const { markdownlint, "readConfig": markdownlintReadConfig } =
-  markdownlintLibrary.promises;
+const {
+  markdownlint,
+  "extendConfig": markdownlintExtendConfig,
+  "readConfig": markdownlintReadConfig
+} = markdownlintLibrary.promises;
 const markdownlintRuleHelpers = require("markdownlint/helpers");
 const appendToArray = require("./append-to-array");
 const mergeOptions = require("./merge-options");
@@ -291,6 +294,22 @@ const getAndProcessDirInfo =
           ).
           then((options) => {
             dirInfo.markdownlintOptions = options;
+            return options &&
+              options.config &&
+              options.config.extends &&
+              getJsoncParse().
+                then(
+                  (jsoncParse) => markdownlintExtendConfig(
+                    options.config,
+                    // Just needs to identify a file in the right directory
+                    markdownlintCli2Jsonc,
+                    [ jsoncParse, yamlParse ],
+                    fs
+                  )
+                ).
+                then((config) => {
+                  options.config = config;
+                });
           })
       );
 
