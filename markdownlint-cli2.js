@@ -242,105 +242,105 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"`
 
 // Get (creating if necessary) and process a directory's info object
 const getAndProcessDirInfo =
-(fs, tasks, dirToDirInfo, dir, relativeDir, noRequire, func) => {
-  let dirInfo = dirToDirInfo[dir];
-  if (!dirInfo) {
-    dirInfo = {
-      dir,
-      relativeDir,
-      "parent": null,
-      "files": [],
-      "markdownlintConfig": null,
-      "markdownlintOptions": null
-    };
-    dirToDirInfo[dir] = dirInfo;
+  (fs, tasks, dirToDirInfo, dir, relativeDir, noRequire, func) => {
+    let dirInfo = dirToDirInfo[dir];
+    if (!dirInfo) {
+      dirInfo = {
+        dir,
+        relativeDir,
+        "parent": null,
+        "files": [],
+        "markdownlintConfig": null,
+        "markdownlintOptions": null
+      };
+      dirToDirInfo[dir] = dirInfo;
 
-    // Load markdownlint-cli2 object(s)
-    const markdownlintCli2Jsonc =
-      path.posix.join(dir, ".markdownlint-cli2.jsonc");
-    const markdownlintCli2Yaml =
-      path.posix.join(dir, ".markdownlint-cli2.yaml");
-    tasks.push(
-      fs.promises.access(markdownlintCli2Jsonc).
-        then(
-          () => fs.promises.
-            readFile(markdownlintCli2Jsonc, utf8).
-            then(
-              (content) => getJsoncParse().
-                then((jsoncParse) => jsoncParse(content))
-            ),
-          () => fs.promises.access(markdownlintCli2Yaml).
-            then(
-              () => fs.promises.
-                readFile(markdownlintCli2Yaml, utf8).
-                then(yamlParse),
-              importOrRequireConfig(
-                fs,
-                dir,
-                ".markdownlint-cli2.cjs",
-                noRequire,
+      // Load markdownlint-cli2 object(s)
+      const markdownlintCli2Jsonc =
+        path.posix.join(dir, ".markdownlint-cli2.jsonc");
+      const markdownlintCli2Yaml =
+        path.posix.join(dir, ".markdownlint-cli2.yaml");
+      tasks.push(
+        fs.promises.access(markdownlintCli2Jsonc).
+          then(
+            () => fs.promises.
+              readFile(markdownlintCli2Jsonc, utf8).
+              then(
+                (content) => getJsoncParse().
+                  then((jsoncParse) => jsoncParse(content))
+              ),
+            () => fs.promises.access(markdownlintCli2Yaml).
+              then(
+                () => fs.promises.
+                  readFile(markdownlintCli2Yaml, utf8).
+                  then(yamlParse),
                 importOrRequireConfig(
                   fs,
                   dir,
-                  ".markdownlint-cli2.mjs",
+                  ".markdownlint-cli2.cjs",
                   noRequire,
-                  noop
+                  importOrRequireConfig(
+                    fs,
+                    dir,
+                    ".markdownlint-cli2.mjs",
+                    noRequire,
+                    noop
+                  )
                 )
               )
-            )
-        ).
-        then((options) => {
-          dirInfo.markdownlintOptions = options;
-        })
-    );
+          ).
+          then((options) => {
+            dirInfo.markdownlintOptions = options;
+          })
+      );
 
-    // Load markdownlint object(s)
-    const readConfigs =
-      readConfig(
-        fs,
-        dir,
-        ".markdownlint.jsonc",
+      // Load markdownlint object(s)
+      const readConfigs =
         readConfig(
           fs,
           dir,
-          ".markdownlint.json",
+          ".markdownlint.jsonc",
           readConfig(
             fs,
             dir,
-            ".markdownlint.yaml",
+            ".markdownlint.json",
             readConfig(
               fs,
               dir,
-              ".markdownlint.yml",
-              importOrRequireConfig(
+              ".markdownlint.yaml",
+              readConfig(
                 fs,
                 dir,
-                ".markdownlint.cjs",
-                noRequire,
+                ".markdownlint.yml",
                 importOrRequireConfig(
                   fs,
                   dir,
-                  ".markdownlint.mjs",
+                  ".markdownlint.cjs",
                   noRequire,
-                  noop
+                  importOrRequireConfig(
+                    fs,
+                    dir,
+                    ".markdownlint.mjs",
+                    noRequire,
+                    noop
+                  )
                 )
               )
             )
           )
-        )
+        );
+      tasks.push(
+        readConfigs().
+          then((config) => {
+            dirInfo.markdownlintConfig = config;
+          })
       );
-    tasks.push(
-      readConfigs().
-        then((config) => {
-          dirInfo.markdownlintConfig = config;
-        })
-    );
-  }
-  if (func) {
-    func(dirInfo);
-  }
-  return dirInfo;
-};
+    }
+    if (func) {
+      func(dirInfo);
+    }
+    return dirInfo;
+  };
 
 // Get base markdownlint-cli2 options object
 const getBaseOptions = async (
@@ -394,81 +394,81 @@ const getBaseOptions = async (
 
 // Enumerate files from globs and build directory infos
 const enumerateFiles =
-// eslint-disable-next-line max-len
-async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, noErrors, noRequire) => {
-  const tasks = [];
-  const globbyOptions = {
-    "absolute": true,
-    "cwd": baseDir,
-    "dot": true,
-    "expandDirectories": false,
-    fs
-  };
-  if (noErrors) {
-    globbyOptions.suppressErrors = true;
-  }
-  // Special-case literal files
-  const literalFiles = [];
-  const filteredGlobPatterns = globPatterns.filter(
-    (globPattern) => {
-      if (globPattern.startsWith(":")) {
-        literalFiles.push(
-          posixPath(path.resolve(baseDirSystem, globPattern.slice(1)))
-        );
-        return false;
-      }
-      return true;
+  // eslint-disable-next-line max-len
+  async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, noErrors, noRequire) => {
+    const tasks = [];
+    const globbyOptions = {
+      "absolute": true,
+      "cwd": baseDir,
+      "dot": true,
+      "expandDirectories": false,
+      fs
+    };
+    if (noErrors) {
+      globbyOptions.suppressErrors = true;
     }
-  ).map((globPattern) => globPattern.replace(/^\\:/u, ":"));
-  const baseMarkdownlintOptions = dirToDirInfo[baseDir].markdownlintOptions;
-  const globsForIgnore =
-    (baseMarkdownlintOptions.globs || []).
-      filter((glob) => glob.startsWith("!"));
-  const filteredLiteralFiles =
-    ((literalFiles.length > 0) && (globsForIgnore.length > 0))
-      ? removeIgnoredFiles(baseDir, literalFiles, globsForIgnore)
-      : literalFiles;
-  // Manually expand directories to avoid globby call to dir-glob.sync
-  const expandedDirectories = await Promise.all(
-    filteredGlobPatterns.map((globPattern) => {
-      const barePattern =
-        globPattern.startsWith("!")
-          ? globPattern.slice(1)
-          : globPattern;
-      const globPath =
-        (path.posix.isAbsolute(barePattern) || path.isAbsolute(barePattern))
-          ? barePattern
-          : path.posix.join(baseDir, barePattern);
-      return fs.promises.stat(globPath).
-        then((stats) => (stats.isDirectory()
-          ? path.posix.join(globPattern, "**")
-          : globPattern)).
-        catch(() => globPattern);
-    })
-  );
-  // Process glob patterns
-  // eslint-disable-next-line no-inline-comments
-  const { globby } = await import(/* webpackMode: "eager" */ "globby");
-  const files = [
-    ...await globby(expandedDirectories, globbyOptions),
-    ...filteredLiteralFiles
-  ];
-  for (const file of files) {
-    const dir = path.posix.dirname(file);
-    getAndProcessDirInfo(
-      fs,
-      tasks,
-      dirToDirInfo,
-      dir,
-      null,
-      noRequire,
-      (dirInfo) => {
-        dirInfo.files.push(file);
+    // Special-case literal files
+    const literalFiles = [];
+    const filteredGlobPatterns = globPatterns.filter(
+      (globPattern) => {
+        if (globPattern.startsWith(":")) {
+          literalFiles.push(
+            posixPath(path.resolve(baseDirSystem, globPattern.slice(1)))
+          );
+          return false;
+        }
+        return true;
       }
+    ).map((globPattern) => globPattern.replace(/^\\:/u, ":"));
+    const baseMarkdownlintOptions = dirToDirInfo[baseDir].markdownlintOptions;
+    const globsForIgnore =
+      (baseMarkdownlintOptions.globs || []).
+        filter((glob) => glob.startsWith("!"));
+    const filteredLiteralFiles =
+      ((literalFiles.length > 0) && (globsForIgnore.length > 0))
+        ? removeIgnoredFiles(baseDir, literalFiles, globsForIgnore)
+        : literalFiles;
+    // Manually expand directories to avoid globby call to dir-glob.sync
+    const expandedDirectories = await Promise.all(
+      filteredGlobPatterns.map((globPattern) => {
+        const barePattern =
+          globPattern.startsWith("!")
+            ? globPattern.slice(1)
+            : globPattern;
+        const globPath =
+          (path.posix.isAbsolute(barePattern) || path.isAbsolute(barePattern))
+            ? barePattern
+            : path.posix.join(baseDir, barePattern);
+        return fs.promises.stat(globPath).
+          then((stats) => (stats.isDirectory()
+            ? path.posix.join(globPattern, "**")
+            : globPattern)).
+          catch(() => globPattern);
+      })
     );
-  }
-  await Promise.all(tasks);
-};
+    // Process glob patterns
+    // eslint-disable-next-line no-inline-comments
+    const { globby } = await import(/* webpackMode: "eager" */ "globby");
+    const files = [
+      ...await globby(expandedDirectories, globbyOptions),
+      ...filteredLiteralFiles
+    ];
+    for (const file of files) {
+      const dir = path.posix.dirname(file);
+      getAndProcessDirInfo(
+        fs,
+        tasks,
+        dirToDirInfo,
+        dir,
+        null,
+        noRequire,
+        (dirInfo) => {
+          dirInfo.files.push(file);
+        }
+      );
+    }
+    await Promise.all(tasks);
+  };
 
 // Enumerate (possibly missing) parent directories and update directory infos
 const enumerateParents = async (fs, baseDir, dirToDirInfo, noRequire) => {
@@ -517,135 +517,135 @@ const enumerateParents = async (fs, baseDir, dirToDirInfo, noRequire) => {
 
 // Create directory info objects by enumerating file globs
 const createDirInfos =
-// eslint-disable-next-line max-len
-async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, optionsOverride, noErrors, noRequire) => {
-  await enumerateFiles(
-    fs,
-    baseDirSystem,
-    baseDir,
-    globPatterns,
-    dirToDirInfo,
-    noErrors,
-    noRequire
-  );
-  await enumerateParents(
-    fs,
-    baseDir,
-    dirToDirInfo,
-    noRequire
-  );
-
-  // Merge file lists with identical configuration
-  const dirs = Object.keys(dirToDirInfo);
-  dirs.sort((a, b) => b.length - a.length);
-  const dirInfos = [];
-  const noConfigDirInfo =
-    // eslint-disable-next-line unicorn/consistent-function-scoping
-    (dirInfo) => (
-      dirInfo.parent &&
-      !dirInfo.markdownlintConfig &&
-      !dirInfo.markdownlintOptions
+  // eslint-disable-next-line max-len
+  async (fs, baseDirSystem, baseDir, globPatterns, dirToDirInfo, optionsOverride, noErrors, noRequire) => {
+    await enumerateFiles(
+      fs,
+      baseDirSystem,
+      baseDir,
+      globPatterns,
+      dirToDirInfo,
+      noErrors,
+      noRequire
     );
-  const tasks = [];
-  for (const dir of dirs) {
-    const dirInfo = dirToDirInfo[dir];
-    if (noConfigDirInfo(dirInfo)) {
-      if (dirInfo.parent) {
-        appendToArray(dirInfo.parent.files, dirInfo.files);
-      }
-      dirToDirInfo[dir] = null;
-    } else {
-      const { markdownlintOptions, relativeDir } = dirInfo;
-      if (markdownlintOptions && markdownlintOptions.customRules) {
-        tasks.push(
-          importOrRequireIds(
-            relativeDir || dir,
-            markdownlintOptions.customRules,
-            noRequire
-          ).then((customRules) => {
-            // Expand nested arrays (for packages that export multiple rules)
-            markdownlintOptions.customRules = customRules.flat();
-          })
-        );
-      }
-      if (markdownlintOptions && markdownlintOptions.markdownItPlugins) {
-        tasks.push(
-          importOrRequireIdsAndParams(
-            relativeDir || dir,
-            markdownlintOptions.markdownItPlugins,
-            noRequire
-          ).then((markdownItPlugins) => {
-            markdownlintOptions.markdownItPlugins = markdownItPlugins;
-          })
-        );
-      }
-      dirInfos.push(dirInfo);
-    }
-  }
-  await Promise.all(tasks);
-  for (const dirInfo of dirInfos) {
-    while (dirInfo.parent && !dirToDirInfo[dirInfo.parent.dir]) {
-      dirInfo.parent = dirInfo.parent.parent;
-    }
-  }
-
-  // Verify dirInfos is simplified
-  // if (
-  //   dirInfos.filter(
-  //     (di) => di.parent && !dirInfos.includes(di.parent)
-  //   ).length > 0
-  // ) {
-  //   throw new Error("Extra parent");
-  // }
-  // if (
-  //   dirInfos.filter(
-  //     (di) => !di.parent && (di.dir !== baseDir)
-  //   ).length > 0
-  // ) {
-  //   throw new Error("Missing parent");
-  // }
-  // if (
-  //   dirInfos.filter(
-  //     (di) => di.parent &&
-  //       !((di.markdownlintConfig ? 1 : 0) ^ (di.markdownlintOptions ? 1 : 0))
-  //   ).length > 0
-  // ) {
-  //   throw new Error("Missing object");
-  // }
-  // if (dirInfos.filter((di) => di.dir === "/").length > 0) {
-  //   throw new Error("Includes root");
-  // }
-
-  // Merge configuration by inheritance
-  for (const dirInfo of dirInfos) {
-    let markdownlintOptions = dirInfo.markdownlintOptions || {};
-    let { markdownlintConfig } = dirInfo;
-    let parent = dirInfo;
-    // eslint-disable-next-line prefer-destructuring
-    while ((parent = parent.parent)) {
-      if (parent.markdownlintOptions) {
-        markdownlintOptions = mergeOptions(
-          parent.markdownlintOptions,
-          markdownlintOptions
-        );
-      }
-      if (
-        !markdownlintConfig &&
-        parent.markdownlintConfig &&
-        !markdownlintOptions.config
-      ) {
-        // eslint-disable-next-line prefer-destructuring
-        markdownlintConfig = parent.markdownlintConfig;
-      }
-    }
-    dirInfo.markdownlintOptions = mergeOptions(
-      markdownlintOptions,
-      optionsOverride
+    await enumerateParents(
+      fs,
+      baseDir,
+      dirToDirInfo,
+      noRequire
     );
-    dirInfo.markdownlintConfig = markdownlintConfig;
-  }
-  return dirInfos;
-};
+
+    // Merge file lists with identical configuration
+    const dirs = Object.keys(dirToDirInfo);
+    dirs.sort((a, b) => b.length - a.length);
+    const dirInfos = [];
+    const noConfigDirInfo =
+      // eslint-disable-next-line unicorn/consistent-function-scoping
+      (dirInfo) => (
+        dirInfo.parent &&
+        !dirInfo.markdownlintConfig &&
+        !dirInfo.markdownlintOptions
+      );
+    const tasks = [];
+    for (const dir of dirs) {
+      const dirInfo = dirToDirInfo[dir];
+      if (noConfigDirInfo(dirInfo)) {
+        if (dirInfo.parent) {
+          appendToArray(dirInfo.parent.files, dirInfo.files);
+        }
+        dirToDirInfo[dir] = null;
+      } else {
+        const { markdownlintOptions, relativeDir } = dirInfo;
+        if (markdownlintOptions && markdownlintOptions.customRules) {
+          tasks.push(
+            importOrRequireIds(
+              relativeDir || dir,
+              markdownlintOptions.customRules,
+              noRequire
+            ).then((customRules) => {
+              // Expand nested arrays (for packages that export multiple rules)
+              markdownlintOptions.customRules = customRules.flat();
+            })
+          );
+        }
+        if (markdownlintOptions && markdownlintOptions.markdownItPlugins) {
+          tasks.push(
+            importOrRequireIdsAndParams(
+              relativeDir || dir,
+              markdownlintOptions.markdownItPlugins,
+              noRequire
+            ).then((markdownItPlugins) => {
+              markdownlintOptions.markdownItPlugins = markdownItPlugins;
+            })
+          );
+        }
+        dirInfos.push(dirInfo);
+      }
+    }
+    await Promise.all(tasks);
+    for (const dirInfo of dirInfos) {
+      while (dirInfo.parent && !dirToDirInfo[dirInfo.parent.dir]) {
+        dirInfo.parent = dirInfo.parent.parent;
+      }
+    }
+
+    // Verify dirInfos is simplified
+    // if (
+    //   dirInfos.filter(
+    //     (di) => di.parent && !dirInfos.includes(di.parent)
+    //   ).length > 0
+    // ) {
+    //   throw new Error("Extra parent");
+    // }
+    // if (
+    //   dirInfos.filter(
+    //     (di) => !di.parent && (di.dir !== baseDir)
+    //   ).length > 0
+    // ) {
+    //   throw new Error("Missing parent");
+    // }
+    // if (
+    //   dirInfos.filter(
+    //     (di) => di.parent &&
+    //     !((di.markdownlintConfig ? 1 : 0) ^ (di.markdownlintOptions ? 1 : 0))
+    //   ).length > 0
+    // ) {
+    //   throw new Error("Missing object");
+    // }
+    // if (dirInfos.filter((di) => di.dir === "/").length > 0) {
+    //   throw new Error("Includes root");
+    // }
+
+    // Merge configuration by inheritance
+    for (const dirInfo of dirInfos) {
+      let markdownlintOptions = dirInfo.markdownlintOptions || {};
+      let { markdownlintConfig } = dirInfo;
+      let parent = dirInfo;
+      // eslint-disable-next-line prefer-destructuring
+      while ((parent = parent.parent)) {
+        if (parent.markdownlintOptions) {
+          markdownlintOptions = mergeOptions(
+            parent.markdownlintOptions,
+            markdownlintOptions
+          );
+        }
+        if (
+          !markdownlintConfig &&
+          parent.markdownlintConfig &&
+          !markdownlintOptions.config
+        ) {
+          // eslint-disable-next-line prefer-destructuring
+          markdownlintConfig = parent.markdownlintConfig;
+        }
+      }
+      dirInfo.markdownlintOptions = mergeOptions(
+        markdownlintOptions,
+        optionsOverride
+      );
+      dirInfo.markdownlintConfig = markdownlintConfig;
+    }
+    return dirInfos;
+  };
 
 // Lint files in groups by shared configuration
 const lintFiles = async (fs, dirInfos, fileContents) => {
