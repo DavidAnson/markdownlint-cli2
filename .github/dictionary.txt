@@ -2,6 +2,7 @@ Async
 CJS
 Changelog
 CLI
+CodeClimate
 CommonJS
 CommonMark
 config
@@ -9,6 +10,7 @@ dotfiles
 formatter
 formatters
 Formatters
+GitLab
 Globbing
 globby
 Homebrew
@@ -16,6 +18,7 @@ JSON
 JSONC
 JUnit
 markdownlint-cli2
+markdownlint-cli2-formatter-codequality
 markdownlint-cli2-formatter-default
 markdownlint-cli2-formatter-json
 markdownlint-cli2-formatter-junit
