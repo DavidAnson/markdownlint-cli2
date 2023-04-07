@@ -1,5 +1,6 @@
-async
+Async
 CJS
+Changelog
 CLI
 CommonJS
 CommonMark

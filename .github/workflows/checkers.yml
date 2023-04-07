@@ -27,4 +27,4 @@ jobs:
     - uses: tbroadley/spellchecker-cli-action@v1
       with:
         dictionaries: '.github/dictionary.txt'
-        files: '*.md formatter-default/*.md formatter-json/*.md formatter-junit/*.md formatter-pretty/*.md formatter-summarize/*.md'
+        files: '*.md formatter-*/*.md'
