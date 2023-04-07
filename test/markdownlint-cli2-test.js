@@ -36,6 +36,7 @@ test("README files", (t) => {
   t.plan(1);
   const uncalled = (msg) => t.fail(`message logged: ${msg}`);
   const argv = [
+    "CHANGELOG.md",
     "README.md",
     "./doc/OutputFormatters.md",
     "./formatter-default/README.md",
