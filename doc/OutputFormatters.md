@@ -21,7 +21,6 @@ module.exports = (options, params) => { ... }
 Where `options` is an object that looks like:
 
 - `results`: `Array` of [`markdownlint` `LintError` objects][markdownlint-d-ts]
-  - [Example `results` object][output-formatters-json]
 - `logMessage`: `Function` that takes a single `String` argument and logs it to
   standard output
 - `logError`: `Function` that takes a single `String` argument and logs it to
@@ -62,4 +61,3 @@ For a `.markdownlint-cli2.jsonc` like:
 [formatter-junit]: ../formatter-junit/markdownlint-cli2-formatter-junit.js
 [markdownlint-cli2-formatter]: https://www.npmjs.com/search?q=keywords:markdownlint-cli2-formatter
 [markdownlint-d-ts]: https://github.com/DavidAnson/markdownlint/blob/main/lib/markdownlint.d.ts
-[output-formatters-json]: ../test/outputFormatters.formatter.json
