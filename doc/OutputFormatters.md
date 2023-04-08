@@ -20,7 +20,8 @@ module.exports = (options, params) => { ... }
 
 Where `options` is an object that looks like:
 
-- `results`: `Array` of [`markdownlint` `LintError` objects][markdownlint-d-ts]
+- `results`: `Array` of [`markdownlint` `LintError` objects][markdownlint-d-ts],
+  each with an added `String` property `fileName` containing a relative path
 - `logMessage`: `Function` that takes a single `String` argument and logs it to
   standard output
 - `logError`: `Function` that takes a single `String` argument and logs it to
