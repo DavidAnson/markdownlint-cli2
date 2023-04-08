@@ -18,7 +18,7 @@ jobs:
     - uses: JustinBeckwith/linkinator-action@v1.10.4
       with:
         linksToSkip: '^https://github.com/.*/search\?q= ^https://opensource.org/'
-        paths: '*.md formatter-default/*.md formatter-json/*.md formatter-junit/*.md formatter-pretty/*.md formatter-summarize/*.md'
+        paths: '*.md doc/*.md formatter-*/*.md'
 
   spellcheck:
     runs-on: ubuntu-latest
@@ -27,4 +27,4 @@ jobs:
     - uses: tbroadley/spellchecker-cli-action@v1
       with:
         dictionaries: '.github/dictionary.txt'
-        files: '*.md formatter-*/*.md'
+        files: '*.md doc/*.md formatter-*/*.md'
