@@ -16,6 +16,7 @@ RUN npm install --global --no-package-lock --production \
     markdownlint-rule-relative-links \
     markdownlint-rule-search-replace \
     markdownlint-rule-titlecase \
+    markdownlint-rule-trace-template-headers \
     markdownlint-rules-foliant \
     markdownlint-rules-grav-pages
 
