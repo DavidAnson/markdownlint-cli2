@@ -15,6 +15,7 @@ RUN npm install --global --no-package-lock --production \
     markdownlint-rule-olstart \
     markdownlint-rule-relative-links \
     markdownlint-rule-search-replace \
+    markdownlint-rule-title-case-style \
     markdownlint-rule-titlecase \
     markdownlint-rule-trace-template-headers \
     markdownlint-rules-foliant \
