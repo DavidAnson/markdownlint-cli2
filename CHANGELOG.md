@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.1
+
+- Update dependencies (including `markdownlint`)
+
 ## 0.7.0
 
 - Add support for `extends` in `config` property of `.markdownlint-cli2.*` files
