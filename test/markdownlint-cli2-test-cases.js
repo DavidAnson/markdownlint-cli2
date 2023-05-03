@@ -287,14 +287,14 @@ const testCases =
   testCase({
     "name": "markdownlint-cjs-invalid",
     "args": [ ".*" ],
-    "stderrRe": /Unexpected end of input/u,
+    "stderrRe": /Unable to require or import module '/u,
     "usesRequire": true
   });
 
   testCase({
     "name": "markdownlint-mjs-invalid",
     "args": [ ".*" ],
-    "stderrRe": /Unexpected end of input/u,
+    "stderrRe": /Unable to require or import module '/u,
     "usesRequire": true
   });
 
@@ -353,14 +353,14 @@ const testCases =
   testCase({
     "name": "markdownlint-cli2-cjs-invalid",
     "args": [ ".*" ],
-    "stderrRe": /Unexpected end of input/u,
+    "stderrRe": /Unable to require or import module '/u,
     "usesRequire": true
   });
 
   testCase({
     "name": "markdownlint-cli2-mjs-invalid",
     "args": [ ".*" ],
-    "stderrRe": /Unexpected end of input/u,
+    "stderrRe": /Unable to require or import module '/u,
     "usesRequire": true
   });
 
@@ -599,7 +599,7 @@ const testCases =
   testCase({
     "name": "customRules-missing",
     "args": [ ".*" ],
-    "stderrRe": /Cannot find module 'missing-package'/u,
+    "stderrRe": /Unable to require or import module 'missing-package'\./u,
     "usesRequire": true
   });
 
@@ -625,7 +625,7 @@ const testCases =
   testCase({
     "name": "markdownItPlugins-missing",
     "args": [ ".*" ],
-    "stderrRe": /Cannot find module 'missing-package'/u,
+    "stderrRe": /Unable to require or import module 'missing-package'\./u,
     "usesRequire": true
   });
 
@@ -697,7 +697,7 @@ const testCases =
   testCase({
     "name": "outputFormatters-missing",
     "args": [ ".*" ],
-    "stderrRe": /Cannot find module 'missing-package'/u,
+    "stderrRe": /Unable to require or import module 'missing-package'\./u,
     "usesRequire": true
   });
 

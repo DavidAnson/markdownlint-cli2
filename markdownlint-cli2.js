@@ -87,8 +87,11 @@ const importOrRequireResolve = async (dir, id) => {
     } catch (error) {
       errors.push(error);
     }
-    // Use AggregateError once available in Node 15+
-    throw new Error(errors.map((error) => error.message).join(" / "));
+    // @ts-ignore
+    throw new AggregateError(
+      errors,
+      `Unable to require or import module '${id}'.`
+    );
   }
   return id;
 };
