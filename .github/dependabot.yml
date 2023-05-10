@@ -8,6 +8,6 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "monthly"
     target-branch: "next"
     versioning-strategy: "increase"
