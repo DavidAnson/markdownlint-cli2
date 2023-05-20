@@ -13,6 +13,11 @@ may not get used.
 Match the coding style of the files you edit. Although everyone has their own
 preferences and opinions, a pull request is not the right forum to debate them.
 
+Package versions for `dependencies` and `devDependencies` should be specified
+exactly (also known as "pinning"). The short explanation is that doing otherwise
+eventually leads to inconsistent behavior and broken functionality. (See [Pin
+your npm/yarn dependencies][pin-dependencies] for a longer explanation.)
+
 Add tests for all new/changed functionality. Test positive and negative
 scenarios. Try to break the code now, or else it will get broken later.
 
@@ -43,8 +48,7 @@ allowed.
 
 Thank you!
 
-<!-- markdownlint-disable line-length -->
-
 [example-com]: https://en.wikipedia.org/wiki/Example.com
 [github-issues]: https://github.com/DavidAnson/markdownlint-cli2/issues
 [linking-pull-request]: https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword
+[pin-dependencies]: https://maxleiter.com/blog/pin-dependencies
