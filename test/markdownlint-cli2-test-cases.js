@@ -20,7 +20,7 @@ const testCases =
 (host, invoke, absolute, includeNoRequire, includeEnv, includeScript, includeRequire) => {
 
   const testCase = (options) => {
-    const { name, script, args, cwd, env, stderrRe, pre, post,
+    const { name, script, args, exitCode, cwd, env, stderrRe, pre, post,
       noRequire, usesEnv, usesRequire, usesScript } = options;
     if (
       (noRequire && !includeNoRequire) ||
@@ -31,7 +31,7 @@ const testCases =
       return;
     }
     test(`${name} (${host})`, (t) => {
-      t.plan(2);
+      t.plan(3);
       const directory = path.join(__dirname, cwd || name);
       return ((pre || noop)(name) || Promise.resolve()).
         then(invoke(directory, args, noRequire, env, script)).
@@ -74,6 +74,7 @@ const testCases =
               formatterOutputJunit,
               formatterOutputJunitCustom
             ] = results;
+            t.is(child.exitCode, exitCode);
             const actual = {
               "exitCode": child.exitCode,
               "stdout": sanitize(child.stdout),
@@ -117,6 +118,7 @@ const testCases =
   testCase({
     "name": "no-arguments",
     "args": [],
+    "exitCode": 1,
     "cwd": "no-config"
   });
 
@@ -150,143 +152,169 @@ const testCases =
   testCase({
     "name": "no-files",
     "args": [ "nothing-matches" ],
+    "exitCode": 0,
     "cwd": "no-config"
   });
 
   testCase({
     "name": "no-files-exclamation",
     "args": [ "!" ],
+    "exitCode": 0,
     "cwd": "no-config"
   });
 
   testCase({
     "name": "no-files-octothorpe",
     "args": [ "#" ],
+    "exitCode": 0,
     "cwd": "no-config"
   });
 
   testCase({
     "name": "all-ok",
-    "args": [ "**/*.md", "**/*.markdown" ]
+    "args": [ "**/*.md", "**/*.markdown" ],
+    "exitCode": 0
   });
 
   testCase({
     "name": "no-config",
-    "args": [ "**" ]
+    "args": [ "**" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "no-config-ignore",
     "args": [ "**", "!dir" ],
+    "exitCode": 1,
     "cwd": "no-config"
   });
 
   testCase({
     "name": "no-config-unignore",
     "args": [ "**", "!dir", "dir/subdir" ],
+    "exitCode": 1,
     "cwd": "no-config"
   });
 
   testCase({
     "name": "no-config-ignore-hash",
     "args": [ "**", "#dir" ],
+    "exitCode": 1,
     "cwd": "no-config"
   });
 
   testCase({
     "name": "file-paths-as-args",
     "args": [ "viewme.md", "./dir/subdir/info.md" ],
+    "exitCode": 1,
     "cwd": "no-config"
   });
 
   testCase({
     "name": "dot",
-    "args": [ "." ]
+    "args": [ "." ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "dotfiles",
-    "args": [ "**" ]
+    "args": [ "**" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "dotfiles-exclude",
     "args": [ "**", "!.dir", "!**/.info.md" ],
+    "exitCode": 1,
     "cwd": "dotfiles"
   });
 
   testCase({
     "name": "globs",
-    "args": []
+    "args": [],
+    "exitCode": 1
   });
 
   testCase({
     "name": "globs-and-args",
-    "args": [ "**/*.markdown" ]
+    "args": [ "**/*.markdown" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "globs-and-ignores",
-    "args": []
+    "args": [],
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownlint-json",
-    "args": [ "**/*.md" ]
+    "args": [ "**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownlint-json-extends",
-    "args": [ "**/*.md" ]
+    "args": [ "**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownlint-jsonc",
-    "args": [ "**/*.md" ]
+    "args": [ "**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownlint-yaml",
-    "args": [ "**/*.md" ]
+    "args": [ "**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownlint-yml",
-    "args": [ "**/*.md" ]
+    "args": [ "**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownlint-cjs",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "usesRequire": true
   });
 
   testCase({
     "name": "markdownlint-mjs",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "usesRequire": true
   });
 
   testCase({
     "name": "markdownlint-json-yaml",
-    "args": [ "**/*.md" ]
+    "args": [ "**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownlint-json-invalid",
     "args": [ ".*" ],
+    "exitCode": 2,
     "stderrRe": /(?:Unexpected end)|(?:Expected property name)/u
   });
 
   testCase({
     "name": "markdownlint-yaml-invalid",
     "args": [ ".*" ],
+    "exitCode": 2,
     "stderrRe": /Map keys must be unique/u
   });
 
   testCase({
     "name": "markdownlint-cjs-invalid",
     "args": [ ".*" ],
+    "exitCode": 2,
     "stderrRe": /Unable to require or import module '/u,
     "usesRequire": true
   });
@@ -294,18 +322,21 @@ const testCases =
   testCase({
     "name": "markdownlint-mjs-invalid",
     "args": [ ".*" ],
+    "exitCode": 2,
     "stderrRe": /Unable to require or import module '/u,
     "usesRequire": true
   });
 
   testCase({
     "name": "markdownlint-cli2-jsonc",
-    "args": [ "**/*.md" ]
+    "args": [ "**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownlint-cli2-jsonc-example",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": directoryName("markdownlint-cli2-jsonc-example"),
     "pre": copyDirectory,
     "post": deleteDirectory,
@@ -315,17 +346,20 @@ const testCases =
   testCase({
     "name": "markdownlint-cli2-jsonc-invalid",
     "args": [ ".*" ],
+    "exitCode": 2,
     "stderrRe": /(?:Unexpected end)|(?:Expected property name)/u
   });
 
   testCase({
     "name": "markdownlint-cli2-yaml",
-    "args": [ "**/*.md" ]
+    "args": [ "**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownlint-cli2-yaml-example",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": directoryName("markdownlint-cli2-yaml-example"),
     "pre": copyDirectory,
     "post": deleteDirectory,
@@ -335,24 +369,28 @@ const testCases =
   testCase({
     "name": "markdownlint-cli2-yaml-invalid",
     "args": [ ".*" ],
+    "exitCode": 2,
     "stderrRe": /Map keys must be unique/u
   });
 
   testCase({
     "name": "markdownlint-cli2-cjs",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "usesRequire": true
   });
 
   testCase({
     "name": "markdownlint-cli2-mjs",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "usesRequire": true
   });
 
   testCase({
     "name": "markdownlint-cli2-cjs-invalid",
     "args": [ ".*" ],
+    "exitCode": 2,
     "stderrRe": /Unable to require or import module '/u,
     "usesRequire": true
   });
@@ -360,6 +398,7 @@ const testCases =
   testCase({
     "name": "markdownlint-cli2-mjs-invalid",
     "args": [ ".*" ],
+    "exitCode": 2,
     "stderrRe": /Unable to require or import module '/u,
     "usesRequire": true
   });
@@ -367,37 +406,44 @@ const testCases =
   testCase({
     "name": "markdownlint-cli2-extends",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "usesRequire": true
   });
 
   testCase({
     "name": "config-overrides-options",
-    "args": [ "viewme.md" ]
+    "args": [ "viewme.md" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "ignores",
-    "args": [ "**/*.md", "**/*.markdown" ]
+    "args": [ "**/*.md", "**/*.markdown" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "sibling-directory",
-    "args": [ "../markdownlint-json/**/*.md" ]
+    "args": [ "../markdownlint-json/**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "sibling-directory-options",
-    "args": [ "../no-config/**/*.md" ]
+    "args": [ "../no-config/**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "noInlineConfig",
-    "args": [ "**/*.md" ]
+    "args": [ "**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "frontMatter",
-    "args": [ "**/*.md" ]
+    "args": [ "**/*.md" ],
+    "exitCode": 0
   });
 
   testCase({
@@ -408,6 +454,7 @@ const testCases =
       ":dir(1)/viewme.md",
       ":dir(1)/(view)me.md"
     ],
+    "exitCode": 1,
     "cwd": "literal-files/sentinel"
   });
 
@@ -423,12 +470,14 @@ const testCases =
       `:${literalFilesAbsoluteFile}`,
       "sentinel/dir"
     ],
+    "exitCode": 1,
     "cwd": "literal-files"
   });
 
   testCase({
     "name": "fix",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": directoryName("fix"),
     "pre": copyDirectory,
     "post": deleteDirectory
@@ -437,6 +486,7 @@ const testCases =
   testCase({
     "name": "fix-scenarios",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": directoryName("fix-scenarios"),
     "pre": copyDirectory,
     "post": deleteDirectory
@@ -446,6 +496,7 @@ const testCases =
     "name": "fix-default-true",
     "script": "markdownlint-cli2-fix.js",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": directoryName("fix-default-true"),
     "pre": copyDirectory,
     "post": deleteDirectory,
@@ -456,6 +507,7 @@ const testCases =
     "name": "fix-default-true-override",
     "script": "markdownlint-cli2-fix.js",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "usesScript": true
   });
 
@@ -578,6 +630,7 @@ const testCases =
     "name": "config-with-fix",
     "script": "markdownlint-cli2-config.js",
     "args": [ "config/.markdownlint-cli2.jsonc", "viewme.md", "info.md" ],
+    "exitCode": 0,
     "cwd": directoryName("config-with-fix"),
     "pre": copyDirectory,
     "post": deleteDirectory,
@@ -587,18 +640,21 @@ const testCases =
   testCase({
     "name": "customRules",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "usesRequire": true
   });
 
   testCase({
     "name": "customRules-pre-imported",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "usesRequire": true
   });
 
   testCase({
     "name": "customRules-missing",
     "args": [ ".*" ],
+    "exitCode": 2,
     "stderrRe": /Unable to require or import module 'missing-package'\./u,
     "usesRequire": true
   });
@@ -606,6 +662,7 @@ const testCases =
   testCase({
     "name": "customRules-invalid",
     "args": [ ".*" ],
+    "exitCode": 2,
     "stderrRe": /Property 'names' of custom rule at index 0 is incorrect\./u,
     "usesRequire": true
   });
@@ -613,18 +670,21 @@ const testCases =
   testCase({
     "name": "customRules-throws",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "usesRequire": true
   });
 
   testCase({
     "name": "markdownItPlugins",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "usesRequire": true
   });
 
   testCase({
     "name": "markdownItPlugins-missing",
     "args": [ ".*" ],
+    "exitCode": 2,
     "stderrRe": /Unable to require or import module 'missing-package'\./u,
     "usesRequire": true
   });
@@ -632,6 +692,7 @@ const testCases =
   testCase({
     "name": "outputFormatters",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": directoryName("outputFormatters"),
     "pre": copyDirectory,
     "post": deleteDirectory,
@@ -641,6 +702,7 @@ const testCases =
   testCase({
     "name": "outputFormatters-npm",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": directoryName("outputFormatters-npm"),
     "pre": copyDirectory,
     "post": deleteDirectory,
@@ -655,6 +717,7 @@ const testCases =
   testCase({
     "name": "outputFormatters-params",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": directoryName("outputFormatters-params"),
     "pre": copyDirectory,
     "post": deleteDirectory,
@@ -664,6 +727,7 @@ const testCases =
   testCase({
     "name": "outputFormatters-params-absolute",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": directoryName("outputFormatters-params-absolute"),
     "pre": copyDirectory,
     "post": deleteDirectory,
@@ -673,6 +737,7 @@ const testCases =
   testCase({
     "name": "outputFormatters-pre-imported",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": directoryName("outputFormatters-pre-imported"),
     "pre": copyDirectory,
     "post": deleteDirectory,
@@ -682,6 +747,7 @@ const testCases =
   testCase({
     "name": "outputFormatters-clean",
     "args": [ "**/*.md" ],
+    "exitCode": 0,
     "cwd": directoryName("outputFormatters-clean"),
     "pre": copyDirectory,
     "post": deleteDirectory,
@@ -691,12 +757,14 @@ const testCases =
   testCase({
     "name": "outputFormatters-file",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "usesRequire": true
   });
 
   testCase({
     "name": "outputFormatters-missing",
     "args": [ ".*" ],
+    "exitCode": 2,
     "stderrRe": /Unable to require or import module 'missing-package'\./u,
     "usesRequire": true
   });
@@ -704,12 +772,14 @@ const testCases =
   testCase({
     "name": "formatter-summarize",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "usesRequire": true
   });
 
   testCase({
     "name": "formatter-pretty",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "env": {
       "FORCE_COLOR": 1,
       "FORCE_HYPERLINK": 1
@@ -720,6 +790,7 @@ const testCases =
   testCase({
     "name": "formatter-pretty-appendLink",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "env": {
       "FORCE_COLOR": 1
     },
@@ -728,24 +799,28 @@ const testCases =
 
   testCase({
     "name": "nested-files",
-    "args": [ "**/*.md" ]
+    "args": [ "**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
     "name": "nested-directories",
     "args": [ "**", "!a", "a/b", "#a/b/c", "a/b/c/d" ],
+    "exitCode": 1,
     "cwd": "nested-directories"
   });
 
   testCase({
     "name": "nested-options-config",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "usesRequire": true
   });
 
   testCase({
     "name": "markdownlint-cjs-no-require",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": "markdownlint-cjs",
     "noRequire": true
   });
@@ -753,6 +828,7 @@ const testCases =
   testCase({
     "name": "markdownlint-mjs-no-require",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": "markdownlint-mjs",
     "noRequire": true
   });
@@ -760,6 +836,7 @@ const testCases =
   testCase({
     "name": "markdownlint-cli2-cjs-no-require",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": "markdownlint-cli2-cjs",
     "noRequire": true
   });
@@ -767,6 +844,7 @@ const testCases =
   testCase({
     "name": "markdownlint-cli2-mjs-no-require",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": "markdownlint-cli2-mjs",
     "noRequire": true
   });
@@ -774,6 +852,7 @@ const testCases =
   testCase({
     "name": "customRules-no-require",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": "customRules",
     "noRequire": true
   });
@@ -781,6 +860,7 @@ const testCases =
   testCase({
     "name": "markdownItPlugins-no-require",
     "args": [ "**/*.md" ],
+    "exitCode": 1,
     "cwd": "markdownItPlugins",
     "noRequire": true
   });
@@ -790,12 +870,14 @@ const testCases =
     testCase({
       "name": "tilde-paths-commonjs",
       "args": [ "*.md" ],
+      "exitCode": 1,
       "usesRequire": true
     });
 
     testCase({
       "name": "tilde-paths-module",
       "args": [ "*.md" ],
+      "exitCode": 1,
       "usesRequire": true
     });
 
