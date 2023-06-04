@@ -862,7 +862,7 @@ const main = async (params) => {
     );
   if ((globPatterns.length === 0) && !nonFileContents) {
     showHelp(logMessage);
-    return 1;
+    return 2;
   }
   // Include any file overrides or non-file content
   const resolvedFileContents = {};

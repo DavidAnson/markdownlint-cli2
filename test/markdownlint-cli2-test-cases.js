@@ -118,7 +118,7 @@ const testCases =
   testCase({
     "name": "no-arguments",
     "args": [],
-    "exitCode": 1,
+    "exitCode": 2,
     "cwd": "no-config"
   });
 
@@ -126,7 +126,7 @@ const testCases =
     "name": "no-arguments-fix",
     "script": "markdownlint-cli2-fix.js",
     "args": [],
-    "exitCode": 1,
+    "exitCode": 2,
     "cwd": "no-config",
     "usesScript": true
   });
@@ -135,7 +135,7 @@ const testCases =
     "name": "no-arguments-config",
     "script": "markdownlint-cli2-config.js",
     "args": [],
-    "exitCode": 1,
+    "exitCode": 2,
     "cwd": "no-config",
     "usesScript": true
   });
@@ -144,7 +144,7 @@ const testCases =
     "name": "one-argument-config",
     "script": "markdownlint-cli2-config.js",
     "args": [ "../config-files/cfg/.markdownlint-cli2.jsonc" ],
-    "exitCode": 1,
+    "exitCode": 2,
     "cwd": "no-config",
     "usesScript": true
   });
