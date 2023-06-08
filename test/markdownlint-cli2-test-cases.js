@@ -21,7 +21,9 @@ const testCases =
 
   const testCase = (options) => {
     const { name, script, args, exitCode, cwd, env, stderrRe, pre, post,
-      noRequire, usesEnv, usesRequire, usesScript } = options;
+      noRequire, usesRequire } = options;
+    const usesEnv = Boolean(env);
+    const usesScript = Boolean(script);
     if (
       (noRequire && !includeNoRequire) ||
       (usesEnv && !includeEnv) ||
@@ -127,8 +129,7 @@ const testCases =
     "script": "markdownlint-cli2-fix.js",
     "args": [],
     "exitCode": 2,
-    "cwd": "no-config",
-    "usesScript": true
+    "cwd": "no-config"
   });
 
   testCase({
@@ -136,8 +137,7 @@ const testCases =
     "script": "markdownlint-cli2-config.js",
     "args": [],
     "exitCode": 2,
-    "cwd": "no-config",
-    "usesScript": true
+    "cwd": "no-config"
   });
 
   testCase({
@@ -145,8 +145,7 @@ const testCases =
     "script": "markdownlint-cli2-config.js",
     "args": [ "../config-files/cfg/.markdownlint-cli2.jsonc" ],
     "exitCode": 2,
-    "cwd": "no-config",
-    "usesScript": true
+    "cwd": "no-config"
   });
 
   testCase({
@@ -499,16 +498,14 @@ const testCases =
     "exitCode": 1,
     "cwd": directoryName("fix-default-true"),
     "pre": copyDirectory,
-    "post": deleteDirectory,
-    "usesScript": true
+    "post": deleteDirectory
   });
 
   testCase({
     "name": "fix-default-true-override",
     "script": "markdownlint-cli2-fix.js",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesScript": true
+    "exitCode": 1
   });
 
   const configFiles = [
@@ -529,16 +526,14 @@ const testCases =
       "script": "markdownlint-cli2-config.js",
       "args": [ `cfg/${configFile}`, "**/*.md" ],
       "exitCode": 1,
-      "cwd": "config-files",
-      "usesScript": true
+      "cwd": "config-files"
     });
     testCase({
       "name": `config-files-${configFile}-alternate`,
       "script": "markdownlint-cli2-config.js",
       "args": [ `cfg/alternate${configFile}`, "**/*.md" ],
       "exitCode": 1,
-      "cwd": "config-files",
-      "usesScript": true
+      "cwd": "config-files"
     });
     testCase({
       "name": `config-files-${configFile}-absolute`,
@@ -548,8 +543,7 @@ const testCases =
         "**/*.md"
       ],
       "exitCode": 1,
-      "cwd": "config-files",
-      "usesScript": true
+      "cwd": "config-files"
     });
   }
 
@@ -576,8 +570,7 @@ const testCases =
       "exitCode": 2,
       stderrRe,
       "cwd": "config-files",
-      "usesRequire": true,
-      "usesScript": true
+      "usesRequire": true
     });
   }
 
@@ -592,8 +585,7 @@ const testCases =
       "script": "markdownlint-cli2-config.js",
       "args": [ redundantConfigFile, "*.md" ],
       "exitCode": 1,
-      "cwd": redundantConfigFile.slice(1).replace(".", "-"),
-      "usesScript": true
+      "cwd": redundantConfigFile.slice(1).replace(".", "-")
     });
   }
 
@@ -605,8 +597,7 @@ const testCases =
     "stderrRe":
       // eslint-disable-next-line max-len
       /Configuration file "cfg\/unrecognized\.jsonc" is unrecognized; its name should be \(or end with\) one of the supported types \(e\.g\., "\.markdownlint\.json" or "example\.markdownlint-cli2\.jsonc"\)\./u,
-    "cwd": "config-files",
-    "usesScript": true
+    "cwd": "config-files"
   });
 
   testCase({
@@ -614,16 +605,14 @@ const testCases =
     "script": "markdownlint-cli2-config.js",
     "args": [ "config/.markdownlint-cli2.jsonc", "viewme.md", "link.md" ],
     "exitCode": 1,
-    "usesRequire": true,
-    "usesScript": true
+    "usesRequire": true
   });
 
   testCase({
     "name": "config-relative-module",
     "script": "markdownlint-cli2-config.js",
     "args": [ "config/.markdownlint-cli2.jsonc", "viewme.md", "link.md" ],
-    "exitCode": 1,
-    "usesScript": true
+    "exitCode": 1
   });
 
   testCase({
@@ -633,8 +622,7 @@ const testCases =
     "exitCode": 0,
     "cwd": directoryName("config-with-fix"),
     "pre": copyDirectory,
-    "post": deleteDirectory,
-    "usesScript": true
+    "post": deleteDirectory
   });
 
   testCase({
@@ -710,7 +698,6 @@ const testCases =
       "FORCE_COLOR": 1,
       "FORCE_HYPERLINK": 1
     },
-    "usesEnv": true,
     "usesRequire": true
   });
 
@@ -783,8 +770,7 @@ const testCases =
     "env": {
       "FORCE_COLOR": 1,
       "FORCE_HYPERLINK": 1
-    },
-    "usesEnv": true
+    }
   });
 
   testCase({
@@ -793,8 +779,7 @@ const testCases =
     "exitCode": 1,
     "env": {
       "FORCE_COLOR": 1
-    },
-    "usesEnv": true
+    }
   });
 
   testCase({
