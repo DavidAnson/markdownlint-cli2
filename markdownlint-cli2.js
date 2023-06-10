@@ -181,7 +181,7 @@ const removeIgnoredFiles = (dir, files, ignores) => {
 
 // Process/normalize command-line arguments and return glob patterns
 const processArgv = (argv) => {
-  const globPatterns = (argv || []).map(
+  const globPatterns = argv.map(
     (glob) => {
       if (glob.startsWith(":")) {
         return glob;
@@ -208,9 +208,7 @@ const showHelp = (logMessage) => {
   /* eslint-disable max-len */
   logMessage(`https://github.com/DavidAnson/markdownlint-cli2
 
-Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN]
-        markdownlint-cli2-fix glob0 [glob1] [...] [globN]
-        markdownlint-cli2-config config-file glob0 [glob1] [...] [globN]
+Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix]
 
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
@@ -224,6 +222,10 @@ Dot-only glob:
 - The command "markdownlint-cli2 ." would lint every file in the current directory tree which is probably not intended
 - Instead, it is mapped to "markdownlint-cli2 ${dotOnlySubstitute}" which lints all Markdown files in the current directory
 - To lint every file in the current directory tree, the command "markdownlint-cli2 **" can be used instead
+
+Optional parameters:
+- --config  specifies the path to a configuration file to define the base configuration
+- --fix     updates files to resolve fixable issues (can be overridden in configuration)
 
 Configuration via:
 - .markdownlint-cli2.jsonc
@@ -818,7 +820,6 @@ const main = async (params) => {
     argv,
     optionsDefault,
     optionsOverride,
-    fixDefault,
     fileContents,
     nonFileContents,
     noErrors,
@@ -838,17 +839,33 @@ const main = async (params) => {
     // eslint-disable-next-line max-len
     `${name || packageName} v${packageVersion} (${libraryName} v${libraryVersion})`
   );
+  // Merge and process args/argv
+  let fixDefault = false;
+  // eslint-disable-next-line unicorn/no-useless-undefined
+  let configPath = undefined;
+  const argvFiltered = (argv || []).filter((arg) => {
+    if (configPath === null) {
+      configPath = arg;
+      return false;
+    } else if (arg === "--config") {
+      configPath = null;
+      return false;
+    } else if (arg === "--fix") {
+      fixDefault = true;
+      return false;
+    }
+    return true;
+  });
   // Read argv configuration file (if relevant and present)
   let optionsArgv = null;
   let relativeDir = null;
-  const [ configPath ] = (argv || []);
-  if ((name === "markdownlint-cli2-config") && configPath) {
+  if (configPath) {
     optionsArgv =
       await readOptionsOrConfig(configPath, fs, noRequire);
     relativeDir = path.dirname(configPath);
   }
   // Process arguments and get base options
-  const globPatterns = processArgv(optionsArgv ? argv.slice(1) : argv);
+  const globPatterns = processArgv(argvFiltered);
   const { baseMarkdownlintOptions, dirToDirInfo } =
     await getBaseOptions(
       fs,
@@ -921,11 +938,13 @@ const main = async (params) => {
 };
 
 // Run function
-const run = (overrides) => {
+const run = (overrides, args) => {
   (async () => {
+    const argsAndArgv = args || [];
+    appendToArray(argsAndArgv, process.argv.slice(2));
     try {
       const defaultParams = {
-        "argv": process.argv.slice(2),
+        "argv": argsAndArgv,
         "logMessage": console.log,
         "logError": console.error
       };

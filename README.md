@@ -67,9 +67,7 @@ As a [GitHub Action][github-action] via
 markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)
 https://github.com/DavidAnson/markdownlint-cli2
 
-Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN]
-        markdownlint-cli2-fix glob0 [glob1] [...] [globN]
-        markdownlint-cli2-config config-file glob0 [glob1] [...] [globN]
+Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix]
 
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
@@ -83,6 +81,10 @@ Dot-only glob:
 - The command "markdownlint-cli2 ." would lint every file in the current directory tree which is probably not intended
 - Instead, it is mapped to "markdownlint-cli2 *.{md,markdown}" which lints all Markdown files in the current directory
 - To lint every file in the current directory tree, the command "markdownlint-cli2 **" can be used instead
+
+Optional parameters:
+- --config  specifies the path to a configuration file to define the base configuration
+- --fix     updates files to resolve fixable issues (can be overridden in configuration)
 
 Configuration via:
 - .markdownlint-cli2.jsonc
@@ -116,28 +118,47 @@ markdownlint-cli2 "**/*.md" "#node_modules"
 ```
 
 Because sharing the same configuration between "normal" and "fix" modes is
-common, the following command defaults the `fix` property (see below) to `true`:
+common, the `--fix` argument can be used to default the `fix` property (see
+below) to `true` (though it can still be overridden by a configuration file):
 
 ```bash
-markdownlint-cli2-fix "**/*.md" "#node_modules"
+markdownlint-cli2 --fix "**/*.md" "#node_modules"
 ```
 
-Other than the default behavior of the `fix` property (which can be overridden),
-these two commands behave identically.
+> **Deprecated**
+>
+> The following command behaves similarly, defaulting the `fix` property to
+> `true`:
+>
+> ```bash
+> markdownlint-cli2-fix "**/*.md" "#node_modules"
+> ```
+>
+> Otherwise, `markdownlint-cli2-fix` behaves the same as `markdownlint-cli2`.
 
 In cases where it is not convenient to store a configuration file in the root
-of a project, the `markdownlint-cli2-config` command can be used. This command
-accepts a path to any supported configuration file as its first argument:
+of a project, the `--config` argument can be used to provide a path to any
+supported configuration file:
 
 ```bash
-markdownlint-cli2-config "config/.markdownlint-cli2.jsonc" "**/*.md" "#node_modules"
+markdownlint-cli2 --config "config/.markdownlint-cli2.jsonc" "**/*.md" "#node_modules"
 ```
 
-The configuration file name must be (or end with) one of the supported types
+The configuration file name must be (or end with) one of the supported names
 above. For example, `.markdownlint.json` or `example.markdownlint-cli2.jsonc`.
 The specified configuration file will be loaded, parsed, and applied as a base
 configuration for the current directory - which will then be handled normally.
-Otherwise, this command behaves identically to `markdownlint-cli2`.
+
+> **Deprecated**
+>
+> The following command behaves similarly, accepting a base configuration file
+> path as its first parameter:
+>
+> ```bash
+> markdownlint-cli2-config "config/.markdownlint-cli2.jsonc" "**/*.md" "#node_modules"
+> ```
+>
+> Otherwise, `markdownlint-cli2-config` behaves the same as `markdownlint-cli2`.
 
 ### Container Image
 
@@ -165,12 +186,14 @@ Notes:
     docker run -w /myfolder -v $PWD:/myfolder davidanson/markdownlint-cli2:v0.7.1 "**/*.md" "#node_modules"
     ```
 
-To invoke the `markdownlint-cli2-config` or `markdownlint-cli2-fix` commands
-instead, use Docker's `--entrypoint` flag:
-
-```bash
-docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:v0.7.1 "**/*.md" "#node_modules"
-```
+> **Deprecated**
+>
+> To invoke the `markdownlint-cli2-config` or `markdownlint-cli2-fix` commands
+> instead, use Docker's `--entrypoint` flag:
+>
+> ```bash
+> docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:v0.7.1 "**/*.md" "#node_modules"
+> ```
 
 For convenience, the container image
 [`davidanson/markdownlint-cli2-rules`][docker-hub-markdownlint-cli2-rules]

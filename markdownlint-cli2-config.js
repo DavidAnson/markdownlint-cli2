@@ -6,6 +6,9 @@
 
 const { run } = require("./markdownlint-cli2");
 
-run({
-  "name": "markdownlint-cli2-config"
-});
+run(
+  {
+    "name": "markdownlint-cli2-config"
+  },
+  [ "--config" ]
+);
