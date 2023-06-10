@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0
+
+- Add support for `--config` and `--fix` parameters
+- Update dependencies (including `markdownlint`)
+- Remove support for end-of-life Node 14
+
 ## 0.7.1
 
 - Update dependencies (including `markdownlint`)
