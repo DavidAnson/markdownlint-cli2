@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.1
+
+- Handle `--config` edge case
+
 ## 0.8.0
 
 - Add support for `--config` and `--fix` parameters
