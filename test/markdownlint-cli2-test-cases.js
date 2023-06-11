@@ -157,6 +157,13 @@ const testCases =
   });
 
   testCase({
+    "name": "missing-argument-config-arg",
+    "args": [ "**", "--config" ],
+    "exitCode": 2,
+    "cwd": "no-config"
+  });
+
+  testCase({
     "name": "one-argument-config-arg",
     "args": [ "--config", "../config-files/cfg/.markdownlint-cli2.jsonc" ],
     "exitCode": 2,

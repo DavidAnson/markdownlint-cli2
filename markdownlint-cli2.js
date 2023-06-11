@@ -877,7 +877,10 @@ const main = async (params) => {
       noGlobs,
       noRequire
     );
-  if ((globPatterns.length === 0) && !nonFileContents) {
+  if (
+    ((globPatterns.length === 0) && !nonFileContents) ||
+    (configPath === null)
+  ) {
     showHelp(logMessage);
     return 2;
   }
