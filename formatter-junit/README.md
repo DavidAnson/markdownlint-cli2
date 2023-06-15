@@ -72,7 +72,7 @@ To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
 
 <!-- markdownlint-disable line-length -->
 
-[junit-format]: https://help.catchsoftware.com/display/ET/JUnit+Format
+[junit-format]: https://github.com/testmoapp/junitxml
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2-formatter-junit.svg
 [license-url]: https://opensource.org/licenses/MIT
 [markdownlint-cli2]: https://github.com/DavidAnson/markdownlint-cli2
