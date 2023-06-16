@@ -3,6 +3,7 @@
     [ "../../formatter-default" ],
     [ "../../formatter-codequality" ],
     [ "../../formatter-json" ],
-    [ "../../formatter-junit" ]
+    [ "../../formatter-junit" ],
+    [ "../../formatter-sarif" ]
   ]
 }

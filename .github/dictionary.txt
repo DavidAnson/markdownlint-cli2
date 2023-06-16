@@ -23,8 +23,10 @@ markdownlint-cli2-formatter-default
 markdownlint-cli2-formatter-json
 markdownlint-cli2-formatter-junit
 markdownlint-cli2-formatter-pretty
+markdownlint-cli2-formatter-sarif
 markdownlint-cli2-formatter-summarize
 npm
 pre-commit
+SARIF
 subdirectories
 YAML

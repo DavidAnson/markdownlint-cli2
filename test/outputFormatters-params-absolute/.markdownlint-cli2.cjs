@@ -24,6 +24,12 @@ module.exports = {
       {
         "name": path.resolve(__dirname, "custom-name.xml")
       }
+    ],
+    [
+      "../../formatter-sarif",
+      {
+        "name": path.resolve(__dirname, "custom-name-sarif.sarif")
+      }
     ]
   ]
 };

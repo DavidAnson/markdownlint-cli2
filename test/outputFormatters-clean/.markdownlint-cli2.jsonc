@@ -4,6 +4,7 @@
     [ "../../formatter-codequality" ],
     [ "../../formatter-json" ],
     [ "../../formatter-junit" ],
+    [ "../../formatter-sarif" ],
     [ "../../formatter-summarize" ]
   ]
 }

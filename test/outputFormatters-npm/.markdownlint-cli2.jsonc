@@ -5,6 +5,7 @@
     [ "markdownlint-cli2-formatter-json" ],
     [ "markdownlint-cli2-formatter-junit" ],
     [ "markdownlint-cli2-formatter-pretty" ],
+    [ "markdownlint-cli2-formatter-sarif" ],
     [ "markdownlint-cli2-formatter-summarize", { "byFile": true } ]
   ]
 }

@@ -9,6 +9,7 @@ RUN cd formatter-default && npm pack --pack-destination=..
 RUN cd formatter-json && npm pack --pack-destination=..
 RUN cd formatter-junit && npm pack --pack-destination=..
 RUN cd formatter-pretty && npm pack --pack-destination=..
+RUN cd formatter-sarif && npm pack --pack-destination=..
 RUN cd formatter-summarize && npm pack --pack-destination=..
 
 FROM node:lts-alpine

@@ -63,6 +63,14 @@ const testCases =
           fs.readFile(
             path.join(directory, "custom-name.xml"),
             "utf8"
+          ).catch(empty),
+          fs.readFile(
+            path.join(directory, "markdownlint-cli2-sarif.sarif"),
+            "utf8"
+          ).catch(empty),
+          fs.readFile(
+            path.join(directory, "custom-name-sarif.sarif"),
+            "utf8"
           ).catch(empty)
         ])).
         then((results) => Promise.all([
@@ -75,7 +83,9 @@ const testCases =
               formatterOutputJson,
               formatterOutputJsonCustom,
               formatterOutputJunit,
-              formatterOutputJunitCustom
+              formatterOutputJunitCustom,
+              formatterOutputSarif,
+              formatterOutputSarifCustom
             ] = results;
             t.is(child.exitCode, exitCode);
             const actual = {
@@ -90,7 +100,9 @@ const testCases =
               "formatterJson":
                 sanitize(formatterOutputJson || formatterOutputJsonCustom),
               "formatterJunit":
-                sanitize(formatterOutputJunit || formatterOutputJunitCustom)
+                sanitize(formatterOutputJunit || formatterOutputJunitCustom),
+              "formatterSarif":
+                sanitize(formatterOutputSarif || formatterOutputSarifCustom)
             };
             if (stderrRe) {
               t.regex(child.stderr, stderrRe);
