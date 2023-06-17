@@ -6,6 +6,6 @@ const formatterJson = require("../../formatter-json");
 
 module.exports = {
   "outputFormatters": [
-    [ formatterJson, { "name": "custom-name.json", "spaces": 1 } ]
+    [ formatterJson, { "name": "custom-name-results.json", "spaces": 1 } ]
   ]
 }

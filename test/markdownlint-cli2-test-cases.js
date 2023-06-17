@@ -53,7 +53,7 @@ const testCases =
             "utf8"
           ).catch(empty),
           fs.readFile(
-            path.join(directory, "custom-name.json"),
+            path.join(directory, "custom-name-results.json"),
             "utf8"
           ).catch(empty),
           fs.readFile(
@@ -61,7 +61,7 @@ const testCases =
             "utf8"
           ).catch(empty),
           fs.readFile(
-            path.join(directory, "custom-name.xml"),
+            path.join(directory, "custom-name-junit.xml"),
             "utf8"
           ).catch(empty),
           fs.readFile(

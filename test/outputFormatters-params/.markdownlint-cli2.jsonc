@@ -1,8 +1,8 @@
 {
   "outputFormatters": [
     [ "../../formatter-codequality", { "name": "custom-name-codequality.json" } ],
-    [ "../../formatter-json", { "name": "custom-name.json", "spaces": 1 } ],
-    [ "../../formatter-junit", { "name": "custom-name.xml" } ],
+    [ "../../formatter-json", { "name": "custom-name-results.json", "spaces": 1 } ],
+    [ "../../formatter-junit", { "name": "custom-name-junit.xml" } ],
     [ "../../formatter-sarif", { "name": "custom-name-sarif.sarif" } ]
   ]
 }

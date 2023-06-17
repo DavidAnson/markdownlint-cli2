@@ -15,14 +15,14 @@ module.exports = {
     [
       "../../formatter-json",
       {
-        "name": path.resolve(__dirname, "custom-name.json"),
+        "name": path.resolve(__dirname, "custom-name-results.json"),
         "spaces": 1
       }
     ],
     [
       "../../formatter-junit",
       {
-        "name": path.resolve(__dirname, "custom-name.xml")
+        "name": path.resolve(__dirname, "custom-name-junit.xml")
       }
     ],
     [
