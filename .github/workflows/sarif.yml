@@ -1,0 +1,25 @@
+name: Generate and upload SARIF file
+
+on:
+  pull_request:
+  push:
+    branches-ignore:
+    - 'dependabot/**'
+  schedule:
+  - cron: '30 12 * * *'
+  workflow_dispatch:
+
+jobs:
+
+  generate-and-upload-sarif:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+    - uses: actions/checkout@v3
+    - run: npm install --no-package-lock
+    - run: node markdownlint-cli2.js --config .github/sarif.markdownlint-cli2.jsonc '**/README.md' '#node_modules'
+      continue-on-error: true
+    - uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: markdownlint-cli2-sarif.sarif

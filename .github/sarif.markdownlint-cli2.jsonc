@@ -1,0 +1,6 @@
+{
+  "outputFormatters": [
+    [ "../formatter-default" ],
+    [ "../formatter-sarif" ]
+  ]
+}
