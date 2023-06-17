@@ -45,8 +45,6 @@ viewme.md:12:1 MD019/no-multiple-space-atx Multiple spaces after hash on atx sty
 viewme.md:14:14 MD047/single-trailing-newline Files should end with a single newline character
 ```
 
-<!-- markdownlint-disable line-length -->
-
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2-formatter-default.svg
 [license-url]: https://opensource.org/licenses/MIT
 [markdownlint-cli]: https://github.com/igorshubovych/markdownlint-cli

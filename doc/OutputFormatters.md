@@ -55,8 +55,6 @@ For a `.markdownlint-cli2.jsonc` like:
 - [JUnit formatter][formatter-junit]
 - [SARIF formatter][formatter-sarif]
 
-<!-- markdownlint-disable line-length -->
-
 [configuration-file]: https://github.com/DavidAnson/markdownlint-cli2#configuration
 [formatter-default]: ../formatter-default/markdownlint-cli2-formatter-default.js
 [formatter-codequality]: ../formatter-codequality/markdownlint-cli2-formatter-codequality.js

@@ -162,8 +162,6 @@ MD047/single-trailing-newline
       1 [Total]
 ```
 
-<!-- markdownlint-disable line-length -->
-
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2-formatter-summarize.svg
 [license-url]: https://opensource.org/licenses/MIT
 [markdownlint-cli2]: https://github.com/DavidAnson/markdownlint-cli2

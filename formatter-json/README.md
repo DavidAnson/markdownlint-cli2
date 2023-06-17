@@ -134,8 +134,6 @@ following `.markdownlint-cli2.jsonc`:
 ]
 ```
 
-<!-- markdownlint-disable line-length -->
-
 [json]: https://wikipedia.org/wiki/JSON
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2-formatter-json.svg
 [license-url]: https://opensource.org/licenses/MIT

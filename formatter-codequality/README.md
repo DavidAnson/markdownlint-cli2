@@ -126,8 +126,6 @@ markdownlint:
 ]
 ```
 
-<!-- markdownlint-disable line-length -->
-
 [codeclimate]: https://github.com/codeclimate/platform/blob/master/spec/analyzers/SPEC.md#data-types
 [gitlab]: https://docs.gitlab.com/ee/ci/testing/code_quality.html#implementing-a-custom-tool
 [json]: https://wikipedia.org/wiki/JSON

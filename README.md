@@ -413,8 +413,6 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 
 See [CHANGELOG.md](CHANGELOG.md).
 
-<!-- markdownlint-disable line-length -->
-
 [commonmark]: https://commonmark.org/
 [commonjs-module]: https://nodejs.org/api/modules.html#modules_modules_commonjs_modules
 [ecmascript-module]: https://nodejs.org/api/esm.html#modules-ecmascript-modules

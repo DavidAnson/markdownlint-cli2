@@ -70,8 +70,6 @@ To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
 </testsuites>
 ```
 
-<!-- markdownlint-disable line-length -->
-
 [junit-format]: https://github.com/testmoapp/junitxml
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2-formatter-junit.svg
 [license-url]: https://opensource.org/licenses/MIT
