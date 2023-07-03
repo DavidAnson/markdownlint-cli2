@@ -61,7 +61,7 @@
     "resolve-and-require.js"
   ],
   "dependencies": {
-    "globby": "13.2.0",
+    "globby": "13.2.1",
     "markdownlint": "0.29.0",
     "markdownlint-cli2-formatter-default": "0.0.4",
     "micromatch": "4.0.5",
