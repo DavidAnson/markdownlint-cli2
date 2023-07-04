@@ -65,7 +65,7 @@
     "markdownlint": "0.29.0",
     "markdownlint-cli2-formatter-default": "0.0.4",
     "micromatch": "4.0.5",
-    "strip-json-comments": "5.0.0",
+    "strip-json-comments": "5.0.1",
     "yaml": "2.3.1"
   },
   "devDependencies": {
