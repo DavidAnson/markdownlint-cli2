@@ -58,6 +58,7 @@
     "markdownlint-cli2-config.js",
     "markdownlint-cli2-fix.js",
     "merge-options.js",
+    "npm-shrinkwrap.json",
     "resolve-and-require.js"
   ],
   "dependencies": {

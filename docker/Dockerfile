@@ -14,7 +14,7 @@ RUN cd formatter-summarize && npm pack --pack-destination=..
 
 FROM node:lts-alpine
 COPY --from=build /pack/markdownlint-cli2-*.tgz /
-RUN npm install --global --no-package-lock --production /markdownlint-cli2-*.tgz
+RUN npm clean-install --global --production /markdownlint-cli2-*.tgz
 RUN rm /markdownlint-cli2-*.tgz
 
 USER node

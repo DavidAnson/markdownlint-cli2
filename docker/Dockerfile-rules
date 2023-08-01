@@ -3,7 +3,7 @@ FROM davidanson/markdownlint-cli2:${VERSION}
 
 USER root
 
-RUN npm install --global --no-package-lock --production \
+RUN npm install --global --production \
     @github/markdownlint-github \
     markdownlint-rule-enhanced-proper-names \
     markdownlint-rule-github-admonition \
