@@ -233,9 +233,23 @@ of the rules within.
 - There are two kinds of configuration file (both detailed below):
   - Configuration files like `.markdownlint-cli2.*` allow complete control of
     `markdownlint-cli2` behavior and are also used by `vscode-markdownlint`.
+    - If multiple of these files are present in the same directory, only one is
+      used according to the follwing precedence:
+      1. `.markdownlint-cli2.jsonc`
+      2. `.markdownlint-cli2.yaml`
+      3. `.markdownlint-cli2.cjs`
+      4. `.markdownlint-cli2.mjs`
   - Configuration files like `.markdownlint.*` allow control over only the
     `markdownlint` `config` object and tend to be supported more broadly (such
     as by `markdownlint-cli`).
+    - If multiple of these files are present in the same directory, only one is
+      used according to the follwing precedence:
+      1. `.markdownlint.jsonc`
+      2. `.markdownlint.json`
+      3. `.markdownlint.yaml`
+      4. `.markdownlint.yml`
+      5. `.markdownlint.cjs`
+      6. `.markdownlint.mjs`
 - The VS Code extension `vscode-markdownlint` includes a schema definition for
   the `JSON(C)` configuration files described below. This adds auto-complete and
   can make it easier to define proper structure.
@@ -322,8 +336,6 @@ of the rules within.
 - The format of this file is a [YAML][yaml] object with the structure described
   above for `.markdownlint-cli2.jsonc`.
 - Other details are the same as for `.markdownlint-cli2.jsonc` described above.
-- If a `.markdownlint-cli2.jsonc` file is present in the same directory, it
-  takes precedence.
 - For example: [`.markdownlint-cli2.yaml`][markdownlint-cli2-yaml] with all
   properties set
 
@@ -336,9 +348,6 @@ of the rules within.
   `customRules`, `markdownItPlugins`, and `outputFormatters`, the corresponding
   `Object` or `Function` can be provided directly.
 - Other details are the same as for `.markdownlint-cli2.jsonc` described above.
-- If a `.markdownlint-cli2.jsonc` or `.markdownlint-cli2.yaml` file is present
-  in the same directory, it takes precedence; `.markdownlint-cli2.cjs` takes
-  precedence over `.markdownlint-cli2.mjs`.
 - For example: [`.markdownlint-cli2.cjs`][markdownlint-cli2-cjs] or
   [`.markdownlint-cli2.mjs`][markdownlint-cli2-mjs]
 
@@ -349,8 +358,6 @@ of the rules within.
 - Settings in this file apply to the directory it is in and all subdirectories
 - Settings **override** those applied by any versions of this file in a parent
   directory (up to the current directory).
-- If `jsonc` and `json` files are present in the same directory, the `jsonc`
-  version takes precedence.
 - To merge the settings of these files or share configuration, use the `extends`
   property (documented in the link above).
 - Both file types support comments in JSON.
@@ -361,10 +368,6 @@ of the rules within.
 - The format of this file is a [YAML][yaml] object representing the
   [`markdownlint` `config` object][markdownlint-config].
 - Other details are the same as for `jsonc`/`json` files described above.
-- If `yaml` and `yml` files are present in the same directory, the `yaml`
-  version takes precedence.
-- If a `jsonc` or `json` file is present in the same directory, it takes
-  precedence.
 - For example: [`.markdownlint.yaml`][markdownlint-yaml]
 
 ### `.markdownlint.cjs` or `.markdownlint.mjs`
@@ -373,9 +376,6 @@ of the rules within.
   [ECMAScript module][ecmascript-module] (`.mjs`) that exports the
   [`markdownlint` `config` object][markdownlint-config].
 - Other details are the same as for `jsonc`/`json` files described above.
-- If a `.markdownlint.jsonc`, `.json`, `.yaml`, or `.yml` file is present in the
-  same directory, it takes precedence; `.markdownlint.cjs` takes precedence over
-  `.markdownlint.mjs`.
 - For example: [`.markdownlint.cjs`][markdownlint-cjs] or
   [`.markdownlint.mjs`][markdownlint-mjs]
 
