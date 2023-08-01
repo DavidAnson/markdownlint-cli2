@@ -234,7 +234,7 @@ of the rules within.
   - Configuration files like `.markdownlint-cli2.*` allow complete control of
     `markdownlint-cli2` behavior and are also used by `vscode-markdownlint`.
     - If multiple of these files are present in the same directory, only one is
-      used according to the follwing precedence:
+      used according to the following precedence:
       1. `.markdownlint-cli2.jsonc`
       2. `.markdownlint-cli2.yaml`
       3. `.markdownlint-cli2.cjs`
@@ -243,7 +243,7 @@ of the rules within.
     `markdownlint` `config` object and tend to be supported more broadly (such
     as by `markdownlint-cli`).
     - If multiple of these files are present in the same directory, only one is
-      used according to the follwing precedence:
+      used according to the following precedence:
       1. `.markdownlint.jsonc`
       2. `.markdownlint.json`
       3. `.markdownlint.yaml`
