@@ -77,7 +77,7 @@ test("fsMock.promises.*", async (t) => {
   const fs = new FsMock(__dirname);
   const tempName = "fs-mock.tmp";
   const tempFile = path.join(mockPath, tempName);
-  t.throwsAsync(() => fs.promises.access(tempFile));
+  await t.throwsAsync(() => fs.promises.access(tempFile));
   await fs.promises.writeFile(tempFile, tempFile, "utf8");
   await fs.promises.access(tempFile);
   await fs.promises.stat(tempFile);
