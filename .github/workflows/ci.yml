@@ -72,3 +72,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: hadolint docker/Dockerfile
+    - run: hadolint docker/Dockerfile-rules
