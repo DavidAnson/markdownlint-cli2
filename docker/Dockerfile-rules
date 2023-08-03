@@ -1,3 +1,5 @@
+# hadolint global ignore=DL3016
+
 ARG VERSION
 FROM davidanson/markdownlint-cli2:${VERSION}
 
