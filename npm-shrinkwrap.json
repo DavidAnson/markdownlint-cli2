@@ -10,7 +10,7 @@
       "license": "MIT",
       "dependencies": {
         "globby": "13.2.2",
-        "markdownlint": "0.29.0",
+        "markdownlint": "0.30.0",
         "markdownlint-cli2-formatter-default": "0.0.4",
         "micromatch": "4.0.5",
         "strip-json-comments": "5.0.1",
@@ -2894,12 +2894,12 @@
       "dev": true
     },
     "node_modules/markdownlint": {
-      "version": "0.29.0",
-      "resolved": "https://registry.npmjs.org/markdownlint/-/markdownlint-0.29.0.tgz",
-      "integrity": "sha512-ASAzqpODstu/Qsk0xW5BPgWnK/qjpBQ4e7IpsSvvFXcfYIjanLTdwFRJK1SIEEh0fGSMKXcJf/qhaZYHyME0wA==",
+      "version": "0.30.0",
+      "resolved": "https://registry.npmjs.org/markdownlint/-/markdownlint-0.30.0.tgz",
+      "integrity": "sha512-nInuFvI/rEzanAOArW5490Ez4EYpB5ODqVM0mcDYCPx9DKJWCQqCgejjiCvbSeE7sjbDscVtZmwr665qpF5xGA==",
       "dependencies": {
         "markdown-it": "13.0.1",
-        "markdownlint-micromark": "0.1.5"
+        "markdownlint-micromark": "0.1.7"
       },
       "engines": {
         "node": ">=16"
@@ -3030,6 +3030,28 @@
         "url": "https://github.com/sponsors/sindresorhus"
       }
     },
+    "node_modules/markdownlint-cli2/node_modules/markdownlint": {
+      "version": "0.29.0",
+      "resolved": "https://registry.npmjs.org/markdownlint/-/markdownlint-0.29.0.tgz",
+      "integrity": "sha512-ASAzqpODstu/Qsk0xW5BPgWnK/qjpBQ4e7IpsSvvFXcfYIjanLTdwFRJK1SIEEh0fGSMKXcJf/qhaZYHyME0wA==",
+      "peer": true,
+      "dependencies": {
+        "markdown-it": "13.0.1",
+        "markdownlint-micromark": "0.1.5"
+      },
+      "engines": {
+        "node": ">=16"
+      }
+    },
+    "node_modules/markdownlint-cli2/node_modules/markdownlint-micromark": {
+      "version": "0.1.5",
+      "resolved": "https://registry.npmjs.org/markdownlint-micromark/-/markdownlint-micromark-0.1.5.tgz",
+      "integrity": "sha512-HvofNU4QCvfUCWnocQP1IAWaqop5wpWrB0mKB6SSh0fcpV0PdmQNS6tdUuFew1utpYlUvYYzz84oDkrD76GB9A==",
+      "peer": true,
+      "engines": {
+        "node": ">=16"
+      }
+    },
     "node_modules/markdownlint-cli2/node_modules/strip-json-comments": {
       "version": "5.0.0",
       "resolved": "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-5.0.0.tgz",
@@ -3043,9 +3065,9 @@
       }
     },
     "node_modules/markdownlint-micromark": {
-      "version": "0.1.5",
-      "resolved": "https://registry.npmjs.org/markdownlint-micromark/-/markdownlint-micromark-0.1.5.tgz",
-      "integrity": "sha512-HvofNU4QCvfUCWnocQP1IAWaqop5wpWrB0mKB6SSh0fcpV0PdmQNS6tdUuFew1utpYlUvYYzz84oDkrD76GB9A==",
+      "version": "0.1.7",
+      "resolved": "https://registry.npmjs.org/markdownlint-micromark/-/markdownlint-micromark-0.1.7.tgz",
+      "integrity": "sha512-BbRPTC72fl5vlSKv37v/xIENSRDYL/7X/XoFzZ740FGEbs9vZerLrIkFRY0rv7slQKxDczToYuMmqQFN61fi4Q==",
       "engines": {
         "node": ">=16"
       }
