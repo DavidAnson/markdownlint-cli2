@@ -250,7 +250,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"`
 
 // Get (creating if necessary) and process a directory's info object
 const getAndProcessDirInfo =
-  (fs, tasks, dirToDirInfo, dir, relativeDir, noRequire, func) => {
+  (fs, tasks, dirToDirInfo, dir, relativeDir, noRequire) => {
     let dirInfo = dirToDirInfo[dir];
     if (!dirInfo) {
       dirInfo = {
@@ -359,9 +359,6 @@ const getAndProcessDirInfo =
             dirInfo.markdownlintConfig = config;
           })
       );
-    }
-    if (func) {
-      func(dirInfo);
     }
     return dirInfo;
   };
@@ -479,17 +476,15 @@ const enumerateFiles =
     ];
     for (const file of files) {
       const dir = path.posix.dirname(file);
-      getAndProcessDirInfo(
+      const dirInfo = getAndProcessDirInfo(
         fs,
         tasks,
         dirToDirInfo,
         dir,
         null,
-        noRequire,
-        (dirInfo) => {
-          dirInfo.files.push(file);
-        }
+        noRequire
       );
+      dirInfo.files.push(file);
     }
     await Promise.all(tasks);
   };
@@ -516,19 +511,17 @@ const enumerateParents = async (fs, baseDir, dirToDirInfo, noRequire) => {
       (dir !== lastDir)
     ) {
       lastDir = dir;
-      lastDirInfo =
+      const dirInfo =
         getAndProcessDirInfo(
           fs,
           tasks,
           dirToDirInfo,
           dir,
           null,
-          noRequire,
-          // eslint-disable-next-line no-loop-func
-          (dirInfo) => {
-            lastDirInfo.parent = dirInfo;
-          }
+          noRequire
         );
+      lastDirInfo.parent = dirInfo;
+      lastDirInfo = dirInfo;
     }
 
     // If dir not under baseDir, inject it as parent for configuration
