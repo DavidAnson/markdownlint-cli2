@@ -358,7 +358,7 @@ test("custom fs, extension scenario for untitled", (t) => {
   }).
     then((exitCode) => {
       t.is(exitCode, 1);
-      t.is(accessCalls, 5);
+      t.is(accessCalls, 7);
     });
 });
 

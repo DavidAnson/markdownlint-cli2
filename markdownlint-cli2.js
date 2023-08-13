@@ -115,13 +115,9 @@ const importOrRequireIdsAndParams = async (dir, idsAndParams, noRequire) => {
 
 // Import or require a JavaScript file and return the exported object
 const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => (
-  () => (noRequire
-    // eslint-disable-next-line prefer-promise-reject-errors
-    ? Promise.reject()
-    : fs.promises.access(path.posix.join(dir, name))
-  ).
+  () => fs.promises.access(path.posix.join(dir, name)).
     then(
-      () => importOrRequireResolve(dir, `./${name}`),
+      () => (noRequire ? {} : importOrRequireResolve(dir, `./${name}`)),
       otherwise
     )
 );
