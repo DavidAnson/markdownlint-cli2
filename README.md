@@ -93,6 +93,7 @@ Configuration via:
 - .markdownlint.jsonc or .markdownlint.json
 - .markdownlint.yaml or .markdownlint.yml
 - .markdownlint.cjs or .markdownlint.mjs
+- package.json
 
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended
@@ -138,7 +139,7 @@ markdownlint-cli2 --fix "**/*.md" "#node_modules"
 
 In cases where it is not convenient to store a configuration file in the root
 of a project, the `--config` argument can be used to provide a path to any
-supported configuration file:
+supported configuration file (except `package.json`):
 
 ```bash
 markdownlint-cli2 --config "config/.markdownlint-cli2.jsonc" "**/*.md" "#node_modules"
@@ -239,6 +240,7 @@ of the rules within.
       2. `.markdownlint-cli2.yaml`
       3. `.markdownlint-cli2.cjs`
       4. `.markdownlint-cli2.mjs`
+      5. `package.json` (only supported in the current directory)
   - Configuration files like `.markdownlint.*` allow control over only the
     `markdownlint` `config` object and tend to be supported more broadly (such
     as by `markdownlint-cli`).
@@ -350,6 +352,15 @@ of the rules within.
 - Other details are the same as for `.markdownlint-cli2.jsonc` described above.
 - For example: [`.markdownlint-cli2.cjs`][markdownlint-cli2-cjs] or
   [`.markdownlint-cli2.mjs`][markdownlint-cli2-mjs]
+
+### `package.json`
+
+- The format of this file is a standard [npm `package.json`][package-json] file
+  including a `markdownlint-cli2` property at the root and a value corresponding
+  to the object described above for `.markdownlint-cli2.jsonc`.
+- `package.json` is only supported in the current directory.
+- `package.json` is not supported by the `--config` argument.
+- For example: [`package-json-sample`][package-json-sample]
 
 ### `.markdownlint.jsonc` or `.markdownlint.json`
 
@@ -463,6 +474,8 @@ See [CHANGELOG.md](CHANGELOG.md).
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2
 [output-formatters]: doc/OutputFormatters.md
+[package-json]: https://docs.npmjs.com/cli/v9/configuring-npm/package-json
+[package-json-sample]: test/package-json/package.json
 [pre-commit]: https://pre-commit.com/
 [pre-commit-version]: https://pre-commit.com/#overriding-language-version
 [regexp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp

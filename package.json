@@ -31,7 +31,7 @@
     "ci": "npm-run-all --continue-on-error --parallel test-cover lint",
     "docker-npm-install": "docker run --rm --tty --name npm-install --volume $PWD:/home/workdir --workdir /home/workdir --user node node:latest npm install",
     "docker-npm-run-upgrade": "docker run --rm --tty --name npm-run-upgrade --volume $PWD:/home/workdir --workdir /home/workdir --user node node:latest npm run upgrade",
-    "lint": "eslint --max-warnings 0 .",
+    "lint": "eslint --max-warnings 0 --no-eslintrc --config .eslintrc.json .",
     "lint-dockerfile": "docker run --rm -i hadolint/hadolint:latest-alpine < docker/Dockerfile",
     "lint-watch": "git ls-files | entr npm run lint",
     "publish-docker-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker buildx build --platform linux/arm64,linux/amd64 -t davidanson/markdownlint-cli2:v$VERSION -t davidanson/markdownlint-cli2:latest -f docker/Dockerfile --push .",

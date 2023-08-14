@@ -230,6 +230,7 @@ Configuration via:
 - .markdownlint.jsonc or .markdownlint.json
 - .markdownlint.yaml or .markdownlint.yml
 - .markdownlint.cjs or .markdownlint.mjs
+- package.json
 
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended
@@ -246,7 +247,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"`
 
 // Get (creating if necessary) and process a directory's info object
 const getAndProcessDirInfo =
-  (fs, tasks, dirToDirInfo, dir, relativeDir, noRequire) => {
+  (fs, tasks, dirToDirInfo, dir, relativeDir, noRequire, allowPackageJson) => {
     let dirInfo = dirToDirInfo[dir];
     if (!dirInfo) {
       dirInfo = {
@@ -264,6 +265,7 @@ const getAndProcessDirInfo =
         path.posix.join(dir, ".markdownlint-cli2.jsonc");
       const markdownlintCli2Yaml =
         path.posix.join(dir, ".markdownlint-cli2.yaml");
+      const packageJson = path.posix.join(dir, "package.json");
       tasks.push(
         fs.promises.access(markdownlintCli2Jsonc).
           then(
@@ -288,7 +290,21 @@ const getAndProcessDirInfo =
                     dir,
                     ".markdownlint-cli2.mjs",
                     noRequire,
-                    noop
+                    () => (allowPackageJson
+                      ? fs.promises.access(packageJson)
+                      // eslint-disable-next-line prefer-promise-reject-errors
+                      : Promise.reject()
+                    ).
+                      then(
+                        () => fs.promises.
+                          readFile(packageJson, utf8).
+                          then(
+                            (content) => getJsoncParse().
+                              then((jsoncParse) => jsoncParse(content)).
+                              then((obj) => obj[packageName])
+                          ),
+                        noop
+                      )
                   )
                 )
               )
@@ -378,7 +394,8 @@ const getBaseOptions = async (
     dirToDirInfo,
     baseDir,
     relativeDir,
-    noRequire
+    noRequire,
+    true
   );
   await Promise.all(tasks);
   // eslint-disable-next-line no-multi-assign
@@ -478,7 +495,8 @@ const enumerateFiles =
         dirToDirInfo,
         dir,
         null,
-        noRequire
+        noRequire,
+        false
       );
       dirInfo.files.push(file);
     }
@@ -514,7 +532,8 @@ const enumerateParents = async (fs, baseDir, dirToDirInfo, noRequire) => {
           dirToDirInfo,
           dir,
           null,
-          noRequire
+          noRequire,
+          false
         );
       lastDirInfo.parent = dirInfo;
       lastDirInfo = dirInfo;

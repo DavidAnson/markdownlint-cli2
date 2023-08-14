@@ -773,6 +773,34 @@ const testCases =
   });
 
   testCase({
+    "name": "package-json",
+    "args": [ "**/*.md" ],
+    "exitCode": 1
+  });
+
+  testCase({
+    "name": "package-json-fix",
+    "args": [ "**/*.md" ],
+    "exitCode": 1,
+    "cwd": directoryName("package-json-fix"),
+    "pre": copyDirectory,
+    "post": deleteDirectory
+  });
+
+  testCase({
+    "name": "package-json-invalid",
+    "args": [ "**/*.md" ],
+    "exitCode": 2,
+    "stderrRe": /(?:Unexpected end)|(?:Expected property name)/u
+  });
+
+  testCase({
+    "name": "package-json-nested",
+    "args": [ "**/*.md" ],
+    "exitCode": 1
+  });
+
+  testCase({
     "name": "customRules",
     "args": [ "**/*.md" ],
     "exitCode": 1,
