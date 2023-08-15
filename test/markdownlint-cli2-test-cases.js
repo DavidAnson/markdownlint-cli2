@@ -445,6 +445,18 @@ const testCases =
   });
 
   testCase({
+    "name": "markdownlint-cli2-config-option-with-extends",
+    "args": [
+      "--config",
+      "configs/custom.markdownlint-cli2.jsonc",
+      "viewme.md"
+    ],
+    "exitCode": 0,
+    "cwd": "markdownlint-cli2-config-option-with-extends",
+    "env": onlyRunViaExec
+  });
+
+  testCase({
     "name": "config-overrides-options",
     "args": [ "viewme.md" ],
     "exitCode": 1
@@ -629,15 +641,19 @@ const testCases =
       "invalid.markdownlint-cli2.jsonc",
       /(?:Unexpected end)|(?:Expected property name)/u
     ],
-    [ "invalid.markdownlint-cli2.cjs", /Unexpected end of input/u ],
-    [ "invalid.markdownlint-cli2.mjs", /Unexpected end of input/u ],
+    // eslint-disable-next-line max-len
+    [ "invalid.markdownlint-cli2.cjs", /Unable to require or import module '\.\/invalid.markdownlint-cli2.cjs/u ],
+    // eslint-disable-next-line max-len
+    [ "invalid.markdownlint-cli2.mjs", /Unable to require or import module '\.\/invalid.markdownlint-cli2.mjs/u ],
     [
       "invalid.markdownlint.json",
       /(?:Unexpected end)|(?:Expected property name)/u
     ],
     [ "invalid.markdownlint.yaml", /Map keys must be unique/u ],
-    [ "invalid.markdownlint.cjs", /Unexpected end of input/u ],
-    [ "invalid.markdownlint.mjs", /Unexpected end of input/u ]
+    // eslint-disable-next-line max-len
+    [ "invalid.markdownlint.cjs", /Unable to require or import module '\.\/invalid.markdownlint.cjs/u ],
+    // eslint-disable-next-line max-len
+    [ "invalid.markdownlint.mjs", /Unable to require or import module '\.\/invalid.markdownlint.mjs/u ]
   ];
   for (const [ invalidConfigFile, stderrRe ] of invalidConfigFiles) {
     testCase({

@@ -163,6 +163,23 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
       "(e.g., \".markdownlint.json\" or \"example.markdownlint-cli2.jsonc\")."
     );
   }
+
+  config = (options && options.config) || config;
+
+  if (config && config.extends) {
+    const jsoncParse = await getJsoncParse();
+    config = await markdownlintExtendConfig(config,
+      configPath,
+      [ jsoncParse, yamlParse ],
+      fs,
+      (_, result) => result
+    );
+  }
+
+  if (options && options.config) {
+    options.config = config;
+  }
+
   return options || { config };
 };
 
