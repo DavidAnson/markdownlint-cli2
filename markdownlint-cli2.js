@@ -122,6 +122,21 @@ const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => (
     )
 );
 
+// Extend a config object if it has 'extends' property
+const getExtendedConfig = async (config, configPath, fs) => {
+  if (config && config.extends) {
+    const jsoncParse = await getJsoncParse();
+    return markdownlintExtendConfig(config,
+      configPath,
+      [ jsoncParse, yamlParse ],
+      fs,
+      (_, result) => result
+    );
+  }
+
+  return config;
+};
+
 // Read an options or config file in any format and return the object
 const readOptionsOrConfig = async (configPath, fs, noRequire) => {
   const basename = path.basename(configPath);
@@ -164,23 +179,15 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
     );
   }
 
-  config = (options && options.config) || config;
-
-  if (config && config.extends) {
-    const jsoncParse = await getJsoncParse();
-    config = await markdownlintExtendConfig(config,
-      configPath,
-      [ jsoncParse, yamlParse ],
-      fs,
-      (_, result) => result
-    );
+  if (options) {
+    if (options.config) {
+      options.config = await getExtendedConfig(options.config, configPath, fs);
+    }
+    return options;
   }
 
-  if (options && options.config) {
-    options.config = config;
-  }
-
-  return options || { config };
+  config = await getExtendedConfig(config, configPath, fs);
+  return { config };
 };
 
 // Filter a list of files to ignore by glob
@@ -330,17 +337,11 @@ const getAndProcessDirInfo =
             dirInfo.markdownlintOptions = options;
             return options &&
               options.config &&
-              options.config.extends &&
-              getJsoncParse().
-                then(
-                  (jsoncParse) => markdownlintExtendConfig(
-                    options.config,
-                    // Just needs to identify a file in the right directory
-                    markdownlintCli2Jsonc,
-                    [ jsoncParse, yamlParse ],
-                    fs
-                  )
-                ).
+              getExtendedConfig(
+                options.config,
+                // Just needs to identify a file in the right directory
+                markdownlintCli2Jsonc,
+                fs).
                 then((config) => {
                   options.config = config;
                 });
