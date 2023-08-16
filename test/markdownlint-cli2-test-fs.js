@@ -38,4 +38,12 @@ const invoke = (directory, args, noRequire) => () => {
 
 const absolute = (rootDir, file) => path.join(mockDirectory, file);
 
-testCases("fs", invoke, absolute, true, false, false, false);
+testCases({
+  "host": "fs",
+  invoke,
+  absolute,
+  "includeNoRequire": true,
+  "includeEnv": false,
+  "includeScript": false,
+  "includeRequire": false
+});

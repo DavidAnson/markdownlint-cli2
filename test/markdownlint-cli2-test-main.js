@@ -35,4 +35,12 @@ const invoke = (directory, args, noRequire) => () => {
 
 const absolute = (rootDir, file) => path.join(rootDir, file);
 
-testCases("main", invoke, absolute, true, false, false, true);
+testCases({
+  "host": "main",
+  invoke,
+  absolute,
+  "includeNoRequire": true,
+  "includeEnv": false,
+  "includeScript": false,
+  "includeRequire": true
+});

@@ -18,7 +18,7 @@ const sameFileSystem = (path.relative(os.homedir(), __dirname) !== __dirname);
 
 const testCases =
 // eslint-disable-next-line max-len
-(host, invoke, absolute, includeNoRequire, includeEnv, includeScript, includeRequire) => {
+({ host, invoke, absolute, includeNoRequire, includeEnv, includeScript, includeRequire }) => {
 
   const testCase = (options) => {
     const { name, shadow, script, args, exitCode, cwd, env, stderrRe, pre, post,

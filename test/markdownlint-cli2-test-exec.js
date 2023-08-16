@@ -23,4 +23,12 @@ const invoke = (directory, args, noRequire, env, script) => async () => {
 
 const absolute = (rootDir, file) => path.join(rootDir, file);
 
-testCases("exec", invoke, absolute, false, true, true, true);
+testCases({
+  "host": "exec",
+  invoke,
+  absolute,
+  "includeNoRequire": false,
+  "includeEnv": true,
+  "includeScript": true,
+  "includeRequire": true
+});
