@@ -641,19 +641,15 @@ const testCases =
       "invalid.markdownlint-cli2.jsonc",
       /(?:Unexpected end)|(?:Expected property name)/u
     ],
-    // eslint-disable-next-line max-len
-    [ "invalid.markdownlint-cli2.cjs", /Unable to require or import module '\.\/invalid.markdownlint-cli2.cjs/u ],
-    // eslint-disable-next-line max-len
-    [ "invalid.markdownlint-cli2.mjs", /Unable to require or import module '\.\/invalid.markdownlint-cli2.mjs/u ],
+    [ "invalid.markdownlint-cli2.cjs", /Unexpected end of input/u ],
+    [ "invalid.markdownlint-cli2.mjs", /Unexpected end of input/u ],
     [
       "invalid.markdownlint.json",
       /(?:Unexpected end)|(?:Expected property name)/u
     ],
     [ "invalid.markdownlint.yaml", /Map keys must be unique/u ],
-    // eslint-disable-next-line max-len
-    [ "invalid.markdownlint.cjs", /Unable to require or import module '\.\/invalid.markdownlint.cjs/u ],
-    // eslint-disable-next-line max-len
-    [ "invalid.markdownlint.mjs", /Unable to require or import module '\.\/invalid.markdownlint.mjs/u ]
+    [ "invalid.markdownlint.cjs", /Unexpected end of input/u ],
+    [ "invalid.markdownlint.mjs", /Unexpected end of input/u ]
   ];
   for (const [ invalidConfigFile, stderrRe ] of invalidConfigFiles) {
     testCase({
