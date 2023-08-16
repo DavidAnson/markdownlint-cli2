@@ -725,8 +725,7 @@ const testCases =
     "stderrRe":
       // eslint-disable-next-line max-len
       /Configuration file "cfg\/unrecognized\.jsonc" is unrecognized; its name should be \(or end with\) one of the supported types \(e\.g\., "\.markdownlint\.json" or "example\.markdownlint-cli2\.jsonc"\)\./u,
-    "cwd": "config-files",
-    "env": onlyRunViaExec
+    "cwd": "config-files"
   });
 
   testCase({
