@@ -1,0 +1,7 @@
+{
+  "no-trailing-spaces": false,
+  "no-multiple-blanks": false,
+  "no-multiple-space-atx": false,
+  "single-title": false,
+  "single-trailing-newline": false
+}

@@ -124,13 +124,13 @@ const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => (
 
 // Extend a config object if it has 'extends' property
 const getExtendedConfig = async (config, configPath, fs) => {
-  if (config && config.extends) {
+  if (config.extends) {
     const jsoncParse = await getJsoncParse();
-    return markdownlintExtendConfig(config,
+    return markdownlintExtendConfig(
+      config,
       configPath,
       [ jsoncParse, yamlParse ],
-      fs,
-      (_, result) => result
+      fs
     );
   }
 

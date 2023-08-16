@@ -445,14 +445,14 @@ const testCases =
   });
 
   testCase({
-    "name": "markdownlint-cli2-config-option-with-extends",
+    "name": "config-option-extends",
     "args": [
       "--config",
-      "configs/custom.markdownlint-cli2.jsonc",
+      "configs/.markdownlint-cli2.jsonc",
       "viewme.md"
     ],
     "exitCode": 0,
-    "cwd": "markdownlint-cli2-config-option-with-extends",
+    "cwd": "config-option-extends",
     "env": onlyRunViaExec
   });
 
