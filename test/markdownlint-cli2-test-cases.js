@@ -445,6 +445,18 @@ const testCases =
   });
 
   testCase({
+    "name": "config-option-extends",
+    "args": [
+      "--config",
+      "configs/.markdownlint-cli2.jsonc",
+      "viewme.md"
+    ],
+    "exitCode": 0,
+    "cwd": "config-option-extends",
+    "env": onlyRunViaExec
+  });
+
+  testCase({
     "name": "config-overrides-options",
     "args": [ "viewme.md" ],
     "exitCode": 1

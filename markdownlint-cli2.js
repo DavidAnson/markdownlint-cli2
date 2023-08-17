@@ -122,6 +122,21 @@ const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => (
     )
 );
 
+// Extend a config object if it has 'extends' property
+const getExtendedConfig = async (config, configPath, fs) => {
+  if (config.extends) {
+    const jsoncParse = await getJsoncParse();
+    return markdownlintExtendConfig(
+      config,
+      configPath,
+      [ jsoncParse, yamlParse ],
+      fs
+    );
+  }
+
+  return config;
+};
+
 // Read an options or config file in any format and return the object
 const readOptionsOrConfig = async (configPath, fs, noRequire) => {
   const basename = path.basename(configPath);
@@ -163,7 +178,16 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
       "(e.g., \".markdownlint.json\" or \"example.markdownlint-cli2.jsonc\")."
     );
   }
-  return options || { config };
+
+  if (options) {
+    if (options.config) {
+      options.config = await getExtendedConfig(options.config, configPath, fs);
+    }
+    return options;
+  }
+
+  config = await getExtendedConfig(config, configPath, fs);
+  return { config };
 };
 
 // Filter a list of files to ignore by glob
@@ -313,17 +337,12 @@ const getAndProcessDirInfo =
             dirInfo.markdownlintOptions = options;
             return options &&
               options.config &&
-              options.config.extends &&
-              getJsoncParse().
-                then(
-                  (jsoncParse) => markdownlintExtendConfig(
-                    options.config,
-                    // Just needs to identify a file in the right directory
-                    markdownlintCli2Jsonc,
-                    [ jsoncParse, yamlParse ],
-                    fs
-                  )
-                ).
+              getExtendedConfig(
+                options.config,
+                // Just needs to identify a file in the right directory
+                markdownlintCli2Jsonc,
+                fs
+              ).
                 then((config) => {
                   options.config = config;
                 });
