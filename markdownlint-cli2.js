@@ -341,7 +341,8 @@ const getAndProcessDirInfo =
                 options.config,
                 // Just needs to identify a file in the right directory
                 markdownlintCli2Jsonc,
-                fs).
+                fs
+              ).
                 then((config) => {
                   options.config = config;
                 });
