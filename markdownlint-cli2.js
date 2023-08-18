@@ -114,13 +114,14 @@ const importOrRequireIdsAndParams = async (dir, idsAndParams, noRequire) => {
 };
 
 // Import or require a JavaScript file and return the exported object
-const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => (
-  () => fs.promises.access(path.posix.join(dir, name)).
+const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => {
+  const id = path.posix.join(dir, name);
+  return () => fs.promises.access(id).
     then(
-      () => (noRequire ? {} : importOrRequireResolve(dir, `./${name}`)),
+      () => (noRequire ? {} : importOrRequireResolve(dir, id)),
       otherwise
-    )
-);
+    );
+};
 
 // Extend a config object if it has 'extends' property
 const getExtendedConfig = async (config, configPath, fs) => {
@@ -887,9 +888,11 @@ const main = async (params) => {
   let optionsArgv = null;
   let relativeDir = null;
   if (configPath) {
+    const resolvedConfigPath =
+      posixPath(path.resolve(baseDirSystem, configPath));
     optionsArgv =
-      await readOptionsOrConfig(configPath, fs, noRequire);
-    relativeDir = path.dirname(configPath);
+      await readOptionsOrConfig(resolvedConfigPath, fs, noRequire);
+    relativeDir = path.dirname(resolvedConfigPath);
   }
   // Process arguments and get base options
   const globPatterns = processArgv(argvFiltered);

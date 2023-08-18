@@ -30,5 +30,6 @@ testCases({
   "includeNoRequire": false,
   "includeEnv": true,
   "includeScript": true,
-  "includeRequire": true
+  "includeRequire": true,
+  "includeAbsolute": true
 });

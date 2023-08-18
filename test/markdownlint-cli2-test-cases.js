@@ -9,27 +9,49 @@ const test = require("ava").default;
 
 const noop = () => null;
 const empty = () => "";
-const onlyRunViaExec = {};
 const sanitize = (str) => str.
   replace(/\r/gu, "").
   replace(/\bv\d+\.\d+\.\d+\b/gu, "vX.Y.Z").
   replace(/ :.+[/\\]sentinel/gu, " :[PATH]");
 const sameFileSystem = (path.relative(os.homedir(), __dirname) !== __dirname);
+const isModule = (file) => file.endsWith(".cjs") || file.endsWith(".mjs");
 
-const testCases =
-// eslint-disable-next-line max-len
-({ host, invoke, absolute, includeNoRequire, includeEnv, includeScript, includeRequire }) => {
+const testCases = ({
+  host,
+  invoke,
+  absolute,
+  includeNoRequire,
+  includeEnv,
+  includeScript,
+  includeRequire,
+  includeAbsolute
+}) => {
 
   const testCase = (options) => {
-    const { name, shadow, script, args, exitCode, cwd, env, stderrRe, pre, post,
-      noRequire, usesRequire } = options;
+    const {
+      name,
+      shadow,
+      script,
+      args,
+      exitCode,
+      cwd,
+      env,
+      stderrRe,
+      pre,
+      post,
+      noRequire,
+      usesRequire
+    } = options;
     const usesEnv = Boolean(env);
     const usesScript = Boolean(script);
+    // eslint-disable-next-line unicorn/no-array-callback-reference
+    const usesAbsolute = args.some(path.isAbsolute);
     if (
       (noRequire && !includeNoRequire) ||
       (usesEnv && !includeEnv) ||
       (usesRequire && !includeRequire) ||
-      (usesScript && !includeScript)
+      (usesScript && !includeScript) ||
+      (usesAbsolute && !includeAbsolute)
     ) {
       return;
     }
@@ -179,8 +201,7 @@ const testCases =
     "name": "one-argument-config-arg",
     "args": [ "--config", "../config-files/cfg/.markdownlint-cli2.jsonc" ],
     "exitCode": 2,
-    "cwd": "no-config",
-    "env": onlyRunViaExec
+    "cwd": "no-config"
   });
 
   testCase({
@@ -452,8 +473,7 @@ const testCases =
       "viewme.md"
     ],
     "exitCode": 0,
-    "cwd": "config-option-extends",
-    "env": onlyRunViaExec
+    "cwd": "config-option-extends"
   });
 
   testCase({
@@ -585,19 +605,22 @@ const testCases =
     ".markdownlint.mjs"
   ];
   for (const configFile of configFiles) {
+    const usesRequire = isModule(configFile);
     testCase({
       "name": `config-files-${configFile}`,
       "script": "markdownlint-cli2-config.js",
       "args": [ `cfg/${configFile}`, "**/*.md" ],
       "exitCode": 1,
-      "cwd": "config-files"
+      "cwd": "config-files",
+      usesRequire
     });
     testCase({
       "name": `config-files-${configFile}-alternate`,
       "script": "markdownlint-cli2-config.js",
       "args": [ `cfg/alternate${configFile}`, "**/*.md" ],
       "exitCode": 1,
-      "cwd": "config-files"
+      "cwd": "config-files",
+      usesRequire
     });
     testCase({
       "name": `config-files-${configFile}-absolute`,
@@ -607,21 +630,22 @@ const testCases =
         "**/*.md"
       ],
       "exitCode": 1,
-      "cwd": "config-files"
+      "cwd": "config-files",
+      usesRequire
     });
     testCase({
       "name": `config-files-${configFile}-arg`,
       "args": [ "--config", `cfg/${configFile}`, "**/*.md" ],
       "exitCode": 1,
       "cwd": "config-files",
-      "env": onlyRunViaExec
+      usesRequire
     });
     testCase({
       "name": `config-files-${configFile}-alternate-arg`,
       "args": [ "--config", `cfg/alternate${configFile}`, "**/*.md" ],
       "exitCode": 1,
       "cwd": "config-files",
-      "env": onlyRunViaExec
+      usesRequire
     });
     testCase({
       "name": `config-files-${configFile}-absolute-arg`,
@@ -632,26 +656,25 @@ const testCases =
       ],
       "exitCode": 1,
       "cwd": "config-files",
-      "env": onlyRunViaExec
+      usesRequire
     });
   }
 
+  const unexpectedJsonRe =
+    /(?:Unexpected end of JSON input)|(?:Expected property name)/u;
+  const unableToRequireRe = /Unable to require or import module/u;
+  const unableToParseRe = /Unable to parse/u;
   const invalidConfigFiles = [
-    [
-      "invalid.markdownlint-cli2.jsonc",
-      /(?:Unexpected end)|(?:Expected property name)/u
-    ],
-    [ "invalid.markdownlint-cli2.cjs", /Unexpected end of input/u ],
-    [ "invalid.markdownlint-cli2.mjs", /Unexpected end of input/u ],
-    [
-      "invalid.markdownlint.json",
-      /(?:Unexpected end)|(?:Expected property name)/u
-    ],
-    [ "invalid.markdownlint.yaml", /Map keys must be unique/u ],
-    [ "invalid.markdownlint.cjs", /Unexpected end of input/u ],
-    [ "invalid.markdownlint.mjs", /Unexpected end of input/u ]
+    [ "invalid.markdownlint-cli2.jsonc", unexpectedJsonRe ],
+    [ "invalid.markdownlint-cli2.cjs", unableToRequireRe ],
+    [ "invalid.markdownlint-cli2.mjs", unableToRequireRe ],
+    [ "invalid.markdownlint.json", unableToParseRe ],
+    [ "invalid.markdownlint.yaml", unableToParseRe ],
+    [ "invalid.markdownlint.cjs", unableToRequireRe ],
+    [ "invalid.markdownlint.mjs", unableToRequireRe ]
   ];
   for (const [ invalidConfigFile, stderrRe ] of invalidConfigFiles) {
+    const usesRequire = isModule(invalidConfigFile);
     testCase({
       "name": `config-files-${invalidConfigFile}-invalid`,
       "script": "markdownlint-cli2-config.js",
@@ -659,7 +682,7 @@ const testCases =
       "exitCode": 2,
       stderrRe,
       "cwd": "config-files",
-      "usesRequire": true
+      usesRequire
     });
     testCase({
       "name": `config-files-${invalidConfigFile}-invalid-arg`,
@@ -667,8 +690,7 @@ const testCases =
       "exitCode": 2,
       stderrRe,
       "cwd": "config-files",
-      "env": onlyRunViaExec,
-      "usesRequire": true
+      usesRequire
     });
   }
 
@@ -678,19 +700,21 @@ const testCases =
     ".markdownlint.cjs"
   ];
   for (const redundantConfigFile of redundantConfigFiles) {
+    const usesRequire = isModule(redundantConfigFile);
     testCase({
       "name": `config-files-${redundantConfigFile}-redundant`,
       "script": "markdownlint-cli2-config.js",
       "args": [ redundantConfigFile, "*.md" ],
       "exitCode": 1,
-      "cwd": redundantConfigFile.slice(1).replace(".", "-")
+      "cwd": redundantConfigFile.slice(1).replace(".", "-"),
+      usesRequire
     });
     testCase({
       "name": `config-files-${redundantConfigFile}-redundant-arg`,
       "args": [ "--config", redundantConfigFile, "*.md" ],
       "exitCode": 1,
       "cwd": redundantConfigFile.slice(1).replace(".", "-"),
-      "env": onlyRunViaExec
+      usesRequire
     });
   }
 
@@ -701,7 +725,7 @@ const testCases =
     "exitCode": 2,
     "stderrRe":
       // eslint-disable-next-line max-len
-      /Configuration file "cfg\/unrecognized\.jsonc" is unrecognized; its name should be \(or end with\) one of the supported types \(e\.g\., "\.markdownlint\.json" or "example\.markdownlint-cli2\.jsonc"\)\./u,
+      /Configuration file "[^"]*cfg\/unrecognized\.jsonc" is unrecognized; its name should be \(or end with\) one of the supported types \(e\.g\., "\.markdownlint\.json" or "example\.markdownlint-cli2\.jsonc"\)\./u,
     "cwd": "config-files"
   });
 
@@ -736,7 +760,7 @@ const testCases =
     "exitCode": 2,
     "stderrRe":
       // eslint-disable-next-line max-len
-      /Configuration file "cfg\/unrecognized\.jsonc" is unrecognized; its name should be \(or end with\) one of the supported types \(e\.g\., "\.markdownlint\.json" or "example\.markdownlint-cli2\.jsonc"\)\./u,
+      /Configuration file "[^"]*cfg\/unrecognized\.jsonc" is unrecognized; its name should be \(or end with\) one of the supported types \(e\.g\., "\.markdownlint\.json" or "example\.markdownlint-cli2\.jsonc"\)\./u,
     "cwd": "config-files"
   });
 
@@ -750,8 +774,7 @@ const testCases =
     ],
     "exitCode": 1,
     "cwd": "config-relative-commonjs",
-    "usesRequire": true,
-    "env": onlyRunViaExec
+    "usesRequire": true
   });
 
   testCase({
@@ -764,7 +787,7 @@ const testCases =
     ],
     "exitCode": 1,
     "cwd": "config-relative-module",
-    "env": onlyRunViaExec
+    "usesRequire": true
   });
 
   testCase({
@@ -779,8 +802,7 @@ const testCases =
     "exitCode": 0,
     "cwd": directoryName("config-with-fix-arg"),
     "pre": copyDirectory,
-    "post": deleteDirectory,
-    "env": onlyRunViaExec
+    "post": deleteDirectory
   });
 
   testCase({
@@ -1069,8 +1091,7 @@ const testCases =
       "**/*.md"
     ],
     "exitCode": 1,
-    "cwd": "no-config",
-    "env": onlyRunViaExec
+    "cwd": "no-config"
   });
 
   testCase({
@@ -1081,8 +1102,7 @@ const testCases =
       "../config-files/cfg/.markdownlint-cli2.jsonc"
     ],
     "exitCode": 1,
-    "cwd": "no-config",
-    "env": onlyRunViaExec
+    "cwd": "no-config"
   });
 
   testCase({
@@ -1095,8 +1115,7 @@ const testCases =
       "../config-files/cfg/.markdownlint-cli2.jsonc"
     ],
     "exitCode": 1,
-    "cwd": "no-config",
-    "env": onlyRunViaExec
+    "cwd": "no-config"
   });
 
   testCase({
@@ -1141,8 +1160,7 @@ const testCases =
     "exitCode": 1,
     "cwd": directoryName("fix-and-config-arg"),
     "pre": copyDirectory,
-    "post": deleteDirectory,
-    "env": onlyRunViaExec
+    "post": deleteDirectory
   });
 
 };
