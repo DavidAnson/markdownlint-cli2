@@ -10,7 +10,8 @@ const dynamicRequire = (typeof __non_webpack_require__ === "undefined") ? requir
 // Capture native require implementation for dynamic loading of modules
 
 // Requires
-const path = require("node:path");
+const pathDefault = require("node:path");
+const pathPosix = pathDefault.posix;
 const { pathToFileURL } = require("node:url");
 const markdownlintLibrary = require("markdownlint");
 const {
@@ -49,11 +50,11 @@ const yamlParse = (text) => require("yaml").parse(text);
 const negateGlob = (glob) => `!${glob}`;
 
 // Return a posix path (even on Windows)
-const posixPath = (p) => p.split(path.sep).join(path.posix.sep);
+const posixPath = (p) => p.split(pathDefault.sep).join(pathPosix.sep);
 
 // Read a JSON(C) or YAML file and return the object
 const readConfig = (fs, dir, name, otherwise) => {
-  const file = path.posix.join(dir, name);
+  const file = pathPosix.join(dir, name);
   return () => fs.promises.access(file).
     then(
       () => getJsoncParse().then(
@@ -80,7 +81,7 @@ const importOrRequireResolve = async (dir, id) => {
     }
     try {
       const fileUrlString =
-        pathToFileURL(path.resolve(dir, expandId)).toString();
+        pathToFileURL(pathDefault.resolve(dir, expandId)).toString();
       // eslint-disable-next-line no-inline-comments
       const module = await import(/* webpackIgnore: true */ fileUrlString);
       return module.default;
@@ -115,7 +116,7 @@ const importOrRequireIdsAndParams = async (dir, idsAndParams, noRequire) => {
 
 // Import or require a JavaScript file and return the exported object
 const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => {
-  const id = path.posix.join(dir, name);
+  const id = pathPosix.join(dir, name);
   return () => fs.promises.access(id).
     then(
       () => (noRequire ? {} : importOrRequireResolve(dir, id)),
@@ -140,8 +141,8 @@ const getExtendedConfig = async (config, configPath, fs) => {
 
 // Read an options or config file in any format and return the object
 const readOptionsOrConfig = async (configPath, fs, noRequire) => {
-  const basename = path.basename(configPath);
-  const dirname = path.dirname(configPath);
+  const basename = pathPosix.basename(configPath);
+  const dirname = pathPosix.dirname(configPath);
   let options = null;
   let config = null;
   if (basename.endsWith(".markdownlint-cli2.jsonc")) {
@@ -195,9 +196,9 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
 const removeIgnoredFiles = (dir, files, ignores) => {
   const micromatch = require("micromatch");
   return micromatch(
-    files.map((file) => path.posix.relative(dir, file)),
+    files.map((file) => pathPosix.relative(dir, file)),
     ignores
-  ).map((file) => path.posix.join(dir, file));
+  ).map((file) => pathPosix.join(dir, file));
 };
 
 // Process/normalize command-line arguments and return glob patterns
@@ -287,10 +288,10 @@ const getAndProcessDirInfo =
 
       // Load markdownlint-cli2 object(s)
       const markdownlintCli2Jsonc =
-        path.posix.join(dir, ".markdownlint-cli2.jsonc");
+        pathPosix.join(dir, ".markdownlint-cli2.jsonc");
       const markdownlintCli2Yaml =
-        path.posix.join(dir, ".markdownlint-cli2.yaml");
-      const packageJson = path.posix.join(dir, "package.json");
+        pathPosix.join(dir, ".markdownlint-cli2.yaml");
+      const packageJson = pathPosix.join(dir, "package.json");
       tasks.push(
         fs.promises.access(markdownlintCli2Jsonc).
           then(
@@ -467,7 +468,7 @@ const enumerateFiles =
       (globPattern) => {
         if (globPattern.startsWith(":")) {
           literalFiles.push(
-            posixPath(path.resolve(baseDirSystem, globPattern.slice(1)))
+            posixPath(pathDefault.resolve(baseDirSystem, globPattern.slice(1)))
           );
           return false;
         }
@@ -489,13 +490,15 @@ const enumerateFiles =
           globPattern.startsWith("!")
             ? globPattern.slice(1)
             : globPattern;
-        const globPath =
-          (path.posix.isAbsolute(barePattern) || path.isAbsolute(barePattern))
-            ? barePattern
-            : path.posix.join(baseDir, barePattern);
+        const globPath = (
+          pathPosix.isAbsolute(barePattern) ||
+          pathDefault.isAbsolute(barePattern)
+        )
+          ? barePattern
+          : pathPosix.join(baseDir, barePattern);
         return fs.promises.stat(globPath).
           then((stats) => (stats.isDirectory()
-            ? path.posix.join(globPattern, "**")
+            ? pathPosix.join(globPattern, "**")
             : globPattern)).
           catch(() => globPattern);
       })
@@ -508,7 +511,7 @@ const enumerateFiles =
       ...filteredLiteralFiles
     ];
     for (const file of files) {
-      const dir = path.posix.dirname(file);
+      const dir = pathPosix.dirname(file);
       const dirInfo = getAndProcessDirInfo(
         fs,
         tasks,
@@ -532,7 +535,7 @@ const enumerateParents = async (fs, baseDir, dirToDirInfo, noRequire) => {
   let baseDirParent = baseDir;
   do {
     baseDirParents[baseDirParent] = true;
-    baseDirParent = path.posix.dirname(baseDirParent);
+    baseDirParent = pathPosix.dirname(baseDirParent);
   } while (!baseDirParents[baseDirParent]);
 
   // Visit parents of each dirInfo
@@ -541,7 +544,7 @@ const enumerateParents = async (fs, baseDir, dirToDirInfo, noRequire) => {
     let lastDir = dir;
     while (
       !baseDirParents[dir] &&
-      (dir = path.posix.dirname(dir)) &&
+      (dir = pathPosix.dirname(dir)) &&
       (dir !== lastDir)
     ) {
       lastDir = dir;
@@ -789,7 +792,7 @@ const createSummary = (baseDir, taskResults) => {
     for (const fileName in results) {
       const errorInfos = results[fileName];
       for (const errorInfo of errorInfos) {
-        const fileNameRelative = path.posix.relative(baseDir, fileName);
+        const fileNameRelative = pathPosix.relative(baseDir, fileName);
         summary.push({
           "fileName": fileNameRelative,
           ...errorInfo,
@@ -859,7 +862,7 @@ const main = async (params) => {
   const logError = params.logError || noop;
   const fs = params.fs || require("node:fs");
   const baseDirSystem =
-    (directory && path.resolve(directory)) ||
+    (directory && pathDefault.resolve(directory)) ||
     process.cwd();
   const baseDir = posixPath(baseDirSystem);
   // Output banner
@@ -889,10 +892,10 @@ const main = async (params) => {
   let relativeDir = null;
   if (configPath) {
     const resolvedConfigPath =
-      posixPath(path.resolve(baseDirSystem, configPath));
+      posixPath(pathDefault.resolve(baseDirSystem, configPath));
     optionsArgv =
       await readOptionsOrConfig(resolvedConfigPath, fs, noRequire);
-    relativeDir = path.dirname(resolvedConfigPath);
+    relativeDir = pathPosix.dirname(resolvedConfigPath);
   }
   // Process arguments and get base options
   const globPatterns = processArgv(argvFiltered);
@@ -917,7 +920,7 @@ const main = async (params) => {
   // Include any file overrides or non-file content
   const resolvedFileContents = {};
   for (const file in fileContents) {
-    const resolvedFile = posixPath(path.resolve(baseDirSystem, file));
+    const resolvedFile = posixPath(pathDefault.resolve(baseDirSystem, file));
     resolvedFileContents[resolvedFile] =
       fileContents[file];
   }
