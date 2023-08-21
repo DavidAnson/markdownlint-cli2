@@ -30,7 +30,7 @@
         "eslint": "8.47.0",
         "eslint-plugin-n": "16.0.1",
         "eslint-plugin-unicorn": "48.0.1",
-        "execa": "7.2.0",
+        "execa": "8.0.1",
         "markdown-it-emoji": "2.0.2",
         "markdown-it-for-inline": "0.1.1",
         "markdownlint-cli2-formatter-codequality": "0.0.4",
@@ -1757,26 +1757,38 @@
       }
     },
     "node_modules/execa": {
-      "version": "7.2.0",
-      "resolved": "https://registry.npmjs.org/execa/-/execa-7.2.0.tgz",
-      "integrity": "sha512-UduyVP7TLB5IcAQl+OzLyLcS/l32W/GLg+AhHJ+ow40FOk2U3SAllPwR44v4vmdFwIWqpdwxxpQbF1n5ta9seA==",
+      "version": "8.0.1",
+      "resolved": "https://registry.npmjs.org/execa/-/execa-8.0.1.tgz",
+      "integrity": "sha512-VyhnebXciFV2DESc+p6B+y0LjSm0krU4OgJN44qFAhBY0TJ+1V61tYD2+wHusZ6F9n5K+vl8k0sTy7PEfV4qpg==",
       "dev": true,
       "dependencies": {
         "cross-spawn": "^7.0.3",
-        "get-stream": "^6.0.1",
-        "human-signals": "^4.3.0",
+        "get-stream": "^8.0.1",
+        "human-signals": "^5.0.0",
         "is-stream": "^3.0.0",
         "merge-stream": "^2.0.0",
         "npm-run-path": "^5.1.0",
         "onetime": "^6.0.0",
-        "signal-exit": "^3.0.7",
+        "signal-exit": "^4.1.0",
         "strip-final-newline": "^3.0.0"
       },
       "engines": {
-        "node": "^14.18.0 || ^16.14.0 || >=18.0.0"
+        "node": ">=16.17"
       },
       "funding": {
         "url": "https://github.com/sindresorhus/execa?sponsor=1"
+      }
+    },
+    "node_modules/execa/node_modules/signal-exit": {
+      "version": "4.1.0",
+      "resolved": "https://registry.npmjs.org/signal-exit/-/signal-exit-4.1.0.tgz",
+      "integrity": "sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==",
+      "dev": true,
+      "engines": {
+        "node": ">=14"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/isaacs"
       }
     },
     "node_modules/fast-deep-equal": {
@@ -2012,12 +2024,12 @@
       }
     },
     "node_modules/get-stream": {
-      "version": "6.0.1",
-      "resolved": "https://registry.npmjs.org/get-stream/-/get-stream-6.0.1.tgz",
-      "integrity": "sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==",
+      "version": "8.0.1",
+      "resolved": "https://registry.npmjs.org/get-stream/-/get-stream-8.0.1.tgz",
+      "integrity": "sha512-VaUJspBffn/LMCJVoMvSAdmscJyS1auj5Zulnn5UoYcY531UWmdwhRWkcGKnGU93m5HSXP9LP2usOryrBtQowA==",
       "dev": true,
       "engines": {
-        "node": ">=10"
+        "node": ">=16"
       },
       "funding": {
         "url": "https://github.com/sponsors/sindresorhus"
@@ -2236,12 +2248,12 @@
       "dev": true
     },
     "node_modules/human-signals": {
-      "version": "4.3.1",
-      "resolved": "https://registry.npmjs.org/human-signals/-/human-signals-4.3.1.tgz",
-      "integrity": "sha512-nZXjEF2nbo7lIw3mgYjItAfgQXog3OjJogSbKa2CQIIvSGWcKgeJnQlNXip6NglNzYH45nSRiEVimMvYL8DDqQ==",
+      "version": "5.0.0",
+      "resolved": "https://registry.npmjs.org/human-signals/-/human-signals-5.0.0.tgz",
+      "integrity": "sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==",
       "dev": true,
       "engines": {
-        "node": ">=14.18.0"
+        "node": ">=16.17.0"
       }
     },
     "node_modules/ignore": {
