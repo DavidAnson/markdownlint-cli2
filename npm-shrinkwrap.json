@@ -1,12 +1,12 @@
 {
   "name": "markdownlint-cli2",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "lockfileVersion": 3,
   "requires": true,
   "packages": {
     "": {
       "name": "markdownlint-cli2",
-      "version": "0.8.1",
+      "version": "0.9.0",
       "license": "MIT",
       "dependencies": {
         "globby": "13.2.2",

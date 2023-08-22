@@ -26,7 +26,7 @@ const resolveAndRequire = require("./resolve-and-require");
 
 // Variables
 const packageName = "markdownlint-cli2";
-const packageVersion = "0.8.1";
+const packageVersion = "0.9.0";
 const libraryName = "markdownlint";
 const libraryVersion = markdownlintLibrary.getVersion();
 const dotOnlySubstitute = "*.{md,markdown}";

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.0
+
+- Add support for Node.js's `package.json` as a configuration file source
+- Add output formatter for Static Analysis Results Interchange Format/SARIF
+- Bundle `npm-shrinkwrap.json` for reproducable/faster installs
+- Update dependencies (including `markdownlint`)
+
 ## 0.8.1
 
 - Handle `--config` edge case
