@@ -26,7 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies
-      run: npm clean-install
+      run: npm install --no-package-lock
     - name: Run All Validations
       run: npm run ci
 
@@ -38,7 +38,7 @@ jobs:
     - name: Package markdownlint-cli2
       run: npm pack
     - name: Install markdownlint-cli2 globally
-      run: sudo npm install --global --production markdownlint-cli2-*.tgz
+      run: sudo npm install --global --no-package-lock --production markdownlint-cli2-*.tgz
     - name: Lint without formatters
       run: markdownlint-cli2 CONTRIBUTING.md README.md
     - name: Package formatter-default
@@ -56,13 +56,13 @@ jobs:
     - name: Package formatter-summarize
       run: cd formatter-summarize && npm pack
     - name: Install formatters globally
-      run: sudo npm install --global --production ./formatter-default/*.tgz ./formatter-codequality/*.tgz ./formatter-json/*.tgz ./formatter-junit/*.tgz ./formatter-pretty/*.tgz ./formatter-sarif/*.tgz ./formatter-summarize/*.tgz
+      run: sudo npm install --global --no-package-lock --production ./formatter-default/*.tgz ./formatter-codequality/*.tgz ./formatter-json/*.tgz ./formatter-junit/*.tgz ./formatter-pretty/*.tgz ./formatter-sarif/*.tgz ./formatter-summarize/*.tgz
     - name: Lint with formatters
       run: cp test/outputFormatters-npm/.markdownlint-cli2.jsonc . && markdownlint-cli2 CONTRIBUTING.md README.md
     - name: Uninstall markdownlint-cli2 globally
-      run: sudo npm uninstall --global markdownlint-cli2
+      run: sudo npm uninstall --global --no-package-lock markdownlint-cli2
     - name: Install markdownlint-cli2 dependencies locally
-      run: sudo npm install --production
+      run: sudo npm install --no-package-lock --production
     - name: Lint with formatters
       run: node ./markdownlint-cli2 CONTRIBUTING.md README.md
 
