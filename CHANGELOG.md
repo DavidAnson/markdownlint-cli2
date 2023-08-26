@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1
+
+- Remove `devDependencies` from `npm-shrinkwrap.json` to avoid `npm` failures
+
 ## 0.9.0
 
 - Add support for Node.js's `package.json` as a configuration file source
