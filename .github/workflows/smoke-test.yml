@@ -1,0 +1,34 @@
+name: Smoke Test
+
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - 'dependabot/**'
+  schedule:
+    - cron: '30 12 * * *'
+  workflow_dispatch:
+
+jobs:
+  smoke-test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
+        node-version: [ 16, 18, 20 ]
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm clean-install
+    - run: npm pack
+    - run: npm exec --yes -- cpy-cli "markdownlint-cli2-*.tgz" . --rename=markdownlint-cli2.tgz
+    - run: npm exec --yes -- del-cli node_modules .npmrc package.json package-lock.json npm-shrinkwrap.json
+    - run: npm install markdownlint-cli2.tgz
+    - run: node_modules/.bin/markdownlint-cli2 README.md
+    - run: npm clean-install
+    - run: node_modules/.bin/markdownlint-cli2 README.md
