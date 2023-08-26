@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.2
+
+- Remove `npm-shrinkwrap.json` entirely to avoid `npm` failures
+
 ## 0.9.1
 
 - Remove `devDependencies` from `npm-shrinkwrap.json` to avoid `npm` failures
