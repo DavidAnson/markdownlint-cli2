@@ -27,6 +27,6 @@ jobs:
     - run: npm install
     - run: npm pack
     - run: npm exec --yes -- cpy-cli "markdownlint-cli2-*.tgz" . --rename=markdownlint-cli2.tgz
-    - run: npm exec --yes -- rimraf node_modules .npmrc npm-shrinkwrap.json package.json package-lock.json
+    - run: npm exec --yes -- del-cli node_modules .npmrc npm-shrinkwrap.json package.json package-lock.json
     - run: npm install markdownlint-cli2.tgz
     - run: node_modules/.bin/markdownlint-cli2 README.md
