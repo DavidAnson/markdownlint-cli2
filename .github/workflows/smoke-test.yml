@@ -30,3 +30,5 @@ jobs:
     - run: npm exec --yes -- del-cli node_modules .npmrc npm-shrinkwrap.json package.json package-lock.json
     - run: npm install markdownlint-cli2.tgz
     - run: node_modules/.bin/markdownlint-cli2 README.md
+    - run: npm clean-install
+    - run: node_modules/.bin/markdownlint-cli2 README.md
