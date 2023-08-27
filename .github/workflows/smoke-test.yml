@@ -32,3 +32,6 @@ jobs:
     - run: node_modules/.bin/markdownlint-cli2 README.md
     - run: npm clean-install
     - run: node_modules/.bin/markdownlint-cli2 README.md
+    - run: git clean -dfx && git restore .
+    - run: npm exec --yes -- midnight-smoker test-invoke-as-cli
+      if: matrix.os != 'windows-latest'
