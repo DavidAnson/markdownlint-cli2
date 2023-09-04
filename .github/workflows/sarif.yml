@@ -16,7 +16,7 @@ jobs:
     permissions:
       security-events: write
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - run: npm install --no-package-lock
     - run: node markdownlint-cli2.js --config .github/sarif.markdownlint-cli2.jsonc '**/README.md' '#node_modules'
       continue-on-error: true
