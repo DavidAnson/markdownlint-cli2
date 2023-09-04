@@ -20,7 +20,7 @@ jobs:
         node-version: [ 16, 18, 20 ]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Package markdownlint-cli2
       run: npm pack
     - name: Install markdownlint-cli2 globally
@@ -70,6 +70,6 @@ jobs:
     runs-on: ubuntu-latest
     container: hadolint/hadolint:latest-alpine
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - run: hadolint docker/Dockerfile
     - run: hadolint docker/Dockerfile-rules
