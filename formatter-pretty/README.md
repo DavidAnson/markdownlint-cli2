@@ -41,7 +41,7 @@ To append informational links to the output instead (which may be clickable):
 
 ## Example
 
-<!-- markdownlint-disable line-length no-inline-html -->
+<!-- markdownlint-disable line-length no-inline-html no-space-in-code -->
 
 <pre style="background:black">
 <span style="color:purple">dir/about.md</span><span style="color:teal">:</span><span style="color:green">1</span><span style="color:teal">:</span><span style="color:green">1</span><span style="color:white"> </span><span style="color:gray">MD021/no-multiple-space-closed-atx</span><span style="color:white"> Multiple spaces inside hashes on closed atx style heading</span><span style="color:gray"> [Context: &quot;#  About  #&quot;]</span><span style="color:white">
