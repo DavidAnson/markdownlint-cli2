@@ -22,7 +22,7 @@
   "homepage": "https://github.com/DavidAnson/markdownlint-cli2",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DavidAnson/markdownlint-cli2.git"
+    "url": "git+https://github.com/DavidAnson/markdownlint-cli2.git"
   },
   "bugs": "https://github.com/DavidAnson/markdownlint-cli2/issues",
   "scripts": {
