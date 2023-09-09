@@ -2,8 +2,10 @@
 
 "use strict";
 
+const fs = require("node:fs/promises");
 const path = require("node:path");
 const test = require("ava").default;
+const tv4 = require("tv4");
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 const FsMock = require("./fs-mock");
 
@@ -52,6 +54,58 @@ test("README files", (t) => {
     "logError": uncalled
   }).
     then((exitCode) => t.is(exitCode, 0));
+});
+
+test("validateMarkdownlintConfigSchema", async (t) => {
+  t.plan(25);
+  const schema = require("../schema/markdownlint-config-schema.json");
+  const { "default": stripJsonComments } = await import("strip-json-comments");
+  const { globby } = await import("globby");
+  const files = await globby(
+    [
+      "**/*.markdownlint.(json|jsonc)",
+      "!**/*invalid*/**",
+      "!**/invalid*"
+    ],
+    {
+      "dot": true
+    }
+  );
+  return Promise.all(files.map(async (file) => {
+    const content = await fs.readFile(file, "utf8");
+    const json = JSON.parse(stripJsonComments(content));
+    t.true(
+      // @ts-ignore
+      tv4.validate(json, schema),
+      `${file}\n${JSON.stringify(tv4.error, null, 2)}`
+    );
+  }));
+});
+
+test("validateMarkdownlintCli2ConfigSchema", async (t) => {
+  t.plan(78);
+  const schema = require("../schema/markdownlint-cli2-config-schema.json");
+  const { "default": stripJsonComments } = await import("strip-json-comments");
+  const { globby } = await import("globby");
+  const files = await globby(
+    [
+      "**/*.markdownlint-cli2.(json|jsonc)",
+      "!**/*invalid*/**",
+      "!**/invalid*",
+      "!test/customRules/dir/subdir2/.markdownlint-cli2.jsonc"
+    ],
+    {
+      "dot": true
+    }
+  );
+  return Promise.all(files.map(async (file) => {
+    const content = await fs.readFile(file, "utf8");
+    const json = JSON.parse(stripJsonComments(content));
+    t.true(
+      tv4.validate(json, schema),
+      `${file}\n${JSON.stringify(tv4.error, null, 2)}`
+    );
+  }));
 });
 
 test("absolute path to directory glob", async (t) => {

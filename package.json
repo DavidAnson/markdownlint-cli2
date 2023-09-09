@@ -28,13 +28,14 @@
   "scripts": {
     "build-docker-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker build -t davidanson/markdownlint-cli2:v$VERSION -f docker/Dockerfile --label org.opencontainers.image.version=v$VERSION .",
     "build-docker-image-rules": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker build -t davidanson/markdownlint-cli2-rules:v$VERSION -f docker/Dockerfile-rules --build-arg VERSION=v$VERSION --label org.opencontainers.image.version=v$VERSION .",
-    "ci": "npm-run-all --continue-on-error --parallel test-cover lint",
+    "ci": "npm-run-all --continue-on-error --parallel test-cover lint schema",
     "docker-npm-install": "docker run --rm --tty --name npm-install --volume $PWD:/home/workdir --workdir /home/workdir --user node node:latest npm install",
     "docker-npm-run-upgrade": "docker run --rm --tty --name npm-run-upgrade --volume $PWD:/home/workdir --workdir /home/workdir --user node node:latest npm run upgrade",
     "lint": "eslint --max-warnings 0 --no-eslintrc --config .eslintrc.json .",
     "lint-dockerfile": "docker run --rm -i hadolint/hadolint:latest-alpine < docker/Dockerfile",
     "lint-watch": "git ls-files | entr npm run lint",
     "publish-docker-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker buildx build --platform linux/arm64,linux/amd64 -t davidanson/markdownlint-cli2:v$VERSION -t davidanson/markdownlint-cli2:latest -f docker/Dockerfile --push .",
+    "schema": "cpy ./node_modules/markdownlint/schema/markdownlint-config-schema.json ./schema --flat",
     "test": "ava --timeout=1m test/append-to-array-test.js test/fs-mock-test.js test/markdownlint-cli2-test.js test/markdownlint-cli2-test-exec.js test/markdownlint-cli2-test-fs.js test/markdownlint-cli2-test-main.js test/merge-options-test.js test/resolve-and-require-test.js",
     "test-cover": "c8 --100 npm test -- --concurrency=1",
     "test-docker-hub-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker image rm davidanson/markdownlint-cli2:v$VERSION davidanson/markdownlint-cli2:latest || true && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2:v$VERSION \"*.md\" && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2:latest \"*.md\"",
@@ -62,7 +63,9 @@
     "markdownlint-cli2-fix.js",
     "merge-options.js",
     "README.md",
-    "resolve-and-require.js"
+    "resolve-and-require.js",
+    "schema/markdownlint-cli2-config-schema.json",
+    "schema/markdownlint-config-schema.json"
   ],
   "dependencies": {
     "globby": "13.2.2",
@@ -77,6 +80,7 @@
     "ava": "5.3.1",
     "c8": "8.0.1",
     "cpy": "10.1.0",
+    "cpy-cli": "5.0.0",
     "del": "7.1.0",
     "eslint": "8.48.0",
     "eslint-plugin-n": "16.0.2",
@@ -91,7 +95,8 @@
     "markdownlint-cli2-formatter-sarif": "0.0.1",
     "markdownlint-cli2-formatter-summarize": "0.0.6",
     "markdownlint-rule-titlecase": "0.1.0",
-    "npm-run-all": "4.1.5"
+    "npm-run-all": "4.1.5",
+    "tv4": "1.3.0"
   },
   "keywords": [
     "markdown",
