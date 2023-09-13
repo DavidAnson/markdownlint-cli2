@@ -20,6 +20,8 @@ module.exports = (options, params) => { ... }
 
 Where `options` is an object that looks like:
 
+- `directory`: `String` that identifies the base directory for relative paths
+  (using POSIX syntax)
 - `results`: `Array` of [`markdownlint` `LintError` objects][markdownlint-d-ts],
   each with an added `String` property `fileName` containing a relative path
 - `logMessage`: `Function` that takes a single `String` argument and logs it to
