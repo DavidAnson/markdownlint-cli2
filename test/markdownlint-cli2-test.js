@@ -83,7 +83,7 @@ test("validateMarkdownlintConfigSchema", async (t) => {
 });
 
 test("validateMarkdownlintCli2ConfigSchema", async (t) => {
-  t.plan(78);
+  t.plan(81);
   const schema = require("../schema/markdownlint-cli2-config-schema.json");
   const { "default": stripJsonComments } = await import("strip-json-comments");
   const { globby } = await import("globby");

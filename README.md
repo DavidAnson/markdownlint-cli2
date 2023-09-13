@@ -320,6 +320,9 @@ of the rules within.
     - This top-level setting is valid **only** in the directory from which
       `markdownlint-cli2` is run
     - Search [`markdownlint-cli2-formatter` on npm][markdownlint-cli2-formatter]
+  - `showFound`: `Boolean` value to display the list of found files on `stdout`
+    - This top-level setting is valid **only** in the directory from which
+      `markdownlint-cli2` is run and **only** when `noProgress` has not been set
 - When referencing a module via the `customRules`, `markdownItPlugins`, or
   `outputFormatters` properties, each `String` identifier is passed to Node's
   [`require` function][nodejs-require] then (if that failed) its

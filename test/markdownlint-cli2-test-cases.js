@@ -507,6 +507,12 @@ const testCases = ({
   });
 
   testCase({
+    "name": "showFound",
+    "args": [ "**/*.md" ],
+    "exitCode": 1
+  });
+
+  testCase({
     "name": "frontMatter",
     "args": [ "**/*.md" ],
     "exitCode": 0

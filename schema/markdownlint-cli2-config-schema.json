@@ -103,6 +103,11 @@
         ],
         "minItems": 1
       }
+    },
+    "showFound": {
+      "description": "Whether to show the list of found files on stdout (only valid at the root)",
+      "type": "boolean",
+      "default": false
     }
   },
   "additionalProperties": false

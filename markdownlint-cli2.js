@@ -950,9 +950,15 @@ const main = async (params) => {
     );
   // Output linting status
   if (showProgress) {
-    let fileCount = 0;
-    for (const dirInfo of dirInfos) {
-      fileCount += dirInfo.files.length;
+    const fileNames = dirInfos.flatMap((dirInfo) => {
+      const { files } = dirInfo;
+      return files.map((file) => pathPosix.relative(baseDir, file));
+    });
+    const fileCount = fileNames.length;
+    if (baseMarkdownlintOptions.showFound) {
+      fileNames.push("");
+      fileNames.sort();
+      logMessage(`Found:${fileNames.join("\n ")}`);
     }
     logMessage(`Linting: ${fileCount} file(s)`);
   }
