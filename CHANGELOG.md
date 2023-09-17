@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.0
+
+- Add `showFound` configuration option
+- Add `.markdownlint-cli2.jsonc` config schema
+- Update dependencies (including `markdownlint`)
+
 ## 0.9.2
 
 - Remove `npm-shrinkwrap.json` entirely to avoid `npm` failures
