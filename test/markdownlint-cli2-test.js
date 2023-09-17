@@ -57,13 +57,14 @@ test("README files", (t) => {
 });
 
 test("validateMarkdownlintConfigSchema", async (t) => {
-  t.plan(25);
+  t.plan(23);
   const schema = require("../schema/markdownlint-config-schema.json");
   const { "default": stripJsonComments } = await import("strip-json-comments");
   const { globby } = await import("globby");
   const files = await globby(
     [
       "**/*.markdownlint.(json|jsonc)",
+      "!node_modules/**",
       "!**/*invalid*/**",
       "!**/invalid*"
     ],
@@ -90,6 +91,7 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
   const files = await globby(
     [
       "**/*.markdownlint-cli2.(json|jsonc)",
+      "!node_modules/**",
       "!**/*invalid*/**",
       "!**/invalid*",
       "!test/customRules/dir/subdir2/.markdownlint-cli2.jsonc"
