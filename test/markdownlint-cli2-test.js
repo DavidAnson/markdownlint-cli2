@@ -5,9 +5,20 @@
 const fs = require("node:fs/promises");
 const path = require("node:path");
 const test = require("ava").default;
-const tv4 = require("tv4");
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 const FsMock = require("./fs-mock");
+
+const jsonSchemaVersion = "http://json-schema.org/draft-07/schema#";
+// eslint-disable-next-line max-len
+const markdownlintConfigSchemaUri = "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/main/schema/markdownlint-config-schema.json";
+const markdownlintConfigSchemaDefinition =
+  require("../schema/markdownlint-config-schema.json");
+// @ts-ignore
+markdownlintConfigSchemaDefinition.$schema = jsonSchemaVersion;
+// eslint-disable-next-line max-len
+const markdownlintCli2ConfigSchemaUri = "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/main/schema/markdownlint-cli2-config-schema.json";
+const markdownlintCli2ConfigSchemaDefinition =
+  require("../schema/markdownlint-cli2-config-schema.json");
 
 const outputFormatterLengthIs = (t, length) => (options) => {
   const { results } = options;
@@ -57,8 +68,23 @@ test("README files", (t) => {
 });
 
 test("validateMarkdownlintConfigSchema", async (t) => {
-  t.plan(23);
-  const schema = require("../schema/markdownlint-config-schema.json");
+  t.plan(24);
+
+  // Validate schema
+  const { addSchema, validate } =
+    // eslint-disable-next-line n/file-extension-in-import
+    await import("@hyperjump/json-schema/draft-07");
+  const schemaResult = await validate(
+    jsonSchemaVersion,
+    markdownlintConfigSchemaDefinition,
+    "BASIC"
+  );
+  t.true(schemaResult.valid);
+
+  // Validate instances
+  // @ts-ignore
+  addSchema(markdownlintConfigSchemaDefinition, markdownlintConfigSchemaUri);
+  const validateConfigSchema = await validate(markdownlintConfigSchemaUri);
   const { "default": stripJsonComments } = await import("strip-json-comments");
   const { globby } = await import("globby");
   const files = await globby(
@@ -76,17 +102,37 @@ test("validateMarkdownlintConfigSchema", async (t) => {
   return Promise.all(files.map(async (file) => {
     const content = await fs.readFile(file, "utf8");
     const json = JSON.parse(stripJsonComments(content));
+    const instanceResult = validateConfigSchema(json, "BASIC");
     t.true(
-      // @ts-ignore
-      tv4.validate(json, schema),
-      `${file}\n${JSON.stringify(tv4.error, null, 2)}`
+      instanceResult.valid,
+      `${file}\n${JSON.stringify(instanceResult, null, 2)}`
     );
   }));
 });
 
 test("validateMarkdownlintCli2ConfigSchema", async (t) => {
-  t.plan(81);
-  const schema = require("../schema/markdownlint-cli2-config-schema.json");
+  t.plan(82);
+
+  // Validate schema
+  const { addSchema, validate } =
+    // eslint-disable-next-line n/file-extension-in-import
+    await import("@hyperjump/json-schema/draft-07");
+  const schemaResult = await validate(
+    jsonSchemaVersion,
+    markdownlintCli2ConfigSchemaDefinition,
+    "BASIC"
+  );
+  t.true(schemaResult.valid);
+
+  // Validate instances
+  // @ts-ignore
+  addSchema(markdownlintConfigSchemaDefinition, markdownlintConfigSchemaUri);
+  addSchema(
+    // @ts-ignore
+    markdownlintCli2ConfigSchemaDefinition,
+    markdownlintCli2ConfigSchemaUri
+  );
+  const validateConfigSchema = await validate(markdownlintCli2ConfigSchemaUri);
   const { "default": stripJsonComments } = await import("strip-json-comments");
   const { globby } = await import("globby");
   const files = await globby(
@@ -105,9 +151,10 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
   return Promise.all(files.map(async (file) => {
     const content = await fs.readFile(file, "utf8");
     const json = JSON.parse(stripJsonComments(content));
+    const instanceResult = validateConfigSchema(json, "BASIC");
     t.true(
-      tv4.validate(json, schema),
-      `${file}\n${JSON.stringify(tv4.error, null, 2)}`
+      instanceResult.valid,
+      `${file}\n${JSON.stringify(instanceResult, null, 2)}`
     );
   }));
 });
