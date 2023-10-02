@@ -1,0 +1,6 @@
+{
+  "outputFormatters": [
+    [ "output-formatter-sample-commonjs" ],
+    [ "./node_modules/output-formatter-sample-module/sample-formatter.mjs" ]
+  ]
+}

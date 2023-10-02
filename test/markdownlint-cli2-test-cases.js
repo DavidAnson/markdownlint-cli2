@@ -963,6 +963,13 @@ const testCases = ({
   });
 
   testCase({
+    "name": "outputFormatters-module",
+    "args": [ "**/*.md" ],
+    "exitCode": 1,
+    "usesRequire": true
+  });
+
+  testCase({
     "name": "outputFormatters-missing",
     "args": [ ".*" ],
     "exitCode": 2,

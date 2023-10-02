@@ -2,4 +2,5 @@ coverage
 node_modules
 npm-debug.log
 !test/customRules/node_modules
+!test/outputFormatters-module/node_modules
 webworker/markdownlint-cli2-webworker.js
