@@ -86,7 +86,7 @@
     "eslint-plugin-n": "16.1.0",
     "eslint-plugin-unicorn": "48.0.1",
     "execa": "8.0.1",
-    "@hyperjump/json-schema": "1.6.0",
+    "@hyperjump/json-schema": "1.6.1",
     "markdown-it-emoji": "2.0.2",
     "markdown-it-for-inline": "0.1.1",
     "markdownlint-cli2-formatter-codequality": "0.0.4",
