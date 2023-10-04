@@ -1176,6 +1176,20 @@ const testCases = ({
     "post": deleteDirectory
   });
 
+  testCase({
+    "name": "modulePaths",
+    "args": [ "**/*.md" ],
+    "exitCode": 1,
+    "usesRequire": true
+  });
+
+  testCase({
+    "name": "modulePaths-non-root",
+    "args": [ "**/*.md" ],
+    "exitCode": 1,
+    "usesRequire": true
+  });
+
 };
 
 module.exports = testCases;

@@ -1,0 +1,14 @@
+{
+  "customRules": [
+    "markdownlint-rule-sample-commonjs"
+  ],
+  "markdownItPlugins": [
+    [ "custom-markdown-it-plugin" ]
+  ],
+  "modulePaths": [
+    "../../customRules",
+    "../../invalid",
+    "../../no-config",
+    "../../markdownItPlugins/module"
+  ]
+}

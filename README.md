@@ -305,6 +305,8 @@ of the rules within.
     - Relative paths are resolved based on the location of the `JSONC` file
     - For example: `[ [ "plugin-name", param_0, param_1, ... ], ... ]`
     - Search [`markdown-it-plugins` on npm][markdown-it-plugins]
+  - `modulePaths`: `Array` of `String`s providing additional paths to use when
+    resolving module references (e.g., alternate locations for `node_modules`)
   - `noInlineConfig`: `Boolean` value to disable the support of
     [HTML comments][html-comment] within Markdown content
     - For example: `<!-- markdownlint-disable some-rule -->`

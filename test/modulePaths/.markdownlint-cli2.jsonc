@@ -1,0 +1,18 @@
+{
+  "customRules": [
+    "markdownlint-rule-sample-commonjs"
+  ],
+  "markdownItPlugins": [
+    [ "custom-markdown-it-plugin" ]
+  ],
+  "outputFormatters": [
+    [ "output-formatter-sample-commonjs" ]
+  ],
+  "modulePaths": [
+    "../invalid",
+    "../customRules",
+    "../markdownItPlugins/module",
+    "../no-config",
+    "../outputFormatters-module"
+  ]
+}
