@@ -34,6 +34,11 @@
     [ "@iktakahiro/markdown-it-katex" ]
   ],
 
+  // Additional paths to resolve module locations from
+  "modulePaths": [
+    "./modules"
+  ],
+
   // Disable inline config comments
   "noInlineConfig": true,
 
