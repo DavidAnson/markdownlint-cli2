@@ -14,6 +14,7 @@
     "url": "git+https://github.com/DavidAnson/markdownlint-cli2.git"
   },
   "bugs": "https://github.com/DavidAnson/markdownlint-cli2/issues",
+  "funding": "https://github.com/sponsors/DavidAnson",
   "files": [
     "markdownlint-cli2-formatter-junit.js"
   ],

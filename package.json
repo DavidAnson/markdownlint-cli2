@@ -25,6 +25,7 @@
     "url": "git+https://github.com/DavidAnson/markdownlint-cli2.git"
   },
   "bugs": "https://github.com/DavidAnson/markdownlint-cli2/issues",
+  "funding": "https://github.com/sponsors/DavidAnson",
   "scripts": {
     "build-docker-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker build -t davidanson/markdownlint-cli2:v$VERSION -f docker/Dockerfile --label org.opencontainers.image.version=v$VERSION .",
     "build-docker-image-rules": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker build -t davidanson/markdownlint-cli2-rules:v$VERSION -f docker/Dockerfile-rules --build-arg VERSION=v$VERSION --label org.opencontainers.image.version=v$VERSION .",
