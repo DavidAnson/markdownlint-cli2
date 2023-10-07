@@ -862,7 +862,8 @@ const outputSummary = async (
   outputFormatters,
   modulePaths,
   logMessage,
-  logError
+  logError,
+  noRequire
 ) => {
   const errorsPresent = (summary.length > 0);
   if (errorsPresent || outputFormatters) {
@@ -875,7 +876,7 @@ const outputSummary = async (
     const dir = relativeDir || baseDir;
     const dirs = [ dir, ...modulePaths ];
     const formattersAndParams = outputFormatters
-      ? await importOrRequireIdsAndParams(dirs, outputFormatters)
+      ? await importOrRequireIdsAndParams(dirs, outputFormatters, noRequire)
       : [ [ require("markdownlint-cli2-formatter-default") ] ];
     await Promise.all(formattersAndParams.map((formatterAndParams) => {
       const [ formatter, ...formatterParams ] = formatterAndParams;
@@ -1025,7 +1026,8 @@ const main = async (params) => {
     outputFormatters,
     modulePaths,
     logMessage,
-    logError
+    logError,
+    noRequire
   );
   // Return result
   return errorsPresent ? 1 : 0;
