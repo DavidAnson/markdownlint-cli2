@@ -74,8 +74,11 @@ const readConfig = (fs, dir, name, otherwise) => {
 };
 
 // Import or resolve/require a module ID with a custom directory in the path
-const importOrRequireResolve = async (dirs, id) => {
+const importOrRequireResolve = async (dirs, id, noRequire) => {
   if (typeof id === "string") {
+    if (noRequire) {
+      return null;
+    }
     const expandId =
       markdownlintRuleHelpers.expandTildePath(id, require("node:os"));
     const errors = [];
@@ -105,21 +108,21 @@ const importOrRequireResolve = async (dirs, id) => {
 // Import or require an array of modules by ID
 const importOrRequireIds = (dirs, ids, noRequire) => (
   Promise.all(
-    noRequire ? [] : ids.map((id) => importOrRequireResolve(dirs, id))
-  )
+    ids.map(
+      (id) => importOrRequireResolve(dirs, id, noRequire)
+    )
+  ).then((results) => results.filter(Boolean))
 );
 
 // Import or require an array of modules by ID (preserving parameters)
-const importOrRequireIdsAndParams = async (dirs, idsAndParams, noRequire) => {
-  if (noRequire) {
-    return [];
-  }
-  const ids = idsAndParams.map((entry) => entry[0]);
-  const modules = await importOrRequireIds(dirs, ids, noRequire);
-  const modulesAndParams = idsAndParams.
-    map((entry, i) => [ modules[i], ...entry.slice(1) ]);
-  return modulesAndParams;
-};
+const importOrRequireIdsAndParams = (dirs, idsAndParams, noRequire) => (
+  Promise.all(
+    idsAndParams.map(
+      (idAndParams) => importOrRequireResolve(dirs, idAndParams[0], noRequire).
+        then((module) => module && [ module, ...idAndParams.slice(1) ])
+    )
+  ).then((results) => results.filter(Boolean))
+);
 
 // Import or require a JavaScript file and return the exported object
 const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => {
