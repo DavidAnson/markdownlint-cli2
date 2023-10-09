@@ -231,6 +231,8 @@ of the rules within.
   - When glob expressions match files *not* under the current directory,
     configuration for the current directory is applied to the closest common
     parent directory.
+- Paths beginning with `~` are resolved relative to the user's home directory
+  (typically `$HOME` on UNIX and `%USERPROFILE%` on Windows)
 - There are two kinds of configuration file (both detailed below):
   - Configuration files like `.markdownlint-cli2.*` allow complete control of
     `markdownlint-cli2` behavior and are also used by `vscode-markdownlint`.

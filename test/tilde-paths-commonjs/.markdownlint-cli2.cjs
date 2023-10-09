@@ -6,18 +6,26 @@ const { homedir } = require("os");
 const { relative, resolve } = require("path");
 
 const makeTildePath = (script) => {
-  const dir = resolve(__dirname, "scripts", script);
+  const dir = resolve(__dirname, script);
   return `~/${relative(homedir(), dir)}`;
 };
 
 module.exports = {
   "customRules": [
-    makeTildePath("any-blockquote.cjs")
+    makeTildePath("scripts/any-blockquote.cjs"),
+    "markdownlint-rule-sample-commonjs"
   ],
   "markdownItPlugins": [
-    [ makeTildePath("custom-markdown-it-plugin.cjs") ]
+    [ makeTildePath("scripts/custom-markdown-it-plugin.cjs") ],
+    [ "custom-markdown-it-plugin" ]
   ],
   "outputFormatters": [
-    [ makeTildePath("custom-output-formatter.cjs") ]
+    [ makeTildePath("scripts/custom-output-formatter.cjs") ],
+    [ "output-formatter-sample-commonjs" ]
+  ],
+  "modulePaths": [
+    makeTildePath("../customRules"),
+    makeTildePath("../markdownItPlugins/module"),
+    makeTildePath("../outputFormatters-module")
   ]
 };

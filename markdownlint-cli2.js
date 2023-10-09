@@ -52,9 +52,14 @@ const negateGlob = (glob) => `!${glob}`;
 // Return a posix path (even on Windows)
 const posixPath = (p) => p.split(pathDefault.sep).join(pathPosix.sep);
 
+// Expands a path with a tilde to an absolute path
+const expandTildePath = (id) => (
+  markdownlintRuleHelpers.expandTildePath(id, require("node:os"))
+);
+
 // Resolves module paths relative to the specified directory
 const resolveModulePaths = (dir, modulePaths) => (
-  modulePaths.map((path) => pathDefault.resolve(dir, path))
+  modulePaths.map((path) => pathDefault.resolve(dir, expandTildePath(path)))
 );
 
 // Read a JSON(C) or YAML file and return the object
@@ -79,8 +84,7 @@ const importOrRequireResolve = async (dirs, id, noRequire) => {
     if (noRequire) {
       return null;
     }
-    const expandId =
-      markdownlintRuleHelpers.expandTildePath(id, require("node:os"));
+    const expandId = expandTildePath(id);
     const errors = [];
     try {
       return resolveAndRequire(dynamicRequire, expandId, dirs);

@@ -7,7 +7,6 @@ import { fileURLToPath } from "url";
 const makeTildePath = (script) => {
   const dir = resolve(
     dirname(fileURLToPath(import.meta.url)),
-    "scripts",
     script
   );
   return `~/${relative(homedir(), dir)}`;
@@ -15,13 +14,21 @@ const makeTildePath = (script) => {
 
 const options = {
   "customRules": [
-    makeTildePath("any-blockquote.mjs")
+    makeTildePath("scripts/any-blockquote.mjs"),
+    "markdownlint-rule-sample-commonjs"
   ],
   "markdownItPlugins": [
-    [ makeTildePath("custom-markdown-it-plugin.mjs") ]
+    [ makeTildePath("scripts/custom-markdown-it-plugin.mjs") ],
+    [ "custom-markdown-it-plugin" ]
   ],
   "outputFormatters": [
-    [ makeTildePath("custom-output-formatter.mjs") ]
+    [ makeTildePath("scripts/custom-output-formatter.mjs") ],
+    [ "output-formatter-sample-commonjs" ]
+  ],
+  "modulePaths": [
+    makeTildePath("../customRules"),
+    makeTildePath("../markdownItPlugins/module"),
+    makeTildePath("../outputFormatters-module")
   ]
 };
 
