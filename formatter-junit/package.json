@@ -22,7 +22,7 @@
     "markdownlint-cli2": ">=0.0.4"
   },
   "dependencies": {
-    "junit-report-builder": "3.0.1"
+    "junit-report-builder": "3.1.0"
   },
   "keywords": [
     "markdownlint-cli2-formatter"
