@@ -730,7 +730,6 @@ const testCases = ({
     "args": [ "cfg/unrecognized.jsonc", "**/*.md" ],
     "exitCode": 2,
     "stderrRe":
-      // eslint-disable-next-line max-len
       /Configuration file "[^"]*cfg\/unrecognized\.jsonc" is unrecognized; its name should be \(or end with\) one of the supported types \(e\.g\., "\.markdownlint\.json" or "example\.markdownlint-cli2\.jsonc"\)\./u,
     "cwd": "config-files"
   });
@@ -765,7 +764,6 @@ const testCases = ({
     "args": [ "--config", "cfg/unrecognized.jsonc", "**/*.md" ],
     "exitCode": 2,
     "stderrRe":
-      // eslint-disable-next-line max-len
       /Configuration file "[^"]*cfg\/unrecognized\.jsonc" is unrecognized; its name should be \(or end with\) one of the supported types \(e\.g\., "\.markdownlint\.json" or "example\.markdownlint-cli2\.jsonc"\)\./u,
     "cwd": "config-files"
   });
