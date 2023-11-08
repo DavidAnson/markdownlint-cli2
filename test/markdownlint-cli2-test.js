@@ -9,13 +9,11 @@ const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 const FsMock = require("./fs-mock");
 
 const jsonSchemaVersion = "http://json-schema.org/draft-07/schema#";
-// eslint-disable-next-line max-len
 const markdownlintConfigSchemaUri = "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/main/schema/markdownlint-config-schema.json";
 const markdownlintConfigSchemaDefinition =
   require("../schema/markdownlint-config-schema.json");
 // @ts-ignore
 markdownlintConfigSchemaDefinition.$schema = jsonSchemaVersion;
-// eslint-disable-next-line max-len
 const markdownlintCli2ConfigSchemaUri = "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/main/schema/markdownlint-cli2-config-schema.json";
 const markdownlintCli2ConfigSchemaDefinition =
   require("../schema/markdownlint-cli2-config-schema.json");

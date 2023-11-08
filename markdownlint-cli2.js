@@ -5,7 +5,7 @@
 "use strict";
 
 // @ts-ignore
-// eslint-disable-next-line camelcase, max-len, no-inline-comments, no-undef
+// eslint-disable-next-line camelcase, no-inline-comments, no-undef
 const dynamicRequire = (typeof __non_webpack_require__ === "undefined") ? require : /* c8 ignore next */ __non_webpack_require__;
 // Capture native require implementation for dynamic loading of modules
 
@@ -241,7 +241,6 @@ const processArgv = (argv) => {
 
 // Show help if missing arguments
 const showHelp = (logMessage) => {
-  /* eslint-disable max-len */
   logMessage(`https://github.com/DavidAnson/markdownlint-cli2
 
 Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix]
@@ -282,7 +281,6 @@ Cross-platform compatibility:
 The most compatible syntax for cross-platform support:
 $ markdownlint-cli2 "**/*.md" "#node_modules"`
   );
-  /* eslint-enable max-len */
 };
 
 // Get (creating if necessary) and process a directory's info object
@@ -914,7 +912,6 @@ const main = async (params) => {
   const baseDir = posixPath(baseDirSystem);
   // Output banner
   logMessage(
-    // eslint-disable-next-line max-len
     `${name || packageName} v${packageVersion} (${libraryName} v${libraryVersion})`
   );
   // Merge and process args/argv

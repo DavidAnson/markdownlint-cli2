@@ -17,7 +17,6 @@ const createFingerprint = function createFingerprint (violation) {
 };
 
 // Writes markdownlint-cli2 results to a GitLab Code Quality report JSON file.
-// eslint-disable-next-line max-len
 // See: https://docs.gitlab.com/ee/ci/testing/code_quality.html#implementing-a-custom-tool
 const outputFormatter = (options, params) => {
   const { directory, results } = options;
