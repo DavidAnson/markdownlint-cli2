@@ -80,7 +80,7 @@
     "@iktakahiro/markdown-it-katex": "4.0.1",
     "ava": "5.3.1",
     "c8": "8.0.1",
-    "cpy": "10.1.0",
+    "cpy": "11.0.0",
     "cpy-cli": "5.0.0",
     "del": "7.1.0",
     "eslint": "8.53.0",
