@@ -51,7 +51,7 @@
     "webworker-install": "npm run docker-npm-install -- --no-save path-browserify process setimmediate stream-browserify url util webpack-cli"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "files": [
     "append-to-array.js",
