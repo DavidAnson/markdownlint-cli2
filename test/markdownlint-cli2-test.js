@@ -70,7 +70,6 @@ test("validateMarkdownlintConfigSchema", async (t) => {
 
   // Validate schema
   const { addSchema, validate } =
-    // eslint-disable-next-line n/file-extension-in-import
     await import("@hyperjump/json-schema/draft-07");
   const schemaResult = await validate(
     jsonSchemaVersion,
@@ -113,7 +112,6 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
 
   // Validate schema
   const { addSchema, validate } =
-    // eslint-disable-next-line n/file-extension-in-import
     await import("@hyperjump/json-schema/draft-07");
   const schemaResult = await validate(
     jsonSchemaVersion,
