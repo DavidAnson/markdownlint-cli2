@@ -17,6 +17,7 @@ Homebrew
 JSON
 JSONC
 JUnit
+LLMs
 markdownlint-cli2
 markdownlint-cli2-formatter-codequality
 markdownlint-cli2-formatter-default
