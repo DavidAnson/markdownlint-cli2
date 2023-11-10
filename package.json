@@ -69,7 +69,7 @@
     "schema/markdownlint-config-schema.json"
   ],
   "dependencies": {
-    "globby": "13.2.2",
+    "globby": "14.0.0",
     "markdownlint": "0.31.1",
     "markdownlint-cli2-formatter-default": "0.0.4",
     "micromatch": "4.0.5",
