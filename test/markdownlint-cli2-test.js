@@ -12,8 +12,6 @@ const jsonSchemaVersion = "http://json-schema.org/draft-07/schema#";
 const markdownlintConfigSchemaUri = "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/main/schema/markdownlint-config-schema.json";
 const markdownlintConfigSchemaDefinition =
   require("../schema/markdownlint-config-schema.json");
-// @ts-ignore
-markdownlintConfigSchemaDefinition.$schema = jsonSchemaVersion;
 const markdownlintCli2ConfigSchemaUri = "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/main/schema/markdownlint-cli2-config-schema.json";
 const markdownlintCli2ConfigSchemaDefinition =
   require("../schema/markdownlint-cli2-config-schema.json");

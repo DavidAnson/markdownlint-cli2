@@ -70,7 +70,7 @@
   ],
   "dependencies": {
     "globby": "14.0.0",
-    "markdownlint": "0.31.1",
+    "markdownlint": "0.32.1",
     "markdownlint-cli2-formatter-default": "0.0.4",
     "micromatch": "4.0.5",
     "strip-json-comments": "5.0.1",
