@@ -475,8 +475,7 @@ test("custom fs, extension scenario with exception", (t) => {
       "stat": null,
       "readdir": null,
       "readFile": null
-    },
-    "noErrors": true
+    }
   }).
     then((exitCode) => {
       t.is(exitCode, 0);

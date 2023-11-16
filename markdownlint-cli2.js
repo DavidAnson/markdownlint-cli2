@@ -473,7 +473,6 @@ const enumerateFiles = async (
   baseDir,
   globPatterns,
   dirToDirInfo,
-  noErrors,
   noRequire
 ) => {
   const tasks = [];
@@ -482,11 +481,9 @@ const enumerateFiles = async (
     "cwd": baseDir,
     "dot": true,
     "expandDirectories": false,
+    "suppressErrors": true,
     fs
   };
-  if (noErrors) {
-    globbyOptions.suppressErrors = true;
-  }
   // Special-case literal files
   const literalFiles = [];
   const filteredGlobPatterns = globPatterns.filter(
@@ -608,7 +605,6 @@ const createDirInfos = async (
   globPatterns,
   dirToDirInfo,
   optionsOverride,
-  noErrors,
   noRequire
 ) => {
   await enumerateFiles(
@@ -617,7 +613,6 @@ const createDirInfos = async (
     baseDir,
     globPatterns,
     dirToDirInfo,
-    noErrors,
     noRequire
   );
   await enumerateParents(
@@ -898,7 +893,6 @@ const main = async (params) => {
     optionsOverride,
     fileContents,
     nonFileContents,
-    noErrors,
     noGlobs,
     noRequire,
     name
@@ -989,7 +983,6 @@ const main = async (params) => {
       globPatterns,
       dirToDirInfo,
       optionsOverride,
-      noErrors,
       noRequire
     );
   // Output linting status
