@@ -172,7 +172,7 @@ docker run -v $PWD:/workdir davidanson/markdownlint-cli2:v0.10.0 "**/*.md" "#nod
 
 Notes:
 
-- As when using the [command line](#command-line), glob patterns are passed as
+- As when using the [command line][command-line], glob patterns are passed as
   arguments.
 - This image is built on the official [Node.js Docker image][nodejs-docker].
   Per security best practices, the [default user `node`][nodejs-docker-non-root]
@@ -429,8 +429,10 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 
 ## History
 
-See [CHANGELOG.md](CHANGELOG.md).
+See [CHANGELOG.md][changelog].
 
+[changelog]: CHANGELOG.md
+[command-line]: #command-line
 [commonmark]: https://commonmark.org/
 [commonjs-module]: https://nodejs.org/api/modules.html#modules_modules_commonjs_modules
 [ecmascript-module]: https://nodejs.org/api/esm.html#modules-ecmascript-modules
