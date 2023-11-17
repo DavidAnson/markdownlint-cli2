@@ -5,3 +5,4 @@ npm-debug.log
 !test/markdownItPlugins/module/node_modules
 !test/outputFormatters-module/node_modules
 webworker/markdownlint-cli2-webworker.js
+webworker/setImmediate.js

@@ -18,7 +18,8 @@
   ],
   "ignorePatterns": [
     "test/*/**",
-    "webworker/markdownlint-cli2-webworker.js"
+    "webworker/markdownlint-cli2-webworker.js",
+    "webworker/setImmediate.js"
   ],
   "reportUnusedDisableDirectives": true,
   "rules": {

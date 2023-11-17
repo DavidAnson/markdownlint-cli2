@@ -44,7 +44,7 @@
     "test-watch": "git ls-files | entr npm run test",
     "update-snapshots": "ava --timeout=1m --update-snapshots test/markdownlint-cli2-test-exec.js test/markdownlint-cli2-test-fs.js test/markdownlint-cli2-test-main.js",
     "webworker": "cd webworker && webpack --mode none",
-    "webworker-install": "npm run docker-npm-install -- --no-save path-browserify process setimmediate stream-browserify url util webpack-cli"
+    "webworker-install": "npm install --no-save path-browserify process setimmediate stream-browserify url util webpack-cli && cpy ./node_modules/setimmediate/setImmediate.js ./webworker --flat"
   },
   "engines": {
     "node": ">=18"

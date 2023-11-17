@@ -29,6 +29,12 @@ module.exports = {
         resource.request = module;
       }
     ),
+    new webpack.NormalModuleReplacementPlugin(
+      /^unicorn-magic$/u,
+      (resource) => {
+        resource.request = require.resolve("./unicorn-magic-stub.js");
+      }
+    ),
     new webpack.ProvidePlugin({
       "process": "process-wrapper"
     })
