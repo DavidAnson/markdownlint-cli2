@@ -2,6 +2,4 @@
 
 "use strict";
 
-module.exports = {
-  "fileURLToPath": () => null
-};
+module.exports = {};

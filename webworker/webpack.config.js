@@ -19,22 +19,22 @@ module.exports = {
     }
   },
   "plugins": [
+    // Rewrite requires to remove "node:" prefix
     new webpack.NormalModuleReplacementPlugin(
       nodeModulePrefixRe,
       (resource) => {
-        let module = resource.request.replace(nodeModulePrefixRe, "");
-        if (module === "url") {
-          module = "url-stub";
-        }
+        const module = resource.request.replace(nodeModulePrefixRe, "");
         resource.request = module;
       }
     ),
+    // Intercept existing "unicorn-magic" package to provide missing import
     new webpack.NormalModuleReplacementPlugin(
       /^unicorn-magic$/u,
       (resource) => {
         resource.request = require.resolve("./unicorn-magic-stub.js");
       }
     ),
+    // Intercept use of "process" to provide implementation
     new webpack.ProvidePlugin({
       "process": "process-wrapper"
     })
@@ -45,10 +45,10 @@ module.exports = {
       "fs": false,
       "os": require.resolve("./os-stub.js"),
       "path": require.resolve("path-browserify"),
-      "process": require.resolve("./process-wrapper.js"),
-      "process-wrapper": require.resolve("./process-wrapper.js"),
+      "process": require.resolve("./process-stub.js"),
+      "process-wrapper": require.resolve("./process-stub.js"),
       "stream": require.resolve("stream-browserify"),
-      "url-stub": require.resolve("./url-stub.js")
+      "url": require.resolve("./url-stub.js")
     }
   }
 };
