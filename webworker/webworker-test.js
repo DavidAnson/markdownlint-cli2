@@ -3,21 +3,30 @@
 /* eslint-env qunit */
 /* globals markdownlintCli2, FsVirtual */
 
-const oneViolation = "# Title\n\nText \n";
-const twoViolations = "# Title\n\nText\t\n";
-const noViolationsIgnoringTabs = "# Title\n\n\tText\n";
-const configNoHardTabs = "{\n\"no-hard-tabs\": false\n}";
+const md009 = "# Title\n\nText \n";
+const md010 = "# Title\n\n\tText\n";
+const md009md010 = "# Title\n\nText\t\n";
+const md047 = "# Title\n\nText";
+const configNoMd010 = "{\n\"no-hard-tabs\": false\n}";
+const configNoMd047 = "{\n\"single-trailing-newline\": false\n}";
 
 const files = [
-  [ "/file.md", twoViolations ],
-  [ "/dir1/file.md", twoViolations ],
-  [ "/dir1/.markdownlint.json", configNoHardTabs ],
-  [ "/dir2/file.md", twoViolations ],
-  [ "/dir2/.markdownlint-cli2.jsonc", `{\n"config":${configNoHardTabs}\n}` ],
-  [ "/dir3/file.md", twoViolations ],
+  [ "/file.md", md009md010 ],
+  [ "/file-two.md", md047 ],
+  [ "/package.json", `{\n"markdownlint-cli2": {\n"config": ${configNoMd047},\n"customRules": [],\n"markdownItPlugins": []\n}\n}` ],
+  [ "/dir1/file.md", md009md010 ],
+  [ "/dir1/.markdownlint.json", configNoMd010 ],
+  [ "/dir2/file.md", md009md010 ],
+  [ "/dir2/.markdownlint-cli2.jsonc", `{\n"config":${configNoMd010}\n}` ],
+  [ "/dir3/file.md", md009md010 ],
   [ "/dir3/.markdownlint.json", "{\n\"extends\": \"./extended.json\"\n}" ],
-  [ "/dir3/extended.json", configNoHardTabs ],
-  [ "/dir4/file.md", oneViolation ]
+  [ "/dir3/extended.json", configNoMd010 ],
+  [ "/dir4/file.md", md009 ],
+  [ "/dir5/file.md", md009md010 ],
+  [ "/dir5/.markdownlint-cli2.yaml", `config:\n  extends: ./extended.json\n` ],
+  [ "/dir5/extended.json", configNoMd010 ],
+  [ "/dir6/skip.md", md009md010 ],
+  [ "/dir6/.markdownlint-cli2.jsonc", `{\n"ignores":["skip.md"]\n}` ]
 ];
 
 const outputFormatterLengthIs = (assert, length) => (options) => {
@@ -43,7 +52,7 @@ QUnit.test("unsaved", (assert) => {
     "fs": new FsVirtual(files),
     "argv": [],
     "nonFileContents": {
-      "untitled-1": twoViolations
+      "untitled-1": md009md010
     },
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatterLengthIs(assert, 2) ] ]
@@ -82,7 +91,7 @@ QUnit.test("file, no configuration, edits", (assert) => {
     "fs": new FsVirtual(files),
     "argv": [ ":/file.md" ],
     "fileContents": {
-      "/file.md": oneViolation
+      "/file.md": md009
     },
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatterLengthIs(assert, 1) ] ]
@@ -107,7 +116,7 @@ QUnit.test("file, .markdownlint.json, edits", (assert) => {
     "fs": new FsVirtual(files),
     "argv": [ ":/dir1/file.md" ],
     "fileContents": {
-      "/dir1/file.md": noViolationsIgnoringTabs
+      "/dir1/file.md": md010
     },
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatterLengthIs(assert, 0) ] ]
@@ -170,7 +179,7 @@ QUnit.test("workspace", (assert) => {
     "fs": new FsVirtual(files),
     "argv": [ "**/*.md" ],
     "optionsOverride": {
-      "outputFormatters": [ [ outputFormatterLengthIs(assert, 6) ] ]
+      "outputFormatters": [ [ outputFormatterLengthIs(assert, 7) ] ]
     }
   });
 });
