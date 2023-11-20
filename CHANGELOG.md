@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.11.0
+
+- Add `modulePaths` configuration option
+- Update dependencies (including `markdownlint`)
+- Remove support for end-of-life Node 16
+
 ## 0.10.0
 
 - Add `showFound` configuration option
