@@ -2,8 +2,8 @@
 
 "use strict";
 
-module.exports = {
+module.exports = Promise.resolve({
   "config": {
     "first-line-heading": false
   }
-};
+});

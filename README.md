@@ -352,7 +352,7 @@ of the rules within.
 
 - The format of this file is a [CommonJS module][commonjs-module] (`.cjs`) or
   [ECMAScript module][ecmascript-module] (`.mjs`) that exports the object
-  described above for `.markdownlint-cli2.jsonc`.
+  described above for `.markdownlint-cli2.jsonc` (directly or from a `Promise`).
 - Instead of passing a `String` to identify the module name/path to load for
   `customRules`, `markdownItPlugins`, and `outputFormatters`, the corresponding
   `Object` or `Function` can be provided directly.
@@ -392,7 +392,8 @@ of the rules within.
 
 - The format of this file is a [CommonJS module][commonjs-module] (`.cjs`) or
   [ECMAScript module][ecmascript-module] (`.mjs`) that exports the
-  [`markdownlint` `config` object][markdownlint-config].
+  [`markdownlint` `config` object][markdownlint-config] (directly or from a
+  `Promise`).
 - Other details are the same as for `jsonc`/`json` files described above.
 - For example: [`.markdownlint.cjs`][markdownlint-cjs] or
   [`.markdownlint.mjs`][markdownlint-mjs]

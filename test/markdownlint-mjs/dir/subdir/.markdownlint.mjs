@@ -1,7 +1,7 @@
 // @ts-check
 
-const config = {
+const config = Promise.resolve({
   "first-line-heading": false
-};
+});
 
 export default config;
