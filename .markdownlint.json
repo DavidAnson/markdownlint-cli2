@@ -34,7 +34,6 @@
   "link-image-style": {
     "autolink": false,
     "inline": false,
-    "full": true,
     "collapsed": false,
     "shortcut": false
   },
