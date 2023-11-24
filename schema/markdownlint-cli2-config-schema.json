@@ -1,12 +1,13 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/v0.11.0/schema/markdownlint-cli2-config-schema.json",
   "title": "markdownlint-cli2 configuration schema",
   "type": "object",
   "properties": {
     "$schema": {
-      "description": "JSON Schema URI (used by some editors)",
+      "description": "JSON Schema URI (expected by some editors)",
       "type": "string",
-      "default": "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/main/schema/markdownlint-cli2-config-schema.json"
+      "default": "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/v0.11.0/schema/markdownlint-cli2-config-schema.json"
     },
     "config": {
       "description": "markdownlint-cli2 configuration schema",
