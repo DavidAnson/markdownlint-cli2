@@ -4,14 +4,17 @@
 
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const Ajv = require("ajv");
 const test = require("ava").default;
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 const FsMock = require("./fs-mock");
 
-const jsonSchemaVersion = "http://json-schema.org/draft-07/schema#";
-const markdownlintConfigSchemaUri = "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/v0.11.0/schema/markdownlint-config-schema.json";
 const markdownlintConfigSchemaDefinition = require("../schema/markdownlint-config-schema.json");
 const markdownlintCli2ConfigSchemaDefinition = require("../schema/markdownlint-cli2-config-schema.json");
+const ajvOptions = {
+  "allowUnionTypes": true,
+  "strictTuples": false
+};
 
 const outputFormatterLengthIs = (t, length) => (options) => {
   const { results } = options;
@@ -61,22 +64,20 @@ test("README files", (t) => {
 });
 
 test("validateMarkdownlintConfigSchema", async (t) => {
-  t.plan(24);
+  t.plan(23);
 
   // Validate schema
-  const { addSchema, validate } =
-    await import("@hyperjump/json-schema/draft-07");
-  const schemaResult = await validate(
-    jsonSchemaVersion,
-    markdownlintConfigSchemaDefinition,
-    "BASIC"
-  );
-  t.true(schemaResult.valid);
+  // @ts-ignore
+  const ajv = new Ajv(ajvOptions);
+  const validateConfigSchema = ajv.compile(markdownlintConfigSchemaDefinition);
+  // t.is(
+  //   markdownlintConfigSchemaDefinition.$id,
+  //   markdownlintConfigSchemaDefinition.properties.$schema.default
+  // );
+
 
   // Validate instances
   // @ts-ignore
-  addSchema(markdownlintConfigSchemaDefinition, markdownlintConfigSchemaUri);
-  const validateConfigSchema = await validate(markdownlintConfigSchemaUri);
   const { "default": stripJsonComments } = await import("strip-json-comments");
   const { globby } = await import("globby");
   const files = await globby(
@@ -94,10 +95,10 @@ test("validateMarkdownlintConfigSchema", async (t) => {
   return Promise.all(files.map(async (file) => {
     const content = await fs.readFile(file, "utf8");
     const json = JSON.parse(stripJsonComments(content));
-    const instanceResult = validateConfigSchema(json, "BASIC");
-    t.true(
-      instanceResult.valid,
-      `${file}\n${JSON.stringify(instanceResult, null, 2)}`
+    const instanceResult = validateConfigSchema(json);
+    t.truthy(
+      instanceResult,
+      `${file}\n${JSON.stringify(validateConfigSchema.errors, null, 2)}`
     );
   }));
 });
@@ -106,21 +107,19 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
   t.plan(86);
 
   // Validate schema
-  const { addSchema, validate } =
-    await import("@hyperjump/json-schema/draft-07");
-  const schemaResult = await validate(
-    jsonSchemaVersion,
-    markdownlintCli2ConfigSchemaDefinition,
-    "BASIC"
+  // @ts-ignore
+  const ajv = new Ajv(ajvOptions);
+  ajv.addSchema(
+    markdownlintConfigSchemaDefinition,
+    "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/v0.11.0/schema/markdownlint-config-schema.json"
   );
-  t.true(schemaResult.valid);
+  const validateConfigSchema = ajv.compile(markdownlintCli2ConfigSchemaDefinition);
+  t.is(
+    markdownlintCli2ConfigSchemaDefinition.$id,
+    markdownlintCli2ConfigSchemaDefinition.properties.$schema.default
+  );
 
   // Validate instances
-  // @ts-ignore
-  addSchema(markdownlintConfigSchemaDefinition, markdownlintConfigSchemaUri);
-  // @ts-ignore
-  addSchema(markdownlintCli2ConfigSchemaDefinition);
-  const validateConfigSchema = await validate(markdownlintCli2ConfigSchemaDefinition.$id);
   const { "default": stripJsonComments } = await import("strip-json-comments");
   const { globby } = await import("globby");
   const files = await globby(
@@ -140,9 +139,9 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
     const content = await fs.readFile(file, "utf8");
     const json = JSON.parse(stripJsonComments(content));
     const instanceResult = validateConfigSchema(json, "BASIC");
-    t.true(
-      instanceResult.valid,
-      `${file}\n${JSON.stringify(instanceResult, null, 2)}`
+    t.truthy(
+      instanceResult,
+      `${file}\n${JSON.stringify(validateConfigSchema.errors, null, 2)}`
     );
   }));
 });
