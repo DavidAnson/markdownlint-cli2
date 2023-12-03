@@ -383,6 +383,60 @@ const testCases = ({
   });
 
   testCase({
+    "name": "markdownlint-json-mismatch",
+    "args": [ "viewme.md" ],
+    "exitCode": 0
+  });
+
+  testCase({
+    "name": "markdownlint-yaml-mismatch",
+    "args": [ "viewme.md" ],
+    "exitCode": 0
+  });
+
+  testCase({
+    "name": "markdownlint-cli2-jsonc-mismatch",
+    "args": [ "viewme.md" ],
+    "exitCode": 2,
+    "stderrRe": /Unexpected token/u
+  });
+
+  testCase({
+    "name": "markdownlint-cli2-yaml-mismatch",
+    "args": [ "viewme.md" ],
+    "exitCode": 1
+  });
+
+  testCase({
+    "name": "markdownlint-json-mismatch-config",
+    "args": [ "--config", "../markdownlint-json-mismatch/.markdownlint.json", "viewme.md" ],
+    "exitCode": 0,
+    "cwd": "no-config",
+  });
+
+  testCase({
+    "name": "markdownlint-yaml-mismatch-config",
+    "args": [ "--config", "../markdownlint-yaml-mismatch/.markdownlint.yaml", "viewme.md" ],
+    "exitCode": 0,
+    "cwd": "no-config",
+  });
+
+  testCase({
+    "name": "markdownlint-cli2-jsonc-mismatch-config",
+    "args": [ "--config", "../markdownlint-cli2-jsonc-mismatch/.markdownlint-cli2.jsonc", "viewme.md" ],
+    "exitCode": 2,
+    "stderrRe": /Unexpected token/u,
+    "cwd": "no-config",
+  });
+
+  testCase({
+    "name": "markdownlint-cli2-yaml-mismatch-config",
+    "args": [ "--config", "../markdownlint-cli2-yaml-mismatch/.markdownlint-cli2.yaml", "viewme.md" ],
+    "exitCode": 1,
+    "cwd": "no-config",
+  });
+
+  testCase({
     "name": "markdownlint-cli2-jsonc",
     "args": [ "**/*.md" ],
     "exitCode": 1
@@ -472,8 +526,7 @@ const testCases = ({
       "configs/.markdownlint-cli2.jsonc",
       "viewme.md"
     ],
-    "exitCode": 0,
-    "cwd": "config-option-extends"
+    "exitCode": 0
   });
 
   testCase({
@@ -1010,8 +1063,7 @@ const testCases = ({
   testCase({
     "name": "nested-directories",
     "args": [ "**", "!a", "a/b", "#a/b/c", "a/b/c/d" ],
-    "exitCode": 1,
-    "cwd": "nested-directories"
+    "exitCode": 1
   });
 
   testCase({

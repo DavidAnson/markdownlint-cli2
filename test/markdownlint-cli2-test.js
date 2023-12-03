@@ -85,6 +85,7 @@ test("validateMarkdownlintConfigSchema", async (t) => {
       "**/*.markdownlint.(json|jsonc)",
       "!node_modules/**",
       "!**/*-copy-*/**",
+      "!**/*mismatch*/**",
       "!**/*invalid*/**",
       "!**/invalid*"
     ],
@@ -127,6 +128,7 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
       "**/*.markdownlint-cli2.(json|jsonc)",
       "!node_modules/**",
       "!**/*-copy-*/**",
+      "!**/*mismatch*/**",
       "!**/*invalid*/**",
       "!**/invalid*",
       "!test/customRules/dir/subdir2/.markdownlint-cli2.jsonc"
