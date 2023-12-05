@@ -85,7 +85,7 @@
     "eslint-plugin-unicorn": "49.0.0",
     "execa": "8.0.1",
     "markdown-it-emoji": "2.0.2",
-    "markdown-it-for-inline": "0.1.1",
+    "markdown-it-for-inline": "2.0.1",
     "markdownlint-cli2-formatter-codequality": "0.0.4",
     "markdownlint-cli2-formatter-json": "0.0.7",
     "markdownlint-cli2-formatter-junit": "0.0.8",
