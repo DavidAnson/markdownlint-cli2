@@ -75,7 +75,7 @@
   "devDependencies": {
     "@iktakahiro/markdown-it-katex": "4.0.1",
     "ajv": "8.12.0",
-    "ava": "6.0.0",
+    "ava": "6.0.1",
     "c8": "8.0.1",
     "cpy": "11.0.0",
     "cpy-cli": "5.0.0",
