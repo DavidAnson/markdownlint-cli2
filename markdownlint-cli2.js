@@ -243,7 +243,7 @@ const processArgv = (argv) => {
 const showHelp = (logMessage) => {
   logMessage(`https://github.com/DavidAnson/markdownlint-cli2
 
-Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix]
+Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix] [--help]
 
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
@@ -912,19 +912,29 @@ const main = async (params) => {
   let fixDefault = false;
   // eslint-disable-next-line unicorn/no-useless-undefined
   let configPath = undefined;
+
+  let shouldShowHelp = false;
   const argvFiltered = (argv || []).filter((arg) => {
     if (configPath === null) {
       configPath = arg;
       return false;
+    // eslint-disable-next-line unicorn/prefer-switch
     } else if (arg === "--config") {
       configPath = null;
       return false;
     } else if (arg === "--fix") {
       fixDefault = true;
       return false;
+    } else if (arg === '--help') {
+      shouldShowHelp = true;
+      return false;
     }
     return true;
   });
+  if (shouldShowHelp) {
+    showHelp(logMessage);
+    return 2;
+  }
   // Read argv configuration file (if relevant and present)
   let optionsArgv = null;
   let relativeDir = null;

@@ -606,3 +606,31 @@ test("custom fs, using fsMock simulating symbolic links", (t) => {
       t.is(exitCode, 1);
     });
 });
+
+test("--help", (t) => {
+  t.plan(2);
+  const stdouts = [];
+  return markdownlintCli2({
+    "argv": [ "--help" ],    
+    "logMessage": (msg) => stdouts.push(msg),
+    "logError": (msg) => t.fail(`message logged: ${msg}`)
+  })
+    .then((exitCode) => {
+      t.is(exitCode, 2);
+      t.regex(stdouts.join('\n'), /Syntax: markdownlint-cli2/u);
+    });
+});
+
+test("--help, using globs", (t) => {
+  t.plan(2);
+  const stdouts = [];
+  return markdownlintCli2({    
+    "argv": [ "README.md", "--help" ],    
+    "logMessage": (msg) => stdouts.push(msg),
+    "logError": (msg) => t.fail(`message logged: ${msg}`)
+  })
+    .then((exitCode) => {
+      t.is(exitCode, 2);
+      t.regex(stdouts.join('\n'), /Syntax: markdownlint-cli2/u);
+    });
+})
