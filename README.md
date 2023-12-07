@@ -67,7 +67,7 @@ As a [GitHub Action][github-action] via
 markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)
 https://github.com/DavidAnson/markdownlint-cli2
 
-Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix]
+Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix] [--help]
 
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
