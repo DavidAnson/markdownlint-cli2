@@ -8,7 +8,7 @@
     }
   },
   "markdownItPlugins": [
-    [ "markdown-it-emoji", { "enabled": [ "smile" ] } ],
+    [ "markdown-it-emoji/dist/bare.cjs.js", { "enabled": [ "smile" ] } ],
     [ "@iktakahiro/markdown-it-katex" ]
   ]
 }
