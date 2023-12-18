@@ -80,7 +80,7 @@
     "cpy": "11.0.0",
     "cpy-cli": "5.0.0",
     "del": "7.1.0",
-    "eslint": "8.55.0",
+    "eslint": "8.56.0",
     "eslint-plugin-n": "16.4.0",
     "eslint-plugin-unicorn": "49.0.0",
     "execa": "8.0.1",
