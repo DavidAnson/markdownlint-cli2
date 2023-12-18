@@ -261,6 +261,7 @@ Dot-only glob:
 Optional parameters:
 - --config  specifies the path to a configuration file to define the base configuration
 - --fix     updates files to resolve fixable issues (can be overridden in configuration)
+- --help    writes this message to the console and exits without doing anything else
 
 Configuration via:
 - .markdownlint-cli2.jsonc
@@ -281,6 +282,7 @@ Cross-platform compatibility:
 The most compatible syntax for cross-platform support:
 $ markdownlint-cli2 "**/*.md" "#node_modules"`
   );
+  return 2;
 };
 
 // Get (creating if necessary) and process a directory's info object
@@ -912,28 +914,26 @@ const main = async (params) => {
   let fixDefault = false;
   // eslint-disable-next-line unicorn/no-useless-undefined
   let configPath = undefined;
-
   let shouldShowHelp = false;
   const argvFiltered = (argv || []).filter((arg) => {
     if (configPath === null) {
       configPath = arg;
       return false;
-    // eslint-disable-next-line unicorn/prefer-switch
+      // eslint-disable-next-line unicorn/prefer-switch
     } else if (arg === "--config") {
       configPath = null;
       return false;
     } else if (arg === "--fix") {
       fixDefault = true;
       return false;
-    } else if (arg === '--help') {
+    } else if (arg === "--help") {
       shouldShowHelp = true;
       return false;
     }
     return true;
   });
   if (shouldShowHelp) {
-    showHelp(logMessage);
-    return 2;
+    return showHelp(logMessage);
   }
   // Read argv configuration file (if relevant and present)
   let optionsArgv = null;
@@ -962,8 +962,7 @@ const main = async (params) => {
     ((globPatterns.length === 0) && !nonFileContents) ||
     (configPath === null)
   ) {
-    showHelp(logMessage);
-    return 2;
+    return showHelp(logMessage);
   }
   // Include any file overrides or non-file content
   const resolvedFileContents = {};
