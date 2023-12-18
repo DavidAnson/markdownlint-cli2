@@ -85,6 +85,7 @@ Dot-only glob:
 Optional parameters:
 - --config  specifies the path to a configuration file to define the base configuration
 - --fix     updates files to resolve fixable issues (can be overridden in configuration)
+- --help    writes this message to the console and exits without doing anything else
 
 Configuration via:
 - .markdownlint-cli2.jsonc

@@ -22,7 +22,7 @@ const outputFormatterLengthIs = (t, length) => (options) => {
 };
 
 test("name and version", (t) => {
-  t.plan(2);
+  t.plan(3);
   const packageJson = require("../package.json");
   const logMessage = (msg) => {
     const match = (/^(?<name>\S+)\sv(?<version>\S+)\s/u).exec(msg);
@@ -38,7 +38,8 @@ test("name and version", (t) => {
     "argv": [],
     logMessage,
     logError
-  });
+  }).
+    then((exitCode) => t.is(exitCode, 2));
 });
 
 test("README files", (t) => {
@@ -611,26 +612,26 @@ test("--help", (t) => {
   t.plan(2);
   const stdouts = [];
   return markdownlintCli2({
-    "argv": [ "--help" ],    
+    "argv": [ "--help" ],
     "logMessage": (msg) => stdouts.push(msg),
     "logError": (msg) => t.fail(`message logged: ${msg}`)
-  })
-    .then((exitCode) => {
+  }).
+    then((exitCode) => {
       t.is(exitCode, 2);
-      t.regex(stdouts.join('\n'), /Syntax: markdownlint-cli2/u);
+      t.regex(stdouts[0], /^markdownlint-cli2 v/u);
     });
 });
 
-test("--help, using globs", (t) => {
+test("--help, glob also present", (t) => {
   t.plan(2);
   const stdouts = [];
-  return markdownlintCli2({    
-    "argv": [ "README.md", "--help" ],    
+  return markdownlintCli2({
+    "argv": [ "README.md", "--help" ],
     "logMessage": (msg) => stdouts.push(msg),
     "logError": (msg) => t.fail(`message logged: ${msg}`)
-  })
-    .then((exitCode) => {
+  }).
+    then((exitCode) => {
       t.is(exitCode, 2);
-      t.regex(stdouts.join('\n'), /Syntax: markdownlint-cli2/u);
+      t.regex(stdouts[0], /^markdownlint-cli2 v/u);
     });
 })
