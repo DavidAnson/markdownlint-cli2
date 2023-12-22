@@ -141,7 +141,7 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
   return Promise.all(files.map(async (file) => {
     const content = await fs.readFile(file, "utf8");
     const json = JSON.parse(stripJsonComments(content));
-    const instanceResult = validateConfigSchema(json, "BASIC");
+    const instanceResult = validateConfigSchema(json);
     t.truthy(
       instanceResult,
       `${file}\n${JSON.stringify(validateConfigSchema.errors, null, 2)}`
