@@ -29,7 +29,7 @@
   "scripts": {
     "build-docker-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker build -t davidanson/markdownlint-cli2:v$VERSION -f docker/Dockerfile --label org.opencontainers.image.version=v$VERSION .",
     "build-docker-image-rules": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker build -t davidanson/markdownlint-cli2-rules:v$VERSION -f docker/Dockerfile-rules --build-arg VERSION=v$VERSION --label org.opencontainers.image.version=v$VERSION .",
-    "ci": "npm-run-all --continue-on-error --parallel test-cover lint schema",
+    "ci": "npm-run-all --continue-on-error --parallel test-cover lint schema && git diff --exit-code",
     "lint": "eslint --max-warnings 0 --no-eslintrc --config .eslintrc.json .",
     "lint-dockerfile": "docker run --rm -i hadolint/hadolint:latest-alpine < docker/Dockerfile",
     "lint-watch": "git ls-files | entr npm run lint",
@@ -62,7 +62,8 @@
     "README.md",
     "resolve-and-require.js",
     "schema/markdownlint-cli2-config-schema.json",
-    "schema/markdownlint-config-schema.json"
+    "schema/markdownlint-config-schema.json",
+    "schema/ValidatingConfiguration.md"
   ],
   "dependencies": {
     "globby": "14.0.0",

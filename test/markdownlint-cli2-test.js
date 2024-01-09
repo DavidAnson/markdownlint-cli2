@@ -9,12 +9,9 @@ const test = require("ava").default;
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 const FsMock = require("./fs-mock");
 
+const schemaIdVersionRe = /^.*v(?<version>\d+\.\d+\.\d+).*$/u;
 const markdownlintConfigSchemaDefinition = require("../schema/markdownlint-config-schema.json");
 const markdownlintCli2ConfigSchemaDefinition = require("../schema/markdownlint-cli2-config-schema.json");
-const ajvOptions = {
-  "allowUnionTypes": true,
-  "strictTuples": false
-};
 
 const outputFormatterLengthIs = (t, length) => (options) => {
   const { results } = options;
@@ -55,7 +52,8 @@ test("README files", (t) => {
     "./formatter-junit/README.md",
     "./formatter-pretty/README.md",
     "./formatter-sarif/README.md",
-    "./formatter-summarize/README.md"
+    "./formatter-summarize/README.md",
+    "./schema/ValidatingConfiguration.md"
   ];
   return markdownlintCli2({
     argv,
@@ -65,17 +63,22 @@ test("README files", (t) => {
 });
 
 test("validateMarkdownlintConfigSchema", async (t) => {
-  t.plan(23);
+  t.plan(25);
 
   // Validate schema
   // @ts-ignore
-  const ajv = new Ajv(ajvOptions);
+  const ajv = new Ajv({
+    "allowUnionTypes": true
+  });
   const validateConfigSchema = ajv.compile(markdownlintConfigSchemaDefinition);
-  // t.is(
-  //   markdownlintConfigSchemaDefinition.$id,
-  //   markdownlintConfigSchemaDefinition.properties.$schema.default
-  // );
-
+  t.is(
+    markdownlintConfigSchemaDefinition.$id.replace(schemaIdVersionRe, "$<version>"),
+    require("../package.json").dependencies.markdownlint
+  );
+  t.is(
+    markdownlintConfigSchemaDefinition.$id,
+    markdownlintConfigSchemaDefinition.properties.$schema.default
+  );
 
   // Validate instances
   // @ts-ignore
@@ -106,16 +109,20 @@ test("validateMarkdownlintConfigSchema", async (t) => {
 });
 
 test("validateMarkdownlintCli2ConfigSchema", async (t) => {
-  t.plan(86);
+  t.plan(87);
 
   // Validate schema
   // @ts-ignore
-  const ajv = new Ajv(ajvOptions);
-  ajv.addSchema(
-    markdownlintConfigSchemaDefinition,
-    "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/v0.11.0/schema/markdownlint-config-schema.json"
-  );
+  const ajv = new Ajv({
+    "allowUnionTypes": true,
+    "strictTuples": false
+  });
+  ajv.addSchema(markdownlintConfigSchemaDefinition);
   const validateConfigSchema = ajv.compile(markdownlintCli2ConfigSchemaDefinition);
+  t.is(
+    markdownlintCli2ConfigSchemaDefinition.$id.replace(schemaIdVersionRe, "$<version>"),
+    require("../package.json").version
+  );
   t.is(
     markdownlintCli2ConfigSchemaDefinition.$id,
     markdownlintCli2ConfigSchemaDefinition.properties.$schema.default

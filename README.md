@@ -255,9 +255,12 @@ of the rules within.
       4. `.markdownlint.yml`
       5. `.markdownlint.cjs`
       6. `.markdownlint.mjs`
-- The VS Code extension `vscode-markdownlint` includes a schema definition for
-  the `JSON(C)` configuration files described below. This adds auto-complete and
-  can make it easier to define proper structure.
+- The VS Code extension includes a [JSON Schema][json-schema] definition for the
+  `JSON(C)` configuration files described below. This adds auto-complete and can
+  make it easier to define proper structure.
+- See [markdownlint-cli2-config-schema.json][markdownlint-cli2-config-schema]
+  for that schema and [ValidatingConfiguration.md][validating-configuration] for
+  ways to use it to validate configuration files.
 
 ### `.markdownlint-cli2.jsonc`
 
@@ -448,6 +451,7 @@ See [CHANGELOG.md][changelog].
 [homebrew]: https://brew.sh
 [html-comment]: https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started
 [json]: https://wikipedia.org/wiki/JSON
+[json-schema]: https://json-schema.org
 [jsonc]: https://code.visualstudio.com/Docs/languages/json#_json-with-comments
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2.svg
 [license-url]: https://opensource.org/licenses/MIT
@@ -466,8 +470,9 @@ See [CHANGELOG.md][changelog].
 [markdownlint-cli2]: https://github.com/DavidAnson/markdownlint-cli2
 [markdownlint-cli2-action]: https://github.com/marketplace/actions/markdownlint-cli2-action
 [markdownlint-cli2-blog]: https://dlaa.me/blog/post/markdownlintcli2
-[markdownlint-cli2-formatter]: https://www.npmjs.com/search?q=keywords:markdownlint-cli2-formatter
 [markdownlint-cli2-cjs]: test/markdownlint-cli2-cjs/.markdownlint-cli2.cjs
+[markdownlint-cli2-config-schema]: schema/markdownlint-cli2-config-schema.json
+[markdownlint-cli2-formatter]: https://www.npmjs.com/search?q=keywords:markdownlint-cli2-formatter
 [markdownlint-cli2-jsonc]: test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc
 [markdownlint-cli2-mjs]: test/markdownlint-cli2-mjs/.markdownlint-cli2.mjs
 [markdownlint-cli2-yaml]: test/markdownlint-cli2-yaml-example/.markdownlint-cli2.yaml
@@ -491,6 +496,7 @@ See [CHANGELOG.md][changelog].
 [pre-commit-version]: https://pre-commit.com/#overriding-language-version
 [regexp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 [regexp-constructor]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp
+[validating-configuration]: schema/ValidatingConfiguration.md
 [vscode]: https://code.visualstudio.com/
 [vscode-markdownlint]: https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint
 [yaml]: https://wikipedia.org/wiki/YAML
