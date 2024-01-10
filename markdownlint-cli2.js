@@ -259,9 +259,10 @@ Dot-only glob:
 - To lint every file in the current directory tree, the command "markdownlint-cli2 **" can be used instead
 
 Optional parameters:
-- --config  specifies the path to a configuration file to define the base configuration
-- --fix     updates files to resolve fixable issues (can be overridden in configuration)
-- --help    writes this message to the console and exits without doing anything else
+- --config    specifies the path to a configuration file to define the base configuration
+- --fix       updates files to resolve fixable issues (can be overridden in configuration)
+- --help      writes this message to the console and exits without doing anything else
+- --no-globs  ignores the "globs" property if present in the top-level options object
 
 Configuration via:
 - .markdownlint-cli2.jsonc
@@ -895,9 +896,11 @@ const main = async (params) => {
     optionsOverride,
     fileContents,
     nonFileContents,
-    noGlobs,
     noRequire,
     name
+  } = params;
+  let {
+    noGlobs
   } = params;
   const logMessage = params.logMessage || noop;
   const logError = params.logError || noop;
@@ -928,6 +931,9 @@ const main = async (params) => {
       return false;
     } else if (arg === "--help") {
       shouldShowHelp = true;
+      return false;
+    } else if (arg === "--no-globs") {
+      noGlobs = true;
       return false;
     }
     return true;

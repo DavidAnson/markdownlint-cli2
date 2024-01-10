@@ -297,6 +297,20 @@ const testCases = ({
   });
 
   testCase({
+    "name": "no-globs-and-args",
+    "args": [ "--no-globs", "dir/about.md", "dir/**/*.markdown" ],
+    "exitCode": 1,
+    "cwd": "globs-and-args"
+  });
+
+  testCase({
+    "name": "no-globs-and-empty-args",
+    "args": [ "--no-globs" ],
+    "exitCode": 2,
+    "cwd": "globs-and-args"
+  });
+
+  testCase({
     "name": "globs-and-ignores",
     "args": [],
     "exitCode": 1

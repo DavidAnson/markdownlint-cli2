@@ -83,9 +83,10 @@ Dot-only glob:
 - To lint every file in the current directory tree, the command "markdownlint-cli2 **" can be used instead
 
 Optional parameters:
-- --config  specifies the path to a configuration file to define the base configuration
-- --fix     updates files to resolve fixable issues (can be overridden in configuration)
-- --help    writes this message to the console and exits without doing anything else
+- --config    specifies the path to a configuration file to define the base configuration
+- --fix       updates files to resolve fixable issues (can be overridden in configuration)
+- --help      writes this message to the console and exits without doing anything else
+- --no-globs  ignores the "globs" property if present in the top-level options object
 
 Configuration via:
 - .markdownlint-cli2.jsonc
@@ -290,6 +291,8 @@ of the rules within.
     command-line arguments
     - This setting can be used instead of (or in addition to) passing globs on
       the command-line and offers identical performance
+    - This setting is ignored when the `--no-globs` parameter is passed on the
+      command-line
     - This top-level setting is valid **only** in the directory from which
       `markdownlint-cli2` is run
   - `ignores`: `Array` of `String`s defining glob expressions to ignore when
