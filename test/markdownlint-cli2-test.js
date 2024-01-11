@@ -641,4 +641,4 @@ test("--help, glob also present", (t) => {
       t.is(exitCode, 2);
       t.regex(stdouts[0], /^markdownlint-cli2 v/u);
     });
-})
+});
