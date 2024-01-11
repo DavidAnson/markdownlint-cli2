@@ -5,20 +5,6 @@
   language: node
   types: [markdown]
   minimum_pre_commit_version: 0.15.0
-- id: markdownlint-cli2-config
-  name: markdownlint-cli2-config
-  description: "Checks the style of Markdown/CommonMark files with a non-root configuration."
-  entry: markdownlint-cli2-config
-  language: node
-  types: [markdown]
-  minimum_pre_commit_version: 0.15.0
-- id: markdownlint-cli2-fix
-  name: markdownlint-cli2-fix
-  description: "Checks and fixes the style of Markdown/CommonMark files."
-  entry: markdownlint-cli2-fix
-  language: node
-  types: [markdown]
-  minimum_pre_commit_version: 0.15.0
 - id: markdownlint-cli2-docker
   name: markdownlint-cli2-docker
   description: "Checks the style of Markdown/CommonMark files."
@@ -26,38 +12,10 @@
   language: docker_image
   types: [markdown]
   minimum_pre_commit_version: 0.15.0
-- id: markdownlint-cli2-config-docker
-  name: markdownlint-cli2-config-docker
-  description: "Checks the style of Markdown/CommonMark files with a non-root configuration."
-  entry: davidanson/markdownlint-cli2 markdownlint-cli2-config
-  language: docker_image
-  types: [markdown]
-  minimum_pre_commit_version: 0.15.0
-- id: markdownlint-cli2-fix-docker
-  name: markdownlint-cli2-fix-docker
-  description: "Checks and fixes the style of Markdown/CommonMark files."
-  entry: davidanson/markdownlint-cli2 markdownlint-cli2-fix
-  language: docker_image
-  types: [markdown]
-  minimum_pre_commit_version: 0.15.0
 - id: markdownlint-cli2-rules-docker
   name: markdownlint-cli2-rules-docker
   description: "Checks the style of Markdown/CommonMark files."
   entry: davidanson/markdownlint-cli2-rules
-  language: docker_image
-  types: [markdown]
-  minimum_pre_commit_version: 0.15.0
-- id: markdownlint-cli2-config-rules-docker
-  name: markdownlint-cli2-config-rules-docker
-  description: "Checks the style of Markdown/CommonMark files with a non-root configuration."
-  entry: davidanson/markdownlint-cli2-rules markdownlint-cli2-config
-  language: docker_image
-  types: [markdown]
-  minimum_pre_commit_version: 0.15.0
-- id: markdownlint-cli2-fix-rules-docker
-  name: markdownlint-cli2-fix-rules-docker
-  description: "Checks and fixes the style of Markdown/CommonMark files."
-  entry: davidanson/markdownlint-cli2-rules markdownlint-cli2-fix
   language: docker_image
   types: [markdown]
   minimum_pre_commit_version: 0.15.0

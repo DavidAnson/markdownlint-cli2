@@ -896,8 +896,7 @@ const main = async (params) => {
     optionsOverride,
     fileContents,
     nonFileContents,
-    noRequire,
-    name
+    noRequire
   } = params;
   let {
     noGlobs
@@ -911,7 +910,7 @@ const main = async (params) => {
   const baseDir = posixPath(baseDirSystem);
   // Output banner
   logMessage(
-    `${name || packageName} v${packageVersion} (${libraryName} v${libraryVersion})`
+    `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`
   );
   // Merge and process args/argv
   let fixDefault = false;

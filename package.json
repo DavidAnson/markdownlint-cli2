@@ -15,9 +15,7 @@
     "./markdownlint/helpers": "./export-markdownlint-helpers.js"
   },
   "bin": {
-    "markdownlint-cli2": "markdownlint-cli2.js",
-    "markdownlint-cli2-config": "markdownlint-cli2-config.js",
-    "markdownlint-cli2-fix": "markdownlint-cli2-fix.js"
+    "markdownlint-cli2": "markdownlint-cli2.js"
   },
   "homepage": "https://github.com/DavidAnson/markdownlint-cli2",
   "repository": {
@@ -56,8 +54,6 @@
     "export-markdownlint-helpers.js",
     "LICENSE",
     "markdownlint-cli2.js",
-    "markdownlint-cli2-config.js",
-    "markdownlint-cli2-fix.js",
     "merge-options.js",
     "README.md",
     "resolve-and-require.js",

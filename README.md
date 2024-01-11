@@ -128,17 +128,6 @@ below) to `true` (though it can still be overridden by a configuration file):
 markdownlint-cli2 --fix "**/*.md" "#node_modules"
 ```
 
-> **Deprecated**
->
-> The following command behaves similarly, defaulting the `fix` property to
-> `true`:
->
-> ```bash
-> markdownlint-cli2-fix "**/*.md" "#node_modules"
-> ```
->
-> Otherwise, `markdownlint-cli2-fix` behaves the same as `markdownlint-cli2`.
-
 In cases where it is not convenient to store a configuration file in the root
 of a project, the `--config` argument can be used to provide a path to any
 supported configuration file (except `package.json`):
@@ -151,17 +140,6 @@ The configuration file name must be (or end with) one of the supported names
 above. For example, `.markdownlint.json` or `example.markdownlint-cli2.jsonc`.
 The specified configuration file will be loaded, parsed, and applied as a base
 configuration for the current directory - which will then be handled normally.
-
-> **Deprecated**
->
-> The following command behaves similarly, accepting a base configuration file
-> path as its first parameter:
->
-> ```bash
-> markdownlint-cli2-config "config/.markdownlint-cli2.jsonc" "**/*.md" "#node_modules"
-> ```
->
-> Otherwise, `markdownlint-cli2-config` behaves the same as `markdownlint-cli2`.
 
 ### Container Image
 
@@ -188,15 +166,6 @@ Notes:
     ```bash
     docker run -w /myfolder -v $PWD:/myfolder davidanson/markdownlint-cli2:v0.11.0 "**/*.md" "#node_modules"
     ```
-
-> **Deprecated**
->
-> To invoke the `markdownlint-cli2-config` or `markdownlint-cli2-fix` commands
-> instead, use Docker's `--entrypoint` flag:
->
-> ```bash
-> docker run -v $PWD:/workdir --entrypoint="markdownlint-cli2-fix" davidanson/markdownlint-cli2:v0.11.0 "**/*.md" "#node_modules"
-> ```
 
 For convenience, the container image
 [`davidanson/markdownlint-cli2-rules`][docker-hub-markdownlint-cli2-rules]

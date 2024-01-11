@@ -160,30 +160,6 @@ const testCases = ({
   });
 
   testCase({
-    "name": "no-arguments-fix",
-    "script": "markdownlint-cli2-fix.js",
-    "args": [],
-    "exitCode": 2,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "no-arguments-config",
-    "script": "markdownlint-cli2-config.js",
-    "args": [],
-    "exitCode": 2,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "one-argument-config",
-    "script": "markdownlint-cli2-config.js",
-    "args": [ "../config-files/cfg/.markdownlint-cli2.jsonc" ],
-    "exitCode": 2,
-    "cwd": "no-config"
-  });
-
-  testCase({
     "name": "no-arguments-config-arg",
     "args": [ "--config" ],
     "exitCode": 2,
@@ -632,23 +608,6 @@ const testCases = ({
   });
 
   testCase({
-    "name": "fix-default-true",
-    "script": "markdownlint-cli2-fix.js",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "cwd": directoryName("fix-default-true"),
-    "pre": copyDirectory,
-    "post": deleteDirectory
-  });
-
-  testCase({
-    "name": "fix-default-true-override",
-    "script": "markdownlint-cli2-fix.js",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
     "name": "fix-default-true-arg",
     "shadow": "fix-default-true",
     "args": [ "--fix", "**/*.md" ],
@@ -679,33 +638,6 @@ const testCases = ({
   ];
   for (const configFile of configFiles) {
     const usesRequire = isModule(configFile);
-    testCase({
-      "name": `config-files-${configFile}`,
-      "script": "markdownlint-cli2-config.js",
-      "args": [ `cfg/${configFile}`, "**/*.md" ],
-      "exitCode": 1,
-      "cwd": "config-files",
-      usesRequire
-    });
-    testCase({
-      "name": `config-files-${configFile}-alternate`,
-      "script": "markdownlint-cli2-config.js",
-      "args": [ `cfg/alternate${configFile}`, "**/*.md" ],
-      "exitCode": 1,
-      "cwd": "config-files",
-      usesRequire
-    });
-    testCase({
-      "name": `config-files-${configFile}-absolute`,
-      "script": "markdownlint-cli2-config.js",
-      "args": [
-        path.join(__dirname, "config-files", `cfg/${configFile}`),
-        "**/*.md"
-      ],
-      "exitCode": 1,
-      "cwd": "config-files",
-      usesRequire
-    });
     testCase({
       "name": `config-files-${configFile}-arg`,
       "args": [ "--config", `cfg/${configFile}`, "**/*.md" ],
@@ -749,15 +681,6 @@ const testCases = ({
   for (const [ invalidConfigFile, stderrRe ] of invalidConfigFiles) {
     const usesRequire = isModule(invalidConfigFile);
     testCase({
-      "name": `config-files-${invalidConfigFile}-invalid`,
-      "script": "markdownlint-cli2-config.js",
-      "args": [ `cfg/${invalidConfigFile}`, "**/*.md" ],
-      "exitCode": 2,
-      stderrRe,
-      "cwd": "config-files",
-      usesRequire
-    });
-    testCase({
       "name": `config-files-${invalidConfigFile}-invalid-arg`,
       "args": [ "--config", `cfg/${invalidConfigFile}`, "**/*.md" ],
       "exitCode": 2,
@@ -775,14 +698,6 @@ const testCases = ({
   for (const redundantConfigFile of redundantConfigFiles) {
     const usesRequire = isModule(redundantConfigFile);
     testCase({
-      "name": `config-files-${redundantConfigFile}-redundant`,
-      "script": "markdownlint-cli2-config.js",
-      "args": [ redundantConfigFile, "*.md" ],
-      "exitCode": 1,
-      "cwd": redundantConfigFile.slice(1).replace(".", "-"),
-      usesRequire
-    });
-    testCase({
       "name": `config-files-${redundantConfigFile}-redundant-arg`,
       "args": [ "--config", redundantConfigFile, "*.md" ],
       "exitCode": 1,
@@ -790,41 +705,6 @@ const testCases = ({
       usesRequire
     });
   }
-
-  testCase({
-    "name": "config-file-unrecognized",
-    "script": "markdownlint-cli2-config.js",
-    "args": [ "cfg/unrecognized.jsonc", "**/*.md" ],
-    "exitCode": 2,
-    "stderrRe":
-      /Configuration file "[^"]*cfg\/unrecognized\.jsonc" is unrecognized; its name should be \(or end with\) one of the supported types \(e\.g\., "\.markdownlint\.json" or "example\.markdownlint-cli2\.jsonc"\)\./u,
-    "cwd": "config-files"
-  });
-
-  testCase({
-    "name": "config-relative-commonjs",
-    "script": "markdownlint-cli2-config.js",
-    "args": [ "config/.markdownlint-cli2.jsonc", "viewme.md", "link.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "config-relative-module",
-    "script": "markdownlint-cli2-config.js",
-    "args": [ "config/.markdownlint-cli2.jsonc", "viewme.md", "link.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "config-with-fix",
-    "script": "markdownlint-cli2-config.js",
-    "args": [ "config/.markdownlint-cli2.jsonc", "viewme.md", "info.md" ],
-    "exitCode": 0,
-    "cwd": directoryName("config-with-fix"),
-    "pre": copyDirectory,
-    "post": deleteDirectory
-  });
 
   testCase({
     "name": "config-file-unrecognized-arg",
