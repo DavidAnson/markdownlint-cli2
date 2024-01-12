@@ -58,6 +58,9 @@
   "strong-style": {
     "style": "asterisk"
   },
+  "table-pipe-style": {
+    "style": "leading_and_trailing"
+  },
   "ul-style": {
     "style": "dash"
   }
