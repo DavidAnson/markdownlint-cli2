@@ -30,5 +30,6 @@ npm
 POSIX
 pre-commit
 SARIF
+schemas
 subdirectories
 YAML
