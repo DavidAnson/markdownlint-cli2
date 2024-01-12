@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.12.0
+
+- Remove deprecated `markdownlint-cli2-config` entry point
+  - Use `markdownlint-cli2 --config ...` instead
+- Remove deprecated `markdownlint-cli2-fix` entry point
+  - Use `markdownlint-cli2 --fix ...` instead
+- Add `--help` and `--no-globs` parameters
+- Improve and document included JSON schemas
+- Update dependencies (including `markdownlint`)
+
 ## 0.11.0
 
 - Add `modulePaths` configuration option
