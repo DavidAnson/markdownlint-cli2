@@ -33,7 +33,7 @@
     "lint-watch": "git ls-files | entr npm run lint",
     "schema": "cpy ./node_modules/markdownlint/schema/markdownlint-config-schema.json ./schema --flat",
     "test": "ava --timeout=1m test/append-to-array-test.js test/fs-mock-test.js test/markdownlint-cli2-test.js test/markdownlint-cli2-test-exec.js test/markdownlint-cli2-test-fs.js test/markdownlint-cli2-test-main.js test/merge-options-test.js test/resolve-and-require-test.js",
-    "test-cover": "c8 --100 npm test -- --concurrency=1",
+    "test-cover": "c8 --100 npm test",
     "test-docker-hub-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker image rm davidanson/markdownlint-cli2:v$VERSION davidanson/markdownlint-cli2:latest || true && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2:v$VERSION \"*.md\" && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2:latest \"*.md\"",
     "test-docker-hub-image-rules": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker image rm davidanson/markdownlint-cli2-rules:v$VERSION davidanson/markdownlint-cli2-rules:latest || true && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2-rules:v$VERSION \"*.md\" && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2-rules:latest \"*.md\"",
     "test-docker-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2:v$VERSION \"*.md\"",
