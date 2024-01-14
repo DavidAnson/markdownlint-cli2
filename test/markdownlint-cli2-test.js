@@ -6,6 +6,7 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 const Ajv = require("ajv");
 const test = require("ava").default;
+const jsoncParser = require("jsonc-parser");
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 const FsMock = require("./fs-mock");
 
@@ -63,7 +64,7 @@ test("README files", (t) => {
 });
 
 test("validateMarkdownlintConfigSchema", async (t) => {
-  t.plan(25);
+  t.plan(26);
 
   // Validate schema
   // @ts-ignore
@@ -81,8 +82,6 @@ test("validateMarkdownlintConfigSchema", async (t) => {
   );
 
   // Validate instances
-  // @ts-ignore
-  const { "default": stripJsonComments } = await import("strip-json-comments");
   const { globby } = await import("globby");
   const files = await globby(
     [
@@ -99,7 +98,7 @@ test("validateMarkdownlintConfigSchema", async (t) => {
   );
   return Promise.all(files.map(async (file) => {
     const content = await fs.readFile(file, "utf8");
-    const json = JSON.parse(stripJsonComments(content));
+    const json = jsoncParser.parse(content);
     const instanceResult = validateConfigSchema(json);
     t.truthy(
       instanceResult,
@@ -109,7 +108,7 @@ test("validateMarkdownlintConfigSchema", async (t) => {
 });
 
 test("validateMarkdownlintCli2ConfigSchema", async (t) => {
-  t.plan(87);
+  t.plan(88);
 
   // Validate schema
   // @ts-ignore
@@ -129,7 +128,6 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
   );
 
   // Validate instances
-  const { "default": stripJsonComments } = await import("strip-json-comments");
   const { globby } = await import("globby");
   const files = await globby(
     [
@@ -147,7 +145,7 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
   );
   return Promise.all(files.map(async (file) => {
     const content = await fs.readFile(file, "utf8");
-    const json = JSON.parse(stripJsonComments(content));
+    const json = jsoncParser.parse(content);
     const instanceResult = validateConfigSchema(json);
     t.truthy(
       instanceResult,

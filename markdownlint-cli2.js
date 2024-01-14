@@ -35,12 +35,18 @@ const utf8 = "utf8";
 // No-op function
 const noop = () => null;
 
-// Gets a synchronous function to parse JSONC text
-const getJsoncParse = async () => {
-  const { "default": stripJsonComments } =
-    // eslint-disable-next-line no-inline-comments
-    await import(/* webpackMode: "eager" */ "strip-json-comments");
-  return (text) => JSON.parse(stripJsonComments(text));
+// Synchronous function to parse JSONC text
+const jsoncParse = (text) => {
+  const { parse, printParseErrorCode } = require("jsonc-parser");
+  const errors = [];
+  const result = parse(text, errors, { "allowTrailingComma": true });
+  if (errors.length > 0) {
+    const aggregate = errors.map(
+      (err) => `${printParseErrorCode(err.error)} (offset ${err.offset}, length ${err.length})`
+    ).join(", ");
+    throw new Error(`Unable to parse JSON(C) content, ${aggregate}`);
+  }
+  return result;
 };
 
 // Synchronous function to parse YAML text
@@ -67,12 +73,10 @@ const readConfig = (fs, dir, name, otherwise) => {
   const file = pathPosix.join(dir, name);
   return () => fs.promises.access(file).
     then(
-      () => getJsoncParse().then(
-        (jsoncParse) => markdownlintReadConfig(
-          file,
-          [ jsoncParse, yamlParse ],
-          fs
-        )
+      () => markdownlintReadConfig(
+        file,
+        [ jsoncParse, yamlParse ],
+        fs
       ),
       otherwise
     );
@@ -139,9 +143,8 @@ const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => {
 };
 
 // Extend a config object if it has 'extends' property
-const getExtendedConfig = async (config, configPath, fs) => {
+const getExtendedConfig = (config, configPath, fs) => {
   if (config.extends) {
-    const jsoncParse = await getJsoncParse();
     return markdownlintExtendConfig(
       config,
       configPath,
@@ -150,7 +153,7 @@ const getExtendedConfig = async (config, configPath, fs) => {
     );
   }
 
-  return config;
+  return Promise.resolve(config);
 };
 
 // Read an options or config file in any format and return the object
@@ -160,7 +163,6 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
   let options = null;
   let config = null;
   if (basename.endsWith(".markdownlint-cli2.jsonc")) {
-    const jsoncParse = await getJsoncParse();
     options = jsoncParse(await fs.promises.readFile(configPath, utf8));
   } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
     options = yamlParse(await fs.promises.readFile(configPath, utf8));
@@ -177,7 +179,6 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
     basename.endsWith(".markdownlint.yaml") ||
     basename.endsWith(".markdownlint.yml")
   ) {
-    const jsoncParse = await getJsoncParse();
     config =
       await markdownlintReadConfig(configPath, [ jsoncParse, yamlParse ], fs);
   } else if (
@@ -319,10 +320,7 @@ const getAndProcessDirInfo = (
         then(
           () => fs.promises.
             readFile(markdownlintCli2Jsonc, utf8).
-            then(
-              (content) => getJsoncParse().
-                then((jsoncParse) => jsoncParse(content))
-            ),
+            then(jsoncParse),
           () => fs.promises.access(markdownlintCli2Yaml).
             then(
               () => fs.promises.
@@ -346,11 +344,8 @@ const getAndProcessDirInfo = (
                     then(
                       () => fs.promises.
                         readFile(packageJson, utf8).
-                        then(
-                          (content) => getJsoncParse().
-                            then((jsoncParse) => jsoncParse(content)).
-                            then((obj) => obj[packageName])
-                        ),
+                        then(jsoncParse).
+                        then((obj) => obj[packageName]),
                       noop
                     )
                 )
@@ -743,8 +738,7 @@ const createDirInfos = async (
 };
 
 // Lint files in groups by shared configuration
-const lintFiles = async (fs, dirInfos, fileContents) => {
-  const jsoncParse = await getJsoncParse();
+const lintFiles = (fs, dirInfos, fileContents) => {
   const tasks = [];
   // For each dirInfo
   for (const dirInfo of dirInfos) {
