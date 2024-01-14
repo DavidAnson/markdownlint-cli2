@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.1
+
+- Update JSONC parsing to handle trailing commas
+- Add documentation links to JSON schema
+- Update dependencies
+
 ## 0.12.0
 
 - Remove deprecated `markdownlint-cli2-config` entry point
