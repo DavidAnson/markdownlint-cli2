@@ -63,7 +63,7 @@
   ],
   "dependencies": {
     "globby": "14.0.0",
-    "jsonc-parser": "3.2.0",
+    "jsonc-parser": "3.2.1",
     "markdownlint": "0.33.0",
     "markdownlint-cli2-formatter-default": "0.0.4",
     "micromatch": "4.0.5",
