@@ -116,6 +116,7 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
     "allowUnionTypes": true,
     "strictTuples": false
   });
+  ajv.addKeyword("allowTrailingCommas");
   ajv.addSchema(markdownlintConfigSchemaDefinition);
   const validateConfigSchema = ajv.compile(markdownlintCli2ConfigSchemaDefinition);
   t.is(
