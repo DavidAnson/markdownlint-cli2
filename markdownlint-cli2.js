@@ -35,22 +35,14 @@ const utf8 = "utf8";
 // No-op function
 const noop = () => null;
 
-// Synchronous function to parse JSONC text
-const jsoncParse = (text) => {
-  const { parse, printParseErrorCode } = require("jsonc-parser");
-  const errors = [];
-  const result = parse(text, errors, { "allowTrailingComma": true });
-  if (errors.length > 0) {
-    const aggregate = errors.map(
-      (err) => `${printParseErrorCode(err.error)} (offset ${err.offset}, length ${err.length})`
-    ).join(", ");
-    throw new Error(`Unable to parse JSON(C) content, ${aggregate}`);
-  }
-  return result;
-};
+// Gets a JSONC parser
+const getJsoncParse = () => require("./parsers/jsonc-parse.js");
 
-// Synchronous function to parse YAML text
-const yamlParse = (text) => require("yaml").parse(text);
+// Gets a YAML parser
+const getYamlParse = () => require("./parsers/yaml-parse.js");
+
+// Gets an ordered array of parsers
+const getParsers = () => require("./parsers/parsers.js");
 
 // Negate a glob
 const negateGlob = (glob) => `!${glob}`;
@@ -75,7 +67,7 @@ const readConfig = (fs, dir, name, otherwise) => {
     then(
       () => markdownlintReadConfig(
         file,
-        [ jsoncParse, yamlParse ],
+        getParsers(),
         fs
       ),
       otherwise
@@ -148,7 +140,7 @@ const getExtendedConfig = (config, configPath, fs) => {
     return markdownlintExtendConfig(
       config,
       configPath,
-      [ jsoncParse, yamlParse ],
+      getParsers(),
       fs
     );
   }
@@ -163,9 +155,9 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
   let options = null;
   let config = null;
   if (basename.endsWith(".markdownlint-cli2.jsonc")) {
-    options = jsoncParse(await fs.promises.readFile(configPath, utf8));
+    options = getJsoncParse()(await fs.promises.readFile(configPath, utf8));
   } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
-    options = yamlParse(await fs.promises.readFile(configPath, utf8));
+    options = getYamlParse()(await fs.promises.readFile(configPath, utf8));
   } else if (
     basename.endsWith(".markdownlint-cli2.cjs") ||
     basename.endsWith(".markdownlint-cli2.mjs")
@@ -180,7 +172,7 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
     basename.endsWith(".markdownlint.yml")
   ) {
     config =
-      await markdownlintReadConfig(configPath, [ jsoncParse, yamlParse ], fs);
+      await markdownlintReadConfig(configPath, getParsers(), fs);
   } else if (
     basename.endsWith(".markdownlint.cjs") ||
     basename.endsWith(".markdownlint.mjs")
@@ -320,12 +312,12 @@ const getAndProcessDirInfo = (
         then(
           () => fs.promises.
             readFile(markdownlintCli2Jsonc, utf8).
-            then(jsoncParse),
+            then(getJsoncParse()),
           () => fs.promises.access(markdownlintCli2Yaml).
             then(
               () => fs.promises.
                 readFile(markdownlintCli2Yaml, utf8).
-                then(yamlParse),
+                then(getYamlParse()),
               importOrRequireConfig(
                 fs,
                 dir,
@@ -344,7 +336,7 @@ const getAndProcessDirInfo = (
                     then(
                       () => fs.promises.
                         readFile(packageJson, utf8).
-                        then(jsoncParse).
+                        then(getJsoncParse()).
                         then((obj) => obj[packageName]),
                       noop
                     )
@@ -767,7 +759,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
       "files": filteredFiles,
       "strings": filteredStrings,
       "config": markdownlintConfig || markdownlintOptions.config,
-      "configParsers": [ jsoncParse, yamlParse ],
+      "configParsers": getParsers(),
       "customRules": markdownlintOptions.customRules,
       "frontMatter": markdownlintOptions.frontMatter
         ? new RegExp(markdownlintOptions.frontMatter, "u")

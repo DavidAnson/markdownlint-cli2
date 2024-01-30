@@ -346,7 +346,7 @@ const testCases = ({
     "name": "markdownlint-json-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to parse JSON\(C\) content/u
+    "stderrRe": /Unable to parse JSONC content/u
   });
 
   testCase({
@@ -388,7 +388,7 @@ const testCases = ({
     "name": "markdownlint-cli2-jsonc-mismatch",
     "args": [ "viewme.md" ],
     "exitCode": 2,
-    "stderrRe": /Unable to parse JSON\(C\) content/u
+    "stderrRe": /Unable to parse JSONC content/u
   });
 
   testCase({
@@ -415,7 +415,7 @@ const testCases = ({
     "name": "markdownlint-cli2-jsonc-mismatch-config",
     "args": [ "--config", "../markdownlint-cli2-jsonc-mismatch/.markdownlint-cli2.jsonc", "viewme.md" ],
     "exitCode": 2,
-    "stderrRe": /Unable to parse JSON\(C\) content/u,
+    "stderrRe": /Unable to parse JSONC content/u,
     "cwd": "no-config",
   });
 
@@ -446,7 +446,7 @@ const testCases = ({
     "name": "markdownlint-cli2-jsonc-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to parse JSON\(C\) content/u
+    "stderrRe": /Unable to parse JSONC content/u
   });
 
   testCase({
@@ -665,7 +665,7 @@ const testCases = ({
     });
   }
 
-  const unexpectedJsonRe = /Unable to parse JSON\(C\) content/u;
+  const unexpectedJsonRe = /Unable to parse JSONC content/u;
   const unableToRequireRe = /Unable to require or import module/u;
   const unableToParseRe = /Unable to parse/u;
   const invalidConfigFiles = [
@@ -774,7 +774,7 @@ const testCases = ({
     "name": "package-json-invalid",
     "args": [ "**/*.md" ],
     "exitCode": 2,
-    "stderrRe": /Unable to parse JSON\(C\) content/u
+    "stderrRe": /Unable to parse JSONC content/u
   });
 
   testCase({

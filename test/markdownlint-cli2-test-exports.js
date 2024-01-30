@@ -9,7 +9,10 @@ const packageJson = require("../package.json");
 const exportMappings = new Map([
   [ ".", ".." ],
   [ "./markdownlint", "markdownlint" ],
-  [ "./markdownlint/helpers", "markdownlint/helpers" ]
+  [ "./markdownlint/helpers", "markdownlint/helpers" ],
+  [ "./parsers", "../parsers/parsers.js" ],
+  [ "./parsers/jsonc", "../parsers/jsonc-parse.js" ],
+  [ "./parsers/yaml", "../parsers/yaml-parse.js" ]
 ]);
 
 test("exportMappings", (t) => {

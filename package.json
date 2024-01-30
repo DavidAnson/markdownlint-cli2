@@ -12,7 +12,10 @@
   "exports": {
     ".": "./markdownlint-cli2.js",
     "./markdownlint": "./export-markdownlint.js",
-    "./markdownlint/helpers": "./export-markdownlint-helpers.js"
+    "./markdownlint/helpers": "./export-markdownlint-helpers.js",
+    "./parsers": "./parsers/parsers.js",
+    "./parsers/jsonc": "./parsers/jsonc-parse.js",
+    "./parsers/yaml": "./parsers/yaml-parse.js"
   },
   "bin": {
     "markdownlint-cli2": "markdownlint-cli2.js"
