@@ -6,7 +6,6 @@ const { parse, printParseErrorCode } = require("jsonc-parser");
 
 /**
  * Parses a JSONC string, returning the corresponding object.
- *
  * @param {string} text String to parse as JSONC.
  * @returns {object} Corresponding object.
  */

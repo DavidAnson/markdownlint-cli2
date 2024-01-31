@@ -6,9 +6,9 @@ const sliceSize = 1000;
 
 /**
  * Efficiently appends the source array to the destination array.
- * @param {Object[]} destination Destination Array.
- * @param {Object[]} source Source Array.
- * @returns void
+ * @param {object[]} destination Destination Array.
+ * @param {object[]} source Source Array.
+ * @returns {void}
  */
 const appendToArray = (destination, source) => {
   // NOTE: destination.push(...source) throws "RangeError: Maximum call stack

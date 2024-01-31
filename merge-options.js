@@ -4,9 +4,9 @@
 
 /**
  * Merges two options objects by combining config and replacing properties.
- * @param {Object} first First options object.
- * @param {Object} second Second options object.
- * @returns {Object} Merged options object.
+ * @param {object} first First options object.
+ * @param {object} second Second options object.
+ * @returns {object} Merged options object.
  */
 const mergeOptions = (first, second) => {
   const merged = {

@@ -8,11 +8,13 @@
     "es6": true
   },
   "plugins": [
+    "jsdoc",
     "n",
     "unicorn"
   ],
   "extends": [
     "eslint:all",
+    "plugin:jsdoc/recommended",
     "plugin:n/recommended",
     "plugin:unicorn/all"
   ],
