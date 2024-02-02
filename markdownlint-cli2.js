@@ -61,9 +61,9 @@ const resolveModulePaths = (dir, modulePaths) => (
 );
 
 // Read a JSON(C) or YAML file and return the object
-const readConfig = (fs, dir, name, otherwise) => {
+const readConfig = (fs, dir, name, otherwise) => () => {
   const file = pathPosix.join(dir, name);
-  return () => fs.promises.access(file).
+  return fs.promises.access(file).
     then(
       () => markdownlintReadConfig(
         file,
@@ -125,9 +125,9 @@ const importOrRequireIdsAndParams = (dirs, idsAndParams, noRequire) => (
 );
 
 // Import or require a JavaScript file and return the exported object
-const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => {
+const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => () => {
   const id = pathPosix.join(dir, name);
-  return () => fs.promises.access(id).
+  return fs.promises.access(id).
     then(
       () => (noRequire ? {} : importOrRequireResolve([ dir ], id)),
       otherwise
