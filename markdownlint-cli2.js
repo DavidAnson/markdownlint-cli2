@@ -44,8 +44,17 @@ const getYamlParse = () => require("./parsers/yaml-parse.js");
 // Gets an ordered array of parsers
 const getParsers = () => require("./parsers/parsers.js");
 
-// Negate a glob
+// Negates a glob
 const negateGlob = (glob) => `!${glob}`;
+
+// Throws a meaningful exception for an unusable configuration file
+const throwForConfigurationFile = (file, error) => {
+  throw new Error(
+    `Unable to use configuration file '${file}'; ${error?.message}`,
+    // @ts-ignore
+    { "cause": error }
+  );
+};
 
 // Return a posix path (even on Windows)
 const posixPath = (p) => p.split(pathDefault.sep).join(pathPosix.sep);
@@ -75,11 +84,12 @@ const readConfig = (fs, dir, name, otherwise) => () => {
 };
 
 // Import or resolve/require a module ID with a custom directory in the path
-const importOrRequireResolve = async (dirs, id, noRequire) => {
+const importOrRequireResolve = async (dirOrDirs, id, noRequire) => {
   if (typeof id === "string") {
     if (noRequire) {
       return null;
     }
+    const dirs = Array.isArray(dirOrDirs) ? dirOrDirs : [ dirOrDirs ];
     const expandId = expandTildePath(id);
     const errors = [];
     try {
@@ -126,10 +136,10 @@ const importOrRequireIdsAndParams = (dirs, idsAndParams, noRequire) => (
 
 // Import or require a JavaScript file and return the exported object
 const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => () => {
-  const id = pathPosix.join(dir, name);
-  return fs.promises.access(id).
+  const file = pathPosix.join(dir, name);
+  return fs.promises.access(file).
     then(
-      () => (noRequire ? {} : importOrRequireResolve([ dir ], id)),
+      () => importOrRequireResolve(dir, name, noRequire),
       otherwise
     );
 };
@@ -154,47 +164,43 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
   const dirname = pathPosix.dirname(configPath);
   let options = null;
   let config = null;
-  if (basename.endsWith(".markdownlint-cli2.jsonc")) {
-    options = getJsoncParse()(await fs.promises.readFile(configPath, utf8));
-  } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
-    options = getYamlParse()(await fs.promises.readFile(configPath, utf8));
-  } else if (
-    basename.endsWith(".markdownlint-cli2.cjs") ||
-    basename.endsWith(".markdownlint-cli2.mjs")
-  ) {
-    options = await (
-      importOrRequireConfig(fs, dirname, basename, noRequire, noop)()
-    );
-  } else if (
-    basename.endsWith(".markdownlint.jsonc") ||
-    basename.endsWith(".markdownlint.json") ||
-    basename.endsWith(".markdownlint.yaml") ||
-    basename.endsWith(".markdownlint.yml")
-  ) {
-    config =
-      await markdownlintReadConfig(configPath, getParsers(), fs);
-  } else if (
-    basename.endsWith(".markdownlint.cjs") ||
-    basename.endsWith(".markdownlint.mjs")
-  ) {
-    config = await (
-      importOrRequireConfig(fs, dirname, basename, noRequire, noop)()
-    );
-  } else {
-    throw new Error(
-      `Configuration file "${configPath}" is unrecognized; ` +
-      "its name should be (or end with) one of the supported types " +
-      "(e.g., \".markdownlint.json\" or \"example.markdownlint-cli2.jsonc\")."
-    );
+  try {
+    if (basename.endsWith(".markdownlint-cli2.jsonc")) {
+      options = getJsoncParse()(await fs.promises.readFile(configPath, utf8));
+    } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
+      options = getYamlParse()(await fs.promises.readFile(configPath, utf8));
+    } else if (
+      basename.endsWith(".markdownlint-cli2.cjs") ||
+      basename.endsWith(".markdownlint-cli2.mjs")
+    ) {
+      options = await importOrRequireResolve(dirname, basename, noRequire);
+    } else if (
+      basename.endsWith(".markdownlint.jsonc") ||
+      basename.endsWith(".markdownlint.json") ||
+      basename.endsWith(".markdownlint.yaml") ||
+      basename.endsWith(".markdownlint.yml")
+    ) {
+      config = await markdownlintReadConfig(configPath, getParsers(), fs);
+    } else if (
+      basename.endsWith(".markdownlint.cjs") ||
+      basename.endsWith(".markdownlint.mjs")
+    ) {
+      config = await importOrRequireResolve(dirname, basename, noRequire);
+    } else {
+      throw new Error(
+        "File name should be (or end with) one of the supported types " +
+        "(e.g., '.markdownlint.json' or 'example.markdownlint-cli2.jsonc')."
+      );
+    }
+  } catch (error) {
+    throwForConfigurationFile(configPath, error);
   }
-
   if (options) {
     if (options.config) {
       options.config = await getExtendedConfig(options.config, configPath, fs);
     }
     return options;
   }
-
   config = await getExtendedConfig(config, configPath, fs);
   return { config };
 };
@@ -289,6 +295,7 @@ const getAndProcessDirInfo = (
   noRequire,
   allowPackageJson
 ) => {
+  // Create dirInfo
   let dirInfo = dirToDirInfo[dir];
   if (!dirInfo) {
     dirInfo = {
@@ -302,46 +309,41 @@ const getAndProcessDirInfo = (
     dirToDirInfo[dir] = dirInfo;
 
     // Load markdownlint-cli2 object(s)
-    const markdownlintCli2Jsonc =
-      pathPosix.join(dir, ".markdownlint-cli2.jsonc");
-    const markdownlintCli2Yaml =
-      pathPosix.join(dir, ".markdownlint-cli2.yaml");
+    const markdownlintCli2Jsonc = pathPosix.join(dir, ".markdownlint-cli2.jsonc");
+    const markdownlintCli2Yaml = pathPosix.join(dir, ".markdownlint-cli2.yaml");
+    const markdownlintCli2Cjs =  pathPosix.join(dir, ".markdownlint-cli2.cjs");
+    const markdownlintCli2Mjs = pathPosix.join(dir, ".markdownlint-cli2.mjs");
     const packageJson = pathPosix.join(dir, "package.json");
+    let file = "[UNKNOWN]";
+    // eslint-disable-next-line no-return-assign
+    const captureFile = (f) => file = f;
     tasks.push(
-      fs.promises.access(markdownlintCli2Jsonc).
+      fs.promises.access(captureFile(markdownlintCli2Jsonc)).
         then(
-          () => fs.promises.
-            readFile(markdownlintCli2Jsonc, utf8).
-            then(getJsoncParse()),
-          () => fs.promises.access(markdownlintCli2Yaml).
+          () => fs.promises.readFile(file, utf8).then(getJsoncParse()),
+          () => fs.promises.access(captureFile(markdownlintCli2Yaml)).
             then(
-              () => fs.promises.
-                readFile(markdownlintCli2Yaml, utf8).
-                then(getYamlParse()),
-              importOrRequireConfig(
-                fs,
-                dir,
-                ".markdownlint-cli2.cjs",
-                noRequire,
-                importOrRequireConfig(
-                  fs,
-                  dir,
-                  ".markdownlint-cli2.mjs",
-                  noRequire,
-                  () => (allowPackageJson
-                    ? fs.promises.access(packageJson)
-                    // eslint-disable-next-line prefer-promise-reject-errors
-                    : Promise.reject()
-                  ).
+              () => fs.promises.readFile(file, utf8).then(getYamlParse()),
+              () => fs.promises.access(captureFile(markdownlintCli2Cjs)).
+                then(
+                  () => importOrRequireResolve(dir, file, noRequire),
+                  () => fs.promises.access(captureFile(markdownlintCli2Mjs)).
                     then(
-                      () => fs.promises.
-                        readFile(packageJson, utf8).
-                        then(getJsoncParse()).
-                        then((obj) => obj[packageName]),
-                      noop
+                      () => importOrRequireResolve(dir, file, noRequire),
+                      () => (allowPackageJson
+                        ? fs.promises.access(captureFile(packageJson))
+                        // eslint-disable-next-line prefer-promise-reject-errors
+                        : Promise.reject()
+                      ).
+                        then(
+                          () => fs.promises.
+                            readFile(file, utf8).
+                            then(getJsoncParse()).
+                            then((obj) => obj[packageName]),
+                          noop
+                        )
                     )
                 )
-              )
             )
         ).
         then((options) => {
@@ -350,13 +352,16 @@ const getAndProcessDirInfo = (
             options.config &&
             getExtendedConfig(
               options.config,
-              // Just needs to identify a file in the right directory
+              // Just need to identify a file in the right directory
               markdownlintCli2Jsonc,
               fs
             ).
               then((config) => {
                 options.config = config;
               });
+        })
+        .catch((error) => {
+          throwForConfigurationFile(file, error);
         })
     );
 
@@ -402,6 +407,8 @@ const getAndProcessDirInfo = (
         })
     );
   }
+
+  // Return dirInfo
   return dirInfo;
 };
 

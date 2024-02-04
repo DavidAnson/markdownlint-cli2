@@ -346,21 +346,21 @@ const testCases = ({
     "name": "markdownlint-json-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to parse JSONC content/u
+    "stderrRe": /'[^']*\.markdownlint\.json'.*Unable to parse JSONC content/u
   });
 
   testCase({
     "name": "markdownlint-yaml-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Map keys must be unique/u
+    "stderrRe": /'[^']*\.markdownlint\.yaml'.*Map keys must be unique/u
   });
 
   testCase({
     "name": "markdownlint-cjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to require or import module '/u,
+    "stderrRe": /Unable to require or import module '.*\.markdownlint\.cjs'/u,
     "usesRequire": true
   });
 
@@ -368,7 +368,7 @@ const testCases = ({
     "name": "markdownlint-mjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to require or import module '/u,
+    "stderrRe": /Unable to require or import module '.*\.markdownlint\.mjs'/u,
     "usesRequire": true
   });
 
@@ -388,7 +388,7 @@ const testCases = ({
     "name": "markdownlint-cli2-jsonc-mismatch",
     "args": [ "viewme.md" ],
     "exitCode": 2,
-    "stderrRe": /Unable to parse JSONC content/u
+    "stderrRe": /'[^']*\.markdownlint-cli2\.jsonc'.*Unable to parse JSONC content/u
   });
 
   testCase({
@@ -415,7 +415,7 @@ const testCases = ({
     "name": "markdownlint-cli2-jsonc-mismatch-config",
     "args": [ "--config", "../markdownlint-cli2-jsonc-mismatch/.markdownlint-cli2.jsonc", "viewme.md" ],
     "exitCode": 2,
-    "stderrRe": /Unable to parse JSONC content/u,
+    "stderrRe": /'[^']*\.markdownlint-cli2\.jsonc'.*Unable to parse JSONC content/u,
     "cwd": "no-config",
   });
 
@@ -446,7 +446,7 @@ const testCases = ({
     "name": "markdownlint-cli2-jsonc-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to parse JSONC content/u
+    "stderrRe": /'[^']*\.markdownlint-cli2\.jsonc'.*Unable to parse JSONC content/u
   });
 
   testCase({
@@ -469,7 +469,7 @@ const testCases = ({
     "name": "markdownlint-cli2-yaml-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Map keys must be unique/u
+    "stderrRe": /'[^']*\.markdownlint-cli2\.yaml'.*Map keys must be unique/u
   });
 
   testCase({
@@ -490,7 +490,7 @@ const testCases = ({
     "name": "markdownlint-cli2-cjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to require or import module '/u,
+    "stderrRe": /'[^']*\.markdownlint-cli2\.cjs'.*Unable to require or import module '/u,
     "usesRequire": true
   });
 
@@ -498,7 +498,7 @@ const testCases = ({
     "name": "markdownlint-cli2-mjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to require or import module '/u,
+    "stderrRe": /'[^']*\.markdownlint-cli2\.mjs'.*Unable to require or import module '/u,
     "usesRequire": true
   });
 
@@ -665,17 +665,16 @@ const testCases = ({
     });
   }
 
-  const unexpectedJsonRe = /Unable to parse JSONC content/u;
-  const unableToRequireRe = /Unable to require or import module/u;
-  const unableToParseRe = /Unable to parse/u;
+  const unableToParseJsonc = "Unable to parse JSONC content";
+  const unableToRequireOrImport = "Unable to require or import module";
   const invalidConfigFiles = [
-    [ "invalid.markdownlint-cli2.jsonc", unexpectedJsonRe ],
-    [ "invalid.markdownlint-cli2.cjs", unableToRequireRe ],
-    [ "invalid.markdownlint-cli2.mjs", unableToRequireRe ],
-    [ "invalid.markdownlint.json", unableToParseRe ],
-    [ "invalid.markdownlint.yaml", unableToParseRe ],
-    [ "invalid.markdownlint.cjs", unableToRequireRe ],
-    [ "invalid.markdownlint.mjs", unableToRequireRe ]
+    [ "invalid.markdownlint-cli2.jsonc", unableToParseJsonc ],
+    [ "invalid.markdownlint-cli2.cjs", unableToRequireOrImport ],
+    [ "invalid.markdownlint-cli2.mjs", unableToRequireOrImport ],
+    [ "invalid.markdownlint.json", unableToParseJsonc ],
+    [ "invalid.markdownlint.yaml", unableToParseJsonc ],
+    [ "invalid.markdownlint.cjs", unableToRequireOrImport ],
+    [ "invalid.markdownlint.mjs", unableToRequireOrImport ]
   ];
   for (const [ invalidConfigFile, stderrRe ] of invalidConfigFiles) {
     const usesRequire = isModule(invalidConfigFile);
@@ -683,7 +682,7 @@ const testCases = ({
       "name": `config-files-${invalidConfigFile}-invalid-arg`,
       "args": [ "--config", `cfg/${invalidConfigFile}`, "**/*.md" ],
       "exitCode": 2,
-      stderrRe,
+      "stderrRe": new RegExp(`'[^']*${invalidConfigFile.replace(".", "\\.")}'.*${stderrRe}`, "u"),
       "cwd": "config-files",
       usesRequire
     });
@@ -710,7 +709,7 @@ const testCases = ({
     "args": [ "--config", "cfg/unrecognized.jsonc", "**/*.md" ],
     "exitCode": 2,
     "stderrRe":
-      /Configuration file "[^"]*cfg\/unrecognized\.jsonc" is unrecognized; its name should be \(or end with\) one of the supported types \(e\.g\., "\.markdownlint\.json" or "example\.markdownlint-cli2\.jsonc"\)\./u,
+      /Unable to use configuration file '[^']*cfg\/unrecognized\.jsonc'; File name should be \(or end with\) one of the supported types \(e\.g\., '\.markdownlint\.json' or 'example\.markdownlint-cli2\.jsonc'\)\./u,
     "cwd": "config-files"
   });
 
@@ -774,7 +773,7 @@ const testCases = ({
     "name": "package-json-invalid",
     "args": [ "**/*.md" ],
     "exitCode": 2,
-    "stderrRe": /Unable to parse JSONC content/u
+    "stderrRe": /'[^']*package\.json'.*Unable to parse JSONC content/u
   });
 
   testCase({
