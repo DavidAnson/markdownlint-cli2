@@ -98,10 +98,12 @@ const importOrRequireResolve = async (dirOrDirs, id, noRequire) => {
       errors.push(error);
     }
     try {
-      const fileUrlString =
-        pathToFileURL(pathDefault.resolve(dirs[0], expandId)).toString();
+      const isURL = !pathDefault.isAbsolute(expandId) && URL.canParse(expandId);
+      const urlString = (
+        isURL ? new URL(expandId) : pathToFileURL(pathDefault.resolve(dirs[0], expandId))
+      ).toString();
       // eslint-disable-next-line no-inline-comments
-      const module = await import(/* webpackIgnore: true */ fileUrlString);
+      const module = await import(/* webpackIgnore: true */ urlString);
       return module.default;
     } catch (error) {
       errors.push(error);
