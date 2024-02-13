@@ -27,6 +27,13 @@ module.exports = {
         resource.request = module;
       }
     ),
+    // Intercept "node:stream/promises" lacking a browserify entry
+    new webpack.NormalModuleReplacementPlugin(
+      /^stream\/promises$/u,
+      (resource) => {
+        resource.request = require.resolve("./stream-promises.js");
+      }
+    ),
     // Intercept existing "unicorn-magic" package to provide missing import
     new webpack.NormalModuleReplacementPlugin(
       /^unicorn-magic$/u,
