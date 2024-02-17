@@ -353,7 +353,7 @@ const testCases = ({
     "name": "markdownlint-yaml-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint\.yaml'.*Map keys must be unique/u
+    "stderrRe": /'[^']*\.markdownlint\.yaml'.*duplicated mapping key/u
   });
 
   testCase({
@@ -394,21 +394,22 @@ const testCases = ({
   testCase({
     "name": "markdownlint-cli2-yaml-mismatch",
     "args": [ "viewme.md" ],
-    "exitCode": 1
+    "exitCode": 2,
+    "stderrRe": /'[^']*\.markdownlint-cli2\.yaml'.*missed comma between flow collection entries/u
   });
 
   testCase({
     "name": "markdownlint-json-mismatch-config",
     "args": [ "--config", "../markdownlint-json-mismatch/.markdownlint.json", "viewme.md" ],
     "exitCode": 0,
-    "cwd": "no-config",
+    "cwd": "no-config"
   });
 
   testCase({
     "name": "markdownlint-yaml-mismatch-config",
     "args": [ "--config", "../markdownlint-yaml-mismatch/.markdownlint.yaml", "viewme.md" ],
     "exitCode": 0,
-    "cwd": "no-config",
+    "cwd": "no-config"
   });
 
   testCase({
@@ -416,14 +417,15 @@ const testCases = ({
     "args": [ "--config", "../markdownlint-cli2-jsonc-mismatch/.markdownlint-cli2.jsonc", "viewme.md" ],
     "exitCode": 2,
     "stderrRe": /'[^']*\.markdownlint-cli2\.jsonc'.*Unable to parse JSONC content/u,
-    "cwd": "no-config",
+    "cwd": "no-config"
   });
 
   testCase({
     "name": "markdownlint-cli2-yaml-mismatch-config",
     "args": [ "--config", "../markdownlint-cli2-yaml-mismatch/.markdownlint-cli2.yaml", "viewme.md" ],
-    "exitCode": 1,
-    "cwd": "no-config",
+    "exitCode": 2,
+    "stderrRe": /'[^']*\.markdownlint-cli2\.yaml'.*missed comma between flow collection entries/u,
+    "cwd": "no-config"
   });
 
   testCase({
@@ -469,7 +471,7 @@ const testCases = ({
     "name": "markdownlint-cli2-yaml-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.yaml'.*Map keys must be unique/u
+    "stderrRe": /'[^']*\.markdownlint-cli2\.yaml'.*duplicated mapping key/u
   });
 
   testCase({
