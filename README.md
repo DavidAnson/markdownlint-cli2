@@ -87,6 +87,7 @@ Optional parameters:
 - --fix       updates files to resolve fixable issues (can be overridden in configuration)
 - --help      writes this message to the console and exits without doing anything else
 - --no-globs  ignores the "globs" property if present in the top-level options object
+- --no-banner skips outputting the version banner
 
 Configuration via:
 - .markdownlint-cli2.jsonc

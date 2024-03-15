@@ -891,9 +891,10 @@ const main = async (params) => {
     optionsOverride,
     fileContents,
     nonFileContents,
-    noRequire
+    noRequire,
   } = params;
   let {
+    noBanner,
     noGlobs
   } = params;
   const logMessage = params.logMessage || noop;
@@ -903,10 +904,6 @@ const main = async (params) => {
     (directory && pathDefault.resolve(directory)) ||
     process.cwd();
   const baseDir = posixPath(baseDirSystem);
-  // Output banner
-  logMessage(
-    `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`
-  );
   // Merge and process args/argv
   let fixDefault = false;
   // eslint-disable-next-line unicorn/no-useless-undefined
@@ -929,9 +926,18 @@ const main = async (params) => {
     } else if (arg === "--no-globs") {
       noGlobs = true;
       return false;
+    } else if (arg === "--no-banner") {
+      noBanner = true;
+      return false;
     }
     return true;
   });
+  // Output banner
+  if(!noBanner) {
+    logMessage(
+      `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`
+    );
+  }
   if (shouldShowHelp) {
     return showHelp(logMessage);
   }

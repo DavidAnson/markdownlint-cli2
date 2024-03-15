@@ -558,6 +558,12 @@ const testCases = ({
   });
 
   testCase({
+    "name": "no-banner",
+    "args": [ "viewme.md", "--no-banner" ],
+    "exitCode": 0
+  });
+
+  testCase({
     "name": "frontMatter",
     "args": [ "**/*.md" ],
     "exitCode": 0
