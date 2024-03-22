@@ -810,7 +810,7 @@ const testCases = ({
     "name": "customRules-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Property 'names' of custom rule at index 0 is incorrect\./u,
+    "stderrRe": /Property 'names' of custom rule at index 0 is incorrect: 'undefined'\./u,
     "usesRequire": true
   });
 
