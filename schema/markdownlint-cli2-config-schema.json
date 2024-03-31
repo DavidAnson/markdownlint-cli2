@@ -85,6 +85,11 @@
         "minLength": 1
       }
     },
+    "noBanner": {
+      "description": "Whether to disable the display of the banner message and version numbers on stdout (only valid at the root) : https://github.com/DavidAnson/markdownlint-cli2/blob/v0.12.1/README.md#markdownlint-cli2jsonc",
+      "type": "boolean",
+      "default": false
+    },
     "noInlineConfig": {
       "description": "Whether to disable support of HTML comments within Markdown content : https://github.com/DavidAnson/markdownlint-cli2/blob/v0.12.1/README.md#markdownlint-cli2jsonc",
       "type": "boolean",

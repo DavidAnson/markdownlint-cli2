@@ -6,8 +6,9 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 const Ajv = require("ajv");
 const test = require("ava").default;
-const jsoncParser = require("jsonc-parser");
 const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
+const jsoncParse = require("../parsers/jsonc-parse.js");
+const yamlParse = require("../parsers/yaml-parse.js");
 const FsMock = require("./fs-mock");
 
 const schemaIdVersionRe = /^.*v(?<version>\d+\.\d+\.\d+).*$/u;
@@ -98,7 +99,7 @@ test("validateMarkdownlintConfigSchema", async (t) => {
   );
   return Promise.all(files.map(async (file) => {
     const content = await fs.readFile(file, "utf8");
-    const json = jsoncParser.parse(content);
+    const json = jsoncParse(content);
     const instanceResult = validateConfigSchema(json);
     t.truthy(
       instanceResult,
@@ -145,13 +146,30 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
   );
   return Promise.all(files.map(async (file) => {
     const content = await fs.readFile(file, "utf8");
-    const json = jsoncParser.parse(content);
+    const json = jsoncParse(content);
     const instanceResult = validateConfigSchema(json);
     t.truthy(
       instanceResult,
       `${file}\n${JSON.stringify(validateConfigSchema.errors, null, 2)}`
     );
   }));
+});
+
+test("validateExampleObjectsMatch", async (t) => {
+  t.plan(1);
+  const jsonExample = jsoncParse(
+    await fs.readFile(
+      "./test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc",
+      "utf8"
+    )
+  );
+  const yamlExample = yamlParse(
+    await fs.readFile(
+      "./test/markdownlint-cli2-yaml-example/.markdownlint-cli2.yaml",
+      "utf8"
+    )
+  );
+  t.deepEqual(jsonExample, yamlExample);
 });
 
 test("absolute path to directory glob", async (t) => {

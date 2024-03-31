@@ -29,6 +29,7 @@ const packageName = "markdownlint-cli2";
 const packageVersion = "0.12.1";
 const libraryName = "markdownlint";
 const libraryVersion = markdownlintLibrary.getVersion();
+const bannerMessage = `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`;
 const dotOnlySubstitute = "*.{md,markdown}";
 const utf8 = "utf8";
 
@@ -241,7 +242,10 @@ const processArgv = (argv) => {
 };
 
 // Show help if missing arguments
-const showHelp = (logMessage) => {
+const showHelp = (logMessage, showBanner) => {
+  if (showBanner) {
+    logMessage(bannerMessage);
+  }
   logMessage(`https://github.com/DavidAnson/markdownlint-cli2
 
 Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix] [--help]
@@ -903,10 +907,6 @@ const main = async (params) => {
     (directory && pathDefault.resolve(directory)) ||
     process.cwd();
   const baseDir = posixPath(baseDirSystem);
-  // Output banner
-  logMessage(
-    `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`
-  );
   // Merge and process args/argv
   let fixDefault = false;
   // eslint-disable-next-line unicorn/no-useless-undefined
@@ -933,22 +933,24 @@ const main = async (params) => {
     return true;
   });
   if (shouldShowHelp) {
-    return showHelp(logMessage);
+    return showHelp(logMessage, true);
   }
   // Read argv configuration file (if relevant and present)
   let optionsArgv = null;
   let relativeDir = null;
-  if (configPath) {
-    const resolvedConfigPath =
-      posixPath(pathDefault.resolve(baseDirSystem, configPath));
-    optionsArgv =
-      await readOptionsOrConfig(resolvedConfigPath, fs, noRequire);
-    relativeDir = pathPosix.dirname(resolvedConfigPath);
-  }
-  // Process arguments and get base options
-  const globPatterns = processArgv(argvFiltered);
-  const { baseMarkdownlintOptions, dirToDirInfo } =
-    await getBaseOptions(
+  let globPatterns = null;
+  let baseOptions = null;
+  try {
+    if (configPath) {
+      const resolvedConfigPath =
+        posixPath(pathDefault.resolve(baseDirSystem, configPath));
+      optionsArgv =
+        await readOptionsOrConfig(resolvedConfigPath, fs, noRequire);
+      relativeDir = pathPosix.dirname(resolvedConfigPath);
+    }
+    // Process arguments and get base options
+    globPatterns = processArgv(argvFiltered);
+    baseOptions = await getBaseOptions(
       fs,
       baseDir,
       relativeDir,
@@ -958,13 +960,19 @@ const main = async (params) => {
       noGlobs,
       noRequire
     );
+  } finally {
+    if (!baseOptions?.baseMarkdownlintOptions.noBanner) {
+      logMessage(bannerMessage);
+    }
+  }
   if (
     ((globPatterns.length === 0) && !nonFileContents) ||
     (configPath === null)
   ) {
-    return showHelp(logMessage);
+    return showHelp(logMessage, false);
   }
   // Include any file overrides or non-file content
+  const { baseMarkdownlintOptions, dirToDirInfo } = baseOptions;
   const resolvedFileContents = {};
   for (const file in fileContents) {
     const resolvedFile = posixPath(pathDefault.resolve(baseDirSystem, file));

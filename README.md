@@ -285,6 +285,10 @@ of the rules within.
     - Search [`markdown-it-plugins` on npm][markdown-it-plugins]
   - `modulePaths`: `Array` of `String`s providing additional paths to use when
     resolving module references (e.g., alternate locations for `node_modules`)
+  - `noBanner`: `Boolean` value to disable the display of the banner message and
+    version numbers on `stdout`
+    - This top-level setting is valid **only** in the directory from which
+      `markdownlint-cli2` is run
   - `noInlineConfig`: `Boolean` value to disable the support of
     [HTML comments][html-comment] within Markdown content
     - For example: `<!-- markdownlint-disable some-rule -->`

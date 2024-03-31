@@ -34,6 +34,9 @@ markdownItPlugins:
 modulePaths:
   - "./modules"
 
+# Disable banner message on stdout (only valid at root)
+noBanner: true
+
 # Disable inline config comments
 noInlineConfig: true
 
