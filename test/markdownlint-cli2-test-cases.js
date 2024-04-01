@@ -564,6 +564,12 @@ const testCases = ({
   });
 
   testCase({
+    "name": "gitignore",
+    "args": [ "**/*.{md,MD}" ],
+    "exitCode": 1
+  });
+
+  testCase({
     "name": "literal-files",
     "args": [
       ":view(me).md",

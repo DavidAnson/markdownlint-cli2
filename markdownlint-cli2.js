@@ -476,14 +476,17 @@ const enumerateFiles = async (
   baseDir,
   globPatterns,
   dirToDirInfo,
+  gitignore,
   noRequire
 ) => {
   const tasks = [];
+  /** @type {import("globby").Options} */
   const globbyOptions = {
     "absolute": true,
     "cwd": baseDir,
     "dot": true,
     "expandDirectories": false,
+    gitignore,
     "suppressErrors": true,
     fs
   };
@@ -608,6 +611,7 @@ const createDirInfos = async (
   globPatterns,
   dirToDirInfo,
   optionsOverride,
+  gitignore,
   noRequire
 ) => {
   await enumerateFiles(
@@ -616,6 +620,7 @@ const createDirInfos = async (
     baseDir,
     globPatterns,
     dirToDirInfo,
+    gitignore,
     noRequire
   );
   await enumerateParents(
@@ -1000,6 +1005,7 @@ const main = async (params) => {
       globPatterns,
       dirToDirInfo,
       optionsOverride,
+      Boolean(baseMarkdownlintOptions.gitignore),
       noRequire
     );
   // Output linting status

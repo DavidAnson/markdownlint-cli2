@@ -35,6 +35,11 @@
       "minLength": 1,
       "default": ""
     },
+    "gitignore": {
+      "description": "Whether to ignore files referenced by .gitignore when linting (only valid at the root) : https://github.com/DavidAnson/markdownlint-cli2/blob/v0.12.1/README.md#markdownlint-cli2jsonc",
+      "type": "boolean",
+      "default": false
+    },
     "globs": {
       "description": "Glob expressions to include when linting (only valid at the root) : https://github.com/DavidAnson/markdownlint-cli2/blob/v0.12.1/README.md#markdownlint-cli2jsonc",
       "type": "array",

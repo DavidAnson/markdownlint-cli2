@@ -256,6 +256,10 @@ of the rules within.
     - The `String` is passed as the `pattern` parameter to the
       [`RegExp` constructor][regexp-constructor]
     - For example: `(^---\s*$[^]*?^---\s*$)(\r\n|\r|\n|$)`
+  - `gitignore`: `Boolean` value to ignore files referenced by `.gitignore` when
+    linting
+    - This top-level setting is valid **only** in the directory from which
+      `markdownlint-cli2` is run
   - `globs`: `Array` of `String`s defining glob expressions to append to the
     command-line arguments
     - This setting can be used instead of (or in addition to) passing globs on
