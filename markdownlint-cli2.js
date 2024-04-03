@@ -1005,7 +1005,8 @@ const main = async (params) => {
       globPatterns,
       dirToDirInfo,
       optionsOverride,
-      Boolean(baseMarkdownlintOptions.gitignore),
+      // https://github.com/sindresorhus/globby/issues/265
+      !params.fs && Boolean(baseMarkdownlintOptions.gitignore),
       noRequire
     );
   // Output linting status

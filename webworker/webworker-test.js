@@ -13,6 +13,7 @@ const configNoMd047 = "{\n\"single-trailing-newline\": false\n}";
 const files = [
   [ "/file.md", md009md010 ],
   [ "/file-two.md", md047 ],
+  [ "/.gitignore", "dir*" ],
   [ "/package.json", `{\n"markdownlint-cli2": {\n"config": ${configNoMd047},\n"customRules": [],\n"markdownItPlugins": []\n}\n}` ],
   [ "/dir1/file.md", md009md010 ],
   [ "/dir1/.markdownlint.json", configNoMd010 ],
@@ -180,6 +181,21 @@ QUnit.test("workspace", (assert) => {
     "argv": [ "**/*.md" ],
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatterLengthIs(assert, 7) ] ]
+    }
+  });
+});
+
+QUnit.test("workspace, gitignore (unsupported)", (assert) => {
+  assert.expect(1);
+  const filesWithGitignore = [
+    ...files,
+    [ "/.markdownlint-cli2.jsonc", `{\n"gitignore":true\n}` ]
+  ];
+  return markdownlintCli2.main({
+    "fs": new FsVirtual(filesWithGitignore),
+    "argv": [ "**/*.md" ],
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatterLengthIs(assert, 8) ] ]
     }
   });
 });
