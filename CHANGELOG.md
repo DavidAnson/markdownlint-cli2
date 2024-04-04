@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.0
+
+- Add `noBanner` and `gitignore` configuration options
+- Reduce install size by switching to `js-yaml` package
+- Add more detail to some error messages
+- Export JSONC/YAML parsers for reuse
+- Update dependencies (including `markdownlint`)
+
 ## 0.12.1
 
 - Update JSONC parsing to handle trailing commas
