@@ -1,7 +1,5 @@
 // @ts-check
 
-/* eslint-disable n/prefer-promises/fs */
-
 "use strict";
 
 const fs = require("node:fs");
