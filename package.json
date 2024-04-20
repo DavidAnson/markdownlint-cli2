@@ -31,7 +31,7 @@
     "build-docker-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker build -t davidanson/markdownlint-cli2:v$VERSION -f docker/Dockerfile --label org.opencontainers.image.version=v$VERSION .",
     "build-docker-image-rules": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker build -t davidanson/markdownlint-cli2-rules:v$VERSION -f docker/Dockerfile-rules --build-arg VERSION=v$VERSION --label org.opencontainers.image.version=v$VERSION .",
     "ci": "npm-run-all --continue-on-error --parallel test-cover lint schema && git diff --exit-code",
-    "lint": "eslint --max-warnings 0 --no-eslintrc --config .eslintrc.json .",
+    "lint": "eslint --max-warnings 0",
     "lint-dockerfile": "docker run --rm -i hadolint/hadolint:latest-alpine < docker/Dockerfile",
     "lint-watch": "git ls-files | entr npm run lint",
     "schema": "cpy ./node_modules/markdownlint/schema/markdownlint-config-schema.json ./schema --flat",
@@ -76,6 +76,7 @@
     "micromatch": "4.0.5"
   },
   "devDependencies": {
+    "@eslint/js": "9.1.1",
     "@iktakahiro/markdown-it-katex": "4.0.1",
     "ajv": "8.12.0",
     "ava": "6.1.2",

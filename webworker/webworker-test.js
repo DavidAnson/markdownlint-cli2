@@ -1,7 +1,6 @@
 "use strict";
 
-/* eslint-env qunit */
-/* globals markdownlintCli2, FsVirtual */
+/* globals markdownlintCli2, FsVirtual, QUnit */
 
 const md009 = "# Title\n\nText \n";
 const md010 = "# Title\n\n\tText\n";
