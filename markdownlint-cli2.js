@@ -99,6 +99,7 @@ const importOrRequireResolve = async (dirOrDirs, id, noRequire) => {
       errors.push(error);
     }
     try {
+      // eslint-disable-next-line n/no-unsupported-features/es-builtins, n/no-unsupported-features/node-builtins
       const isURL = !pathDefault.isAbsolute(expandId) && URL.canParse(expandId);
       const urlString = (
         isURL ? new URL(expandId) : pathToFileURL(pathDefault.resolve(dirs[0], expandId))
