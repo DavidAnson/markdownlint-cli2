@@ -88,7 +88,7 @@
     "eslint-plugin-jsdoc": "48.2.4",
     "eslint-plugin-n": "17.6.0",
     "eslint-plugin-unicorn": "52.0.0",
-    "execa": "9.0.2",
+    "execa": "9.1.0",
     "markdown-it-emoji": "3.0.0",
     "markdown-it-for-inline": "2.0.1",
     "markdownlint-cli2-formatter-codequality": "0.0.4",
