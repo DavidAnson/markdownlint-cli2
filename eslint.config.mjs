@@ -46,6 +46,7 @@ export default [
 
       "unicorn/no-null": "off",
       "unicorn/prefer-module": "off",
+      "unicorn/prefer-string-raw": "off",
       "unicorn/prefer-string-replace-all": "off",
       "unicorn/prevent-abbreviations": "off"
     }
