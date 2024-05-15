@@ -3,6 +3,6 @@
     "../../rules/first-line.js",
     "../../node_modules/markdownlint-rule-sample-commonjs",
     "../../node_modules/markdownlint-rule-sample-module/sample-rule.mjs",
-    "markdownlint-rule-titlecase"
+    "markdownlint-rule-extended-ascii"
   ]
 }

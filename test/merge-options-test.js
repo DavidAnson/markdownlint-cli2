@@ -30,7 +30,7 @@ test("full/empty", (t) => {
           "no-trailing-spaces": false,
           "no-multiple-blanks": false
         },
-        "customRules": [ "markdownlint-rule-titlecase" ],
+        "customRules": [ "markdownlint-rule-extended-ascii" ],
         "fix": true
       },
       {}
@@ -40,7 +40,7 @@ test("full/empty", (t) => {
         "no-trailing-spaces": false,
         "no-multiple-blanks": false
       },
-      "customRules": [ "markdownlint-rule-titlecase" ],
+      "customRules": [ "markdownlint-rule-extended-ascii" ],
       "fix": true
     }
   );
@@ -56,7 +56,7 @@ test("empty/full", (t) => {
           "no-trailing-spaces": false,
           "no-multiple-blanks": false
         },
-        "customRules": [ "markdownlint-rule-titlecase" ],
+        "customRules": [ "markdownlint-rule-extended-ascii" ],
         "fix": true
       }
     ),
@@ -65,7 +65,7 @@ test("empty/full", (t) => {
         "no-trailing-spaces": false,
         "no-multiple-blanks": false
       },
-      "customRules": [ "markdownlint-rule-titlecase" ],
+      "customRules": [ "markdownlint-rule-extended-ascii" ],
       "fix": true
     }
   );
@@ -79,7 +79,7 @@ test("partial/partial merge", (t) => {
         "config": {
           "no-trailing-spaces": false
         },
-        "customRules": [ "markdownlint-rule-titlecase" ]
+        "customRules": [ "markdownlint-rule-extended-ascii" ]
       },
       {
         "config": {
@@ -93,7 +93,7 @@ test("partial/partial merge", (t) => {
         "no-trailing-spaces": false,
         "no-multiple-blanks": false
       },
-      "customRules": [ "markdownlint-rule-titlecase" ],
+      "customRules": [ "markdownlint-rule-extended-ascii" ],
       "fix": true
     }
   );
@@ -116,7 +116,7 @@ test("full/full replace", (t) => {
           "no-trailing-spaces": false,
           "no-multiple-blanks": false
         },
-        "customRules": [ "markdownlint-rule-titlecase" ],
+        "customRules": [ "markdownlint-rule-extended-ascii" ],
         "fix": true
       }
     ),
@@ -125,7 +125,7 @@ test("full/full replace", (t) => {
         "no-trailing-spaces": false,
         "no-multiple-blanks": false
       },
-      "customRules": [ "markdownlint-rule-titlecase" ],
+      "customRules": [ "markdownlint-rule-extended-ascii" ],
       "fix": true
     }
   );

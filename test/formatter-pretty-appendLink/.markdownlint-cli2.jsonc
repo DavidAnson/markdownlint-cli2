@@ -1,6 +1,6 @@
 {
   "customRules": [
-    "markdownlint-rule-titlecase"
+    "markdownlint-rule-extended-ascii"
   ],
   "outputFormatters": [
     [ "../../formatter-pretty", { "appendLink": true } ]

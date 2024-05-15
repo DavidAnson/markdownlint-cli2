@@ -8,6 +8,7 @@ USER root
 RUN npm install --global --no-package-lock --production \
     @github/markdownlint-github \
     markdownlint-rule-enhanced-proper-names \
+    markdownlint-rule-extended-ascii \
     markdownlint-rule-github-admonition \
     markdownlint-rule-github-internal-links \
     markdownlint-rule-header-id \

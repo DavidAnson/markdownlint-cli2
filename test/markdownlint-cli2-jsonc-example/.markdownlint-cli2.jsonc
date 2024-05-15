@@ -10,7 +10,7 @@
 
   // Include a custom rule package
   "customRules": [
-    "markdownlint-rule-titlecase"
+    "markdownlint-rule-extended-ascii"
   ],
 
   // Fix any fixable errors
