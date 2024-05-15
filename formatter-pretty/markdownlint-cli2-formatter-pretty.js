@@ -6,7 +6,17 @@
 // color and clickable links
 const outputFormatter = async (options, params) => {
   const { results, logError } = options;
-  const { appendLink } = (params || {});
+  const { appendLink, colors } = (params || {});
+  const {
+    fileName: fileNameColor = "magenta",
+    separator: separatorColor = "cyan",
+    lineNumber: lineNumberColor = "green",
+    column: columnColor = "green",
+    ruleText: ruleTextColor = "gray",
+    ruleDescription: ruleDescriptionColor = "whiteBright",
+    detailsAndContext: detailsAndContextColor = "gray",
+    appendText: appendTextColor = "blueBright"
+  } = colors;
   const { "default": chalk } = await import("chalk");
   const { "default": terminalLink } = await import("terminal-link");
   for (const errorInfo of results) {
@@ -17,24 +27,24 @@ const outputFormatter = async (options, params) => {
       ? terminalLink.stderr(ruleName, ruleInformation, { "fallback": false })
       : ruleName;
     const detailsAndContext =
-          (errorDetail ? ` [${errorDetail}]` : "") +
-          (errorContext ? ` [Context: "${errorContext}"]` : "");
+      (errorDetail ? ` [${errorDetail}]` : "") +
+      (errorContext ? ` [Context: "${errorContext}"]` : "");
     const appendText = appendLink && ruleInformation
       ? ` ${ruleInformation}`
       : "";
     const column = (errorRange && errorRange[0]) || 0;
     logError(
       // eslint-disable-next-line prefer-template
-      chalk.magenta(fileName) +
-      chalk.cyan(":") +
-      chalk.green(lineNumber) +
-      (column ? chalk.cyan(":") + chalk.green(column) : "") +
+      chalk[fileNameColor](fileName) +
+      chalk[separatorColor](":") +
+      chalk[lineNumberColor](lineNumber) +
+      (column ? chalk[separatorColor](":") + chalk[columnColor](column) : "") +
       " " +
-      chalk.gray(ruleText) +
+      chalk[ruleTextColor](ruleText) +
       " " +
-      ruleDescription +
-      chalk.gray(detailsAndContext) +
-      (appendText.length > 0 ? chalk.blueBright(appendText) : "")
+      chalk[ruleDescriptionColor](ruleDescription) +
+      chalk[detailsAndContextColor](detailsAndContext) +
+      (appendText.length > 0 ? chalk[appendTextColor](appendText) : "")
     );
   }
 };

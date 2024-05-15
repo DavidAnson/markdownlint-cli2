@@ -39,6 +39,33 @@ To append informational links to the output instead (which may be clickable):
 }
 ```
 
+To override default colors:
+
+```json
+{
+  "outputFormatters": [
+    [
+      "markdownlint-cli2-formatter-pretty",
+      {
+        "colors": {
+          "fileName": "whiteBright",
+          "separator": "green",
+          "lineNumber": "yellow",
+          "column": "cyan",
+          "ruleText": "magenta",
+          "ruleDescription": "green",
+          "detailsAndContext": "cyan",
+          "appendText": "yellow"
+        } 
+      } 
+    ]
+  ]
+}
+```
+
+If your terminal is capable of displaying color, but the output is not in color,
+try setting the `FORCE_COLOR` environment variable to `1`.
+
 ## Example
 
 <!-- markdownlint-disable line-length no-inline-html no-space-in-code -->
