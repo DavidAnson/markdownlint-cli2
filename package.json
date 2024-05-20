@@ -84,7 +84,7 @@
     "cpy": "11.0.1",
     "cpy-cli": "5.0.0",
     "del": "7.1.0",
-    "eslint": "9.2.0",
+    "eslint": "9.3.0",
     "eslint-plugin-jsdoc": "48.2.5",
     "eslint-plugin-n": "17.7.0",
     "eslint-plugin-unicorn": "53.0.0",
