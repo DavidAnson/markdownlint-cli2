@@ -30,10 +30,10 @@ const outputFormatter = async (options, params) => {
       chalk.green(lineNumber) +
       (column ? chalk.cyan(":") + chalk.green(column) : "") +
       " " +
-      chalk.gray(ruleText) +
+      chalk.yellow(ruleText) +
       " " +
       ruleDescription +
-      chalk.gray(detailsAndContext) +
+      chalk.yellow(detailsAndContext) +
       (appendText.length > 0 ? chalk.blueBright(appendText) : "")
     );
   }

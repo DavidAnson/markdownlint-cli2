@@ -1,6 +1,6 @@
 {
   "name": "markdownlint-cli2-formatter-pretty",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "An output formatter for markdownlint-cli2 that looks like markdownlint-cli2-formatter-default with color and clickable links",
   "author": {
     "name": "David Anson",
