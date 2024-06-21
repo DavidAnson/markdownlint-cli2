@@ -73,7 +73,7 @@
     "jsonc-parser": "3.2.1",
     "markdownlint": "0.34.0",
     "markdownlint-cli2-formatter-default": "0.0.4",
-    "micromatch": "4.0.5"
+    "micromatch": "4.0.6"
   },
   "devDependencies": {
     "@iktakahiro/markdown-it-katex": "4.0.1",
