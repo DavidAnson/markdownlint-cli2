@@ -68,7 +68,7 @@
     "schema/ValidatingConfiguration.md"
   ],
   "dependencies": {
-    "globby": "14.0.1",
+    "globby": "14.0.2",
     "js-yaml": "4.1.0",
     "jsonc-parser": "3.3.1",
     "markdownlint": "0.34.0",
