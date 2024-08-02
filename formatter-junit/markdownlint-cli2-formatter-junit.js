@@ -4,7 +4,7 @@
 
 const fs = require("node:fs").promises;
 const path = require("node:path");
-const junitReportBuilder = require("junit-report-builder").default;
+const junitReportBuilder = require("junit-report-builder");
 
 // Writes markdownlint-cli2 results to a file in JUnit XML format
 const outputFormatter = (options, params) => {
