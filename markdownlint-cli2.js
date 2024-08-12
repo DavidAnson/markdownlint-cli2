@@ -320,6 +320,7 @@ const getAndProcessDirInfo = (
     // Load markdownlint-cli2 object(s)
     const markdownlintCli2Jsonc = pathPosix.join(dir, ".markdownlint-cli2.jsonc");
     const markdownlintCli2Yaml = pathPosix.join(dir, ".markdownlint-cli2.yaml");
+    const markdownlintCli2Yml = pathPosix.join(dir, ".markdownlint-cli2.yml");
     const markdownlintCli2Cjs =  pathPosix.join(dir, ".markdownlint-cli2.cjs");
     const markdownlintCli2Mjs = pathPosix.join(dir, ".markdownlint-cli2.mjs");
     const packageJson = pathPosix.join(dir, "package.json");
@@ -333,23 +334,27 @@ const getAndProcessDirInfo = (
           () => fs.promises.access(captureFile(markdownlintCli2Yaml)).
             then(
               () => fs.promises.readFile(file, utf8).then(getYamlParse()),
-              () => fs.promises.access(captureFile(markdownlintCli2Cjs)).
+              () => fs.promises.access(captureFile(markdownlintCli2Yml)).
                 then(
-                  () => importOrRequireResolve(dir, file, noRequire),
-                  () => fs.promises.access(captureFile(markdownlintCli2Mjs)).
+                  () => fs.promises.readFile(file, utf8).then(getYamlParse()),
+                  () => fs.promises.access(captureFile(markdownlintCli2Cjs)).
                     then(
                       () => importOrRequireResolve(dir, file, noRequire),
-                      () => (allowPackageJson
-                        ? fs.promises.access(captureFile(packageJson))
-                        // eslint-disable-next-line prefer-promise-reject-errors
-                        : Promise.reject()
-                      ).
+                      () => fs.promises.access(captureFile(markdownlintCli2Mjs)).
                         then(
-                          () => fs.promises.
-                            readFile(file, utf8).
-                            then(getJsoncParse()).
-                            then((obj) => obj[packageName]),
-                          noop
+                          () => importOrRequireResolve(dir, file, noRequire),
+                          () => (allowPackageJson
+                            ? fs.promises.access(captureFile(packageJson))
+                            // eslint-disable-next-line prefer-promise-reject-errors
+                            : Promise.reject()
+                          ).
+                            then(
+                              () => fs.promises.
+                                readFile(file, utf8).
+                                then(getJsoncParse()).
+                                then((obj) => obj[packageName]),
+                              noop
+                            )
                         )
                     )
                 )
