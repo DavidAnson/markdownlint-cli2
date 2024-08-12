@@ -170,7 +170,10 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
   try {
     if (basename.endsWith(".markdownlint-cli2.jsonc")) {
       options = getJsoncParse()(await fs.promises.readFile(configPath, utf8));
-    } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
+    } else if (
+      basename.endsWith(".markdownlint-cli2.yaml") ||
+      basename.endsWith(".markdownlint-cli2.yml")
+    ) {
       options = getYamlParse()(await fs.promises.readFile(configPath, utf8));
     } else if (
       basename.endsWith(".markdownlint-cli2.cjs") ||
