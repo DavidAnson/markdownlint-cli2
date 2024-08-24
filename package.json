@@ -73,7 +73,7 @@
     "jsonc-parser": "3.3.1",
     "markdownlint": "0.34.0",
     "markdownlint-cli2-formatter-default": "0.0.4",
-    "micromatch": "4.0.7"
+    "micromatch": "4.0.8"
   },
   "devDependencies": {
     "@eslint/js": "9.9.0",
