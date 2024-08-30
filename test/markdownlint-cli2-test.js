@@ -558,7 +558,7 @@ test("custom fs, using node:fs", (t) => {
     "directory": "test/markdownlint-cli2-jsonc",
     "argv": [ "**/*.md" ],
     "optionsOverride": {
-      "outputFormatters": [ [ outputFormatterLengthIs(t, 9) ] ]
+      "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
     },
     "fs": require("node:fs")
   }).
@@ -573,7 +573,7 @@ test("custom fs, using node:fs and noRequire=false", (t) => {
     "directory": "test/markdownlint-cjs",
     "argv": [ "**/*.md" ],
     "optionsOverride": {
-      "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
+      "outputFormatters": [ [ outputFormatterLengthIs(t, 11) ] ]
     },
     "fs": require("node:fs"),
     "noRequire": false
@@ -589,7 +589,7 @@ test("custom fs, using node:fs and noRequire=true", (t) => {
     "directory": "test/markdownlint-cjs",
     "argv": [ "**/*.md" ],
     "optionsOverride": {
-      "outputFormatters": [ [ outputFormatterLengthIs(t, 13) ] ]
+      "outputFormatters": [ [ outputFormatterLengthIs(t, 14) ] ]
     },
     "fs": require("node:fs"),
     "noRequire": true
@@ -605,7 +605,7 @@ test("custom fs, using fsMock", (t) => {
     "directory": "/mock",
     "argv": [ "**/*.md", "viewme.md" ],
     "optionsOverride": {
-      "outputFormatters": [ [ outputFormatterLengthIs(t, 9) ] ]
+      "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
     },
     "fs": new FsMock(path.join(__dirname, "markdownlint-cli2-jsonc")),
     "noRequire": true
@@ -621,7 +621,7 @@ test("custom fs, using fsMock simulating symbolic links", (t) => {
     "directory": "/mock",
     "argv": [ "**/*.md", "viewme.md" ],
     "optionsOverride": {
-      "outputFormatters": [ [ outputFormatterLengthIs(t, 9) ] ]
+      "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
     },
     "fs": new FsMock(path.join(__dirname, "markdownlint-cli2-jsonc"), true),
     "noRequire": true
