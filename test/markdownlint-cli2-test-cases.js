@@ -570,6 +570,12 @@ const testCases = ({
   });
 
   testCase({
+    "name": "gitignore-root-only",
+    "args": [ "**/*.{md,MD}" ],
+    "exitCode": 1
+  });
+
+  testCase({
     "name": "literal-files",
     "args": [
       ":view(me).md",

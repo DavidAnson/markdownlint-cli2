@@ -256,8 +256,15 @@ of the rules within.
     - The `String` is passed as the `pattern` parameter to the
       [`RegExp` constructor][regexp-constructor]
     - For example: `(^---\s*$[^]*?^---\s*$)(\r\n|\r|\n|$)`
-  - `gitignore`: `Boolean` value to ignore files referenced by `.gitignore` when
-    linting
+  - `gitignore`: `Boolean` or `String` value to automatically ignore files
+    referenced by `.gitignore` (or similar) when linting
+    - When the value `true` is specified, all `.gitignore` files in the tree are
+      imported (default `git` behavior)
+    - When a `String` value is specified, that glob pattern is used to identify
+      the set of ignore files to import
+      - The value `**/.gitignore` corresponds to the `Boolean` value `true`
+      - The value `.gitignore` imports only the file in the root of the tree;
+        this is usually equivalent and can be much faster for large trees
     - This top-level setting is valid **only** in the directory from which
       `markdownlint-cli2` is run
   - `globs`: `Array` of `String`s defining glob expressions to append to the

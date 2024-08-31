@@ -478,6 +478,7 @@ const enumerateFiles = async (
   globPatterns,
   dirToDirInfo,
   gitignore,
+  ignoreFiles,
   noRequire
 ) => {
   const tasks = [];
@@ -488,6 +489,7 @@ const enumerateFiles = async (
     "dot": true,
     "expandDirectories": false,
     gitignore,
+    ignoreFiles,
     "suppressErrors": true,
     fs
   };
@@ -613,6 +615,7 @@ const createDirInfos = async (
   dirToDirInfo,
   optionsOverride,
   gitignore,
+  ignoreFiles,
   noRequire
 ) => {
   await enumerateFiles(
@@ -622,6 +625,7 @@ const createDirInfos = async (
     globPatterns,
     dirToDirInfo,
     gitignore,
+    ignoreFiles,
     noRequire
   );
   await enumerateParents(
@@ -998,6 +1002,13 @@ const main = async (params) => {
     logMessage(`Finding: ${globPatterns.join(" ")}`);
   }
   // Create linting tasks
+  const gitignore =
+    // https://github.com/sindresorhus/globby/issues/265
+    (!params.fs && (baseMarkdownlintOptions.gitignore === true));
+  const ignoreFiles =
+    (!params.fs && (typeof baseMarkdownlintOptions.gitignore === "string")) ?
+      baseMarkdownlintOptions.gitignore :
+      undefined;
   const dirInfos =
     await createDirInfos(
       fs,
@@ -1006,8 +1017,8 @@ const main = async (params) => {
       globPatterns,
       dirToDirInfo,
       optionsOverride,
-      // https://github.com/sindresorhus/globby/issues/265
-      !params.fs && Boolean(baseMarkdownlintOptions.gitignore),
+      gitignore,
+      ignoreFiles,
       noRequire
     );
   // Output linting status
