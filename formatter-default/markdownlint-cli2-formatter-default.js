@@ -10,8 +10,8 @@ const outputFormatter = (options) => {
       errorContext, errorRange } = errorInfo;
     const ruleName = ruleNames.join("/");
     const description = ruleDescription +
-          (errorDetail ? ` [${errorDetail}]` : "") +
-          (errorContext ? ` [Context: "${errorContext}"]` : "");
+      (errorDetail ? ` [${errorDetail}]` : "") +
+      (errorContext ? ` [Context: "${errorContext}"]` : "");
     const column = (errorRange && errorRange[0]) || 0;
     const columnText = column ? `:${column}` : "";
     logError(

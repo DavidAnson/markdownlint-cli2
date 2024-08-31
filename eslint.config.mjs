@@ -1,12 +1,22 @@
 import js from "@eslint/js";
 import eslintPluginJsdoc from "eslint-plugin-jsdoc";
 import eslintPluginNode from "eslint-plugin-n";
+import eslintPluginStylistic from "@stylistic/eslint-plugin";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 
 export default [
   js.configs.all,
-  eslintPluginJsdoc.configs['flat/recommended'],
+  eslintPluginJsdoc.configs["flat/recommended"],
   eslintPluginNode.configs["flat/recommended"],
+  eslintPluginStylistic.configs.customize({
+    "arrowParens": true,
+    "braceStyle": "1tbs",
+    "commaDangle": "never",
+    "jsx": false,
+    "quoteProps": "always",
+    "quotes": "double",
+    "semi": true
+  }),
   eslintPluginUnicorn.configs["flat/all"],
   {
     "ignores": [
@@ -43,6 +53,11 @@ export default [
       "require-atomic-updates": "off",
       "sort-keys": "off",
       "sort-imports": "off",
+
+      "@stylistic/array-bracket-spacing": [ "error", "always" ],
+      "@stylistic/dot-location": [ "error", "object" ],
+      "@stylistic/operator-linebreak": [ "error", "after", { "overrides": { "?": "before", ":": "before" } } ],
+      "@stylistic/padded-blocks": "off",
 
       "unicorn/no-null": "off",
       "unicorn/prefer-module": "off",

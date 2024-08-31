@@ -10,7 +10,7 @@ const mapPath = (base, mockPath) => {
 };
 
 class fsMock {
-  constructor (base, symbolicLinks) {
+  constructor(base, symbolicLinks) {
     this.promises = {};
     this.promises.access = (path, mode) => (
       fs.promises.access(mapPath(base, path), mode)

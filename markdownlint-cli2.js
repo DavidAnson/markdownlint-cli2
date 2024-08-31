@@ -318,7 +318,7 @@ const getAndProcessDirInfo = (
     // Load markdownlint-cli2 object(s)
     const markdownlintCli2Jsonc = pathPosix.join(dir, ".markdownlint-cli2.jsonc");
     const markdownlintCli2Yaml = pathPosix.join(dir, ".markdownlint-cli2.yaml");
-    const markdownlintCli2Cjs =  pathPosix.join(dir, ".markdownlint-cli2.cjs");
+    const markdownlintCli2Cjs = pathPosix.join(dir, ".markdownlint-cli2.cjs");
     const markdownlintCli2Mjs = pathPosix.join(dir, ".markdownlint-cli2.mjs");
     const packageJson = pathPosix.join(dir, "package.json");
     let file = "[UNKNOWN]";
@@ -366,8 +366,8 @@ const getAndProcessDirInfo = (
               then((config) => {
                 options.config = config;
               });
-        })
-        .catch((error) => {
+        }).
+        catch((error) => {
           throwForConfigurationFile(file, error);
         })
     );
@@ -1006,9 +1006,9 @@ const main = async (params) => {
     // https://github.com/sindresorhus/globby/issues/265
     (!params.fs && (baseMarkdownlintOptions.gitignore === true));
   const ignoreFiles =
-    (!params.fs && (typeof baseMarkdownlintOptions.gitignore === "string")) ?
-      baseMarkdownlintOptions.gitignore :
-      undefined;
+    (!params.fs && (typeof baseMarkdownlintOptions.gitignore === "string"))
+      ? baseMarkdownlintOptions.gitignore
+      : undefined;
   const dirInfos =
     await createDirInfos(
       fs,

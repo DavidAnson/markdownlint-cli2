@@ -10,7 +10,7 @@ const { createHash } = require("node:crypto");
  * @param {string} violation The complete textual description of the violation.
  * @returns {string} The SHA256 fingerprint for the violation as a hex string.
  */
-const createFingerprint = function createFingerprint (violation) {
+const createFingerprint = function createFingerprint(violation) {
   const sha256 = createHash("sha256");
   sha256.update(violation);
   return sha256.digest("hex");
@@ -33,8 +33,8 @@ const outputFormatter = (options, params) => {
     const column = (errorRange && errorRange[0]) || 0;
     const columnText = column ? `:${column}` : "";
     const description = ruleDescription +
-          (errorDetail ? ` [${errorDetail}]` : "") +
-          (errorContext ? ` [Context: "${errorContext}"]` : "");
+      (errorDetail ? ` [${errorDetail}]` : "") +
+      (errorContext ? ` [Context: "${errorContext}"]` : "");
     // Construct error text with all details to use for unique fingerprint.
     // Avoids duplicate fingerprints for the same violation on multiple lines.
     const errorText =

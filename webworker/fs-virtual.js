@@ -18,7 +18,7 @@ const dirent = (path, directory) => {
 
 // eslint-disable-next-line no-unused-vars
 class FsVirtual {
-  constructor (files) {
+  constructor(files) {
 
     this.files = new Map(files);
 
