@@ -2,6 +2,8 @@
 
 "use strict";
 
+/* c8 ignore start */
+
 const dirent = (path, directory) => {
   const name = path.replace(/^.*\//u, "");
   return {
@@ -16,7 +18,6 @@ const dirent = (path, directory) => {
   };
 };
 
-// eslint-disable-next-line no-unused-vars
 class FsVirtual {
   constructor(files) {
 
@@ -85,4 +86,10 @@ class FsVirtual {
       return callback(new Error(`fs-virtual:readFile(${path})`));
     };
   }
+}
+
+/* c8 ignore stop */
+
+if (typeof module !== "undefined") {
+  module.exports = FsVirtual;
 }

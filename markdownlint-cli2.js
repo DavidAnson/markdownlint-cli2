@@ -285,6 +285,7 @@ Cross-platform compatibility:
 - Shells that expand globs do not support negated patterns (!node_modules); quoting is required here
 - Some UNIX shells parse exclamation (!) in double-quotes; hashtag (#) is recommended in these cases
 - The path separator is forward slash (/) on all platforms; backslash (\\) is automatically converted
+- On any platform, passing the parameter "--" causes all remaining parameters to be treated literally
 
 The most compatible syntax for cross-platform support:
 $ markdownlint-cli2 "**/*.md" "#node_modules"`
@@ -921,26 +922,28 @@ const main = async (params) => {
   let fixDefault = false;
   // eslint-disable-next-line unicorn/no-useless-undefined
   let configPath = undefined;
+  let sawDashDash = false;
   let shouldShowHelp = false;
   const argvFiltered = (argv || []).filter((arg) => {
-    if (configPath === null) {
+    if (sawDashDash) {
+      return true;
+    } else if (configPath === null) {
       configPath = arg;
-      return false;
       // eslint-disable-next-line unicorn/prefer-switch
+    } else if (arg === "--") {
+      sawDashDash = true;
     } else if (arg === "--config") {
       configPath = null;
-      return false;
     } else if (arg === "--fix") {
       fixDefault = true;
-      return false;
     } else if (arg === "--help") {
       shouldShowHelp = true;
-      return false;
     } else if (arg === "--no-globs") {
       noGlobs = true;
-      return false;
+    } else {
+      return true;
     }
-    return true;
+    return false;
   });
   if (shouldShowHelp) {
     return showHelp(logMessage, true);

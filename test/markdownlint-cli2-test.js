@@ -10,6 +10,7 @@ const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
 const jsoncParse = require("../parsers/jsonc-parse.js");
 const yamlParse = require("../parsers/yaml-parse.js");
 const FsMock = require("./fs-mock");
+const FsVirtual = require("../webworker/fs-virtual");
 
 const schemaIdVersionRe = /^.*v(?<version>\d+\.\d+\.\d+).*$/u;
 const markdownlintConfigSchemaDefinition = require("../schema/markdownlint-config-schema.json");
@@ -657,4 +658,39 @@ test("--help, glob also present", (t) => {
       t.is(exitCode, 2);
       t.regex(stdouts[0], /^markdownlint-cli2 v/u);
     });
+});
+
+test("-- stops matching parameters per POSIX Utility Conventions 12.2 Guideline 10", async (t) => {
+  t.plan(17);
+  const files = [
+    [ "/--fix", "# Title" ],
+    [ "/bad.md", "# Title" ],
+    [ "/good.md", "# Title\n" ]
+  ];
+  const scenario = async (argv, exitCode) => t.is(
+    await markdownlintCli2({
+      argv,
+      "directory": "/",
+      "fs": new FsVirtual(files)
+    }),
+    exitCode
+  );
+  await scenario([], 2);
+  await scenario([ "--" ], 2);
+  await scenario([ "--fix" ], 2);
+  await scenario([ "--fix", "--" ], 2);
+  await scenario([ "--", "--fix" ], 1);
+  await scenario([ "bad.md" ], 1);
+  await scenario([ "bad.md", "--" ], 1);
+  await scenario([ "--", "bad.md" ], 1);
+  await scenario([ "good.md" ], 0);
+  await scenario([ "good.md", "--" ], 0);
+  await scenario([ "--", "good.md" ], 0);
+  await scenario([ "--fix", "--", "good.md" ], 0);
+  await scenario([ "--fix", "--", "bad.md" ], 0);
+  await scenario([ "good.md", "--", "--fix" ], 1);
+  await scenario([ "bad.md", "--", "--fix" ], 1);
+  await scenario([ "--", "--" ], 0);
+  files.push([ "/--", "# Title" ]);
+  await scenario([ "--", "--" ], 1);
 });
