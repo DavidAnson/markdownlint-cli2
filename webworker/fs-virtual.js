@@ -2,8 +2,6 @@
 
 "use strict";
 
-/* c8 ignore start */
-
 const dirent = (path, directory) => {
   const name = path.replace(/^.*\//u, "");
   return {
@@ -67,7 +65,8 @@ class FsVirtual {
       return (callback || mode)(new Error(`fs-virtual:access(${path})`));
     };
 
-    this.lstat = (path, callback) => {
+    // eslint-disable-next-line no-multi-assign
+    this.stat = this.lstat = (path, callback) => {
       path = normalize(path);
       if (this.files.has(path)) {
         return callback(null, dirent(path, false));
@@ -79,8 +78,8 @@ class FsVirtual {
       path = normalize(path);
       const names = [];
       for (const file of this.files.keys()) {
-        if (file.startsWith(path)) {
-          const name = file.slice(path.length).replace(/\/.*$/u, "");
+        if (file.startsWith(`${path}`)) {
+          const [ name ] = file.slice(path.length).split("/");
           if (!names.includes(name)) {
             names.push(name);
           }
@@ -99,8 +98,6 @@ class FsVirtual {
     };
   }
 }
-
-/* c8 ignore stop */
 
 if (typeof module !== "undefined") {
   module.exports = FsVirtual;
