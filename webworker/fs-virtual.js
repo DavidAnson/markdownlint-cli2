@@ -18,6 +18,10 @@ const dirent = (path, directory) => {
   };
 };
 
+const normalize = (path) => path.replace(/^[A-Za-z]:/u, "").replaceAll("\\", "/");
+
+/* eslint-disable no-param-reassign */
+
 class FsVirtual {
   constructor(files) {
 
@@ -26,6 +30,7 @@ class FsVirtual {
     this.promises = {};
 
     this.promises.access = (path) => {
+      path = normalize(path);
       if (this.files.has(path)) {
         return Promise.resolve();
       }
@@ -33,6 +38,7 @@ class FsVirtual {
     };
 
     this.promises.readFile = (path) => {
+      path = normalize(path);
       const content = this.files.get(path);
       if (content) {
         return Promise.resolve(content);
@@ -41,6 +47,7 @@ class FsVirtual {
     };
 
     this.promises.stat = (path) => {
+      path = normalize(path);
       if (this.files.has(path)) {
         return Promise.resolve(dirent(path));
       }
@@ -48,10 +55,12 @@ class FsVirtual {
     };
 
     this.promises.writeFile = (path, data) => {
+      path = normalize(path);
       this.files.set(path, data);
     };
 
     this.access = (path, mode, callback) => {
+      path = normalize(path);
       if (this.files.has(path)) {
         return (callback || mode)();
       }
@@ -59,6 +68,7 @@ class FsVirtual {
     };
 
     this.lstat = (path, callback) => {
+      path = normalize(path);
       if (this.files.has(path)) {
         return callback(null, dirent(path, false));
       }
@@ -66,6 +76,7 @@ class FsVirtual {
     };
 
     this.readdir = (path, options, callback) => {
+      path = normalize(path);
       const names = [];
       for (const file of this.files.keys()) {
         if (file.startsWith(path)) {
@@ -79,6 +90,7 @@ class FsVirtual {
     };
 
     this.readFile = (path, options, callback) => {
+      path = normalize(path);
       const content = this.files.get(path);
       if (content) {
         return callback(null, content);
