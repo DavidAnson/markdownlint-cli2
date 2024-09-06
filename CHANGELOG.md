@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.0
+
+- Handle `--` parameter per POSIX convention
+- Add support for glob to gitignore configuration
+- Update dependencies (including `markdownlint`)
+
 ## 0.13.0
 
 - Add `noBanner` and `gitignore` configuration options
