@@ -1,6 +1,6 @@
 {
   "name": "markdownlint-cli2-formatter-codequality",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "An output formatter for markdownlint-cli2 that writes results to a GitLab Code Quality report artifact JSON file",
   "author": {
     "name": "Matthias Schoettle",

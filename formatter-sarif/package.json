@@ -1,6 +1,6 @@
 {
   "name": "markdownlint-cli2-formatter-sarif",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An output formatter for markdownlint-cli2 that writes results to a file in Static Analysis Results Interchange Format/SARIF",
   "author": {
     "name": "David Anson",
