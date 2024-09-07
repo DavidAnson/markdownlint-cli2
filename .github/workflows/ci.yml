@@ -29,14 +29,20 @@ jobs:
       run: npm install --no-package-lock
     - name: Run All Validations
       run: npm run ci
-    - name: Install Dependencies for Web Worker
-      run: npm run webworker-install
-    - name: Run Webpack for Web Worker
-      run: npm run webworker
+
+  run-tests-webworker:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+    - run: npm install --no-package-lock
+    - run: npm run webworker-install
+    - run: npm run webworker
+    - run: npm run playwright-install-bare
+    - run: npm run playwright-test-docker
 
   install-global:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - name: Package markdownlint-cli2
