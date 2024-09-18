@@ -8,17 +8,23 @@ const testCases = require("./markdownlint-cli2-test-cases");
 
 const invoke = (directory, args, noRequire, env, script) => async () => {
   await fs.access(directory);
-  const { execaNode } = await import("execa");
-  return execaNode(
-    path.join(__dirname, "..", script || "markdownlint-cli2.js"),
-    args,
+  const { "default": spawn } = await import("nano-spawn");
+  return spawn(
+    "node",
+    [
+      path.join(__dirname, "..", script || "markdownlint-cli2.js"),
+      ...args
+    ],
     {
       "cwd": directory,
-      "env": env || {},
-      "reject": false,
-      "stripFinalNewline": false
+      "env": env || {}
     }
-  );
+  ).
+    then((subprocess) => ({
+      ...subprocess,
+      "exitCode": 0
+    })).
+    catch((error) => error);
 };
 
 const absolute = (rootDir, file) => path.join(rootDir, file);

@@ -94,7 +94,7 @@
     "eslint-plugin-jsdoc": "50.2.3",
     "eslint-plugin-n": "17.10.2",
     "eslint-plugin-unicorn": "55.0.0",
-    "execa": "9.3.1",
+    "nano-spawn": "0.1.0",
     "markdown-it-emoji": "3.0.0",
     "markdown-it-for-inline": "2.0.1",
     "markdownlint-cli2-formatter-codequality": "0.0.5",
