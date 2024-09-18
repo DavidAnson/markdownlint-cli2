@@ -92,7 +92,7 @@
     "del": "7.1.0",
     "eslint": "9.10.0",
     "eslint-plugin-jsdoc": "50.2.3",
-    "eslint-plugin-n": "17.10.2",
+    "eslint-plugin-n": "17.10.3",
     "eslint-plugin-unicorn": "55.0.0",
     "nano-spawn": "0.1.0",
     "markdown-it-emoji": "3.0.0",
