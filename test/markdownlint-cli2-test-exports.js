@@ -2,7 +2,6 @@
 
 "use strict";
 
-const path = require("node:path");
 const test = require("ava").default;
 const packageJson = require("../package.json");
 
@@ -25,7 +24,7 @@ test("exportMappings", (t) => {
 for (const [ exportName, exportPath ] of exportMappings) {
   test(exportName, (t) => {
     t.is(
-      require(path.join("..", packageJson.exports[exportName])),
+      require(exportName.replace(/^\./u, packageJson.name)),
       require(exportPath)
     );
   });
