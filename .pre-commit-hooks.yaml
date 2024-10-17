@@ -3,6 +3,7 @@
   description: "Checks the style of Markdown/CommonMark files."
   entry: markdownlint-cli2
   language: node
+  language_version: lts
   types: [markdown]
   minimum_pre_commit_version: 0.15.0
 - id: markdownlint-cli2-docker
