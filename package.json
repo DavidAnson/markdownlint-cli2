@@ -91,7 +91,7 @@
     "cpy-cli": "5.0.0",
     "del": "8.0.0",
     "eslint": "9.12.0",
-    "eslint-plugin-jsdoc": "50.4.1",
+    "eslint-plugin-jsdoc": "50.4.3",
     "eslint-plugin-n": "17.11.1",
     "eslint-plugin-unicorn": "56.0.0",
     "nano-spawn": "0.1.0",
