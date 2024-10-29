@@ -15,11 +15,15 @@ const pathPosix = pathDefault.posix;
 const { pathToFileURL } = require("node:url");
 const markdownlintLibrary = require("markdownlint");
 const {
+  applyFixes,
+  "getVersion": getLibraryVersion,
+  "promises": markdownlintPromises
+} = markdownlintLibrary;
+const {
   markdownlint,
   "extendConfig": markdownlintExtendConfig,
   "readConfig": markdownlintReadConfig
-} = markdownlintLibrary.promises;
-const markdownlintRuleHelpers = require("markdownlint/helpers");
+} = markdownlintPromises;
 const appendToArray = require("./append-to-array");
 const mergeOptions = require("./merge-options");
 const resolveAndRequire = require("./resolve-and-require");
@@ -28,7 +32,7 @@ const resolveAndRequire = require("./resolve-and-require");
 const packageName = "markdownlint-cli2";
 const packageVersion = "0.14.0";
 const libraryName = "markdownlint";
-const libraryVersion = markdownlintLibrary.getVersion();
+const libraryVersion = getLibraryVersion();
 const bannerMessage = `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`;
 const dotOnlySubstitute = "*.{md,markdown}";
 const utf8 = "utf8";
@@ -61,9 +65,10 @@ const throwForConfigurationFile = (file, error) => {
 const posixPath = (p) => p.split(pathDefault.sep).join(pathPosix.sep);
 
 // Expands a path with a tilde to an absolute path
-const expandTildePath = (id) => (
-  markdownlintRuleHelpers.expandTildePath(id, require("node:os"))
-);
+const expandTildePath = (id) => {
+  const markdownlintRuleHelpers = require("markdownlint/helpers");
+  return markdownlintRuleHelpers.expandTildePath(id, require("node:os"));
+};
 
 // Resolves module paths relative to the specified directory
 const resolveModulePaths = (dir, modulePaths) => (
@@ -811,8 +816,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
             options.files.push(fileName);
             subTasks.push(fs.promises.readFile(fileName, utf8).
               then((original) => {
-                const fixed = markdownlintRuleHelpers.
-                  applyFixes(original, errorInfos);
+                const fixed = applyFixes(original, errorInfos);
                 return fs.promises.writeFile(fileName, fixed, utf8);
               })
             );
