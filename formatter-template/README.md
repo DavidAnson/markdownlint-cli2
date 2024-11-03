@@ -41,7 +41,7 @@ In the simplest case, tokens are specified with the syntax `${token}`. This is
 all that's needed for tokens that are always defined. To support scenarios where
 a token may not be defined, the syntaxes `${token:text if present}` and
 `${token!text if not present}` are also supported. This allows for templates to
-accomodate missing data. Only one level of token nesting is supported.
+accommodate missing data. Only one level of token nesting is supported.
 
 A few examples demonstrate the concept:
 

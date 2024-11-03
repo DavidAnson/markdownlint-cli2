@@ -1,6 +1,6 @@
 Async
-CJS
 Changelog
+CJS
 CLI
 CodeClimate
 CommonJS
@@ -18,6 +18,7 @@ JSON
 JSONC
 JUnit
 LLMs
+LogIssue
 markdownlint-cli2
 markdownlint-cli2-formatter-codequality
 markdownlint-cli2-formatter-default
@@ -34,4 +35,5 @@ pre-commit
 SARIF
 schemas
 subdirectories
+syntaxes
 YAML
