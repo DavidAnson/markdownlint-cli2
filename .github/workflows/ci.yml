@@ -65,8 +65,10 @@ jobs:
       run: cd formatter-sarif && npm pack
     - name: Package formatter-summarize
       run: cd formatter-summarize && npm pack
+    - name: Package formatter-template
+      run: cd formatter-template && npm pack
     - name: Install formatters globally
-      run: sudo npm install --global --no-package-lock --production ./formatter-default/*.tgz ./formatter-codequality/*.tgz ./formatter-json/*.tgz ./formatter-junit/*.tgz ./formatter-pretty/*.tgz ./formatter-sarif/*.tgz ./formatter-summarize/*.tgz
+      run: sudo npm install --global --no-package-lock --production ./formatter-default/*.tgz ./formatter-codequality/*.tgz ./formatter-json/*.tgz ./formatter-junit/*.tgz ./formatter-pretty/*.tgz ./formatter-sarif/*.tgz ./formatter-summarize/*.tgz ./formatter-template/*.tgz
     - name: Lint with formatters
       run: cp test/outputFormatters-npm/.markdownlint-cli2.jsonc . && markdownlint-cli2 CONTRIBUTING.md README.md
     - name: Uninstall markdownlint-cli2 globally

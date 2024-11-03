@@ -5,6 +5,7 @@
     [ "../../formatter-json" ],
     [ "../../formatter-junit" ],
     [ "../../formatter-sarif" ],
-    [ "../../formatter-summarize" ]
+    [ "../../formatter-summarize" ],
+    [ "../../formatter-template" ]
   ]
 }

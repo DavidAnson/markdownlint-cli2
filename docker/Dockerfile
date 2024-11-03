@@ -11,6 +11,7 @@ RUN cd formatter-junit && npm pack --pack-destination=..
 RUN cd formatter-pretty && npm pack --pack-destination=..
 RUN cd formatter-sarif && npm pack --pack-destination=..
 RUN cd formatter-summarize && npm pack --pack-destination=..
+RUN cd formatter-template && npm pack --pack-destination=..
 
 FROM node:lts-alpine
 COPY --from=build /pack/markdownlint-cli2-*.tgz /

@@ -1,0 +1,27 @@
+{
+  "name": "markdownlint-cli2-formatter-template",
+  "version": "0.0.1",
+  "description": "An output formatter for markdownlint-cli2 that displays results using a template",
+  "author": {
+    "name": "David Anson",
+    "url": "https://dlaa.me/"
+  },
+  "license": "MIT",
+  "main": "markdownlint-cli2-formatter-template.js",
+  "homepage": "https://github.com/DavidAnson/markdownlint-cli2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidAnson/markdownlint-cli2.git"
+  },
+  "bugs": "https://github.com/DavidAnson/markdownlint-cli2/issues",
+  "funding": "https://github.com/sponsors/DavidAnson",
+  "files": [
+    "markdownlint-cli2-formatter-template.js"
+  ],
+  "peerDependencies": {
+    "markdownlint-cli2": ">=0.0.4"
+  },
+  "keywords": [
+    "markdownlint-cli2-formatter"
+  ]
+}

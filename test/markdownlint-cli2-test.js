@@ -56,6 +56,7 @@ test("README files", (t) => {
     "./formatter-pretty/README.md",
     "./formatter-sarif/README.md",
     "./formatter-summarize/README.md",
+    "./formatter-template/README.md",
     "./schema/ValidatingConfiguration.md"
   ];
   return markdownlintCli2({
@@ -240,6 +241,7 @@ test("alternate file contents", (t) => {
     "./formatter-pretty/README.md",
     "./formatter-sarif/README.md",
     "./formatter-summarize/README.md",
+    "./formatter-template/README.md",
     "./test/all-ok/viewme.md",
     "./test/no-config/viewme.md",
     "./test/markdownlint-json/viewme.md",
