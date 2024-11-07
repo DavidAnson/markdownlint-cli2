@@ -263,6 +263,7 @@ Glob expressions (from the globby library):
 - {} allows for a comma-separated list of "or" expressions
 - ! or # at the beginning of a pattern negate the match
 - : at the beginning identifies a literal file path
+- - as a glob represents standard input (stdin)
 
 Dot-only glob:
 - The command "markdownlint-cli2 ." would lint every file in the current directory tree which is probably not intended
@@ -807,7 +808,8 @@ const lintFiles = (fs, dirInfos, fileContents) => {
       task = task.then((results) => {
         options.files = [];
         const subTasks = [];
-        const errorFiles = Object.keys(results);
+        const errorFiles = Object.keys(results).
+          filter((result) => filteredFiles.includes(result));
         for (const fileName of errorFiles) {
           const errorInfos = results[fileName].
             filter((errorInfo) => errorInfo.fixInfo);
@@ -909,11 +911,12 @@ const main = async (params) => {
     optionsDefault,
     optionsOverride,
     fileContents,
-    nonFileContents,
-    noRequire
+    noRequire,
+    allowStdin
   } = params;
   let {
-    noGlobs
+    noGlobs,
+    nonFileContents
   } = params;
   const logMessage = params.logMessage || noop;
   const logError = params.logError || noop;
@@ -926,6 +929,7 @@ const main = async (params) => {
   let fixDefault = false;
   // eslint-disable-next-line unicorn/no-useless-undefined
   let configPath = undefined;
+  let useStdin = false;
   let sawDashDash = false;
   let shouldShowHelp = false;
   const argvFiltered = (argv || []).filter((arg) => {
@@ -933,6 +937,8 @@ const main = async (params) => {
       return true;
     } else if (configPath === null) {
       configPath = arg;
+    } else if ((arg === "-") && allowStdin) {
+      useStdin = true;
       // eslint-disable-next-line unicorn/prefer-switch
     } else if (arg === "--") {
       sawDashDash = true;
@@ -983,22 +989,30 @@ const main = async (params) => {
     }
   }
   if (
-    ((globPatterns.length === 0) && !nonFileContents) ||
+    ((globPatterns.length === 0) && !useStdin && !nonFileContents) ||
     (configPath === null)
   ) {
     return showHelp(logMessage, false);
   }
+  // Add stdin as a non-file input if necessary
+  if (useStdin) {
+    const key = pathPosix.join(baseDir, "stdin");
+    const { text } = require("node:stream/consumers");
+    nonFileContents = {
+      ...nonFileContents,
+      [key]: await text(process.stdin)
+    };
+  }
   // Include any file overrides or non-file content
-  const { baseMarkdownlintOptions, dirToDirInfo } = baseOptions;
   const resolvedFileContents = {};
   for (const file in fileContents) {
     const resolvedFile = posixPath(pathDefault.resolve(baseDirSystem, file));
-    resolvedFileContents[resolvedFile] =
-      fileContents[file];
+    resolvedFileContents[resolvedFile] = fileContents[file];
   }
   for (const nonFile in nonFileContents) {
     resolvedFileContents[nonFile] = nonFileContents[nonFile];
   }
+  const { baseMarkdownlintOptions, dirToDirInfo } = baseOptions;
   appendToArray(
     dirToDirInfo[baseDir].files,
     Object.keys(nonFileContents || {})
@@ -1079,7 +1093,8 @@ const run = (overrides, args) => {
       const defaultParams = {
         "argv": argsAndArgv,
         "logMessage": console.log,
-        "logError": console.error
+        "logError": console.error,
+        "allowStdin": true
       };
       const params = {
         ...defaultParams,

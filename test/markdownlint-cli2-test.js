@@ -67,7 +67,7 @@ test("README files", (t) => {
 });
 
 test("validateMarkdownlintConfigSchema", async (t) => {
-  t.plan(26);
+  t.plan(27);
 
   // Validate schema
   // @ts-ignore
@@ -111,7 +111,7 @@ test("validateMarkdownlintConfigSchema", async (t) => {
 });
 
 test("validateMarkdownlintCli2ConfigSchema", async (t) => {
-  t.plan(90);
+  t.plan(91);
 
   // Validate schema
   // @ts-ignore
@@ -695,4 +695,17 @@ test("-- stops matching parameters per POSIX Utility Conventions 12.2 Guideline 
   await scenario([ "--", "--" ], 0);
   files.push([ "/--", "# Title" ]);
   await scenario([ "--", "--" ], 1);
+});
+
+test ("- not supported by main entry point", (t) => {
+  t.plan(2);
+  return markdownlintCli2({
+    "argv": [ "-" ],
+    "optionsOverride": {
+      "outputFormatters": [ [ outputFormatterLengthIs(t, 0) ] ]
+    }
+  }).
+    then((exitCode) => {
+      t.is(exitCode, 0);
+    });
 });

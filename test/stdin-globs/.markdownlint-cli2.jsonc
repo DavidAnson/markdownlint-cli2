@@ -1,0 +1,9 @@
+{
+  "config": {
+    "single-trailing-newline": false
+  },
+  "globs": [
+    "*.md",
+    "-"
+  ]
+}

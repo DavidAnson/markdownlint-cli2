@@ -76,6 +76,7 @@ Glob expressions (from the globby library):
 - {} allows for a comma-separated list of "or" expressions
 - ! or # at the beginning of a pattern negate the match
 - : at the beginning identifies a literal file path
+- - as a glob represents standard input (stdin)
 
 Dot-only glob:
 - The command "markdownlint-cli2 ." would lint every file in the current directory tree which is probably not intended
