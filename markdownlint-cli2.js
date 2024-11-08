@@ -56,7 +56,6 @@ const negateGlob = (glob) => `!${glob}`;
 const throwForConfigurationFile = (file, error) => {
   throw new Error(
     `Unable to use configuration file '${file}'; ${error?.message}`,
-    // @ts-ignore
     { "cause": error }
   );
 };
@@ -115,7 +114,6 @@ const importOrRequireResolve = async (dirOrDirs, id, noRequire) => {
     } catch (error) {
       errors.push(error);
     }
-    // @ts-ignore
     throw new AggregateError(
       errors,
       `Unable to require or import module '${id}'.`
@@ -778,6 +776,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
     const filteredFiles = filesAfterIgnores.filter(
       (file) => fileContents[file] === undefined
     );
+    /** @type {Record<string, string>} */
     const filteredStrings = {};
     for (const file of filesAfterIgnores) {
       if (fileContents[file] !== undefined) {
@@ -785,6 +784,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
       }
     }
     // Create markdownlint options object
+    /** @type {import("markdownlint").Options} */
     const options = {
       "files": filteredFiles,
       "strings": filteredStrings,
@@ -801,7 +801,6 @@ const lintFiles = (fs, dirInfos, fileContents) => {
       fs
     };
     // Invoke markdownlint
-    // @ts-ignore
     let task = markdownlint(options);
     // For any fixable errors, read file, apply fixes, and write it back
     if (markdownlintOptions.fix) {
@@ -825,7 +824,6 @@ const lintFiles = (fs, dirInfos, fileContents) => {
           }
         }
         return Promise.all(subTasks).
-          // @ts-ignore
           then(() => markdownlint(options)).
           then((fixResults) => ({
             ...results,
@@ -1084,38 +1082,26 @@ const main = async (params) => {
   return errorsPresent ? 1 : 0;
 };
 
-// Run function
-const run = (overrides, args) => {
-  (async () => {
-    const argsAndArgv = args || [];
-    appendToArray(argsAndArgv, process.argv.slice(2));
-    try {
-      const defaultParams = {
-        "argv": argsAndArgv,
-        "logMessage": console.log,
-        "logError": console.error,
-        "allowStdin": true
-      };
-      const params = {
-        ...defaultParams,
-        ...overrides
-      };
-      process.exitCode = await main(params);
-    } catch (error) {
-      console.error(error);
-      process.exitCode = 2;
-    }
-  })();
-};
-
 // Export functions
 module.exports = {
-  main,
-  run
+  main
 };
 
 // Run if invoked as a CLI
-// @ts-ignore
 if (require.main === module) {
-  run();
+  const params = {
+    "argv": process.argv.slice(2),
+    "logMessage": console.log,
+    "logError": console.error,
+    "allowStdin": true
+  };
+  main(params).
+    then((exitCode) => {
+      process.exitCode = exitCode;
+    }).
+    // eslint-disable-next-line unicorn/prefer-top-level-await
+    catch((error) => {
+      console.error(error);
+      process.exitCode = 2;
+    });
 }
