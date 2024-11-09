@@ -1,0 +1,14 @@
+{
+  "outputFormatters": [
+    [ "../../formatter-template", { "template": "${invalid}" } ],
+    [ "../../formatter-template", { "template": "${fileName}" } ],
+    [ "../../formatter-template", { "template": "${fileName}${fileName}${fileName}" } ],
+    [ "../../formatter-template", { "template": "${fileName:text{text}text}" } ],
+    [ "../../formatter-template", { "template": "${fileName:text{text}" } ],
+    [ "../../formatter-template", { "template": "${fileName:text}text}" } ],
+    [ "../../formatter-template", { "template": "${fileName:text${invalid}text}" } ],
+    [ "../../formatter-template", { "template": "${fileName:text${fileName}text}" } ],
+    [ "../../formatter-template", { "template": "${fileName:${fileName}}" } ],
+    [ "../../formatter-template", { "template": "${fileName:${fileName:${fileName}}}" } ]
+  ]
+}

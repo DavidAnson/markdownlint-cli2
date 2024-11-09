@@ -961,6 +961,13 @@ const testCases = ({
   });
 
   testCase({
+    "name": "formatter-template",
+    "args": [ "*.md" ],
+    "exitCode": 1,
+    "usesRequire": true
+  });
+
+  testCase({
     "name": "nested-files",
     "args": [ "**/*.md" ],
     "exitCode": 1

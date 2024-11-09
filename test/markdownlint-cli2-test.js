@@ -111,7 +111,7 @@ test("validateMarkdownlintConfigSchema", async (t) => {
 });
 
 test("validateMarkdownlintCli2ConfigSchema", async (t) => {
-  t.plan(91);
+  t.plan(92);
 
   // Validate schema
   // @ts-ignore
