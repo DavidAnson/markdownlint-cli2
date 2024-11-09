@@ -2,15 +2,17 @@
 
 "use strict";
 
-// eslint-disable-next-line prefer-named-capture-group
-const tokenRe = /\$\{(fileName|lineNumber|columnNumber|ruleName|ruleDescription|ruleInformation|errorContext|errorDetail)(?:([:!])([^{}]*\{[^{}]+\}[^{}]*|[^}]+))?\}/igu;
+// eslint-disable-next-line no-template-curly-in-string
+const defaultTemplate = "fileName=\"${fileName}\" lineNumber=${lineNumber} ${columnNumber:columnNumber=${columnNumber} }ruleName=${ruleName} ruleDescription=\"${ruleDescription}\" ruleInformation=${ruleInformation} errorContext=\"${errorContext}\" errorDetail=\"${errorDetail}\"";
+
+// Use separate regular expressions to avoid a polynomial worst case
+const tokenRes = [ "fileName", "lineNumber", "columnNumber", "ruleName", "ruleDescription", "ruleInformation", "errorContext", "errorDetail" ].
+  map((token) => new RegExp(`\\$\\{(${token})(?:([:!])([^{}]*\\{[^{}]+\\}[^{}]*|[^}]+))?\\}`, "gu"));
 
 // Output markdownlint-cli2 results using a template
 const outputFormatter = (options, params) => {
   const { logError, results } = options;
-  const template = params?.template ||
-    // eslint-disable-next-line no-template-curly-in-string
-    "fileName=\"${fileName}\" lineNumber=${lineNumber} ${columnNumber:columnNumber=${columnNumber} }ruleName=${ruleName} ruleDescription=\"${ruleDescription}\" ruleInformation=${ruleInformation} errorContext=\"${errorContext}\" errorDetail=\"${errorDetail}\"";
+  const template = params?.template || defaultTemplate;
 
   for (const result of results) {
     const tokenToResult = {
@@ -43,9 +45,10 @@ const outputFormatter = (options, params) => {
       }
     };
 
-    const output = template.
-      replaceAll(tokenRe, replacer).
-      replaceAll(tokenRe, replacer);
+    let output = template;
+    for (const tokenRe of tokenRes) {
+      output = output.replaceAll(tokenRe, replacer).replaceAll(tokenRe, replacer);
+    }
     logError(output);
   }
 };
