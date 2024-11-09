@@ -30,7 +30,7 @@ const resolveAndRequire = require("./resolve-and-require");
 
 // Variables
 const packageName = "markdownlint-cli2";
-const packageVersion = "0.14.0";
+const packageVersion = "0.15.0";
 const libraryName = "markdownlint";
 const libraryVersion = getLibraryVersion();
 const bannerMessage = `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`;

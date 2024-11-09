@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.0
+
+- Add support for `stdin` input via `-` glob
+- Add output formatter based on string templates
+- Update dependencies (including `markdownlint`)
+
 ## 0.14.0
 
 - Handle `--` parameter per POSIX convention
