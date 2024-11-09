@@ -3,7 +3,7 @@
 "use strict";
 
 // eslint-disable-next-line prefer-named-capture-group
-const tokenRe = /\$\{([^:!}]+)(?:([:!])([^{}]*\{[^{}]+\}[^{}]*|[^}]+))?\}/igu;
+const tokenRe = /\$\{(fileName|lineNumber|columnNumber|ruleName|ruleDescription|ruleInformation|errorContext|errorDetail)(?:([:!])([^{}]*\{[^{}]+\}[^{}]*|[^}]+))?\}/igu;
 
 // Output markdownlint-cli2 results using a template
 const outputFormatter = (options, params) => {
