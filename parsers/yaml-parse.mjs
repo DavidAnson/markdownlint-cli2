@@ -1,8 +1,6 @@
 // @ts-check
 
-"use strict";
-
-const yaml = require("js-yaml");
+import yaml from "js-yaml";
 
 /**
  * Parses a YAML string, returning the corresponding object.
@@ -11,4 +9,4 @@ const yaml = require("js-yaml");
  */
 const yamlParse = (text) => yaml.load(text);
 
-module.exports = yamlParse;
+export default yamlParse;

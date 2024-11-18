@@ -21,14 +21,11 @@ export default [
   {
     "ignores": [
       "test/*/**",
-      "webworker/markdownlint-cli2-webworker.js",
-      "webworker/setImmediate.js"
+      "webworker/markdownlint-cli2-webworker.cjs",
+      "webworker/setImmediate.cjs"
     ]
   },
   {
-    "languageOptions": {
-      "sourceType": "commonjs"
-    },
     "linterOptions": {
       "reportUnusedDisableDirectives": true
     },
@@ -68,10 +65,17 @@ export default [
   },
   {
     "files": [
-      "**/*.mjs"
+      "**/*-formatter-*.js",
+      "webworker/*.cjs"
     ],
     "languageOptions": {
-      "sourceType": "module"
+      "sourceType": "commonjs",
+      "globals": {
+        "__dirname": "readonly",
+        "__filename": "readonly",
+        "module": "readonly",
+        "require": "readonly"
+      }
     }
   }
 ];

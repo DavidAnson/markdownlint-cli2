@@ -1,19 +1,19 @@
 // @ts-check
 
-"use strict";
-
-const path = require("node:path");
-const { promisify } = require("node:util");
-const test = require("ava").default;
-const FsMock = require("./fs-mock");
+import fsNodePromises from "node:fs/promises";
+import path from "node:path";
+import { promisify } from "node:util";
+import test from "ava";
+import { __dirname, __filename } from "./esm-helpers.mjs";
+import FsMock from "./fs-mock.mjs";
 
 const mockPath = "/mock";
-const thisFile = path.basename(__filename);
+const thisFile = path.basename(__filename(import.meta));
 const testFile = path.join(mockPath, thisFile);
 
 test("fsMock.stat", async (t) => {
   t.plan(2);
-  const fs = new FsMock(__dirname);
+  const fs = new FsMock(__dirname(import.meta));
   const fsStat = promisify(fs.stat);
   // @ts-ignore
   const stat = await fsStat(testFile);
@@ -23,7 +23,7 @@ test("fsMock.stat", async (t) => {
 
 test("fsMock.lstat", async (t) => {
   t.plan(3);
-  const fs = new FsMock(__dirname);
+  const fs = new FsMock(__dirname(import.meta));
   const fsLstat = promisify(fs.lstat);
   // @ts-ignore
   const stat = await fsLstat(testFile);
@@ -34,7 +34,7 @@ test("fsMock.lstat", async (t) => {
 
 test("fsMock.lstat symbolic links", async (t) => {
   t.plan(3);
-  const fs = new FsMock(__dirname, true);
+  const fs = new FsMock(__dirname(import.meta), true);
   const fsLstat = promisify(fs.lstat);
   // @ts-ignore
   const stat = await fsLstat(testFile);
@@ -45,7 +45,7 @@ test("fsMock.lstat symbolic links", async (t) => {
 
 test("fsMock.readdir", async (t) => {
   t.plan(3);
-  const fs = new FsMock(__dirname);
+  const fs = new FsMock(__dirname(import.meta));
   const fsReaddir = promisify(fs.readdir);
   // @ts-ignore
   const files = await fsReaddir(mockPath);
@@ -56,7 +56,7 @@ test("fsMock.readdir", async (t) => {
 
 test("fsMock.*", async (t) => {
   t.plan(1);
-  const fs = new FsMock(__dirname);
+  const fs = new FsMock(__dirname(import.meta));
   const fsAccess = promisify(fs.access);
   // @ts-ignore
   await fsAccess(testFile);
@@ -74,7 +74,7 @@ test("fsMock.*", async (t) => {
 
 test("fsMock.promises.*", async (t) => {
   t.plan(2);
-  const fs = new FsMock(__dirname);
+  const fs = new FsMock(__dirname(import.meta));
   const tempName = "fs-mock.tmp";
   const tempFile = path.join(mockPath, tempName);
   await t.throwsAsync(() => fs.promises.access(tempFile));
@@ -82,5 +82,5 @@ test("fsMock.promises.*", async (t) => {
   await fs.promises.access(tempFile);
   await fs.promises.stat(tempFile);
   t.is(await fs.promises.readFile(tempFile, "utf8"), tempFile);
-  await require("node:fs").promises.unlink(path.join(__dirname, tempName));
+  await fsNodePromises.unlink(path.join(__dirname(import.meta), tempName));
 });

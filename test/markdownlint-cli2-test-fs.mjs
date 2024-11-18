@@ -1,11 +1,9 @@
 // @ts-check
 
-"use strict";
-
-const path = require("node:path");
-const { "main": markdownlintCli2 } = require("../markdownlint-cli2.js");
-const testCases = require("./markdownlint-cli2-test-cases");
-const FsMock = require("./fs-mock");
+import path from "node:path";
+import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
+import testCases from "./markdownlint-cli2-test-cases.mjs";
+import FsMock from "./fs-mock.mjs";
 const mockDirectory = "/mock";
 
 const linesEndingWithNewLine =

@@ -3,6 +3,7 @@
 "use strict";
 
 module.exports = {
+  "argv": [],
   "cwd": () => "/",
   "env": {},
   "versions": {

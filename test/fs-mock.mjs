@@ -1,13 +1,11 @@
 // @ts-check
 
-"use strict";
+import fs from "node:fs";
+import nodePath from "node:path";
 
-const fs = require("node:fs");
-
-const mapPath = (base, mockPath) => {
-  const path = require("node:path");
-  return path.resolve(base, path.relative("/mock", mockPath));
-};
+const mapPath = (base, mockPath) => (
+  nodePath.resolve(base, nodePath.relative("/mock", mockPath))
+);
 
 class fsMock {
   constructor(base, symbolicLinks) {
@@ -56,4 +54,4 @@ class fsMock {
   }
 }
 
-module.exports = fsMock;
+export default fsMock;
