@@ -80,7 +80,7 @@
     "micromatch": "4.0.8"
   },
   "devDependencies": {
-    "@eslint/js": "9.14.0",
+    "@eslint/js": "9.15.0",
     "@iktakahiro/markdown-it-katex": "4.0.1",
     "@playwright/test": "1.48.2",
     "@stylistic/eslint-plugin": "2.10.1",
