@@ -10,7 +10,7 @@ const nodeModulePrefixRe = /^node:/u;
 /** @type {import("webpack").Configuration} */
 module.exports = {
   "target": "webworker",
-  "entry": "./index.mjs",
+  "entry": "../markdownlint-cli2.mjs",
   "output": {
     "path": __dirname,
     "filename": "markdownlint-cli2-webworker.cjs",
