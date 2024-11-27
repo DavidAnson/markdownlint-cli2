@@ -3,6 +3,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import test from "ava";
+import spawn from "nano-spawn";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
 import { __dirname } from "./esm-helpers.mjs";
 
@@ -11,7 +12,6 @@ const repositoryPath = (name) => path.join(__dirname(import.meta), "..", name);
 
 const invoke = (directory, args, noRequire, env, script) => async () => {
   await fs.access(directory);
-  const { "default": spawn } = await import("nano-spawn");
   return spawn(
     "node",
     [
@@ -41,9 +41,8 @@ testCases({
   "includeAbsolute": true
 });
 
-const invokeStdin = async (args, stdin, cwd) => {
-  const { "default": spawn } = await import("nano-spawn");
-  return spawn(
+const invokeStdin = (args, stdin, cwd) => (
+  spawn(
     "node",
     [
       repositoryPath("markdownlint-cli2-bin.mjs"),
@@ -53,8 +52,8 @@ const invokeStdin = async (args, stdin, cwd) => {
       cwd,
       "stdin": { "string": stdin }
     }
-  );
-};
+  )
+);
 
 const validInput = "# Heading\n\nText\n";
 const invalidInput = "#  Heading\n\nText";
