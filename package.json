@@ -18,7 +18,7 @@
     "./parsers/yaml": "./parsers/yaml-parse.mjs"
   },
   "bin": {
-    "markdownlint-cli2": "markdownlint-cli2.mjs"
+    "markdownlint-cli2": "markdownlint-cli2-bin.mjs"
   },
   "homepage": "https://github.com/DavidAnson/markdownlint-cli2",
   "repository": {
@@ -61,6 +61,7 @@
     "export-markdownlint-helpers.mjs",
     "LICENSE",
     "markdownlint-cli2.mjs",
+    "markdownlint-cli2-bin.mjs",
     "merge-options.mjs",
     "parsers/parsers.mjs",
     "parsers/jsonc-parse.mjs",
@@ -72,7 +73,6 @@
     "schema/ValidatingConfiguration.md"
   ],
   "dependencies": {
-    "es-main": "1.3.0",
     "globby": "14.0.2",
     "js-yaml": "4.1.0",
     "jsonc-parser": "3.3.1",

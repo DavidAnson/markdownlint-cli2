@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 // @ts-ignore
 
 // Requires
@@ -10,7 +8,6 @@ import os from "node:os";
 import pathDefault from "node:path";
 const pathPosix = pathDefault.posix;
 import { pathToFileURL } from "node:url";
-import esMain from "es-main";
 import { globby } from "globby";
 import micromatch from "micromatch";
 import markdownlintLibrary from "markdownlint";
@@ -897,7 +894,7 @@ const outputSummary = async (
 };
 
 // Main function
-const main = async (params) => {
+export const main = async (params) => {
   // Capture parameters
   const {
     directory,
@@ -1077,27 +1074,3 @@ const main = async (params) => {
   // Return result
   return errorsPresent ? 1 : 0;
 };
-
-// Exports
-export {
-  main
-};
-
-// Run if invoked as a CLI
-if (esMain(import.meta)) {
-  const params = {
-    "argv": process.argv.slice(2),
-    "logMessage": console.log,
-    "logError": console.error,
-    "allowStdin": true
-  };
-  main(params).
-    then((exitCode) => {
-      process.exitCode = exitCode;
-    }).
-    // eslint-disable-next-line unicorn/prefer-top-level-await
-    catch((error) => {
-      console.error(error);
-      process.exitCode = 2;
-    });
-}

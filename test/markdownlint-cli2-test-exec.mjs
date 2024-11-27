@@ -15,7 +15,7 @@ const invoke = (directory, args, noRequire, env, script) => async () => {
   return spawn(
     "node",
     [
-      repositoryPath(script || "markdownlint-cli2.mjs"),
+      repositoryPath(script || "markdownlint-cli2-bin.mjs"),
       ...args
     ],
     {
@@ -46,7 +46,7 @@ const invokeStdin = async (args, stdin, cwd) => {
   return spawn(
     "node",
     [
-      repositoryPath("markdownlint-cli2.mjs"),
+      repositoryPath("markdownlint-cli2-bin.mjs"),
       ...args
     ],
     {
