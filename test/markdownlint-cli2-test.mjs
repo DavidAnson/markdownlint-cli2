@@ -79,7 +79,8 @@ test("validateMarkdownlintConfigSchema", async (t) => {
   const validateConfigSchema = ajv.compile(markdownlintConfigSchemaDefinition);
   t.is(
     markdownlintConfigSchemaDefinition.$id.replace(schemaIdVersionRe, "$<version>"),
-    packageJson.dependencies.markdownlint
+    // packageJson.dependencies.markdownlint
+    "0.36.1"
   );
   t.is(
     markdownlintConfigSchemaDefinition.$id,

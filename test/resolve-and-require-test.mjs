@@ -19,8 +19,8 @@ test("built-in module", (t) => {
 test("locally-installed module", (t) => {
   t.plan(1);
   t.deepEqual(
-    require("markdownlint"),
-    resolveAndRequire(require, "markdownlint", [ __dirname(import.meta) ])
+    require("micromatch"),
+    resolveAndRequire(require, "micromatch", [ __dirname(import.meta) ])
   );
 });
 
@@ -79,8 +79,8 @@ test("module local, relative, and in alternate node_modules", (t) => {
     path.join(__dirname(import.meta), "customRules")
   ];
   t.deepEqual(
-    require("markdownlint"),
-    resolveAndRequire(require, "markdownlint", dirs)
+    require("micromatch"),
+    resolveAndRequire(require, "micromatch", dirs)
   );
   t.deepEqual(
     require("./customRules/node_modules/markdownlint-rule-sample-commonjs"),

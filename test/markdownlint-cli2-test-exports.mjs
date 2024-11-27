@@ -20,7 +20,7 @@ test("exportMappings", (t) => {
   );
 });
 
-const commonJsRe = /.js$/u;
+const commonJsRe = /\.js$/u;
 
 for (const [ exportName, exportPath ] of exportMappings) {
   test(exportName, async (t) => {
