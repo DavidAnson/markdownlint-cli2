@@ -76,7 +76,7 @@
     "globby": "14.0.2",
     "js-yaml": "4.1.0",
     "jsonc-parser": "3.3.1",
-    "markdownlint": "DavidAnson/markdownlint#esm",
+    "markdownlint": "DavidAnson/markdownlint#next",
     "markdownlint-cli2-formatter-default": "0.0.5",
     "micromatch": "4.0.8"
   },
