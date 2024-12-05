@@ -13,6 +13,7 @@
     ".": "./markdownlint-cli2.mjs",
     "./markdownlint": "./export-markdownlint.mjs",
     "./markdownlint/helpers": "./export-markdownlint-helpers.mjs",
+    "./markdownlint/promise": "./export-markdownlint-promise.mjs",
     "./parsers": "./parsers/parsers.mjs",
     "./parsers/jsonc": "./parsers/jsonc-parse.mjs",
     "./parsers/yaml": "./parsers/yaml-parse.mjs"
@@ -59,6 +60,7 @@
     "CHANGELOG.md",
     "export-markdownlint.mjs",
     "export-markdownlint-helpers.mjs",
+    "export-markdownlint-promise.mjs",
     "LICENSE",
     "markdownlint-cli2.mjs",
     "markdownlint-cli2-bin.mjs",

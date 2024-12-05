@@ -1,3 +1,3 @@
 // @ts-check
 
-export { default } from "markdownlint";
+export * from "markdownlint";

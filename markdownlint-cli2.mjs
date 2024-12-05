@@ -10,17 +10,8 @@ const pathPosix = pathDefault.posix;
 import { pathToFileURL } from "node:url";
 import { globby } from "globby";
 import micromatch from "micromatch";
-import markdownlintLibrary from "markdownlint";
-const {
-  applyFixes,
-  "getVersion": getLibraryVersion,
-  "promises": markdownlintPromises
-} = markdownlintLibrary;
-const {
-  markdownlint,
-  "extendConfig": markdownlintExtendConfig,
-  "readConfig": markdownlintReadConfig
-} = markdownlintPromises;
+import { applyFixes, getVersion } from "markdownlint";
+import { lint, extendConfig, readConfig } from "markdownlint/promise";
 import { expandTildePath } from "markdownlint/helpers";
 import appendToArray from "./append-to-array.mjs";
 import mergeOptions from "./merge-options.mjs";
@@ -30,7 +21,7 @@ import resolveAndRequire from "./resolve-and-require.mjs";
 const packageName = "markdownlint-cli2";
 const packageVersion = "0.15.0";
 const libraryName = "markdownlint";
-const libraryVersion = getLibraryVersion();
+const libraryVersion = getVersion();
 const bannerMessage = `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`;
 const dotOnlySubstitute = "*.{md,markdown}";
 const utf8 = "utf8";
@@ -70,11 +61,11 @@ const resolveModulePaths = (dir, modulePaths) => (
 );
 
 // Read a JSON(C) or YAML file and return the object
-const readConfig = (fs, dir, name, otherwise) => () => {
+const readConfigFile = (fs, dir, name, otherwise) => () => {
   const file = pathPosix.join(dir, name);
   return fs.promises.access(file).
     then(
-      () => markdownlintReadConfig(
+      () => readConfig(
         file,
         getParsers(),
         fs
@@ -149,7 +140,7 @@ const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => () => {
 // Extend a config object if it has 'extends' property
 const getExtendedConfig = (config, configPath, fs) => {
   if (config.extends) {
-    return markdownlintExtendConfig(
+    return extendConfig(
       config,
       configPath,
       getParsers(),
@@ -182,7 +173,7 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
       basename.endsWith(".markdownlint.yaml") ||
       basename.endsWith(".markdownlint.yml")
     ) {
-      config = await markdownlintReadConfig(configPath, getParsers(), fs);
+      config = await readConfig(configPath, getParsers(), fs);
     } else if (
       basename.endsWith(".markdownlint.cjs") ||
       basename.endsWith(".markdownlint.mjs")
@@ -373,19 +364,19 @@ const getAndProcessDirInfo = (
 
     // Load markdownlint object(s)
     const readConfigs =
-      readConfig(
+      readConfigFile(
         fs,
         dir,
         ".markdownlint.jsonc",
-        readConfig(
+        readConfigFile(
           fs,
           dir,
           ".markdownlint.json",
-          readConfig(
+          readConfigFile(
             fs,
             dir,
             ".markdownlint.yaml",
-            readConfig(
+            readConfigFile(
               fs,
               dir,
               ".markdownlint.yml",
@@ -793,7 +784,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
       fs
     };
     // Invoke markdownlint
-    let task = markdownlint(options);
+    let task = lint(options);
     // For any fixable errors, read file, apply fixes, and write it back
     if (markdownlintOptions.fix) {
       task = task.then((results) => {
@@ -816,7 +807,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
           }
         }
         return Promise.all(subTasks).
-          then(() => markdownlint(options)).
+          then(() => lint(options)).
           then((fixResults) => ({
             ...results,
             ...fixResults
