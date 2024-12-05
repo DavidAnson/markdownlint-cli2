@@ -8,7 +8,6 @@
   },
   "license": "MIT",
   "type": "module",
-  "main": "./markdownlint-cli2.mjs",
   "exports": {
     ".": "./markdownlint-cli2.mjs",
     "./markdownlint": "./export-markdownlint.mjs",

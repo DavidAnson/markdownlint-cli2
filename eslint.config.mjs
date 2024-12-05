@@ -57,7 +57,6 @@ export default [
       "@stylistic/padded-blocks": "off",
 
       "unicorn/no-null": "off",
-      "unicorn/prefer-module": "off",
       "unicorn/prefer-string-raw": "off",
       "unicorn/prefer-string-replace-all": "off",
       "unicorn/prevent-abbreviations": "off"
@@ -76,6 +75,9 @@ export default [
         "module": "readonly",
         "require": "readonly"
       }
+    },
+    "rules": {
+      "unicorn/prefer-module": "off"
     }
   }
 ];
