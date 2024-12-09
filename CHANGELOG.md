@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.16.0
+
+- Try not to use require for modules (due to Node 22.12)
+- Update dependencies (EXcluding `markdownlint`)
+
 ## 0.15.0
 
 - Add support for `stdin` input via `-` glob
