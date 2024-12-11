@@ -1,22 +1,21 @@
 // @ts-check
 
-"use strict";
-
-const fs = require("node:fs/promises");
-const path = require("node:path");
-const test = require("ava").default;
-const testCases = require("./markdownlint-cli2-test-cases");
+import fs from "node:fs/promises";
+import path from "node:path";
+import test from "ava";
+import spawn from "nano-spawn";
+import testCases from "./markdownlint-cli2-test-cases.mjs";
+import { __dirname } from "./esm-helpers.mjs";
 
 const absolute = (rootDir, file) => path.join(rootDir, file);
-const repositoryPath = (name) => path.join(__dirname, "..", name);
+const repositoryPath = (name) => path.join(__dirname(import.meta), "..", name);
 
 const invoke = (directory, args, noRequire, env, script) => async () => {
   await fs.access(directory);
-  const { "default": spawn } = await import("nano-spawn");
   return spawn(
     "node",
     [
-      repositoryPath(script || "markdownlint-cli2.js"),
+      repositoryPath(script || "markdownlint-cli2-bin.mjs"),
       ...args
     ],
     {
@@ -42,20 +41,19 @@ testCases({
   "includeAbsolute": true
 });
 
-const invokeStdin = async (args, stdin, cwd) => {
-  const { "default": spawn } = await import("nano-spawn");
-  return spawn(
+const invokeStdin = (args, stdin, cwd) => (
+  spawn(
     "node",
     [
-      repositoryPath("markdownlint-cli2.js"),
+      repositoryPath("markdownlint-cli2-bin.mjs"),
       ...args
     ],
     {
       cwd,
       "stdin": { "string": stdin }
     }
-  );
-};
+  )
+);
 
 const validInput = "# Heading\n\nText\n";
 const invalidInput = "#  Heading\n\nText";
@@ -160,7 +158,7 @@ test("- parameter uses base directory configuration", (t) => {
   return invokeStdin(
     [ "-" ],
     invalidInput,
-    path.join(__dirname, "stdin")
+    path.join(__dirname(import.meta), "stdin")
   ).
     then(() => t.fail()).
     catch((error) => {
@@ -174,7 +172,7 @@ test("- parameter not treated as stdin in configuration file globs", (t) => {
   return invokeStdin(
     [],
     invalidInput,
-    path.join(__dirname, "stdin-globs")
+    path.join(__dirname(import.meta), "stdin-globs")
   ).
     then(() => t.pass()).
     catch(() => t.fail());

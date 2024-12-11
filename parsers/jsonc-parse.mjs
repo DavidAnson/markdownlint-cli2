@@ -1,8 +1,6 @@
 // @ts-check
 
-"use strict";
-
-const { parse, printParseErrorCode } = require("jsonc-parser");
+import { parse, printParseErrorCode } from "jsonc-parser";
 
 /**
  * Parses a JSONC string, returning the corresponding object.
@@ -21,4 +19,4 @@ const jsoncParse = (text) => {
   return result;
 };
 
-module.exports = jsoncParse;
+export default jsoncParse;

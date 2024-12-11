@@ -1,9 +1,7 @@
 // @ts-check
 
-"use strict";
-
-const test = require("ava").default;
-const mergeOptions = require("../merge-options");
+import test from "ava";
+import mergeOptions from "../merge-options.mjs";
 
 test("null/null", (t) => {
   t.plan(1);

@@ -1,5 +1,5 @@
 {
   "customRules": [
-    "../first-line.js"
+    "../first-line.cjs"
   ]
 }

@@ -1,7 +1,5 @@
 // @ts-check
 
-"use strict";
-
 /**
  * Wrapper for calling Node's require.resolve/require with an additional path.
  * @param {object} req Node's require implementation (or equivalent).
@@ -16,4 +14,4 @@ const resolveAndRequire = (req, id, dirs) => {
   return req(resolved);
 };
 
-module.exports = resolveAndRequire;
+export default resolveAndRequire;
