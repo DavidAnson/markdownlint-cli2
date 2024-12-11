@@ -2,7 +2,7 @@
 
 import test from "ava";
 import { importWithTypeJson } from "./esm-helpers.mjs";
-const packageJson = await importWithTypeJson("../package.json");
+const packageJson = await importWithTypeJson(import.meta, "../package.json");
 
 const exportMappings = new Map([
   [ ".", "../markdownlint-cli2.mjs" ],

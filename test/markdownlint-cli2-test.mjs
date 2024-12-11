@@ -7,7 +7,7 @@ import Ajv from "ajv";
 import test from "ava";
 import { globby } from "globby";
 import { __dirname, importWithTypeJson } from "./esm-helpers.mjs";
-const packageJson = await importWithTypeJson("../package.json");
+const packageJson = await importWithTypeJson(import.meta, "../package.json");
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import jsoncParse from "../parsers/jsonc-parse.mjs";
 import yamlParse from "../parsers/yaml-parse.mjs";
@@ -16,8 +16,8 @@ import FsVirtual from "../webworker/fs-virtual.cjs";
 import firstLine from "./customRules/rules/first-line.cjs";
 
 const schemaIdVersionRe = /^.*v(?<version>\d+\.\d+\.\d+).*$/u;
-const markdownlintConfigSchemaDefinition = await importWithTypeJson("../schema/markdownlint-config-schema.json");
-const markdownlintCli2ConfigSchemaDefinition = await importWithTypeJson("../schema/markdownlint-cli2-config-schema.json");
+const markdownlintConfigSchemaDefinition = await importWithTypeJson(import.meta, "../schema/markdownlint-config-schema.json");
+const markdownlintCli2ConfigSchemaDefinition = await importWithTypeJson(import.meta, "../schema/markdownlint-cli2-config-schema.json");
 
 const outputFormatterLengthIs = (t, length) => (options) => {
   const { results } = options;

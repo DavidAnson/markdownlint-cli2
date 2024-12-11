@@ -788,7 +788,6 @@ const lintFiles = (fs, dirInfos, fileContents) => {
       "handleRuleFailures": true,
       "markdownItPlugins": markdownlintOptions.markdownItPlugins,
       "noInlineConfig": Boolean(markdownlintOptions.noInlineConfig),
-      "resultVersion": 3,
       fs
     };
     // Invoke markdownlint
