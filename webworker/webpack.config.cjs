@@ -59,5 +59,10 @@ module.exports = {
       "stream": require.resolve("stream-browserify"),
       "url": require.resolve("./module-empty.cjs")
     }
-  }
+  },
+  "ignoreWarnings": [
+    {
+      "message": /dependencies cannot be statically extracted/u
+    }
+  ]
 };
