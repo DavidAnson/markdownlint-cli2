@@ -25,7 +25,7 @@ const outputFormatter = (options, params) => {
       {
         "tool": {
           "driver": {
-            "name": packageJson.name,
+            "name": Object.keys(packageJson.peerDependencies)[0],
             "version": packageJson.version,
             "informationUri": packageJson.homepage,
             "rules": sarifRules
