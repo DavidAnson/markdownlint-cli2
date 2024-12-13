@@ -1,7 +1,5 @@
 // @ts-check
 
-"use strict";
-
 /**
  * Merges two options objects by combining config and replacing properties.
  * @param {object} first First options object.
@@ -24,4 +22,4 @@ const mergeOptions = (first, second) => {
   return merged;
 };
 
-module.exports = mergeOptions;
+export default mergeOptions;

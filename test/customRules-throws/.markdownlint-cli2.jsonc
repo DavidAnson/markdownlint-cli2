@@ -1,5 +1,5 @@
 {
   "customRules": [
-    "./rules/throws.js"
+    "./rules/throws.cjs"
   ]
 }

@@ -1,19 +1,18 @@
 // @ts-check
 
-"use strict";
-
-const path = require("node:path");
-const { promisify } = require("node:util");
-const test = require("ava").default;
-const FsVirtual = require("../webworker/fs-virtual");
+import path from "node:path";
+import { promisify } from "node:util";
+import test from "ava";
+import { __filename } from "./esm-helpers.mjs";
+import FsVirtual from "../webworker/fs-virtual.cjs";
 
 const mockPath = "/mock";
-const thisFile = path.basename(__filename);
+const thisFile = path.basename(__filename(import.meta));
 const testFile = path.join(mockPath, thisFile);
 const missingFile = `${mockPath}/missing`;
 
 const virtualFiles = [
-  [ "/mock/fs-virtual-test.js", "// content" ]
+  [ "/mock/fs-virtual-test.mjs", "// content" ]
 ];
 
 test("fsVirtual.stat", async (t) => {

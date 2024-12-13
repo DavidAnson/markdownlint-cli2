@@ -1,53 +1,36 @@
-#!/usr/bin/env node
-
-// @ts-check
-
-"use strict";
-
 // @ts-ignore
-// eslint-disable-next-line camelcase, no-inline-comments, no-undef
-const dynamicRequire = (typeof __non_webpack_require__ === "undefined") ? require : /* c8 ignore next */ __non_webpack_require__;
-// Capture native require implementation for dynamic loading of modules
 
 // Requires
-const pathDefault = require("node:path");
+import fsNode from "node:fs";
+import { createRequire } from "node:module";
+const dynamicRequire = createRequire(import.meta.url);
+import os from "node:os";
+import pathDefault from "node:path";
 const pathPosix = pathDefault.posix;
-const { pathToFileURL } = require("node:url");
-const markdownlintLibrary = require("markdownlint");
-const {
-  applyFixes,
-  "getVersion": getLibraryVersion,
-  "promises": markdownlintPromises
-} = markdownlintLibrary;
-const {
-  markdownlint,
-  "extendConfig": markdownlintExtendConfig,
-  "readConfig": markdownlintReadConfig
-} = markdownlintPromises;
-const appendToArray = require("./append-to-array");
-const mergeOptions = require("./merge-options");
-const resolveAndRequire = require("./resolve-and-require");
+import { pathToFileURL } from "node:url";
+import { globby } from "globby";
+import micromatch from "micromatch";
+import { applyFixes, getVersion } from "markdownlint";
+import { lint, extendConfig, readConfig } from "markdownlint/promise";
+import { expandTildePath } from "markdownlint/helpers";
+import appendToArray from "./append-to-array.mjs";
+import mergeOptions from "./merge-options.mjs";
+import resolveAndRequire from "./resolve-and-require.mjs";
+import parsers from "./parsers/parsers.mjs";
+import jsoncParse from "./parsers/jsonc-parse.mjs";
+import yamlParse from "./parsers/yaml-parse.mjs";
 
 // Variables
 const packageName = "markdownlint-cli2";
 const packageVersion = "0.16.0";
 const libraryName = "markdownlint";
-const libraryVersion = getLibraryVersion();
+const libraryVersion = getVersion();
 const bannerMessage = `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`;
 const dotOnlySubstitute = "*.{md,markdown}";
 const utf8 = "utf8";
 
 // No-op function
 const noop = () => null;
-
-// Gets a JSONC parser
-const getJsoncParse = () => require("./parsers/jsonc-parse.js");
-
-// Gets a YAML parser
-const getYamlParse = () => require("./parsers/yaml-parse.js");
-
-// Gets an ordered array of parsers
-const getParsers = () => require("./parsers/parsers.js");
 
 // Negates a glob
 const negateGlob = (glob) => `!${glob}`;
@@ -63,25 +46,19 @@ const throwForConfigurationFile = (file, error) => {
 // Return a posix path (even on Windows)
 const posixPath = (p) => p.split(pathDefault.sep).join(pathPosix.sep);
 
-// Expands a path with a tilde to an absolute path
-const expandTildePath = (id) => {
-  const markdownlintRuleHelpers = require("markdownlint/helpers");
-  return markdownlintRuleHelpers.expandTildePath(id, require("node:os"));
-};
-
 // Resolves module paths relative to the specified directory
 const resolveModulePaths = (dir, modulePaths) => (
-  modulePaths.map((path) => pathDefault.resolve(dir, expandTildePath(path)))
+  modulePaths.map((path) => pathDefault.resolve(dir, expandTildePath(path, os)))
 );
 
 // Read a JSON(C) or YAML file and return the object
-const readConfig = (fs, dir, name, otherwise) => () => {
+const readConfigFile = (fs, dir, name, otherwise) => () => {
   const file = pathPosix.join(dir, name);
   return fs.promises.access(file).
     then(
-      () => markdownlintReadConfig(
+      () => readConfig(
         file,
-        getParsers(),
+        parsers,
         fs
       ),
       otherwise
@@ -95,7 +72,7 @@ const importOrRequireResolve = async (dirOrDirs, id, noRequire) => {
       return null;
     }
     const dirs = Array.isArray(dirOrDirs) ? dirOrDirs : [ dirOrDirs ];
-    const expandId = expandTildePath(id);
+    const expandId = expandTildePath(id, os);
     const errors = [];
     // Try to load via require(...)
     try {
@@ -162,10 +139,10 @@ const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => () => {
 // Extend a config object if it has 'extends' property
 const getExtendedConfig = (config, configPath, fs) => {
   if (config.extends) {
-    return markdownlintExtendConfig(
+    return extendConfig(
       config,
       configPath,
-      getParsers(),
+      parsers,
       fs
     );
   }
@@ -181,9 +158,9 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
   let config = null;
   try {
     if (basename.endsWith(".markdownlint-cli2.jsonc")) {
-      options = getJsoncParse()(await fs.promises.readFile(configPath, utf8));
+      options = jsoncParse(await fs.promises.readFile(configPath, utf8));
     } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
-      options = getYamlParse()(await fs.promises.readFile(configPath, utf8));
+      options = yamlParse(await fs.promises.readFile(configPath, utf8));
     } else if (
       basename.endsWith(".markdownlint-cli2.cjs") ||
       basename.endsWith(".markdownlint-cli2.mjs")
@@ -195,7 +172,7 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
       basename.endsWith(".markdownlint.yaml") ||
       basename.endsWith(".markdownlint.yml")
     ) {
-      config = await markdownlintReadConfig(configPath, getParsers(), fs);
+      config = await readConfig(configPath, parsers, fs);
     } else if (
       basename.endsWith(".markdownlint.cjs") ||
       basename.endsWith(".markdownlint.mjs")
@@ -221,13 +198,12 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
 };
 
 // Filter a list of files to ignore by glob
-const removeIgnoredFiles = (dir, files, ignores) => {
-  const micromatch = require("micromatch");
-  return micromatch(
+const removeIgnoredFiles = (dir, files, ignores) => (
+  micromatch(
     files.map((file) => pathPosix.relative(dir, file)),
     ignores
-  ).map((file) => pathPosix.join(dir, file));
-};
+  ).map((file) => pathPosix.join(dir, file))
+);
 
 // Process/normalize command-line arguments and return glob patterns
 const processArgv = (argv) => {
@@ -340,10 +316,10 @@ const getAndProcessDirInfo = (
     tasks.push(
       fs.promises.access(captureFile(markdownlintCli2Jsonc)).
         then(
-          () => fs.promises.readFile(file, utf8).then(getJsoncParse()),
+          () => fs.promises.readFile(file, utf8).then(jsoncParse),
           () => fs.promises.access(captureFile(markdownlintCli2Yaml)).
             then(
-              () => fs.promises.readFile(file, utf8).then(getYamlParse()),
+              () => fs.promises.readFile(file, utf8).then(yamlParse),
               () => fs.promises.access(captureFile(markdownlintCli2Cjs)).
                 then(
                   () => importOrRequireResolve(dir, file, noRequire),
@@ -358,7 +334,7 @@ const getAndProcessDirInfo = (
                         then(
                           () => fs.promises.
                             readFile(file, utf8).
-                            then(getJsoncParse()).
+                            then(jsoncParse).
                             then((obj) => obj[packageName]),
                           noop
                         )
@@ -387,19 +363,19 @@ const getAndProcessDirInfo = (
 
     // Load markdownlint object(s)
     const readConfigs =
-      readConfig(
+      readConfigFile(
         fs,
         dir,
         ".markdownlint.jsonc",
-        readConfig(
+        readConfigFile(
           fs,
           dir,
           ".markdownlint.json",
-          readConfig(
+          readConfigFile(
             fs,
             dir,
             ".markdownlint.yaml",
-            readConfig(
+            readConfigFile(
               fs,
               dir,
               ".markdownlint.yml",
@@ -548,8 +524,6 @@ const enumerateFiles = async (
     })
   );
   // Process glob patterns
-  // eslint-disable-next-line no-inline-comments
-  const { globby } = await import(/* webpackMode: "eager" */ "globby");
   const files = [
     ...await globby(expandedDirectories, globbyOptions),
     ...filteredLiteralFiles
@@ -797,7 +771,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
       "files": filteredFiles,
       "strings": filteredStrings,
       "config": markdownlintConfig || markdownlintOptions.config,
-      "configParsers": getParsers(),
+      "configParsers": parsers,
       "customRules": markdownlintOptions.customRules,
       "frontMatter": markdownlintOptions.frontMatter
         ? new RegExp(markdownlintOptions.frontMatter, "u")
@@ -805,11 +779,10 @@ const lintFiles = (fs, dirInfos, fileContents) => {
       "handleRuleFailures": true,
       "markdownItPlugins": markdownlintOptions.markdownItPlugins,
       "noInlineConfig": Boolean(markdownlintOptions.noInlineConfig),
-      "resultVersion": 3,
       fs
     };
     // Invoke markdownlint
-    let task = markdownlint(options);
+    let task = lint(options);
     // For any fixable errors, read file, apply fixes, and write it back
     if (markdownlintOptions.fix) {
       task = task.then((results) => {
@@ -832,7 +805,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
           }
         }
         return Promise.all(subTasks).
-          then(() => markdownlint(options)).
+          then(() => lint(options)).
           then((fixResults) => ({
             ...results,
             ...fixResults
@@ -899,7 +872,8 @@ const outputSummary = async (
     const dirs = [ dir, ...modulePaths ];
     const formattersAndParams = outputFormatters
       ? await importOrRequireIdsAndParams(dirs, outputFormatters, noRequire)
-      : [ [ require("markdownlint-cli2-formatter-default") ] ];
+      // eslint-disable-next-line no-inline-comments, unicorn/no-await-expression-member
+      : [ [ (await import(/* webpackMode: "eager" */ "markdownlint-cli2-formatter-default")).default ] ];
     await Promise.all(formattersAndParams.map((formatterAndParams) => {
       const [ formatter, ...formatterParams ] = formatterAndParams;
       return formatter(formatterOptions, ...formatterParams);
@@ -909,7 +883,7 @@ const outputSummary = async (
 };
 
 // Main function
-const main = async (params) => {
+export const main = async (params) => {
   // Capture parameters
   const {
     directory,
@@ -926,7 +900,7 @@ const main = async (params) => {
   } = params;
   const logMessage = params.logMessage || noop;
   const logError = params.logError || noop;
-  const fs = params.fs || require("node:fs");
+  const fs = params.fs || fsNode;
   const baseDirSystem =
     (directory && pathDefault.resolve(directory)) ||
     process.cwd();
@@ -1003,7 +977,7 @@ const main = async (params) => {
   // Add stdin as a non-file input if necessary
   if (useStdin) {
     const key = pathPosix.join(baseDir, "stdin");
-    const { text } = require("node:stream/consumers");
+    const { text } = await import("node:stream/consumers");
     nonFileContents = {
       ...nonFileContents,
       [key]: await text(process.stdin)
@@ -1089,27 +1063,3 @@ const main = async (params) => {
   // Return result
   return errorsPresent ? 1 : 0;
 };
-
-// Export functions
-module.exports = {
-  main
-};
-
-// Run if invoked as a CLI
-if (require.main === module) {
-  const params = {
-    "argv": process.argv.slice(2),
-    "logMessage": console.log,
-    "logError": console.error,
-    "allowStdin": true
-  };
-  main(params).
-    then((exitCode) => {
-      process.exitCode = exitCode;
-    }).
-    // eslint-disable-next-line unicorn/prefer-top-level-await
-    catch((error) => {
-      console.error(error);
-      process.exitCode = 2;
-    });
-}

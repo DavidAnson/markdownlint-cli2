@@ -1,6 +1,6 @@
 {
   "customRules": [
-    "../first-line.js"
+    "../first-line.cjs"
   ],
   "config": {
     "no-space-in-code": false

@@ -1,10 +1,7 @@
 // @ts-check
 
-"use strict";
-
-const test = require("ava").default;
-const appendToArray = require("../append-to-array");
-const { sliceSize } = appendToArray;
+import test from "ava";
+import appendToArray, { sliceSize } from "../append-to-array.mjs";
 
 const makeArray = (minimum, maximum) => {
   const length = maximum - minimum + 1;

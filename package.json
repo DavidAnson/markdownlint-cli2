@@ -7,18 +7,18 @@
     "url": "https://dlaa.me/"
   },
   "license": "MIT",
-  "type": "commonjs",
-  "main": "./markdownlint-cli2.js",
+  "type": "module",
   "exports": {
-    ".": "./markdownlint-cli2.js",
-    "./markdownlint": "./export-markdownlint.js",
-    "./markdownlint/helpers": "./export-markdownlint-helpers.js",
-    "./parsers": "./parsers/parsers.js",
-    "./parsers/jsonc": "./parsers/jsonc-parse.js",
-    "./parsers/yaml": "./parsers/yaml-parse.js"
+    ".": "./markdownlint-cli2.mjs",
+    "./markdownlint": "./export-markdownlint.mjs",
+    "./markdownlint/helpers": "./export-markdownlint-helpers.mjs",
+    "./markdownlint/promise": "./export-markdownlint-promise.mjs",
+    "./parsers": "./parsers/parsers.mjs",
+    "./parsers/jsonc": "./parsers/jsonc-parse.mjs",
+    "./parsers/yaml": "./parsers/yaml-parse.mjs"
   },
   "bin": {
-    "markdownlint-cli2": "markdownlint-cli2.js"
+    "markdownlint-cli2": "markdownlint-cli2-bin.mjs"
   },
   "homepage": "https://github.com/DavidAnson/markdownlint-cli2",
   "repository": {
@@ -39,7 +39,7 @@
     "playwright-test": "playwright test --config ./webworker/playwright.config.mjs",
     "playwright-test-docker": "docker run --rm --volume $PWD:/home/workdir --workdir /home/workdir --ipc=host mcr.microsoft.com/playwright:v1.49.1 npm run playwright-test",
     "schema": "cpy ./node_modules/markdownlint/schema/markdownlint-config-schema.json ./schema --flat",
-    "test": "ava --timeout=1m test/append-to-array-test.js test/fs-mock-test.js test/fs-virtual-test.js test/markdownlint-cli2-test.js test/markdownlint-cli2-test-exec.js test/markdownlint-cli2-test-exports.js test/markdownlint-cli2-test-fs.js test/markdownlint-cli2-test-main.js test/merge-options-test.js test/resolve-and-require-test.js",
+    "test": "ava --timeout=1m test/append-to-array-test.mjs test/fs-mock-test.mjs test/fs-virtual-test.mjs test/markdownlint-cli2-test.mjs test/markdownlint-cli2-test-exec.mjs test/markdownlint-cli2-test-exports.mjs test/markdownlint-cli2-test-fs.mjs test/markdownlint-cli2-test-main.mjs test/merge-options-test.mjs test/resolve-and-require-test.mjs",
     "test-cover": "c8 --100 npm test",
     "test-docker-hub-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker image rm davidanson/markdownlint-cli2:v$VERSION davidanson/markdownlint-cli2:latest || true && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2:v$VERSION \"*.md\" && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2:latest \"*.md\"",
     "test-docker-hub-image-rules": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker image rm davidanson/markdownlint-cli2-rules:v$VERSION davidanson/markdownlint-cli2-rules:latest || true && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2-rules:v$VERSION \"*.md\" && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2-rules:latest \"*.md\"",
@@ -47,26 +47,28 @@
     "test-docker-image-rules": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2-rules:v$VERSION \"*.md\"",
     "test-invoke-as-cli": "markdownlint-cli2 CHANGELOG.md",
     "test-watch": "git ls-files | entr npm run test",
-    "update-snapshots": "ava --timeout=1m --update-snapshots test/markdownlint-cli2-test-exec.js test/markdownlint-cli2-test-fs.js test/markdownlint-cli2-test-main.js",
+    "update-snapshots": "ava --timeout=1m --update-snapshots test/markdownlint-cli2-test-exec.mjs test/markdownlint-cli2-test-fs.mjs test/markdownlint-cli2-test-main.mjs",
     "webworker": "cd webworker && webpack --mode none",
-    "webworker-install": "npm install --no-package-lock --no-save path-browserify setimmediate stream-browserify util webpack-cli && cpy ./node_modules/setimmediate/setImmediate.js ./webworker --flat"
+    "webworker-install": "npm install --no-package-lock --no-save path-browserify setimmediate stream-browserify util webpack-cli && cpy ./node_modules/setimmediate/setImmediate.js ./webworker --flat --rename=setImmediate.cjs"
   },
   "engines": {
     "node": ">=18"
   },
   "files": [
-    "append-to-array.js",
+    "append-to-array.mjs",
     "CHANGELOG.md",
-    "export-markdownlint.js",
-    "export-markdownlint-helpers.js",
+    "export-markdownlint.mjs",
+    "export-markdownlint-helpers.mjs",
+    "export-markdownlint-promise.mjs",
     "LICENSE",
-    "markdownlint-cli2.js",
-    "merge-options.js",
-    "parsers/parsers.js",
-    "parsers/jsonc-parse.js",
-    "parsers/yaml-parse.js",
+    "markdownlint-cli2.mjs",
+    "markdownlint-cli2-bin.mjs",
+    "merge-options.mjs",
+    "parsers/parsers.mjs",
+    "parsers/jsonc-parse.mjs",
+    "parsers/yaml-parse.mjs",
     "README.md",
-    "resolve-and-require.js",
+    "resolve-and-require.mjs",
     "schema/markdownlint-cli2-config-schema.json",
     "schema/markdownlint-config-schema.json",
     "schema/ValidatingConfiguration.md"
@@ -75,7 +77,7 @@
     "globby": "14.0.2",
     "js-yaml": "4.1.0",
     "jsonc-parser": "3.3.1",
-    "markdownlint": "0.36.1",
+    "markdownlint": "0.37.0",
     "markdownlint-cli2-formatter-default": "0.0.5",
     "micromatch": "4.0.8"
   },
@@ -94,7 +96,6 @@
     "eslint-plugin-jsdoc": "50.6.1",
     "eslint-plugin-n": "17.15.0",
     "eslint-plugin-unicorn": "56.0.1",
-    "nano-spawn": "0.2.0",
     "markdown-it-emoji": "3.0.0",
     "markdown-it-for-inline": "2.0.1",
     "markdownlint-cli2-formatter-codequality": "0.0.5",
@@ -105,6 +106,7 @@
     "markdownlint-cli2-formatter-summarize": "0.0.7",
     "markdownlint-cli2-formatter-template": "0.0.2",
     "markdownlint-rule-extended-ascii": "0.1.0",
+    "nano-spawn": "0.2.0",
     "npm-run-all": "4.1.5"
   },
   "keywords": [

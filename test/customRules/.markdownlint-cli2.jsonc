@@ -1,8 +1,8 @@
 {
   "customRules": [
-    "./rules/any-blockquote.js",
-    "./rules/every-n-lines.js",
-    "./rules/first-line.js"
+    "./rules/any-blockquote.cjs",
+    "./rules/every-n-lines.cjs",
+    "./rules/first-line.cjs"
   ],
   "config": {
     "every-n-lines": {

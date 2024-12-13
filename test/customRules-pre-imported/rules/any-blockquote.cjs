@@ -2,7 +2,7 @@
 
 "use strict";
 
-/** @type import("markdownlint").Rule */
+/** @type {import("markdownlint").Rule} */
 module.exports = {
   "names": [ "any-blockquote" ],
   "description": "Rule that reports an error for any blockquote",

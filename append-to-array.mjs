@@ -1,7 +1,5 @@
 // @ts-check
 
-"use strict";
-
 const sliceSize = 1000;
 
 /**
@@ -21,5 +19,4 @@ const appendToArray = (destination, source) => {
   }
 };
 
-appendToArray.sliceSize = sliceSize;
-module.exports = appendToArray;
+export { appendToArray as default, sliceSize };

@@ -1,6 +1,6 @@
 // @ts-check
 
-/** @type import("markdownlint").Rule */
+/** @type {import("markdownlint").Rule} */
 const rule = {
   "names": [ "any-blockquote" ],
   "description": "Rule that reports an error for any blockquote",

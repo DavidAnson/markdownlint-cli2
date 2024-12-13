@@ -1,11 +1,10 @@
 // @ts-check
 
-"use strict";
-
-const fs = require("node:fs").promises;
-const os = require("node:os");
-const path = require("node:path");
-const test = require("ava").default;
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import test from "ava";
+import { __dirname } from "./esm-helpers.mjs";
 
 const noop = () => null;
 const empty = () => "";
@@ -13,7 +12,7 @@ const sanitize = (str) => str.
   replace(/\r/gu, "").
   replace(/\bv\d+\.\d+\.\d+\b/gu, "vX.Y.Z").
   replace(/ :.+[/\\]sentinel/gu, " :[PATH]");
-const sameFileSystem = (path.relative(os.homedir(), __dirname) !== __dirname);
+const sameFileSystem = (path.relative(os.homedir(), __dirname(import.meta)) !== __dirname(import.meta));
 const isModule = (file) => file.endsWith(".cjs") || file.endsWith(".mjs");
 
 const testCases = ({
@@ -57,7 +56,7 @@ const testCases = ({
     }
     test(`${name} (${host})`, (t) => {
       t.plan(3);
-      const directory = path.join(__dirname, cwd || name);
+      const directory = path.join(__dirname(import.meta), cwd || name);
       return ((pre || noop)(name, shadow) || Promise.resolve()).
         then(invoke(directory, args, noRequire, env, script)).
         then((result) => Promise.all([
@@ -143,13 +142,13 @@ const testCases = ({
 
   const copyDirectory = (dir, alt) => import("cpy").then((cpy) => (
     cpy.default(
-      path.join(__dirname, (alt || dir), "**"),
-      path.join(__dirname, directoryName(dir))
+      path.join(__dirname(import.meta), (alt || dir), "**"),
+      path.join(__dirname(import.meta), directoryName(dir))
     )
   ));
 
   const deleteDirectory = (dir) => import("del").then((del) => (
-    del.deleteAsync(path.join(__dirname, directoryName(dir)))
+    del.deleteAsync(path.join(__dirname(import.meta), directoryName(dir)))
   ));
 
   testCase({
@@ -588,7 +587,7 @@ const testCases = ({
   });
 
   const literalFilesAbsoluteFile = absolute(
-    path.join(__dirname, "literal-files"),
+    path.join(__dirname(import.meta), "literal-files"),
     "sentinel/dir(1)/(view)me.md"
   ).
     split(path.sep).
@@ -670,7 +669,7 @@ const testCases = ({
       "name": `config-files-${configFile}-absolute-arg`,
       "args": [
         "--config",
-        path.join(__dirname, "config-files", `cfg/${configFile}`),
+        path.join(__dirname(import.meta), "config-files", `cfg/${configFile}`),
         "**/*.md"
       ],
       "exitCode": 1,
@@ -1161,4 +1160,4 @@ const testCases = ({
 
 };
 
-module.exports = testCases;
+export default testCases;

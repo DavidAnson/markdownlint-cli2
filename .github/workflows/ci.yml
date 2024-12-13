@@ -76,7 +76,7 @@ jobs:
     - name: Install markdownlint-cli2 dependencies locally
       run: sudo npm install --no-package-lock --production
     - name: Lint with formatters
-      run: node ./markdownlint-cli2 CONTRIBUTING.md README.md
+      run: node ./markdownlint-cli2-bin.mjs CONTRIBUTING.md README.md
 
   lint-dockerfile:
     runs-on: ubuntu-latest
