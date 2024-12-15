@@ -10,8 +10,8 @@
       "default": "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/v0.16.0/schema/markdownlint-cli2-config-schema.json"
     },
     "config": {
-      "description": "markdownlint configuration schema : https://github.com/DavidAnson/markdownlint/blob/v0.37.0/schema/.markdownlint.jsonc",
-      "$ref": "https://raw.githubusercontent.com/DavidAnson/markdownlint/v0.37.0/schema/markdownlint-config-schema.json",
+      "description": "markdownlint configuration schema : https://github.com/DavidAnson/markdownlint/blob/v0.37.1/schema/.markdownlint.jsonc",
+      "$ref": "https://raw.githubusercontent.com/DavidAnson/markdownlint/v0.37.1/schema/markdownlint-config-schema.json",
       "default": {}
     },
     "customRules": {

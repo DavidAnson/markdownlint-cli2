@@ -48,6 +48,7 @@ module.exports = {
     })
   ],
   "resolve": {
+    "conditionNames": [ "import", "require" ],
     "fallback": {
       "buffer": false,
       "fs": false,

@@ -77,7 +77,7 @@
     "globby": "14.0.2",
     "js-yaml": "4.1.0",
     "jsonc-parser": "3.3.1",
-    "markdownlint": "0.37.0",
+    "markdownlint": "0.37.1",
     "markdownlint-cli2-formatter-default": "0.0.5",
     "micromatch": "4.0.8"
   },
