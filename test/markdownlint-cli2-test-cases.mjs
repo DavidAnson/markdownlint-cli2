@@ -19,7 +19,7 @@ const testCases = ({
   host,
   invoke,
   absolute,
-  includeNoRequire,
+  includeNoImport,
   includeEnv,
   includeScript,
   includeRequire,
@@ -38,7 +38,7 @@ const testCases = ({
       stderrRe,
       pre,
       post,
-      noRequire,
+      noImport,
       usesRequire
     } = options;
     const usesEnv = Boolean(env);
@@ -46,7 +46,7 @@ const testCases = ({
     // eslint-disable-next-line unicorn/no-array-callback-reference
     const usesAbsolute = args.some(path.isAbsolute);
     if (
-      (noRequire && !includeNoRequire) ||
+      (noImport && !includeNoImport) ||
       (usesEnv && !includeEnv) ||
       (usesRequire && !includeRequire) ||
       (usesScript && !includeScript) ||
@@ -58,7 +58,7 @@ const testCases = ({
       t.plan(3);
       const directory = path.join(__dirname(import.meta), cwd || name);
       return ((pre || noop)(name, shadow) || Promise.resolve()).
-        then(invoke(directory, args, noRequire, env, script)).
+        then(invoke(directory, args, noImport, env, script)).
         then((result) => Promise.all([
           result,
           fs.readFile(
@@ -359,7 +359,7 @@ const testCases = ({
     "name": "markdownlint-cjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to require or import module '.*\.markdownlint\.cjs'/u,
+    "stderrRe": /Unable to import module '.*\.markdownlint\.cjs'/u,
     "usesRequire": true
   });
 
@@ -367,7 +367,7 @@ const testCases = ({
     "name": "markdownlint-mjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to require or import module '.*\.markdownlint\.mjs'/u,
+    "stderrRe": /Unable to import module '.*\.markdownlint\.mjs'/u,
     "usesRequire": true
   });
 
@@ -491,7 +491,7 @@ const testCases = ({
     "name": "markdownlint-cli2-cjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.cjs'.*Unable to require or import module '/u,
+    "stderrRe": /'[^']*\.markdownlint-cli2\.cjs'.*Unable to import module '/u,
     "usesRequire": true
   });
 
@@ -499,7 +499,7 @@ const testCases = ({
     "name": "markdownlint-cli2-mjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.mjs'.*Unable to require or import module '/u,
+    "stderrRe": /'[^']*\.markdownlint-cli2\.mjs'.*Unable to import module '/u,
     "usesRequire": true
   });
 
@@ -679,7 +679,7 @@ const testCases = ({
   }
 
   const unableToParseJsonc = "Unable to parse JSONC content";
-  const unableToRequireOrImport = "Unable to require or import module";
+  const unableToRequireOrImport = "Unable to import module";
   const invalidConfigFiles = [
     [ "invalid.markdownlint-cli2.jsonc", unableToParseJsonc ],
     [ "invalid.markdownlint-cli2.cjs", unableToRequireOrImport ],
@@ -813,7 +813,7 @@ const testCases = ({
     "name": "customRules-missing",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to require or import module 'missing-package'\./u,
+    "stderrRe": /Unable to import module 'missing-package'\./u,
     "usesRequire": true
   });
 
@@ -843,7 +843,7 @@ const testCases = ({
     "name": "markdownItPlugins-missing",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to require or import module 'missing-package'\./u,
+    "stderrRe": /Unable to import module 'missing-package'\./u,
     "usesRequire": true
   });
 
@@ -929,7 +929,7 @@ const testCases = ({
     "name": "outputFormatters-missing",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to require or import module 'missing-package'\./u,
+    "stderrRe": /Unable to import module 'missing-package'\./u,
     "usesRequire": true
   });
 
@@ -990,7 +990,7 @@ const testCases = ({
     "args": [ "**/*.md" ],
     "exitCode": 1,
     "cwd": "markdownlint-cjs",
-    "noRequire": true
+    "noImport": true
   });
 
   testCase({
@@ -998,7 +998,7 @@ const testCases = ({
     "args": [ "**/*.md" ],
     "exitCode": 1,
     "cwd": "markdownlint-mjs",
-    "noRequire": true
+    "noImport": true
   });
 
   testCase({
@@ -1006,7 +1006,7 @@ const testCases = ({
     "args": [ "**/*.md" ],
     "exitCode": 1,
     "cwd": "markdownlint-cli2-cjs",
-    "noRequire": true
+    "noImport": true
   });
 
   testCase({
@@ -1014,7 +1014,7 @@ const testCases = ({
     "args": [ "**/*.md" ],
     "exitCode": 1,
     "cwd": "markdownlint-cli2-mjs",
-    "noRequire": true
+    "noImport": true
   });
 
   testCase({
@@ -1022,7 +1022,7 @@ const testCases = ({
     "args": [ "**/*.md" ],
     "exitCode": 1,
     "cwd": "customRules",
-    "noRequire": true
+    "noImport": true
   });
 
   testCase({
@@ -1030,7 +1030,7 @@ const testCases = ({
     "args": [ "**/*.md" ],
     "exitCode": 1,
     "cwd": "markdownItPlugins",
-    "noRequire": true
+    "noImport": true
   });
 
   if (sameFileSystem) {

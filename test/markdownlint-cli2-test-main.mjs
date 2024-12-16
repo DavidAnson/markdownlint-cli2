@@ -7,7 +7,7 @@ import testCases from "./markdownlint-cli2-test-cases.mjs";
 const linesEndingWithNewLine =
   (lines) => lines.map((line) => `${line}\n`).join("");
 
-const invoke = (directory, args, noRequire) => () => {
+const invoke = (directory, args, noImport) => () => {
   const stdouts = [];
   const stderrs = [];
   return markdownlintCli2({
@@ -15,7 +15,7 @@ const invoke = (directory, args, noRequire) => () => {
     "argv": args,
     "logMessage": (msg) => stdouts.push(msg),
     "logError": (msg) => stderrs.push(msg),
-    noRequire
+    noImport
   }).
     then(
       (exitCode) => exitCode,
@@ -37,7 +37,7 @@ testCases({
   "host": "main",
   invoke,
   absolute,
-  "includeNoRequire": true,
+  "includeNoImport": true,
   "includeEnv": false,
   "includeScript": false,
   "includeRequire": true,

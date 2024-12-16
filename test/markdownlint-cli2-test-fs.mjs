@@ -9,7 +9,7 @@ const mockDirectory = "/mock";
 const linesEndingWithNewLine =
   (lines) => lines.map((line) => `${line}\n`).join("");
 
-const invoke = (directory, args, noRequire) => () => {
+const invoke = (directory, args, noImport) => () => {
   const stdouts = [];
   const stderrs = [];
   return markdownlintCli2({
@@ -17,7 +17,7 @@ const invoke = (directory, args, noRequire) => () => {
     "argv": args,
     "logMessage": (msg) => stdouts.push(msg),
     "logError": (msg) => stderrs.push(msg),
-    noRequire,
+    noImport,
     "fs": new FsMock(directory)
   }).
     then(
@@ -40,7 +40,7 @@ testCases({
   "host": "fs",
   invoke,
   absolute,
-  "includeNoRequire": true,
+  "includeNoImport": true,
   "includeEnv": false,
   "includeScript": false,
   "includeRequire": false,

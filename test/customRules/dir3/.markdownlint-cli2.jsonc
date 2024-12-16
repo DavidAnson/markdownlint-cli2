@@ -2,6 +2,6 @@
   "customRules": [
     "../rules/all-rules.cjs",
     "../node_modules/markdownlint-rule-sample-commonjs",
-    "../node_modules/markdownlint-rule-sample-module/sample-rule.mjs"
+    "../node_modules/markdownlint-rule-sample-module"
   ]
 }

@@ -1,6 +1,6 @@
 // @ts-ignore
 
-// Requires
+// Imports
 import fsNode from "node:fs";
 import { createRequire } from "node:module";
 const dynamicRequire = createRequire(import.meta.url);
@@ -15,7 +15,7 @@ import { lint, extendConfig, readConfig } from "markdownlint/promise";
 import { expandTildePath } from "markdownlint/helpers";
 import appendToArray from "./append-to-array.mjs";
 import mergeOptions from "./merge-options.mjs";
-import resolveAndRequire from "./resolve-and-require.mjs";
+import resolveModule from "./resolve-module.mjs";
 import parsers from "./parsers/parsers.mjs";
 import jsoncParse from "./parsers/jsonc-parse.mjs";
 import yamlParse from "./parsers/yaml-parse.mjs";
@@ -65,73 +65,65 @@ const readConfigFile = (fs, dir, name, otherwise) => () => {
     );
 };
 
-// Import or resolve/require a module ID with a custom directory in the path
-const importOrRequireResolve = async (dirOrDirs, id, noRequire) => {
-  if (typeof id === "string") {
-    if (noRequire) {
-      return null;
-    }
-    const dirs = Array.isArray(dirOrDirs) ? dirOrDirs : [ dirOrDirs ];
-    const expandId = expandTildePath(id, os);
-    const errors = [];
-    // Try to load via require(...)
+// Import a module ID with a custom directory in the path
+const importModule = async (dirOrDirs, id, noImport) => {
+  if (typeof id !== "string") {
+    return id;
+  } else if (noImport) {
+    return null;
+  }
+  const dirs = Array.isArray(dirOrDirs) ? dirOrDirs : [ dirOrDirs ];
+  const expandId = expandTildePath(id, os);
+  const errors = [];
+  let moduleName = null;
+  try {
     try {
-      const isModule = /\.mjs$/iu.test(expandId);
-      if (!isModule) {
-        // Try not to use require for modules due to breaking change in Node 22.12:
-        // https://github.com/nodejs/node/releases/tag/v22.12.0
-        return resolveAndRequire(dynamicRequire, expandId, dirs);
-      }
+      moduleName = pathToFileURL(resolveModule(dynamicRequire, expandId, dirs));
     } catch (error) {
       errors.push(error);
+      moduleName =
+        // eslint-disable-next-line n/no-unsupported-features/node-builtins
+        (!pathDefault.isAbsolute(expandId) && URL.canParse(expandId))
+          ? new URL(expandId)
+          : pathToFileURL(pathDefault.resolve(dirs[0], expandId));
     }
-    // Try to load via import(...)
-    try {
-      // eslint-disable-next-line n/no-unsupported-features/node-builtins
-      const isURL = !pathDefault.isAbsolute(expandId) && URL.canParse(expandId);
-      const urlString = (
-        isURL ? new URL(expandId) : pathToFileURL(pathDefault.resolve(dirs[0], expandId))
-      ).toString();
-      // eslint-disable-next-line no-inline-comments
-      const module = await import(/* webpackIgnore: true */ urlString);
-      return module.default;
-    } catch (error) {
-      errors.push(error);
-    }
-    // Give up
+    // eslint-disable-next-line no-inline-comments
+    const module = await import(/* webpackIgnore: true */ moduleName);
+    return module.default;
+  } catch (error) {
+    errors.push(error);
     throw new AggregateError(
       errors,
-      `Unable to require or import module '${id}'.`
+      `Unable to import module '${id}'.`
     );
   }
-  return id;
 };
 
-// Import or require an array of modules by ID
-const importOrRequireIds = (dirs, ids, noRequire) => (
+// Import an array of modules by ID
+const importModuleIds = (dirs, ids, noImport) => (
   Promise.all(
     ids.map(
-      (id) => importOrRequireResolve(dirs, id, noRequire)
+      (id) => importModule(dirs, id, noImport)
     )
   ).then((results) => results.filter(Boolean))
 );
 
-// Import or require an array of modules by ID (preserving parameters)
-const importOrRequireIdsAndParams = (dirs, idsAndParams, noRequire) => (
+// Import an array of modules by ID (preserving parameters)
+const importModuleIdsAndParams = (dirs, idsAndParams, noImport) => (
   Promise.all(
     idsAndParams.map(
-      (idAndParams) => importOrRequireResolve(dirs, idAndParams[0], noRequire).
+      (idAndParams) => importModule(dirs, idAndParams[0], noImport).
         then((module) => module && [ module, ...idAndParams.slice(1) ])
     )
   ).then((results) => results.filter(Boolean))
 );
 
-// Import or require a JavaScript file and return the exported object
-const importOrRequireConfig = (fs, dir, name, noRequire, otherwise) => () => {
+// Import a JavaScript file and return the exported object
+const importConfig = (fs, dir, name, noImport, otherwise) => () => {
   const file = pathPosix.join(dir, name);
   return fs.promises.access(file).
     then(
-      () => importOrRequireResolve(dir, name, noRequire),
+      () => importModule(dir, name, noImport),
       otherwise
     );
 };
@@ -151,7 +143,7 @@ const getExtendedConfig = (config, configPath, fs) => {
 };
 
 // Read an options or config file in any format and return the object
-const readOptionsOrConfig = async (configPath, fs, noRequire) => {
+const readOptionsOrConfig = async (configPath, fs, noImport) => {
   const basename = pathPosix.basename(configPath);
   const dirname = pathPosix.dirname(configPath);
   let options = null;
@@ -165,7 +157,7 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
       basename.endsWith(".markdownlint-cli2.cjs") ||
       basename.endsWith(".markdownlint-cli2.mjs")
     ) {
-      options = await importOrRequireResolve(dirname, basename, noRequire);
+      options = await importModule(dirname, basename, noImport);
     } else if (
       basename.endsWith(".markdownlint.jsonc") ||
       basename.endsWith(".markdownlint.json") ||
@@ -177,7 +169,7 @@ const readOptionsOrConfig = async (configPath, fs, noRequire) => {
       basename.endsWith(".markdownlint.cjs") ||
       basename.endsWith(".markdownlint.mjs")
     ) {
-      config = await importOrRequireResolve(dirname, basename, noRequire);
+      config = await importModule(dirname, basename, noImport);
     } else {
       throw new Error(
         "File name should be (or end with) one of the supported types " +
@@ -288,7 +280,7 @@ const getAndProcessDirInfo = (
   dirToDirInfo,
   dir,
   relativeDir,
-  noRequire,
+  noImport,
   allowPackageJson
 ) => {
   // Create dirInfo
@@ -322,10 +314,10 @@ const getAndProcessDirInfo = (
               () => fs.promises.readFile(file, utf8).then(yamlParse),
               () => fs.promises.access(captureFile(markdownlintCli2Cjs)).
                 then(
-                  () => importOrRequireResolve(dir, file, noRequire),
+                  () => importModule(dir, file, noImport),
                   () => fs.promises.access(captureFile(markdownlintCli2Mjs)).
                     then(
-                      () => importOrRequireResolve(dir, file, noRequire),
+                      () => importModule(dir, file, noImport),
                       () => (allowPackageJson
                         ? fs.promises.access(captureFile(packageJson))
                         // eslint-disable-next-line prefer-promise-reject-errors
@@ -379,16 +371,16 @@ const getAndProcessDirInfo = (
               fs,
               dir,
               ".markdownlint.yml",
-              importOrRequireConfig(
+              importConfig(
                 fs,
                 dir,
                 ".markdownlint.cjs",
-                noRequire,
-                importOrRequireConfig(
+                noImport,
+                importConfig(
                   fs,
                   dir,
                   ".markdownlint.mjs",
-                  noRequire,
+                  noImport,
                   noop
                 )
               )
@@ -417,7 +409,7 @@ const getBaseOptions = async (
   options,
   fixDefault,
   noGlobs,
-  noRequire
+  noImport
 ) => {
   const tasks = [];
   const dirToDirInfo = {};
@@ -427,7 +419,7 @@ const getBaseOptions = async (
     dirToDirInfo,
     baseDir,
     relativeDir,
-    noRequire,
+    noImport,
     true
   );
   await Promise.all(tasks);
@@ -468,7 +460,7 @@ const enumerateFiles = async (
   dirToDirInfo,
   gitignore,
   ignoreFiles,
-  noRequire
+  noImport
 ) => {
   const tasks = [];
   /** @type {import("globby").Options} */
@@ -536,7 +528,7 @@ const enumerateFiles = async (
       dirToDirInfo,
       dir,
       null,
-      noRequire,
+      noImport,
       false
     );
     dirInfo.files.push(file);
@@ -549,7 +541,7 @@ const enumerateParents = async (
   fs,
   baseDir,
   dirToDirInfo,
-  noRequire
+  noImport
 ) => {
   const tasks = [];
 
@@ -578,7 +570,7 @@ const enumerateParents = async (
           dirToDirInfo,
           dir,
           null,
-          noRequire,
+          noImport,
           false
         );
       lastDirInfo.parent = dirInfo;
@@ -603,7 +595,7 @@ const createDirInfos = async (
   optionsOverride,
   gitignore,
   ignoreFiles,
-  noRequire
+  noImport
 ) => {
   await enumerateFiles(
     fs,
@@ -613,13 +605,13 @@ const createDirInfos = async (
     dirToDirInfo,
     gitignore,
     ignoreFiles,
-    noRequire
+    noImport
   );
   await enumerateParents(
     fs,
     baseDir,
     dirToDirInfo,
-    noRequire
+    noImport
   );
 
   // Merge file lists with identical configuration
@@ -650,10 +642,10 @@ const createDirInfos = async (
       );
       if (markdownlintOptions && markdownlintOptions.customRules) {
         tasks.push(
-          importOrRequireIds(
+          importModuleIds(
             [ effectiveDir, ...effectiveModulePaths ],
             markdownlintOptions.customRules,
-            noRequire
+            noImport
           ).then((customRules) => {
             // Expand nested arrays (for packages that export multiple rules)
             markdownlintOptions.customRules = customRules.flat();
@@ -662,10 +654,10 @@ const createDirInfos = async (
       }
       if (markdownlintOptions && markdownlintOptions.markdownItPlugins) {
         tasks.push(
-          importOrRequireIdsAndParams(
+          importModuleIdsAndParams(
             [ effectiveDir, ...effectiveModulePaths ],
             markdownlintOptions.markdownItPlugins,
-            noRequire
+            noImport
           ).then((markdownItPlugins) => {
             markdownlintOptions.markdownItPlugins = markdownItPlugins;
           })
@@ -858,7 +850,7 @@ const outputSummary = async (
   modulePaths,
   logMessage,
   logError,
-  noRequire
+  noImport
 ) => {
   const errorsPresent = (summary.length > 0);
   if (errorsPresent || outputFormatters) {
@@ -871,7 +863,7 @@ const outputSummary = async (
     const dir = relativeDir || baseDir;
     const dirs = [ dir, ...modulePaths ];
     const formattersAndParams = outputFormatters
-      ? await importOrRequireIdsAndParams(dirs, outputFormatters, noRequire)
+      ? await importModuleIdsAndParams(dirs, outputFormatters, noImport)
       // eslint-disable-next-line no-inline-comments, unicorn/no-await-expression-member
       : [ [ (await import(/* webpackMode: "eager" */ "markdownlint-cli2-formatter-default")).default ] ];
     await Promise.all(formattersAndParams.map((formatterAndParams) => {
@@ -891,7 +883,7 @@ export const main = async (params) => {
     optionsDefault,
     optionsOverride,
     fileContents,
-    noRequire,
+    noImport,
     allowStdin
   } = params;
   let {
@@ -948,7 +940,7 @@ export const main = async (params) => {
       const resolvedConfigPath =
         posixPath(pathDefault.resolve(baseDirSystem, configPath));
       optionsArgv =
-        await readOptionsOrConfig(resolvedConfigPath, fs, noRequire);
+        await readOptionsOrConfig(resolvedConfigPath, fs, noImport);
       relativeDir = pathPosix.dirname(resolvedConfigPath);
     }
     // Process arguments and get base options
@@ -961,7 +953,7 @@ export const main = async (params) => {
       optionsArgv || optionsDefault,
       fixDefault,
       noGlobs,
-      noRequire
+      noImport
     );
   } finally {
     if (!baseOptions?.baseMarkdownlintOptions.noBanner) {
@@ -1020,7 +1012,7 @@ export const main = async (params) => {
       optionsOverride,
       gitignore,
       ignoreFiles,
-      noRequire
+      noImport
     );
   // Output linting status
   if (showProgress) {
@@ -1058,7 +1050,7 @@ export const main = async (params) => {
     modulePaths,
     logMessage,
     logError,
-    noRequire
+    noImport
   );
   // Return result
   return errorsPresent ? 1 : 0;

@@ -475,7 +475,7 @@ test("custom fs, extension scenario for untitled", (t) => {
         writeFile
       }
     },
-    "noRequire": true
+    "noImport": true
   }).
     then((exitCode) => {
       t.is(exitCode, 1);
@@ -570,7 +570,7 @@ test("custom fs, using node:fs", (t) => {
     });
 });
 
-test("custom fs, using node:fs and noRequire=false", (t) => {
+test("custom fs, using node:fs and noImport=false", (t) => {
   t.plan(2);
   return markdownlintCli2({
     "directory": "test/markdownlint-cjs",
@@ -579,14 +579,14 @@ test("custom fs, using node:fs and noRequire=false", (t) => {
       "outputFormatters": [ [ outputFormatterLengthIs(t, 11) ] ]
     },
     "fs": nodeFs,
-    "noRequire": false
+    "noImport": false
   }).
     then((exitCode) => {
       t.is(exitCode, 1);
     });
 });
 
-test("custom fs, using node:fs and noRequire=true", (t) => {
+test("custom fs, using node:fs and noImport=true", (t) => {
   t.plan(2);
   return markdownlintCli2({
     "directory": "test/markdownlint-cjs",
@@ -595,7 +595,7 @@ test("custom fs, using node:fs and noRequire=true", (t) => {
       "outputFormatters": [ [ outputFormatterLengthIs(t, 14) ] ]
     },
     "fs": nodeFs,
-    "noRequire": true
+    "noImport": true
   }).
     then((exitCode) => {
       t.is(exitCode, 1);
@@ -611,7 +611,7 @@ test("custom fs, using fsMock", (t) => {
       "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
     },
     "fs": new FsMock(path.join(__dirname(import.meta), "markdownlint-cli2-jsonc")),
-    "noRequire": true
+    "noImport": true
   }).
     then((exitCode) => {
       t.is(exitCode, 1);
@@ -627,7 +627,7 @@ test("custom fs, using fsMock simulating symbolic links", (t) => {
       "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
     },
     "fs": new FsMock(path.join(__dirname(import.meta), "markdownlint-cli2-jsonc"), true),
-    "noRequire": true
+    "noImport": true
   }).
     then((exitCode) => {
       t.is(exitCode, 1);

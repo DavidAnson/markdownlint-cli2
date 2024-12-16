@@ -10,7 +10,7 @@ import { __dirname } from "./esm-helpers.mjs";
 const absolute = (rootDir, file) => path.join(rootDir, file);
 const repositoryPath = (name) => path.join(__dirname(import.meta), "..", name);
 
-const invoke = (directory, args, noRequire, env, script) => async () => {
+const invoke = (directory, args, noImport, env, script) => async () => {
   await fs.access(directory);
   return spawn(
     "node",
@@ -34,7 +34,7 @@ testCases({
   "host": "exec",
   invoke,
   absolute,
-  "includeNoRequire": false,
+  "includeNoImport": false,
   "includeEnv": true,
   "includeScript": true,
   "includeRequire": true,

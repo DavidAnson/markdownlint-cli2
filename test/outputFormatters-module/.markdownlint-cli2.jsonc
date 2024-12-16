@@ -1,6 +1,8 @@
 {
   "outputFormatters": [
     [ "output-formatter-sample-commonjs" ],
+    [ "output-formatter-sample-module" ],
+    [ "./node_modules/output-formatter-sample-commonjs/sample-formatter.cjs" ],
     [ "./node_modules/output-formatter-sample-module/sample-formatter.mjs" ]
   ]
 }
