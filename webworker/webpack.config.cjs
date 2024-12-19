@@ -48,7 +48,7 @@ module.exports = {
     })
   ],
   "resolve": {
-    "conditionNames": [ "import", "require" ],
+    "conditionNames": [ "markdownlint-imports-node", "..." ],
     "fallback": {
       "buffer": false,
       "fs": false,
