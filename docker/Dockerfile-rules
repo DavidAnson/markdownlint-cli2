@@ -22,6 +22,7 @@ RUN npm install --global --no-package-lock --production \
     markdownlint-rule-titlecase \
     markdownlint-rule-trace-template-headers \
     markdownlint-rules-foliant \
-    markdownlint-rules-grav-pages
+    markdownlint-rules-grav-pages \
+    sentences-per-line
 
 USER node
