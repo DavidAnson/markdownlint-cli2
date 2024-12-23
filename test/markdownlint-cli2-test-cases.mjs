@@ -722,7 +722,7 @@ const testCases = ({
     "args": [ "--config", "cfg/unrecognized.jsonc", "**/*.md" ],
     "exitCode": 2,
     "stderrRe":
-      /Unable to use configuration file '[^']*cfg\/unrecognized\.jsonc'; File name should be \(or end with\) one of the supported types \(e\.g\., '\.markdownlint\.json' or 'example\.markdownlint-cli2\.jsonc'\)\./u,
+      /Unable to use configuration file '[^']*cfg\/unrecognized\.jsonc'; Configuration file should be one of the supported names \(e\.g\., '\.markdownlint-cli2\.jsonc'\) or a prefix with a supported name \(e\.g\., 'example\.markdownlint-cli2\.jsonc'\)\./u,
     "cwd": "config-files"
   });
 

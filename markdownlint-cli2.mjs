@@ -172,8 +172,9 @@ const readOptionsOrConfig = async (configPath, fs, noImport) => {
       config = await importModule(dirname, basename, noImport);
     } else {
       throw new Error(
-        "File name should be (or end with) one of the supported types " +
-        "(e.g., '.markdownlint.json' or 'example.markdownlint-cli2.jsonc')."
+        "Configuration file should be one of the supported names " +
+        "(e.g., '.markdownlint-cli2.jsonc') or a prefix with a supported name " +
+        "(e.g., 'example.markdownlint-cli2.jsonc')."
       );
     }
   } catch (error) {
