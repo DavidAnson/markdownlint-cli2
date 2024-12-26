@@ -4,18 +4,15 @@
   entry: markdownlint-cli2
   language: node
   types: [markdown]
-  minimum_pre_commit_version: 0.16.0
 - id: markdownlint-cli2-docker
   name: markdownlint-cli2-docker
   description: "Checks the style of Markdown/CommonMark files."
   entry: davidanson/markdownlint-cli2
   language: docker_image
   types: [markdown]
-  minimum_pre_commit_version: 0.16.0
 - id: markdownlint-cli2-rules-docker
   name: markdownlint-cli2-rules-docker
   description: "Checks the style of Markdown/CommonMark files."
   entry: davidanson/markdownlint-cli2-rules
   language: docker_image
   types: [markdown]
-  minimum_pre_commit_version: 0.16.0

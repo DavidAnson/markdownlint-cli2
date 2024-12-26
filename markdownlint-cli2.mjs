@@ -22,7 +22,7 @@ import yamlParse from "./parsers/yaml-parse.mjs";
 
 // Variables
 const packageName = "markdownlint-cli2";
-const packageVersion = "0.16.0";
+const packageVersion = "0.17.0";
 const libraryName = "markdownlint";
 const libraryVersion = getVersion();
 const bannerMessage = `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`;

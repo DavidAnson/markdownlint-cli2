@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.17.0
+
+- Convert to ECMAScript modules
+- Use import() when loading modules
+- Update dependencies (including `markdownlint`)
+
 ## 0.16.0
 
 - Try not to use require for modules (due to Node 22.12)
