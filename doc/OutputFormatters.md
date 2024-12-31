@@ -63,4 +63,4 @@ For a `.markdownlint-cli2.jsonc` like:
 [formatter-junit]: ../formatter-junit/markdownlint-cli2-formatter-junit.js
 [formatter-sarif]: ../formatter-sarif/markdownlint-cli2-formatter-sarif.js
 [markdownlint-cli2-formatter]: https://www.npmjs.com/search?q=keywords:markdownlint-cli2-formatter
-[markdownlint-d-ts]: https://github.com/DavidAnson/markdownlint/blob/v0.37.2/lib/markdownlint.d.mts
+[markdownlint-d-ts]: https://github.com/DavidAnson/markdownlint/blob/v0.37.3/lib/markdownlint.d.mts
