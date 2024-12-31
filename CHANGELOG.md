@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.17.1
+
+- Update dependencies (including `markdownlint`)
+
 ## 0.17.0
 
 - Convert to ECMAScript modules
