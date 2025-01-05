@@ -4,6 +4,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "ava";
+import cpy from "cpy";
 import { __dirname } from "./esm-helpers.mjs";
 
 const noop = () => null;
@@ -140,16 +141,13 @@ const testCases = ({
 
   const directoryName = (dir) => `${dir}-copy-${host}`;
 
-  const copyDirectory = (dir, alt) => import("cpy").then((cpy) => (
-    cpy.default(
-      path.join(__dirname(import.meta), (alt || dir), "**"),
-      path.join(__dirname(import.meta), directoryName(dir))
-    )
-  ));
+  const copyDirectory = (dir, alt) => cpy(
+    path.join(__dirname(import.meta), (alt || dir), "**"),
+    path.join(__dirname(import.meta), directoryName(dir))
+  );
 
-  const deleteDirectory = (dir) => import("del").then((del) => (
-    del.deleteAsync(path.join(__dirname(import.meta), directoryName(dir)))
-  ));
+  const deleteDirectory = (dir) =>
+    fs.rm(path.join(__dirname(import.meta), directoryName(dir)), { "recursive": true });
 
   testCase({
     "name": "no-arguments",
