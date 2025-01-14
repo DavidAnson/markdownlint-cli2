@@ -2,20 +2,17 @@
 
 // Imports
 import fsNode from "node:fs";
-import { createRequire } from "node:module";
-const dynamicRequire = createRequire(import.meta.url);
 import os from "node:os";
 import pathDefault from "node:path";
 const pathPosix = pathDefault.posix;
 import { pathToFileURL } from "node:url";
 import { globby } from "globby";
 import micromatch from "micromatch";
-import { applyFixes, getVersion } from "markdownlint";
+import { applyFixes, getVersion, resolveModule } from "markdownlint";
 import { lint, extendConfig, readConfig } from "markdownlint/promise";
 import { expandTildePath } from "markdownlint/helpers";
 import appendToArray from "./append-to-array.mjs";
 import mergeOptions from "./merge-options.mjs";
-import resolveModule from "./resolve-module.mjs";
 import parsers from "./parsers/parsers.mjs";
 import jsoncParse from "./parsers/jsonc-parse.mjs";
 import yamlParse from "./parsers/yaml-parse.mjs";
@@ -78,7 +75,7 @@ const importModule = async (dirOrDirs, id, noImport) => {
   let moduleName = null;
   try {
     try {
-      moduleName = pathToFileURL(resolveModule(dynamicRequire, expandId, dirs));
+      moduleName = pathToFileURL(resolveModule(expandId, dirs));
     } catch (error) {
       errors.push(error);
       moduleName =

@@ -52,7 +52,6 @@ module.exports = {
     "fallback": {
       "buffer": false,
       "fs": false,
-      "module": require.resolve("./module-stub.cjs"),
       "os": require.resolve("./os-stub.cjs"),
       "path": require.resolve("path-browserify"),
       "process": require.resolve("./process-stub.cjs"),
