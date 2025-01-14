@@ -2,6 +2,7 @@
 
 "use strict";
 
+/** @type {import("markdownlint").Rule} */
 module.exports = {
   "names": [ "second-line" ],
   "description": "Rule that reports an error for the second line",
@@ -15,6 +16,7 @@ module.exports = {
           "lineNumber": 2
         });
       }
+      // @ts-ignore
       resolve();
     });
   }
