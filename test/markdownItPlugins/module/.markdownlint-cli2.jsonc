@@ -1,4 +1,12 @@
 {
+  "config": {
+    "assert-markdown-it-tokens": {
+      "file": "module.json"
+    }
+  },
+  "customRules": [
+    "../custom-rule-assert-markdown-it-tokens.mjs"
+  ],
   "markdownItPlugins": [
     [ "custom-markdown-it-plugin" ]
   ]

@@ -3,6 +3,14 @@
 "use strict";
 
 module.exports = {
+  "config": {
+    "assert-markdown-it-tokens": {
+      "file": "function.json"
+    }
+  },
+  "customRules": [
+    "../custom-rule-assert-markdown-it-tokens.mjs"
+  ],
   "markdownItPlugins": [
     [
       "markdown-it-for-inline",

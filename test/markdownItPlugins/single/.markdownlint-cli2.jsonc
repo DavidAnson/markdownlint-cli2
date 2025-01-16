@@ -1,4 +1,12 @@
 {
+  "config": {
+    "assert-markdown-it-tokens": {
+      "file": "single.json"
+    }
+  },
+  "customRules": [
+    "../custom-rule-assert-markdown-it-tokens.mjs"
+  ],
   "markdownItPlugins": [
     [ "@iktakahiro/markdown-it-katex" ]
   ]

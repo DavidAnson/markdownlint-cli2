@@ -1,5 +1,8 @@
 {
   "config": {
+    "assert-markdown-it-tokens": {
+      "file": "multiple.json"
+    },
     "proper-names": {
       "names": [
         "SMILE",
@@ -7,6 +10,9 @@
       ]
     }
   },
+  "customRules": [
+    "../custom-rule-assert-markdown-it-tokens.mjs"
+  ],
   "markdownItPlugins": [
     [ "markdown-it-emoji/dist/bare.cjs.js", { "enabled": [ "smile" ] } ],
     [ "@iktakahiro/markdown-it-katex" ]

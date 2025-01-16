@@ -5,6 +5,14 @@
 const markdownItForInline = require("markdown-it-for-inline");
 
 module.exports = {
+  "config": {
+    "assert-markdown-it-tokens": {
+      "file": "pre-imported.json"
+    }
+  },
+  "customRules": [
+    "../custom-rule-assert-markdown-it-tokens.mjs"
+  ],
   "markdownItPlugins": [
     [
       markdownItForInline,

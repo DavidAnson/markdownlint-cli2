@@ -1,0 +1,204 @@
+[
+  {
+    "type": "heading_open",
+    "tag": "h1",
+    "attrs": null,
+    "map": [
+      0,
+      1
+    ],
+    "nesting": 1,
+    "level": 0,
+    "children": null,
+    "content": "",
+    "markup": "#",
+    "info": "",
+    "meta": null,
+    "block": true,
+    "hidden": false,
+    "line": "# Heading",
+    "lineNumber": 1
+  },
+  {
+    "type": "inline",
+    "tag": "",
+    "attrs": null,
+    "map": [
+      0,
+      1
+    ],
+    "nesting": 0,
+    "level": 1,
+    "children": [
+      {
+        "type": "text",
+        "tag": "",
+        "attrs": null,
+        "map": null,
+        "nesting": 0,
+        "level": 0,
+        "children": null,
+        "content": "Heading",
+        "markup": "",
+        "info": "",
+        "meta": null,
+        "block": false,
+        "hidden": false,
+        "lineNumber": 1,
+        "line": "# Heading"
+      }
+    ],
+    "content": "Heading",
+    "markup": "",
+    "info": "",
+    "meta": null,
+    "block": true,
+    "hidden": false,
+    "line": "# Heading",
+    "lineNumber": 1
+  },
+  {
+    "type": "heading_close",
+    "tag": "h1",
+    "attrs": null,
+    "map": null,
+    "nesting": -1,
+    "level": 0,
+    "children": null,
+    "content": "",
+    "markup": "#",
+    "info": "",
+    "meta": null,
+    "block": true,
+    "hidden": false
+  },
+  {
+    "type": "paragraph_open",
+    "tag": "p",
+    "attrs": null,
+    "map": [
+      2,
+      3
+    ],
+    "nesting": 1,
+    "level": 0,
+    "children": null,
+    "content": "",
+    "markup": "",
+    "info": "",
+    "meta": null,
+    "block": true,
+    "hidden": false,
+    "line": "Text [ link ](https://example.com)",
+    "lineNumber": 3
+  },
+  {
+    "type": "inline",
+    "tag": "",
+    "attrs": null,
+    "map": [
+      2,
+      3
+    ],
+    "nesting": 0,
+    "level": 1,
+    "children": [
+      {
+        "type": "text",
+        "tag": "",
+        "attrs": null,
+        "map": null,
+        "nesting": 0,
+        "level": 0,
+        "children": null,
+        "content": "Text",
+        "markup": "",
+        "info": "",
+        "meta": null,
+        "block": false,
+        "hidden": false,
+        "lineNumber": 3,
+        "line": "Text [ link ](https://example.com)"
+      },
+      {
+        "type": "link_open",
+        "tag": "a",
+        "attrs": [
+          [
+            "href",
+            "https://example.com"
+          ]
+        ],
+        "map": null,
+        "nesting": 1,
+        "level": 0,
+        "children": null,
+        "content": "",
+        "markup": "",
+        "info": "",
+        "meta": null,
+        "block": false,
+        "hidden": false,
+        "lineNumber": 3,
+        "line": "Text [ link ](https://example.com)"
+      },
+      {
+        "type": "text",
+        "tag": "",
+        "attrs": null,
+        "map": null,
+        "nesting": 0,
+        "level": 1,
+        "children": null,
+        "content": "link",
+        "markup": "",
+        "info": "",
+        "meta": null,
+        "block": false,
+        "hidden": false,
+        "lineNumber": 3,
+        "line": "Text [ link ](https://example.com)"
+      },
+      {
+        "type": "link_close",
+        "tag": "a",
+        "attrs": null,
+        "map": null,
+        "nesting": -1,
+        "level": 0,
+        "children": null,
+        "content": "",
+        "markup": "",
+        "info": "",
+        "meta": null,
+        "block": false,
+        "hidden": false,
+        "lineNumber": 3,
+        "line": "Text [ link ](https://example.com)"
+      }
+    ],
+    "content": "Text [ link ](https://example.com)",
+    "markup": "",
+    "info": "",
+    "meta": null,
+    "block": true,
+    "hidden": false,
+    "line": "Text [ link ](https://example.com)",
+    "lineNumber": 3
+  },
+  {
+    "type": "paragraph_close",
+    "tag": "p",
+    "attrs": null,
+    "map": null,
+    "nesting": -1,
+    "level": 0,
+    "children": null,
+    "content": "",
+    "markup": "",
+    "info": "",
+    "meta": null,
+    "block": true,
+    "hidden": false
+  }
+]
