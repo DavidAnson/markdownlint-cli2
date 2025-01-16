@@ -31,7 +31,7 @@ ignores:
 # Use a plugin to recognize math
 markdownItPlugins:
   -
-    - "@iktakahiro/markdown-it-katex"
+    - "markdown-it-emoji/dist/light.cjs.js"
 
 # Additional paths to resolve module locations from
 modulePaths:

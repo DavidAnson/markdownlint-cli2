@@ -8,6 +8,6 @@
     "../custom-rule-assert-markdown-it-tokens.mjs"
   ],
   "markdownItPlugins": [
-    [ "@iktakahiro/markdown-it-katex" ]
+    [ "markdown-it-emoji/dist/light.cjs.js" ]
   ]
 }

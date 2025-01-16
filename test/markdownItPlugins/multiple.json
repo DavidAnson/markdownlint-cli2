@@ -111,8 +111,25 @@
         "nesting": 0,
         "level": 0,
         "children": null,
-        "content": "Happy emoji: :smile:",
+        "content": "Happy emoji:",
         "markup": "",
+        "info": "",
+        "meta": null,
+        "block": false,
+        "hidden": false,
+        "lineNumber": 3,
+        "line": "Happy emoji: :smile:"
+      },
+      {
+        "type": "emoji",
+        "tag": "",
+        "attrs": null,
+        "map": null,
+        "nesting": 0,
+        "level": 0,
+        "children": null,
+        "content": "😄",
+        "markup": "smile",
         "info": "",
         "meta": null,
         "block": false,
@@ -235,7 +252,7 @@
     "meta": null,
     "block": true,
     "hidden": false,
-    "line": "$1 *2* 3$",
+    "line": "Text [ link ](https://example.com)",
     "lineNumber": 7
   },
   {
@@ -250,30 +267,86 @@
     "level": 1,
     "children": [
       {
-        "type": "math_inline",
-        "tag": "math",
+        "type": "text",
+        "tag": "",
         "attrs": null,
         "map": null,
         "nesting": 0,
         "level": 0,
         "children": null,
-        "content": "1 *2* 3",
-        "markup": "$",
+        "content": "Text",
+        "markup": "",
         "info": "",
         "meta": null,
         "block": false,
         "hidden": false,
         "lineNumber": 7,
-        "line": "$1 *2* 3$"
+        "line": "Text [ link ](https://example.com)"
+      },
+      {
+        "type": "link_open",
+        "tag": "a",
+        "attrs": [
+          [
+            "href",
+            "https://example.com"
+          ]
+        ],
+        "map": null,
+        "nesting": 1,
+        "level": 0,
+        "children": null,
+        "content": "",
+        "markup": "",
+        "info": "",
+        "meta": null,
+        "block": false,
+        "hidden": false,
+        "lineNumber": 7,
+        "line": "Text [ link ](https://example.com)"
+      },
+      {
+        "type": "text",
+        "tag": "",
+        "attrs": null,
+        "map": null,
+        "nesting": 0,
+        "level": 1,
+        "children": null,
+        "content": "link",
+        "markup": "",
+        "info": "",
+        "meta": null,
+        "block": false,
+        "hidden": false,
+        "lineNumber": 7,
+        "line": "Text [ link ](https://example.com)"
+      },
+      {
+        "type": "link_close",
+        "tag": "a",
+        "attrs": null,
+        "map": null,
+        "nesting": -1,
+        "level": 0,
+        "children": null,
+        "content": "",
+        "markup": "",
+        "info": "",
+        "meta": null,
+        "block": false,
+        "hidden": false,
+        "lineNumber": 7,
+        "line": "Text [ link ](https://example.com)"
       }
     ],
-    "content": "$1 *2* 3$",
+    "content": "Text [ link ](https://example.com)",
     "markup": "",
     "info": "",
     "meta": null,
     "block": true,
     "hidden": false,
-    "line": "$1 *2* 3$",
+    "line": "Text [ link ](https://example.com)",
     "lineNumber": 7
   },
   {
@@ -290,45 +363,5 @@
     "meta": null,
     "block": true,
     "hidden": false
-  },
-  {
-    "type": "math_block",
-    "tag": "math",
-    "attrs": null,
-    "map": [
-      8,
-      9
-    ],
-    "nesting": 0,
-    "level": 0,
-    "children": null,
-    "content": "1 *2* 3\n",
-    "markup": "$$",
-    "info": "",
-    "meta": null,
-    "block": true,
-    "hidden": false,
-    "line": "$$1 *2* 3$$",
-    "lineNumber": 9
-  },
-  {
-    "type": "math_block",
-    "tag": "math",
-    "attrs": null,
-    "map": [
-      10,
-      13
-    ],
-    "nesting": 0,
-    "level": 0,
-    "children": null,
-    "content": "1\n+ 2\n+ 3",
-    "markup": "$$",
-    "info": "",
-    "meta": null,
-    "block": true,
-    "hidden": false,
-    "line": "$$1",
-    "lineNumber": 11
   }
 ]

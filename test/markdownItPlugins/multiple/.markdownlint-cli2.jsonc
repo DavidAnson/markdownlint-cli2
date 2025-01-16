@@ -14,7 +14,7 @@
     "../custom-rule-assert-markdown-it-tokens.mjs"
   ],
   "markdownItPlugins": [
-    [ "markdown-it-emoji/dist/bare.cjs.js", { "enabled": [ "smile" ] } ],
-    [ "@iktakahiro/markdown-it-katex" ]
+    [ "markdown-it-emoji/dist/light.cjs.js", { "enabled": [ "smile" ] } ],
+    [ "../file/custom-markdown-it-plugin.cjs" ]
   ]
 }

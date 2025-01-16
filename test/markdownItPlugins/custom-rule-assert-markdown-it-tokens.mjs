@@ -1,7 +1,7 @@
 // @ts-check
 
 import { deepEqual } from "node:assert";
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { __dirname } from "../esm-helpers.mjs";
 
@@ -23,15 +23,16 @@ export default {
         "utf8"
       )
     );
-    writeFileSync(
-      file,
-      JSON.stringify(
-        actual,
-        null,
-        2
-      ),
-      "utf8"
-    );
+    // Un-comment to update snapshots if markdown-it token output changes
+    // writeFileSync(
+    //   file,
+    //   JSON.stringify(
+    //     actual,
+    //     null,
+    //     2
+    //   ),
+    //   "utf8"
+    // );
     deepEqual(actual, expected);
   }
 };
