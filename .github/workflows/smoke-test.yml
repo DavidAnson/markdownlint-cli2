@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
-        node-version: [ 18, 20 ]
+        node-version: [ 18, 20, 22, 23 ]
 
     steps:
     - uses: actions/checkout@v4
@@ -25,10 +25,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install
+    - run: git config user.email "user@example.com" && git config user.name "User" && npm version 0.1.2
     - run: npm pack
-    - run: npm exec --yes -- cpy-cli "markdownlint-cli2-*.tgz" . --rename=markdownlint-cli2.tgz
     - run: npm exec --yes -- del-cli node_modules .npmrc npm-shrinkwrap.json package.json package-lock.json
-    - run: npm install markdownlint-cli2.tgz
+    - run: npm install markdownlint-cli2-0.1.2.tgz
     - run: node_modules/.bin/markdownlint-cli2 README.md
     - run: npm clean-install
     - run: node_modules/.bin/markdownlint-cli2 README.md
