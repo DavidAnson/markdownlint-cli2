@@ -18,7 +18,9 @@ COPY --from=build /pack/markdownlint-cli2-*.tgz /
 RUN npm install --global --no-package-lock --production /markdownlint-cli2-*.tgz
 RUN rm /markdownlint-cli2-*.tgz
 
-USER node
+USER 1000
+# 1000 is the documented user ID for the unprivileged "node" user: https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
+# Kubernetes running as non-root requires user ID (implied by the docs for "runAsUser"): https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#securitycontext-v1-core
 
 WORKDIR /workdir
 
