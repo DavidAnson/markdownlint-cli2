@@ -43,6 +43,9 @@ jobs:
 
 
 
+Phi-3-medium instruct (128k)
+
+
 
 $ git merge upstream/main
 > Updating 34e91da..16c56ad
