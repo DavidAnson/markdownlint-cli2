@@ -28,6 +28,13 @@ module.exports = {
         resource.request = module;
       }
     ),
+    // Intercept "markdown-it" to provide empty implementation
+    new webpack.NormalModuleReplacementPlugin(
+      /^markdown-it$/u,
+      (resource) => {
+        resource.request = require.resolve("./module-empty.cjs");
+      }
+    ),
     // Intercept "node:stream/consumers" and "node:stream/promises" lacking a browserify entry
     new webpack.NormalModuleReplacementPlugin(
       /^stream\/(?:consumers|promises)$/u,
