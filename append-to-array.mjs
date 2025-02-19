@@ -19,4 +19,5 @@ const appendToArray = (destination, source) => {
   }
 };
 
-export { appendToArray as default, sliceSize };
+export default appendToArray;
+export { sliceSize };
