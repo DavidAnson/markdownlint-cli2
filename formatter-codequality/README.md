@@ -15,7 +15,7 @@ npm install markdownlint-cli2-formatter-codequality --save-dev
 
 ## Use
 
-For the default output file name of `"markdownlint-cli2-codequality.json"`, use
+For the default output file name of `markdownlint-cli2-codequality.json`, use
 the following `.markdownlint-cli2.jsonc`:
 
 ```json
@@ -32,6 +32,17 @@ To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
 {
   "outputFormatters": [
     [ "markdownlint-cli2-formatter-codequality", { "name": "custom-name.json" } ]
+  ]
+}
+```
+
+To customize the [`severity` used for violations][report-format], use the
+following `.markdownlint-cli2.jsonc`:
+
+```json
+{
+  "outputFormatters": [
+    [ "markdownlint-cli2-formatter-codequality", { "severity": "blocker" } ]
   ]
 }
 ```
@@ -134,3 +145,4 @@ markdownlint:
 [markdownlint-cli2]: https://github.com/DavidAnson/markdownlint-cli2
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2-formatter-codequality.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2-formatter-codequality
+[report-format]: https://docs.gitlab.com/ci/testing/code_quality/#code-quality-report-format

@@ -20,7 +20,7 @@ const createFingerprint = function createFingerprint(violation) {
 // See: https://docs.gitlab.com/ee/ci/testing/code_quality.html#implementing-a-custom-tool
 const outputFormatter = (options, params) => {
   const { directory, results } = options;
-  const { name } = (params || {});
+  const { name, severity } = (params || {});
   const issues = [];
 
   for (const errorInfo of results) {
@@ -44,7 +44,7 @@ const outputFormatter = (options, params) => {
       "type": "issue",
       "check_name": ruleName,
       "description": text,
-      "severity": "minor",
+      "severity": severity || "minor",
       "fingerprint": createFingerprint(errorText),
       "location": {
         "path": fileName,
