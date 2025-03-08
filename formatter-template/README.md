@@ -56,7 +56,33 @@ A few examples demonstrate the concept:
 
 <!-- markdownlint-restore -->
 
-## Example
+## Examples
+
+To output in the [GitHub Actions workflow commands format][workflow-commands],
+use something like the following `.markdownlint-cli2.jsonc`:
+
+```json
+{
+  "outputFormatters": [
+    [
+      "markdownlint-cli2-formatter-template",
+      {
+        "template": "::error file=${fileName},line=${lineNumber},${columnNumber:col=${columnNumber},}title=${ruleName}::${ruleDescription}"
+      }
+    ]
+  ]
+}
+```
+
+Which produces output like:
+
+```text
+::error file=viewme.md,line=3,col=10,title=MD009/no-trailing-spaces::Trailing spaces
+::error file=viewme.md,line=5,title=MD012/no-multiple-blanks::Multiple consecutive blank lines
+::error file=viewme.md,line=6,title=MD025/single-title/single-h1::Multiple top-level headings in the same document
+::error file=viewme.md,line=12,col=4,title=MD019/no-multiple-space-atx::Multiple spaces after hash on atx style heading
+::error file=viewme.md,line=14,col=14,title=MD047/single-trailing-newline::Files should end with a single newline character
+```
 
 To output in the [Azure Pipelines Task command LogIssue format][task-logissue],
 use something like the following `.markdownlint-cli2.jsonc`:
@@ -90,3 +116,4 @@ Which produces output like:
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2-formatter-template.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2-formatter-template
 [task-logissue]: https://learn.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands?view=azure-devops&tabs=bash#logissue-log-an-error-or-warning
+[workflow-commands]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions
