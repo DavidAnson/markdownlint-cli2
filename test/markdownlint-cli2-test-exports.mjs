@@ -14,7 +14,7 @@ const exportMappings = new Map([
   [ "./parsers/yaml", "../parsers/yaml-parse.mjs" ]
 ]);
 
-test("exportMappings", (t) => {
+test("exportMappings table", (t) => {
   t.deepEqual(
     Object.keys(packageJson.exports),
     [ ...exportMappings.keys() ]
@@ -32,3 +32,15 @@ for (const [ exportName, exportPath ] of exportMappings) {
     );
   });
 }
+
+test("exported names", async (t) => {
+  t.plan(1);
+  const exportedNames = {};
+  for (const [ exportName ] of exportMappings) {
+    const exportByName = exportName.replace(/^\./u, packageJson.name);
+    // eslint-disable-next-line no-await-in-loop
+    const importExportByName = await import(exportByName);
+    exportedNames[exportByName] = Object.keys(importExportByName);
+  }
+  t.snapshot(exportedNames);
+});

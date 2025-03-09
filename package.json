@@ -47,7 +47,7 @@
     "test-docker-image-rules": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2-rules:v$VERSION \"*.md\"",
     "test-invoke-as-cli": "markdownlint-cli2 CHANGELOG.md",
     "test-watch": "git ls-files | entr npm run test",
-    "update-snapshots": "ava --timeout=1m --update-snapshots test/markdownlint-cli2-test-exec.mjs test/markdownlint-cli2-test-fs.mjs test/markdownlint-cli2-test-main.mjs",
+    "update-snapshots": "ava --timeout=1m --update-snapshots test/markdownlint-cli2-test-exec.mjs test/markdownlint-cli2-test-exports.mjs test/markdownlint-cli2-test-fs.mjs test/markdownlint-cli2-test-main.mjs",
     "webworker": "cd webworker && webpack --mode none",
     "webworker-install": "npm install --no-package-lock --no-save path-browserify setimmediate stream-browserify util webpack-cli && cpy ./node_modules/setimmediate/setImmediate.js ./webworker --flat --rename=setImmediate.cjs"
   },
