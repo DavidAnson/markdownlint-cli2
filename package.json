@@ -81,7 +81,7 @@
     "micromatch": "4.0.8"
   },
   "devDependencies": {
-    "@eslint/js": "9.23.0",
+    "@eslint/js": "9.24.0",
     "@playwright/test": "1.51.1",
     "@stylistic/eslint-plugin": "4.2.0",
     "ajv": "8.17.1",
