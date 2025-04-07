@@ -90,7 +90,7 @@
     "chalk": "5.4.1",
     "cpy": "11.1.0",
     "cpy-cli": "5.0.0",
-    "eslint": "9.23.0",
+    "eslint": "9.24.0",
     "eslint-plugin-jsdoc": "50.6.9",
     "eslint-plugin-n": "17.17.0",
     "eslint-plugin-unicorn": "58.0.0",
