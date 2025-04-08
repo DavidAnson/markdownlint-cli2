@@ -57,6 +57,11 @@ jobs:
     - run: npm run webworker
     - run: npm run playwright-install-bare
     - run: npm run playwright-test-docker
+    - uses: actions/upload-artifact@v4
+      with:
+        name: playwright-screenshots
+        path: playwright-screenshot-*.png
+        retention-days: 3
 
   install-global:
     runs-on: ubuntu-latest
