@@ -79,7 +79,6 @@ const importModule = async (dirOrDirs, id, noImport) => {
     } catch (error) {
       errors.push(error);
       moduleName =
-        // eslint-disable-next-line n/no-unsupported-features/node-builtins
         (!pathDefault.isAbsolute(expandId) && URL.canParse(expandId))
           ? new URL(expandId)
           : pathToFileURL(pathDefault.resolve(dirs[0], expandId));
