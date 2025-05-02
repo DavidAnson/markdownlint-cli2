@@ -52,7 +52,7 @@
     "webworker-install": "npm install --no-package-lock --no-save path-browserify setimmediate stream-browserify util webpack-cli && cpy ./node_modules/setimmediate/setImmediate.js ./webworker --flat --rename=setImmediate.cjs"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "files": [
     "append-to-array.mjs",
