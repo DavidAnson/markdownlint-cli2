@@ -754,6 +754,16 @@ const lintFiles = (fs, dirInfos, fileContents) => {
         filteredStrings[file] = fileContents[file];
       }
     }
+    // Create markdown-it factory
+    // eslint-disable-next-line unicorn/consistent-function-scoping
+    const markdownItFactory = async () => {
+      const module = await import("markdown-it");
+      const markdownIt = module.default({ "html": true });
+      for (const plugin of (markdownlintOptions.markdownItPlugins || [])) {
+        markdownIt.use(...plugin);
+      }
+      return markdownIt;
+    };
     // Create markdownlint options object
     /** @type {import("markdownlint").Options} */
     const options = {
@@ -766,7 +776,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
         ? new RegExp(markdownlintOptions.frontMatter, "u")
         : undefined,
       "handleRuleFailures": true,
-      "markdownItPlugins": markdownlintOptions.markdownItPlugins,
+      markdownItFactory,
       "noInlineConfig": Boolean(markdownlintOptions.noInlineConfig),
       fs
     };
