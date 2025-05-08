@@ -3,7 +3,8 @@
 ARG VERSION
 FROM davidanson/markdownlint-cli2:${VERSION}
 
-USER root
+# "0" is root
+USER 0
 
 RUN npm install --global --no-package-lock --production \
     @github/markdownlint-github \
