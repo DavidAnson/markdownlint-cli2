@@ -105,7 +105,7 @@
     "markdownlint-cli2-formatter-summarize": "0.0.7",
     "markdownlint-cli2-formatter-template": "0.0.2",
     "markdownlint-rule-extended-ascii": "0.2.1",
-    "nano-spawn": "0.2.0",
+    "nano-spawn": "0.2.1",
     "npm-run-all": "4.1.5",
     "terminal-link": "4.0.0"
   },
