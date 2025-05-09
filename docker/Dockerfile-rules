@@ -3,8 +3,8 @@
 ARG VERSION
 FROM davidanson/markdownlint-cli2:${VERSION}
 
-# "0" is root
 USER 0
+# 0 is the documented user ID for the "root" user: https://www.docker.com/blog/understanding-the-docker-user-instruction
 
 RUN npm install --global --no-package-lock --production \
     @github/markdownlint-github \
@@ -26,8 +26,6 @@ RUN npm install --global --no-package-lock --production \
     markdownlint-rules-grav-pages \
     sentences-per-line
 
-# "1000" is the documented UID for the "node" user: https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
-# Systems configured to disallow running images as root aren't able to run images that use user name string values for the USER because they can't validate that a named user isn't root.
-# To allow this image to run on such systems, use the uid of the user as the value for USER instead of the username.
-# See https://github.com/kubernetes/kubernetes/pull/56503
 USER 1000
+# 1000 is the documented user ID for the unprivileged "node" user: https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
+# Kubernetes running as non-root requires user ID (implied by the docs for "runAsUser"): https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#securitycontext-v1-core
