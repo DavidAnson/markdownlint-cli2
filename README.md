@@ -302,12 +302,14 @@ of the rules within.
     version numbers on `stdout`
     - This top-level setting is valid **only** in the directory from which
       `markdownlint-cli2` is run
+    - Use with `noProgress` to suppress all output to `stdout` (i.e., `--quiet`)
   - `noInlineConfig`: `Boolean` value to disable the support of
     [HTML comments][html-comment] within Markdown content
     - For example: `<!-- markdownlint-disable some-rule -->`
   - `noProgress`: `Boolean` value to disable the display of progress on `stdout`
     - This top-level setting is valid **only** in the directory from which
       `markdownlint-cli2` is run
+    - Use with `noBanner` to suppress all output to `stdout` (i.e., `--quiet`)
   - `outputFormatters`: `Array` of `Array`s, each of which has a `String`
     naming an [output formatter][output-formatters] followed by parameters
     - Formatters can be used to customize the tool's output for different
