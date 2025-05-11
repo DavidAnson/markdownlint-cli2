@@ -757,7 +757,8 @@ const lintFiles = (fs, dirInfos, fileContents) => {
     // Create markdown-it factory
     // eslint-disable-next-line unicorn/consistent-function-scoping
     const markdownItFactory = async () => {
-      const module = await import("markdown-it");
+      // eslint-disable-next-line no-inline-comments
+      const module = await import(/* webpackMode: "eager" */ "markdown-it");
       const markdownIt = module.default({ "html": true });
       for (const plugin of (markdownlintOptions.markdownItPlugins || [])) {
         markdownIt.use(...plugin);
