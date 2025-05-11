@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.0
+
+- Use user ID in Docker containers for security
+- Update dependencies (including `markdownlint`)
+- Remove support for end-of-life Node 18
+
 ## 0.17.2
 
 - Update dependencies (including `markdownlint`)
