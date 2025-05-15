@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.1
+
+- Update dependencies (including `markdownlint`)
+
 ## 0.18.0
 
 - Use user ID in Docker containers for security
