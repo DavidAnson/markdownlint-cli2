@@ -26,7 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies
-      run: npm install --no-package-lock
+      run: npm install
     - name: Run All Validations
       run: npm run ci
 
@@ -52,7 +52,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
-    - run: npm install --no-package-lock
+    - run: npm install
     - run: npm run webworker-install
     - run: npm run webworker
     - run: npm run playwright-install-bare
@@ -70,7 +70,7 @@ jobs:
     - name: Package markdownlint-cli2
       run: npm pack
     - name: Install markdownlint-cli2 globally
-      run: sudo npm install --global --no-package-lock --production markdownlint-cli2-*.tgz
+      run: sudo npm install --global --omit=dev markdownlint-cli2-*.tgz
     - name: Lint without formatters
       run: markdownlint-cli2 CONTRIBUTING.md README.md
     - name: Package formatter-default
@@ -90,13 +90,13 @@ jobs:
     - name: Package formatter-template
       run: cd formatter-template && npm pack
     - name: Install formatters globally
-      run: sudo npm install --global --no-package-lock --production ./formatter-default/*.tgz ./formatter-codequality/*.tgz ./formatter-json/*.tgz ./formatter-junit/*.tgz ./formatter-pretty/*.tgz ./formatter-sarif/*.tgz ./formatter-summarize/*.tgz ./formatter-template/*.tgz
+      run: sudo npm install --global --omit=dev ./formatter-default/*.tgz ./formatter-codequality/*.tgz ./formatter-json/*.tgz ./formatter-junit/*.tgz ./formatter-pretty/*.tgz ./formatter-sarif/*.tgz ./formatter-summarize/*.tgz ./formatter-template/*.tgz
     - name: Lint with formatters
       run: cp test/outputFormatters-npm/.markdownlint-cli2.jsonc . && markdownlint-cli2 CONTRIBUTING.md README.md
     - name: Uninstall markdownlint-cli2 globally
-      run: sudo npm uninstall --global --no-package-lock markdownlint-cli2
+      run: sudo npm uninstall --global markdownlint-cli2
     - name: Install markdownlint-cli2 dependencies locally
-      run: sudo npm install --no-package-lock --production
+      run: sudo npm install --omit=dev
     - name: Lint with formatters
       run: node ./markdownlint-cli2-bin.mjs CONTRIBUTING.md README.md
 

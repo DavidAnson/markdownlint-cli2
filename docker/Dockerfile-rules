@@ -6,7 +6,7 @@ FROM davidanson/markdownlint-cli2:${VERSION}
 USER 0
 # 0 is the documented user ID for the "root" user: https://www.docker.com/blog/understanding-the-docker-user-instruction
 
-RUN npm install --global --no-package-lock --production \
+RUN npm install --global --no-package-lock --omit=dev \
     @github/markdownlint-github \
     markdownlint-rule-enhanced-proper-names \
     markdownlint-rule-extended-ascii \

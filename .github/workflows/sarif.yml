@@ -17,7 +17,7 @@ jobs:
       security-events: write
     steps:
     - uses: actions/checkout@v4
-    - run: npm install --no-package-lock
+    - run: npm install
     - run: node markdownlint-cli2-bin.mjs --config .github/sarif.markdownlint-cli2.jsonc '**/README.md' '#node_modules'
       continue-on-error: true
     - uses: github/codeql-action/upload-sarif@v3
