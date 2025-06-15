@@ -52,7 +52,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
-    - run: npm install
+    - run: npm install --omit=dev
     - run: npm run webworker-install
     - run: npm run webworker
     - run: npm run playwright-install-bare
