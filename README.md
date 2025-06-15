@@ -37,7 +37,7 @@ As a [GitHub Action][github-action] via
 
 ```yaml
 - name: markdownlint-cli2-action
-  uses: DavidAnson/markdownlint-cli2-action@v9
+  uses: DavidAnson/markdownlint-cli2-action@v20
 ```
 
 ## Overview
