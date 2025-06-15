@@ -24,11 +24,11 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
+    - run: npm install --omit=dev
     - run: git config user.email "user@example.com" && git config user.name "User" && npm version 0.1.2
     - run: npm pack
     - run: npm exec --yes -- del-cli node_modules .npmrc npm-shrinkwrap.json package.json package-lock.json
-    - run: npm install markdownlint-cli2-0.1.2.tgz
+    - run: npm install --omit=dev markdownlint-cli2-0.1.2.tgz
     - run: node_modules/.bin/markdownlint-cli2 README.md
     - run: npm clean-install
     - run: node_modules/.bin/markdownlint-cli2 README.md
