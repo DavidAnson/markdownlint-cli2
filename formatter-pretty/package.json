@@ -22,7 +22,7 @@
     "markdownlint-cli2": ">=0.0.4"
   },
   "dependencies": {
-    "chalk": "5.4.1",
+    "chalk": "5.5.0",
     "terminal-link": "4.0.0"
   },
   "keywords": [
