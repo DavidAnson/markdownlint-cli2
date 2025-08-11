@@ -20,7 +20,7 @@ jobs:
         node-version: [ 20, 22, 24 ]
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
@@ -33,7 +33,7 @@ jobs:
   run-tests-pnpm:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Use pnpm latest
       uses: pnpm/action-setup@v4
       with:
@@ -50,7 +50,7 @@ jobs:
   run-tests-webworker:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: actions/setup-node@v4
     - run: npm install
     - run: npm run webworker-install
@@ -66,7 +66,7 @@ jobs:
   install-global:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Package markdownlint-cli2
       run: npm pack
     - name: Install markdownlint-cli2 globally
@@ -104,6 +104,6 @@ jobs:
     runs-on: ubuntu-latest
     container: hadolint/hadolint:latest-alpine
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - run: hadolint docker/Dockerfile
     - run: hadolint docker/Dockerfile-rules
