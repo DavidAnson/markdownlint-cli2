@@ -17,8 +17,8 @@ const outputFormatter = async (options, params) => {
       ? terminalLink.stderr(ruleName, ruleInformation, { "fallback": false })
       : ruleName;
     const detailsAndContext =
-          (errorDetail ? ` [${errorDetail}]` : "") +
-          (errorContext ? ` [Context: "${errorContext}"]` : "");
+      (errorDetail ? ` [${errorDetail}]` : "") +
+      (errorContext ? ` [Context: "${errorContext}"]` : "");
     const appendText = appendLink && ruleInformation
       ? ` ${ruleInformation}`
       : "";
