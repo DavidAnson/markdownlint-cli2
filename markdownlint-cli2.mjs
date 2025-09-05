@@ -88,6 +88,7 @@ const importModule = async (dirOrDirs, id, noImport) => {
     return module.default;
   } catch (error) {
     errors.push(error);
+    // eslint-disable-next-line preserve-caught-error
     throw new AggregateError(
       errors,
       `Unable to import module '${id}'.`
