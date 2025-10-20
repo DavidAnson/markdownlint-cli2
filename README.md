@@ -180,9 +180,9 @@ of the rules within.
 
 ### Exit Codes
 
-- `0`: Linting was successful and there were no errors
-- `1`: Linting was successful and there were errors
-- `2`: Linting was not completed due to a runtime issue
+- `0`: Linting was successful and there were no errors (there may be warnings)
+- `1`: Linting was successful and there were errors (and possibly warnings)
+- `2`: Linting was not successful due to a problem or failure
 
 ## Rule List
 

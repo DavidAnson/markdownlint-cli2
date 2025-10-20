@@ -7,10 +7,10 @@ import spawn from "nano-spawn";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
 import { __dirname } from "./esm-helpers.mjs";
 
-const absolute = (rootDir, file) => path.join(rootDir, file);
-const repositoryPath = (name) => path.join(__dirname(import.meta), "..", name);
+const absolute = (/** @type {string} */ rootDir, /** @type {string} */ file) => path.join(rootDir, file);
+const repositoryPath = (/** @type {string} */ name) => path.join(__dirname(import.meta), "..", name);
 
-const invoke = (directory, args, noImport, env, script) => async () => {
+const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /** @type {boolean} */ noImport, /** @type {Record<string, string>} */ env, /** @type {string} */ script) => async () => {
   await fs.access(directory);
   return spawn(
     "node",
@@ -41,7 +41,8 @@ testCases({
   "includeAbsolute": true
 });
 
-const invokeStdin = (args, stdin, cwd) => (
+// eslint-disable-next-line unicorn/no-useless-undefined
+const invokeStdin = (/** @type {string[]} */ args, /** @type {string} */ stdin, /** @type {string | undefined} */ cwd = undefined) => (
   spawn(
     "node",
     [
@@ -184,6 +185,80 @@ test("- parameter ignored after --", (t) => {
     [ "--", "-" ],
     invalidInput
   ).
+    then(() => t.pass()).
+    catch(() => t.fail());
+});
+
+test("exit codes", (t) => {
+  t.plan(19);
+  return Promise.all([
+    invokeStdin(
+      [],
+      validInput
+    ).catch((error) => t.is(error.exitCode, 2)),
+    invokeStdin(
+      [ "-" ],
+      validInput
+    ).then((result) => t.notRegex(result.output, /MD\d{3}/su)),
+    invokeStdin(
+      [ "-" ],
+      invalidInput
+    ).catch((error) => {
+      t.is(error.exitCode, 1);
+      t.regex(error.output, /MD019.*MD047/su);
+    }),
+    invokeStdin(
+      [ "-" ],
+      `${invalidInput} <!-- markdownlint-configure-file { "default": false } -->`
+    ).then((result) => t.notRegex(result.output, /MD\d{3}/su)),
+    invokeStdin(
+      [ "-" ],
+      `${invalidInput} <!-- markdownlint-configure-file { "default": "warning" } -->`
+    ).then((result) => t.regex(result.output, /MD019.*MD047/su)),
+    invokeStdin(
+      [ "-" ],
+      `${invalidInput} <!-- markdownlint-configure-file { "default": "error" } -->`
+    ).catch((error) => {
+      t.is(error.exitCode, 1);
+      t.regex(error.output, /MD019.*MD047/su);
+    }),
+    invokeStdin(
+      [ "-" ],
+      `${invalidInput} <!-- markdownlint-configure-file { "MD019": false } -->`
+    ).catch((error) => {
+      t.is(error.exitCode, 1);
+      t.regex(error.output, /MD047/su);
+    }),
+    invokeStdin(
+      [ "-" ],
+      `${invalidInput} <!-- markdownlint-configure-file { "MD019": "warning" } -->`
+    ).catch((error) => {
+      t.is(error.exitCode, 1);
+      t.regex(error.output, /MD019.*MD047/su);
+    }),
+    invokeStdin(
+      [ "-" ],
+      `${invalidInput} <!-- markdownlint-configure-file { "MD047": false } -->`
+    ).catch((error) => {
+      t.is(error.exitCode, 1);
+      t.regex(error.output, /MD019/su);
+    }),
+    invokeStdin(
+      [ "-" ],
+      `${invalidInput} <!-- markdownlint-configure-file { "MD047": "warning" } -->`
+    ).catch((error) => {
+      t.is(error.exitCode, 1);
+      t.regex(error.output, /MD019.*MD047/su);
+    }),
+    invokeStdin(
+      [ "-" ],
+      `${invalidInput} <!-- markdownlint-configure-file { "MD019": false, "MD047": false } -->`
+    ).then((result) => t.notRegex(result.output, /MD\d{3}/su)),
+    invokeStdin(
+      [ "-" ],
+      `${invalidInput} <!-- markdownlint-configure-file {"MD019":"warning","MD047":"warning"} -->`
+    ).then((result) => t.regex(result.output, /MD019.*MD047/su))
+  ]).
     then(() => t.pass()).
     catch(() => t.fail());
 });

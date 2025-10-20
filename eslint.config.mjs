@@ -40,6 +40,7 @@ export default [
       "max-statements": "off",
       "multiline-comment-style": [ "error", "separate-lines" ],
       "no-console": "off",
+      "no-inline-comments": [ "error", { "ignorePattern": " @type \\{.+\\} " } ],
       "no-magic-numbers": "off",
       "no-plusplus": "off",
       "no-ternary": "off",

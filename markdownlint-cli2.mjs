@@ -861,8 +861,7 @@ const outputSummary = async (
   logError,
   noImport
 ) => {
-  const errorsPresent = (summary.length > 0);
-  if (errorsPresent || outputFormatters) {
+  if ((summary.length > 0) || outputFormatters) {
     const formatterOptions = {
       "directory": baseDir,
       "results": summary,
@@ -880,7 +879,6 @@ const outputSummary = async (
       return formatter(formatterOptions, ...formatterParams);
     }));
   }
-  return errorsPresent;
 };
 
 // Main function
@@ -1051,7 +1049,7 @@ export const main = async (params) => {
     baseDir,
     baseMarkdownlintOptions.modulePaths || []
   );
-  const errorsPresent = await outputSummary(
+  await outputSummary(
     baseDir,
     relativeDir,
     summary,
@@ -1062,5 +1060,12 @@ export const main = async (params) => {
     noImport
   );
   // Return result
+  const errorsPresent = lintResults.flatMap(
+    (results) => Object.values(results).flatMap(
+      (lintErrors) => lintErrors.filter(
+        (lintError) => lintError.severity !== "warning"
+      )
+    )
+  ).length > 0;
   return errorsPresent ? 1 : 0;
 };
