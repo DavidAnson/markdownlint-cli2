@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// @ts-check
+
 import { "main" as markdownlintCli2 } from "./markdownlint-cli2.mjs";
 
 const params = {

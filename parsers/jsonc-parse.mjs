@@ -8,6 +8,7 @@ import { parse, printParseErrorCode } from "jsonc-parser";
  * @returns {object} Corresponding object.
  */
 const jsoncParse = (text) => {
+  /** @type {import("jsonc-parser").ParseError[]} */
   const errors = [];
   const result = parse(text, errors, { "allowTrailingComma": true });
   if (errors.length > 0) {

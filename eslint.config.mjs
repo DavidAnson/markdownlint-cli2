@@ -1,3 +1,5 @@
+// @ts-check
+
 import js from "@eslint/js";
 import eslintPluginJsdoc from "eslint-plugin-jsdoc";
 import eslintPluginNode from "eslint-plugin-n";

@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-check
 
 // Imports
 import fsNode from "node:fs";
