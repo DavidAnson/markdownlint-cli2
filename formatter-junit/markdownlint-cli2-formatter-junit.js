@@ -6,11 +6,19 @@ const fs = require("node:fs").promises;
 const path = require("node:path");
 const junitReportBuilder = require("junit-report-builder");
 
+/** @typedef {import("../markdownlint-cli2.mjs").OutputFormatterOptions} OutputFormatterOptions */
+
+/**
+ * @typedef {object} Parameters
+ * @property {string} name Output file name.
+ */
+
 // Writes markdownlint-cli2 results to a file in JUnit XML format
-const outputFormatter = (options, params) => {
+const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
   const { directory, results } = options;
   const { name } = (params || {});
   // Get a new builder instance because the default builder is shared
+  // @ts-ignore
   const builder = junitReportBuilder.newBuilder();
   const outputFormatterName = path.basename(__filename).replace(/\.js$/u, "");
   const suite =

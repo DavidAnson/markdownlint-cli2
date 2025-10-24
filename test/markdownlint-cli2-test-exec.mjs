@@ -10,7 +10,7 @@ import { __dirname } from "./esm-helpers.mjs";
 const absolute = (/** @type {string} */ rootDir, /** @type {string} */ file) => path.join(rootDir, file);
 const repositoryPath = (/** @type {string} */ name) => path.join(__dirname(import.meta), "..", name);
 
-const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /** @type {boolean} */ noImport, /** @type {Record<string, string>} */ env, /** @type {string} */ script) => async () => {
+const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport, /** @type {Record<string, string> | undefined} */ env, /** @type {string | undefined} */ script) => async () => {
   await fs.access(directory);
   return spawn(
     "node",

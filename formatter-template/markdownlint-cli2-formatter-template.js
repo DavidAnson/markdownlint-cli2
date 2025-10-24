@@ -2,6 +2,13 @@
 
 "use strict";
 
+/** @typedef {import("../markdownlint-cli2.mjs").OutputFormatterOptions} OutputFormatterOptions */
+
+/**
+ * @typedef {object} Parameters
+ * @property {string} template Template
+ */
+
 // eslint-disable-next-line no-template-curly-in-string
 const defaultTemplate = "fileName=\"${fileName}\" lineNumber=${lineNumber} ${columnNumber:columnNumber=${columnNumber} }ruleName=${ruleName} ruleDescription=\"${ruleDescription}\" ruleInformation=${ruleInformation} errorContext=\"${errorContext}\" errorDetail=\"${errorDetail}\"";
 
@@ -10,7 +17,7 @@ const tokenRes = [ "fileName", "lineNumber", "columnNumber", "ruleName", "ruleDe
   map((token) => new RegExp(`\\$\\{(${token})(?:([:!])([^{}]*\\{[^{}]+\\}[^{}]*|[^}]+))?\\}`, "gu"));
 
 // Output markdownlint-cli2 results using a template
-const outputFormatter = (options, params) => {
+const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
   const { logError, results } = options;
   const template = params?.template || defaultTemplate;
 
@@ -27,7 +34,8 @@ const outputFormatter = (options, params) => {
     };
 
     // eslint-disable-next-line unicorn/consistent-function-scoping
-    const replacer = (match, token, type, text) => {
+    const replacer = (/** @type {string} */ match, /** @type {string} */ token, /** @type {string} */ type, /** @type {string} */ text) => {
+      // @ts-ignore
       const value = tokenToResult[token];
       switch (type) {
         case ":":

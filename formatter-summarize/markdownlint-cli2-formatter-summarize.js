@@ -2,12 +2,31 @@
 
 "use strict";
 
-const logColumns = (log, count, name, indent) => {
-  log(`${"".padEnd(indent || 0)}${count.toString().padStart(5)} ${name}`);
+/** @typedef {import("../markdownlint-cli2.mjs").OutputFormatterOptions} OutputFormatterOptions */
+/** @typedef {import("../markdownlint-cli2.mjs").Logger} Logger */
+
+/**
+ * @typedef {object} Parameters
+ * @property {boolean} byFile By file.
+ * @property {boolean} byRule By rule.
+ * @property {boolean} byFileByRule By file by rule.
+ * @property {boolean} byRuleByFile By rule by file.
+ */
+
+/**
+ * Logs a count and label in colums.
+ * @param {Logger} log Logger.
+ * @param {number | string} countOrLabel Count or label.
+ * @param {string} name Name.
+ * @param {number} [indent] Indent.
+ * @returns {void}
+ */
+const logColumns = (log, countOrLabel, name, indent) => {
+  log(`${"".padEnd(indent || 0)}${countOrLabel.toString().padStart(5)} ${name}`);
 };
 
 // Summarize the results
-const outputFormatter = (options, params) => {
+const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
   const { logMessage, results } = options;
   const { byFile, byRule, byFileByRule, byRuleByFile } = (params || {});
   // Calculate statistics

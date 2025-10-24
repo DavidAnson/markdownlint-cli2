@@ -820,16 +820,16 @@ const lintFiles = (fs, dirInfos, fileContents) => {
   return Promise.all(tasks);
 };
 
-// Create summary of results
-const createSummary = (baseDir, taskResults) => {
-  const summary = [];
+// Create list of results
+const createResults = (baseDir, taskResults) => {
+  /** @type {LintResult[]} */
+  const results = [];
   let counter = 0;
-  for (const results of taskResults) {
-    for (const fileName in results) {
-      const errorInfos = results[fileName];
+  for (const taskResult of taskResults) {
+    for (const [ fileName, errorInfos ] of Object.entries(taskResult)) {
       for (const errorInfo of errorInfos) {
         const fileNameRelative = pathPosix.relative(baseDir, fileName);
-        summary.push({
+        results.push({
           "fileName": fileNameRelative,
           ...errorInfo,
           counter
@@ -838,33 +838,34 @@ const createSummary = (baseDir, taskResults) => {
       }
     }
   }
-  summary.sort((a, b) => (
+  results.sort((a, b) => (
     a.fileName.localeCompare(b.fileName) ||
     (a.lineNumber - b.lineNumber) ||
     a.ruleNames[0].localeCompare(b.ruleNames[0]) ||
     (a.counter - b.counter)
   ));
-  for (const result of summary) {
+  for (const result of results) {
     delete result.counter;
   }
-  return summary;
+  return results;
 };
 
 // Output summary via formatters
-const outputSummary = async (
+const outputResults = async (
   baseDir,
   relativeDir,
-  summary,
+  results,
   outputFormatters,
   modulePaths,
   logMessage,
   logError,
   noImport
 ) => {
-  if ((summary.length > 0) || outputFormatters) {
+  if ((results.length > 0) || outputFormatters) {
+    /** @type {OutputFormatterOptions} */
     const formatterOptions = {
       "directory": baseDir,
-      "results": summary,
+      results,
       logMessage,
       logError
     };
@@ -1038,9 +1039,9 @@ export const main = async (params) => {
   // Lint files
   const lintResults = await lintFiles(fs, dirInfos, resolvedFileContents);
   // Output summary
-  const summary = createSummary(baseDir, lintResults);
+  const results = createResults(baseDir, lintResults);
   if (showProgress) {
-    logMessage(`Summary: ${summary.length} error(s)`);
+    logMessage(`Summary: ${results.length} error(s)`);
   }
   const outputFormatters =
     (optionsOverride && optionsOverride.outputFormatters) ||
@@ -1049,10 +1050,10 @@ export const main = async (params) => {
     baseDir,
     baseMarkdownlintOptions.modulePaths || []
   );
-  await outputSummary(
+  await outputResults(
     baseDir,
     relativeDir,
-    summary,
+    results,
     outputFormatters,
     modulePaths,
     logMessage,
@@ -1061,7 +1062,7 @@ export const main = async (params) => {
   );
   // Return result
   const errorsPresent = lintResults.flatMap(
-    (results) => Object.values(results).flatMap(
+    (lintResult) => Object.values(lintResult).flatMap(
       (lintErrors) => lintErrors.filter(
         (lintError) => lintError.severity !== "warning"
       )
@@ -1069,3 +1070,24 @@ export const main = async (params) => {
   ).length > 0;
   return errorsPresent ? 1 : 0;
 };
+
+/**
+ * @typedef LintContext
+ * @property {string} fileName File name.
+ */
+
+/** @typedef {import("markdownlint").LintError & LintContext} LintResult */
+
+/**
+ * @callback Logger
+ * @param {string} msg Message.
+ * @returns {void}
+ */
+
+/**
+ * @typedef {object} OutputFormatterOptions
+ * @property {string} directory Base directory.
+ * @property {LintResult[]} results Lint results.
+ * @property {Logger} logMessage Message logger.
+ * @property {Logger} logError Error logger.
+ */

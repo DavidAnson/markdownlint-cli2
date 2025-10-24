@@ -2,6 +2,7 @@
 
 import test from "ava";
 import { importWithTypeJson } from "./esm-helpers.mjs";
+/** @type {{ exports: object, name: string }} */
 const packageJson = await importWithTypeJson(import.meta, "../package.json");
 
 const exportMappings = new Map([
@@ -35,6 +36,7 @@ for (const [ exportName, exportPath ] of exportMappings) {
 
 test("exported names", async (t) => {
   t.plan(1);
+  /** @type {Record<string, object>} */
   const exportedNames = {};
   for (const [ exportName ] of exportMappings) {
     const exportByName = exportName.replace(/^\./u, packageJson.name);

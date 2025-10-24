@@ -7,16 +7,59 @@ import test from "ava";
 import cpy from "cpy";
 import { __dirname } from "./esm-helpers.mjs";
 
-const noop = () => null;
+/**
+ * @typedef {object} InvokeResult
+ * @property {number} exitCode Exit code.
+ * @property {string} stderr Standard error.
+ * @property {string} stdout Standard output.
+ */
+
+/**
+ * @callback InvokeFn
+ * @returns {Promise<InvokeResult>}
+ */
+
+/**
+ * @typedef {object} TestConfiguration
+ * @property {string} host Host name.
+ * @property {(directory: string, args: string[], noImport: boolean | undefined, env: Record<string, string> | undefined, script: string | undefined) => InvokeFn} invoke Function to invoke tests.
+ * @property {(rootDir: string, file: string) => string} absolute Function to make absolute paths.
+ * @property {boolean} includeNoImport Include no-import-based tests.
+ * @property {boolean} includeEnv Include environment-based tests.
+ * @property {boolean} includeScript Include script-based tests.
+ * @property {boolean} includeRequire Include require-based tests.
+ * @property {boolean} includeAbsolute Include absolute-based tests.
+ */
+
+/**
+ * @typedef {object} TestDefinition
+ * @property {string} name Test name.
+ * @property {string} [shadow] Shadow test name.
+ * @property {string} [script] Override script.
+ * @property {string[]} args Arguments.
+ * @property {number} exitCode Exit code.
+ * @property {string} [cwd] Current working directory.
+ * @property {Record<string, string>} [env] Environment.
+ * @property {RegExp} [stderrRe] Standard error regular expression.
+ * @property {(name: string, shadow: string | undefined) => Promise<void>} [pre] Pre function.
+ * @property {(name: string) => Promise<void>} [post] Post function.
+ * @property {boolean} [noImport] No import.
+ * @property {boolean} [usesRequire] Uses require.
+ */
+
+/** @typedef {[ InvokeResult, string, string, string, string, string, string, string, string ]} TestOutput */
+
+// eslint-disable-next-line no-empty-function
+const noop = () => {};
 const empty = () => "";
-const sanitize = (str) => str.
+const sanitize = (/** @type {string} */ str) => str.
   replace(/\r/gu, "").
   replace(/\bv\d+\.\d+\.\d+\b/gu, "vX.Y.Z").
   replace(/ :.+[/\\]sentinel/gu, " :[PATH]");
 const sameFileSystem = (path.relative(os.homedir(), __dirname(import.meta)) !== __dirname(import.meta));
-const isModule = (file) => file.endsWith(".cjs") || file.endsWith(".mjs");
+const isModule = (/** @type {string} */ file) => file.endsWith(".cjs") || file.endsWith(".mjs");
 
-const testCases = ({
+const testCases = (/** @type {TestConfiguration} */ {
   host,
   invoke,
   absolute,
@@ -27,7 +70,7 @@ const testCases = ({
   includeAbsolute
 }) => {
 
-  const testCase = (options) => {
+  const testCase = (/** @type {TestDefinition} */ options) => {
     const {
       name,
       shadow,
@@ -60,7 +103,7 @@ const testCases = ({
       const directory = path.join(__dirname(import.meta), cwd || name);
       return ((pre || noop)(name, shadow) || Promise.resolve()).
         then(invoke(directory, args, noImport, env, script)).
-        then((result) => Promise.all([
+        then((/** @type {InvokeResult} */ result) => Promise.all([
           result,
           fs.readFile(
             path.join(directory, "markdownlint-cli2-codequality.json"),
@@ -95,7 +138,7 @@ const testCases = ({
             "utf8"
           ).catch(empty)
         ])).
-        then((results) => Promise.all([
+        then((/** @type {TestOutput} */ results) => Promise.all([
           (post || noop)(name),
           new Promise((resolve) => {
             const [
@@ -114,20 +157,14 @@ const testCases = ({
               "exitCode": child.exitCode,
               "stdout": sanitize(child.stdout),
               "stderr": sanitize(child.stderr),
-              "formatterCodeQuality":
-                sanitize(
-                  formatterOutputCodeQuality ||
-                  formatterOutputCodeQualityCustom
-                ),
-              "formatterJson":
-                sanitize(formatterOutputJson || formatterOutputJsonCustom),
-              "formatterJunit":
-                sanitize(formatterOutputJunit || formatterOutputJunitCustom),
-              "formatterSarif":
-                sanitize(formatterOutputSarif || formatterOutputSarifCustom)
+              "formatterCodeQuality": sanitize(formatterOutputCodeQuality || formatterOutputCodeQualityCustom),
+              "formatterJson": sanitize(formatterOutputJson || formatterOutputJsonCustom),
+              "formatterJunit": sanitize(formatterOutputJunit || formatterOutputJunitCustom),
+              "formatterSarif": sanitize(formatterOutputSarif || formatterOutputSarifCustom)
             };
             if (stderrRe) {
               t.regex(child.stderr, stderrRe);
+              // @ts-ignore
               delete actual.stderr;
             } else {
               t.true(true);
@@ -139,14 +176,14 @@ const testCases = ({
     });
   };
 
-  const directoryName = (dir) => `${dir}-copy-${host}`;
+  const directoryName = (/** @type {string} */ dir) => `${dir}-copy-${host}`;
 
-  const copyDirectory = (dir, alt) => cpy(
-    path.join(__dirname(import.meta), (alt || dir), "**"),
+  const copyDirectory = (/** @type {string} */ dir, /** @type {string | undefined} */ shadow) => cpy(
+    path.join(__dirname(import.meta), (shadow || dir), "**"),
     path.join(__dirname(import.meta), directoryName(dir))
-  );
+  ).then(noop);
 
-  const deleteDirectory = (dir) =>
+  const deleteDirectory = (/** @type {string} */ dir) =>
     fs.rm(path.join(__dirname(import.meta), directoryName(dir)), { "recursive": true });
 
   testCase({
@@ -863,8 +900,8 @@ const testCases = ({
     "pre": copyDirectory,
     "post": deleteDirectory,
     "env": {
-      "FORCE_COLOR": 1,
-      "FORCE_HYPERLINK": 1
+      "FORCE_COLOR": "1",
+      "FORCE_HYPERLINK": "1"
     },
     "usesRequire": true
   });
@@ -943,8 +980,8 @@ const testCases = ({
     "args": [ "**/*.md" ],
     "exitCode": 1,
     "env": {
-      "FORCE_COLOR": 1,
-      "FORCE_HYPERLINK": 1
+      "FORCE_COLOR": "1",
+      "FORCE_HYPERLINK": "1"
     }
   });
 
@@ -953,7 +990,7 @@ const testCases = ({
     "args": [ "**/*.md" ],
     "exitCode": 1,
     "env": {
-      "FORCE_COLOR": 1
+      "FORCE_COLOR": "1"
     }
   });
 

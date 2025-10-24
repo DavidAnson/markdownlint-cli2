@@ -6,6 +6,14 @@ const fs = require("node:fs").promises;
 const path = require("node:path");
 const { createHash } = require("node:crypto");
 
+/** @typedef {import("../markdownlint-cli2.mjs").OutputFormatterOptions} OutputFormatterOptions */
+
+/**
+ * @typedef {object} Parameters
+ * @property {string} name Output file name.
+ * @property { "info" | "minor" | "major" | "critical" | "blocker" } severity Default issue severity.
+ */
+
 /**
  * @param {string} violation The complete textual description of the violation.
  * @returns {string} The SHA256 fingerprint for the violation as a hex string.
@@ -17,15 +25,14 @@ const createFingerprint = function createFingerprint(violation) {
 };
 
 // Writes markdownlint-cli2 results to a GitLab Code Quality report JSON file.
-// See: https://docs.gitlab.com/ee/ci/testing/code_quality.html#implementing-a-custom-tool
-const outputFormatter = (options, params) => {
+// See: https://docs.gitlab.com/ci/testing/code_quality/#code-quality-report-format
+const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
   const { directory, results } = options;
   const { name, severity } = (params || {});
   const issues = [];
 
   for (const errorInfo of results) {
-    const { fileName, lineNumber, ruleNames, ruleDescription, errorDetail,
-      errorContext, errorRange } = errorInfo;
+    const { fileName, lineNumber, ruleNames, ruleDescription, errorDetail, errorContext, errorRange } = errorInfo;
 
     const ruleName = ruleNames.join("/");
     const errorDetailText = errorDetail ? ` [${errorDetail}]` : "";
@@ -37,14 +44,14 @@ const outputFormatter = (options, params) => {
       (errorContext ? ` [Context: "${errorContext}"]` : "");
     // Construct error text with all details to use for unique fingerprint.
     // Avoids duplicate fingerprints for the same violation on multiple lines.
-    const errorText =
-      `${fileName}:${lineNumber}${columnText} ${ruleName} ${description}`;
+    const errorText = `${fileName}:${lineNumber}${columnText} ${ruleName} ${description}`;
+    const errorSeverity = severity || "minor";
 
     const issue = {
       "type": "issue",
       "check_name": ruleName,
       "description": text,
-      "severity": severity || "minor",
+      "severity": errorSeverity,
       "fingerprint": createFingerprint(errorText),
       "location": {
         "path": fileName,

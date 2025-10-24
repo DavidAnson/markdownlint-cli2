@@ -4,17 +4,18 @@ import path from "node:path";
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
 
-const linesEndingWithNewLine =
-  (lines) => lines.map((line) => `${line}\n`).join("");
+const linesEndingWithNewLine = (/** @type {string[]} */ lines) => lines.map((line) => `${line}\n`).join("");
 
-const invoke = (directory, args, noImport) => () => {
+const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
+  /** @type {string[]} */
   const stdouts = [];
+  /** @type {string[]} */
   const stderrs = [];
   return markdownlintCli2({
     directory,
     "argv": args,
-    "logMessage": (msg) => stdouts.push(msg),
-    "logError": (msg) => stderrs.push(msg),
+    "logMessage": (/** @type {string} */ msg) => stdouts.push(msg),
+    "logError": (/** @type {string} */ msg) => stderrs.push(msg),
     noImport
   }).
     then(
@@ -31,7 +32,7 @@ const invoke = (directory, args, noImport) => () => {
     }));
 };
 
-const absolute = (rootDir, file) => path.join(rootDir, file);
+const absolute = (/** @type {string} */ rootDir, /** @type {string} */ file) => path.join(rootDir, file);
 
 testCases({
   "host": "main",

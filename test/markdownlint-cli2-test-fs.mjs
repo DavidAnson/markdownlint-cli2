@@ -6,17 +6,18 @@ import testCases from "./markdownlint-cli2-test-cases.mjs";
 import FsMock from "./fs-mock.mjs";
 const mockDirectory = "/mock";
 
-const linesEndingWithNewLine =
-  (lines) => lines.map((line) => `${line}\n`).join("");
+const linesEndingWithNewLine = (/** @type {string[]} */ lines) => lines.map((line) => `${line}\n`).join("");
 
-const invoke = (directory, args, noImport) => () => {
+const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
+  /** @type {string[]} */
   const stdouts = [];
+  /** @type {string[]} */
   const stderrs = [];
   return markdownlintCli2({
     "directory": mockDirectory,
     "argv": args,
-    "logMessage": (msg) => stdouts.push(msg),
-    "logError": (msg) => stderrs.push(msg),
+    "logMessage": (/** @type {string} */ msg) => stdouts.push(msg),
+    "logError": (/** @type {string} */ msg) => stderrs.push(msg),
     noImport,
     "fs": new FsMock(directory)
   }).
@@ -34,7 +35,7 @@ const invoke = (directory, args, noImport) => () => {
     }));
 };
 
-const absolute = (rootDir, file) => path.join(mockDirectory, file);
+const absolute = (/** @type {string} */ rootDir, /** @type {string} */ file) => path.join(mockDirectory, file);
 
 testCases({
   "host": "fs",

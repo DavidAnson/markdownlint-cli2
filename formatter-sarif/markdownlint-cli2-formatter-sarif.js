@@ -6,17 +6,58 @@ const fs = require("node:fs").promises;
 const path = require("node:path");
 const packageJson = require("./package.json");
 
-const toLower = (s) => s.toLowerCase();
-const toUpper = (s) => s.toUpperCase();
+/** @typedef {import("../markdownlint-cli2.mjs").OutputFormatterOptions} OutputFormatterOptions */
+
+/**
+ * @typedef {object} Parameters
+ * @property {string} name Output file name.
+ */
+
+/**
+ * @typedef {object} SarifRegion
+ * @property {number} [endColumn] End column.
+ * @property {number} endLine End line.
+ * @property {number} [startColumn] Start column.
+ * @property {number} startLine Start line.
+ */
+
+/** @typedef {{ text: string }} SarifMessage */
+
+/** @typedef {{ uri: string }} SarifArtifactLocation */
+
+/** @typedef {{ artifactLocation: SarifArtifactLocation, region: SarifRegion }} SarifPhysicalLocation */
+
+/** @typedef {{ physicalLocation: SarifPhysicalLocation }} SarifLocation */
+
+/**
+ * @typedef {object} SarifRule
+ * @property {string} id ID.
+ * @property {string} name Name.
+ * @property {SarifMessage} shortDescription Short description.
+ * @property {SarifMessage} fullDescription Full description.
+ * @property {string} [helpUri] Help URI.
+ */
+
+/**
+ * @typedef {object} SarifResult
+ * @property {string} ruleId Rule ID.
+ * @property {SarifMessage} message Message.
+ * @property {SarifLocation[]} locations Locations.
+ */
+
+const toLower = (/** @type {string} */ s) => s.toLowerCase();
+const toUpper = (/** @type {string} */ s) => s.toUpperCase();
 
 // Writes markdownlint-cli2 results to a file in Static Analysis Results
 // Interchange Format/SARIF
-const outputFormatter = (options, params) => {
+const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
   const { directory, results } = options;
   const { name } = (params || {});
 
   // Create SARIF object
+  /** @type {SarifRule[]} */
   const sarifRules = [];
+  /** @type {SarifResult[]} */
   const sarifResults = [];
   const sarif = {
     "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
@@ -56,6 +97,7 @@ const outputFormatter = (options, params) => {
     // Fill in rule info the first time it's seen
     if (!rulesSeen.has(ruleId)) {
       rulesSeen.add(ruleId);
+      /** @type {SarifRule} */
       const sarifRule = {
         "id": ruleId,
         "name": ruleName,
@@ -73,6 +115,7 @@ const outputFormatter = (options, params) => {
     }
 
     // Fill in error info
+    /** @type {SarifRegion} */
     const sarifRegion = {
       "startLine": lineNumber,
       "endLine": lineNumber
@@ -82,6 +125,7 @@ const outputFormatter = (options, params) => {
       sarifRegion.startColumn = column;
       sarifRegion.endColumn = column + length;
     }
+    /** @type {SarifResult} */
     const sarifResult = {
       ruleId,
       "message": {
