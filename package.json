@@ -92,7 +92,7 @@
     "cpy": "12.1.0",
     "cpy-cli": "6.0.0",
     "eslint": "9.38.0",
-    "eslint-plugin-jsdoc": "61.1.7",
+    "eslint-plugin-jsdoc": "61.1.9",
     "eslint-plugin-n": "17.23.1",
     "eslint-plugin-unicorn": "61.0.2",
     "markdown-it-emoji": "3.0.0",
