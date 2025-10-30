@@ -138,7 +138,7 @@ markdownlint:
 ```
 
 [codeclimate]: https://github.com/codeclimate/platform/blob/master/spec/analyzers/SPEC.md#data-types
-[gitlab]: https://docs.gitlab.com/ee/ci/testing/code_quality.html#implementing-a-custom-tool
+[gitlab]: https://docs.gitlab.com/ci/testing/code_quality/#code-quality-report-format
 [json]: https://wikipedia.org/wiki/JSON
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2-formatter-codequality.svg
 [license-url]: https://opensource.org/licenses/MIT

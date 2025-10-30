@@ -476,7 +476,7 @@ See [CHANGELOG.md][changelog].
 [nodejs-docker]: https://github.com/nodejs/docker-node
 [nodejs-docker-non-root]: https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
 [nodejs-import-expression]: https://nodejs.org/api/esm.html#import-expressions
-[nodejs-import-meta-resolve]: https://nodejs.org/api/esm.html#importmetaresolvespecifier-parent
+[nodejs-import-meta-resolve]: https://nodejs.org/api/esm.html#importmetaresolvespecifier
 [nodejs-require]: https://nodejs.org/api/modules.html#modules_require_id
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2
