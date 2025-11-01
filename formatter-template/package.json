@@ -1,6 +1,6 @@
 {
   "name": "markdownlint-cli2-formatter-template",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "An output formatter for markdownlint-cli2 that displays results using a template",
   "author": {
     "name": "David Anson",
