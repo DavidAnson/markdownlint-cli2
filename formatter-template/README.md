@@ -1,7 +1,7 @@
 # markdownlint-cli2-formatter-template
 
 > An output formatter for [`markdownlint-cli2`][markdownlint-cli2] that displays
-> results using a template.
+> results using a template
 
 [![npm version][npm-image]][npm-url]
 [![License][license-image]][license-url]
@@ -31,11 +31,12 @@ These tokens are always defined:
 
 These tokens are sometimes defined (depending on the rule/violation):
 
-| Token          | Meaning                 |
-|----------------|-------------------------|
-| `columnNumber` | Column number (1-based) |
-| `errorContext` | Context information     |
-| `errorDetail`  | Additional detail       |
+| Token           | Meaning                  |
+|-----------------|--------------------------|
+| `columnNumber`  | Column number (1-based)  |
+| `errorContext`  | Context information      |
+| `errorDetail`   | Additional detail        |
+| `errorSeverity` | Severity (error/warning) |
 
 In the simplest case, tokens are specified with the syntax `${token}`. This is
 all that's needed for tokens that are always defined. To support scenarios where
@@ -67,7 +68,7 @@ use something like the following `.markdownlint-cli2.jsonc`:
     [
       "markdownlint-cli2-formatter-template",
       {
-        "template": "::error file=${fileName},line=${lineNumber},${columnNumber:col=${columnNumber},}title=${ruleName}::${ruleDescription}"
+        "template": "::${errorSeverity:${errorSeverity}}${errorSeverity!error} file=${fileName},line=${lineNumber},${columnNumber:col=${columnNumber},}title=${ruleName}::${ruleDescription}"
       }
     ]
   ]
@@ -78,10 +79,10 @@ Which produces output like:
 
 ```text
 ::error file=viewme.md,line=3,col=10,title=MD009/no-trailing-spaces::Trailing spaces
-::error file=viewme.md,line=5,title=MD012/no-multiple-blanks::Multiple consecutive blank lines
+::warning file=viewme.md,line=5,title=MD012/no-multiple-blanks::Multiple consecutive blank lines
 ::error file=viewme.md,line=6,title=MD025/single-title/single-h1::Multiple top-level headings in the same document
 ::error file=viewme.md,line=12,col=4,title=MD019/no-multiple-space-atx::Multiple spaces after hash on atx style heading
-::error file=viewme.md,line=14,col=14,title=MD047/single-trailing-newline::Files should end with a single newline character
+::warning file=viewme.md,line=14,col=14,title=MD047/single-trailing-newline::Files should end with a single newline character
 ```
 
 To output in the [Azure Pipelines Task command LogIssue format][task-logissue],
@@ -93,7 +94,7 @@ use something like the following `.markdownlint-cli2.jsonc`:
     [
       "markdownlint-cli2-formatter-template",
       {
-        "template": "##vso[task.logissue type=error;sourcepath=${fileName};linenumber=${lineNumber};${columnNumber:columnumber=${columnNumber};}code=${ruleName}]${ruleDescription}"
+        "template": "##vso[task.logissue type=${errorSeverity:${errorSeverity}}${errorSeverity!error};sourcepath=${fileName};linenumber=${lineNumber};${columnNumber:columnumber=${columnNumber};}code=${ruleName}]${ruleDescription}"
       }
     ]
   ]
@@ -104,10 +105,10 @@ Which produces output like:
 
 ```text
 ##vso[task.logissue type=error;sourcepath=viewme.md;linenumber=3;columnumber=10;code=MD009/no-trailing-spaces]Trailing spaces
-##vso[task.logissue type=error;sourcepath=viewme.md;linenumber=5;code=MD012/no-multiple-blanks]Multiple consecutive blank lines
+##vso[task.logissue type=warning;sourcepath=viewme.md;linenumber=5;code=MD012/no-multiple-blanks]Multiple consecutive blank lines
 ##vso[task.logissue type=error;sourcepath=viewme.md;linenumber=6;code=MD025/single-title/single-h1]Multiple top-level headings in the same document
 ##vso[task.logissue type=error;sourcepath=viewme.md;linenumber=12;columnumber=4;code=MD019/no-multiple-space-atx]Multiple spaces after hash on atx style heading
-##vso[task.logissue type=error;sourcepath=viewme.md;linenumber=14;columnumber=14;code=MD047/single-trailing-newline]Files should end with a single newline character
+##vso[task.logissue type=warning;sourcepath=viewme.md;linenumber=14;columnumber=14;code=MD047/single-trailing-newline]Files should end with a single newline character
 ```
 
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2-formatter-template.svg

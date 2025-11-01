@@ -26,16 +26,14 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
       testSuite().
       name(outputFormatterName).
       time(0);
-  for (const errorInfo of results) {
-    const { fileName, lineNumber, ruleNames, ruleDescription, errorDetail,
-      errorContext, errorRange } = errorInfo;
+  for (const errorInfo of results.filter((result) => !result.severity || (result.severity === "error"))) {
+    const { fileName, lineNumber, ruleNames, ruleDescription, errorDetail, errorContext, errorRange } = errorInfo;
     const ruleName = ruleNames.join("/");
     const column = (errorRange && errorRange[0]) || 0;
     const columnText = column ? `, Column ${column}` : "";
     const errorDetailText = errorDetail ? `, ${errorDetail}` : "";
     const errorContextText = errorContext ? `, Context: "${errorContext}"` : "";
-    const text =
-      `Line ${lineNumber}${columnText}${errorDetailText}${errorContextText}`;
+    const text = `Line ${lineNumber}${columnText}${errorDetailText}${errorContextText}`;
     suite.
       testCase().
       className(fileName).

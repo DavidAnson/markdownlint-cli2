@@ -10,10 +10,10 @@
  */
 
 // eslint-disable-next-line no-template-curly-in-string
-const defaultTemplate = "fileName=\"${fileName}\" lineNumber=${lineNumber} ${columnNumber:columnNumber=${columnNumber} }ruleName=${ruleName} ruleDescription=\"${ruleDescription}\" ruleInformation=${ruleInformation} errorContext=\"${errorContext}\" errorDetail=\"${errorDetail}\"";
+const defaultTemplate = "fileName=\"${fileName}\" lineNumber=${lineNumber} ${columnNumber:columnNumber=${columnNumber} }ruleName=${ruleName} ruleDescription=\"${ruleDescription}\" ruleInformation=${ruleInformation} errorContext=\"${errorContext}\" errorDetail=\"${errorDetail}\" errorSeverity=\"${errorSeverity}\"";
 
 // Use separate regular expressions to avoid a polynomial worst case
-const tokenRes = [ "fileName", "lineNumber", "columnNumber", "ruleName", "ruleDescription", "ruleInformation", "errorContext", "errorDetail" ].
+const tokenRes = [ "fileName", "lineNumber", "columnNumber", "ruleName", "ruleDescription", "ruleInformation", "errorContext", "errorDetail", "errorSeverity" ].
   map((token) => new RegExp(`\\$\\{(${token})(?:([:!])([^{}]*\\{[^{}]+\\}[^{}]*|[^}]+))?\\}`, "gu"));
 
 // Output markdownlint-cli2 results using a template
@@ -30,7 +30,8 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
       "ruleDescription": result.ruleDescription,
       "ruleInformation": result.ruleInformation,
       "errorContext": result.errorContext,
-      "errorDetail": result.errorDetail
+      "errorDetail": result.errorDetail,
+      "errorSeverity": result.severity
     };
 
     // eslint-disable-next-line unicorn/consistent-function-scoping

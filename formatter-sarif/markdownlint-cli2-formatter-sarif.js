@@ -13,6 +13,8 @@ const packageJson = require("./package.json");
  * @property {string} name Output file name.
  */
 
+// https://docs.oasis-open.org/sarif/sarif/v2.0/csprd01/sarif-v2.0-csprd01.html
+
 /**
  * @typedef {object} SarifRegion
  * @property {number} [endColumn] End column.
@@ -42,6 +44,7 @@ const packageJson = require("./package.json");
  * @typedef {object} SarifResult
  * @property {string} ruleId Rule ID.
  * @property {SarifMessage} message Message.
+ * @property {"error" | "warning"} [level] Level.
  * @property {SarifLocation[]} locations Locations.
  */
 
@@ -82,8 +85,7 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
   for (const errorInfo of results) {
 
     // Capture error info
-    const { fileName, lineNumber, ruleNames, ruleDescription, ruleInformation,
-      errorDetail, errorContext, errorRange } = errorInfo;
+    const { fileName, lineNumber, ruleNames, ruleDescription, ruleInformation, errorDetail, errorContext, errorRange, severity } = errorInfo;
     const [ ruleId ] = ruleNames;
     // Format rule name per SARIF validator rule SARIF2012
     const ruleName = ruleNames.
@@ -142,6 +144,9 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
         }
       ]
     };
+    if (severity) {
+      sarifResult.level = severity;
+    }
     sarifResults.push(sarifResult);
   }
 

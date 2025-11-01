@@ -17,7 +17,7 @@ const outputFormatter = async (/** @type {OutputFormatterOptions} */ options, /*
   const { "default": chalk } = await import("chalk");
   const { "default": terminalLink } = await import("terminal-link");
   for (const errorInfo of results) {
-    const { fileName, lineNumber, ruleNames, ruleDescription, ruleInformation, errorDetail, errorContext, errorRange } = errorInfo;
+    const { fileName, lineNumber, ruleNames, ruleDescription, ruleInformation, errorDetail, errorContext, errorRange, severity } = errorInfo;
     const ruleName = ruleNames.join("/");
     const ruleText = ruleInformation
       ? terminalLink.stderr(ruleName, ruleInformation, { "fallback": false })
@@ -36,6 +36,7 @@ const outputFormatter = async (/** @type {OutputFormatterOptions} */ options, /*
       chalk.green(lineNumber) +
       (column ? chalk.cyan(":") + chalk.green(column) : "") +
       " " +
+      (severity ? `${chalk.grey(severity)} ` : "") +
       chalk.yellow(ruleText) +
       " " +
       ruleDescription +

@@ -1,0 +1,16 @@
+{
+  "config": {
+    "no-multiple-blanks": "warning",
+    "single-trailing-newline": "warning"
+  },
+  "outputFormatters": [
+    [ "../../formatter-codequality", { "severityError": "critical", "severityWarning": "info" } ],
+    [ "../../formatter-default" ],
+    [ "../../formatter-json" ],
+    [ "../../formatter-junit" ],
+    [ "../../formatter-sarif" ],
+    [ "../../formatter-summarize", { "byFile": true, "byRule": true, "byFileByRule": true, "byRuleByFile": true } ],
+    [ "../../formatter-template", { "template": "::${errorSeverity:${errorSeverity}}${errorSeverity!error} file=${fileName},line=${lineNumber},${columnNumber:col=${columnNumber},}title=${ruleName}::${ruleDescription}" } ],
+    [ "../../formatter-template", { "template": "##vso[task.logissue type=${errorSeverity:${errorSeverity}}${errorSeverity!error};sourcepath=${fileName};linenumber=${lineNumber};${columnNumber:columnumber=${columnNumber};}code=${ruleName}]${ruleDescription}" } ]
+  ]
+}

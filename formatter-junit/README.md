@@ -35,6 +35,9 @@ To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
 }
 ```
 
+Because the JUnit XML format only supports errors, results with a `severity`
+other than `error` (e.g., `warning`) are not included in the output.
+
 ## Example
 
 ```xml

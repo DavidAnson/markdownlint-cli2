@@ -36,8 +36,19 @@ To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
 }
 ```
 
-To customize the [`severity` used for violations][report-format], use the
-following `.markdownlint-cli2.jsonc`:
+To customize the [`severity` of errors and warnings][report-format] separately,
+use the following `.markdownlint-cli2.jsonc`:
+
+```json
+{
+  "outputFormatters": [
+    [ "markdownlint-cli2-formatter-codequality", { "severityError": "critical", "severityWarning": "info" } ]
+  ]
+}
+```
+
+To customize the `severity` of errors and warnings together, use the following
+`.markdownlint-cli2.jsonc`:
 
 ```json
 {
@@ -46,6 +57,8 @@ following `.markdownlint-cli2.jsonc`:
   ]
 }
 ```
+
+By default, a severity of `"minor"` is used for both errors and warnings.
 
 ## Use in GitLab CI
 

@@ -17,7 +17,7 @@ const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /
     "directory": mockDirectory,
     "argv": args,
     "logMessage": (/** @type {string} */ msg) => stdouts.push(msg),
-    "logError": (/** @type {string} */ msg) => stderrs.push(msg),
+    "logError": (/** @type {string} */ err) => stderrs.push(err),
     noImport,
     "fs": new FsMock(directory)
   }).

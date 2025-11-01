@@ -12,6 +12,8 @@ const { createHash } = require("node:crypto");
  * @typedef {object} Parameters
  * @property {string} name Output file name.
  * @property { "info" | "minor" | "major" | "critical" | "blocker" } severity Default issue severity.
+ * @property { "info" | "minor" | "major" | "critical" | "blocker" } severityError Issue severity for errors.
+ * @property { "info" | "minor" | "major" | "critical" | "blocker" } severityWarning Issue severity for warnings.
  */
 
 /**
@@ -28,7 +30,7 @@ const createFingerprint = function createFingerprint(violation) {
 // See: https://docs.gitlab.com/ci/testing/code_quality/#code-quality-report-format
 const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
   const { directory, results } = options;
-  const { name, severity } = (params || {});
+  const { name, severity, severityError, severityWarning } = (params || {});
   const issues = [];
 
   for (const errorInfo of results) {
@@ -45,7 +47,7 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
     // Construct error text with all details to use for unique fingerprint.
     // Avoids duplicate fingerprints for the same violation on multiple lines.
     const errorText = `${fileName}:${lineNumber}${columnText} ${ruleName} ${description}`;
-    const errorSeverity = severity || "minor";
+    const errorSeverity = ((errorInfo.severity === "warning") ? severityWarning : severityError) || severity || "minor";
 
     const issue = {
       "type": "issue",

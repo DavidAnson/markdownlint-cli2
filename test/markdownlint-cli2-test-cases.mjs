@@ -927,6 +927,16 @@ const testCases = (/** @type {TestConfiguration} */ {
   });
 
   testCase({
+    "name": "outputFormatters-severity",
+    "args": [ "**/*.md" ],
+    "exitCode": 1,
+    "cwd": directoryName("outputFormatters-severity"),
+    "pre": copyDirectory,
+    "post": deleteDirectory,
+    "usesRequire": true
+  });
+
+  testCase({
     "name": "outputFormatters-pre-imported",
     "args": [ "**/*.md" ],
     "exitCode": 1,

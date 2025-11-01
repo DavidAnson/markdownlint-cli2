@@ -127,7 +127,8 @@ To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
                 }
               }
             }
-          ]
+          ],
+          "level": "error"
         },
         {
           "ruleId": "MD012",
@@ -146,7 +147,8 @@ To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
                 }
               }
             }
-          ]
+          ],
+          "level": "warning"
         },
         {
           "ruleId": "MD025",
@@ -165,7 +167,8 @@ To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
                 }
               }
             }
-          ]
+          ],
+          "level": "error"
         },
         {
           "ruleId": "MD019",
@@ -186,7 +189,8 @@ To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
                 }
               }
             }
-          ]
+          ],
+          "level": "error"
         },
         {
           "ruleId": "MD047",
@@ -207,7 +211,8 @@ To customize the output file name, use the following `.markdownlint-cli2.jsonc`:
                 }
               }
             }
-          ]
+          ],
+          "level": "warning"
         }
       ]
     }

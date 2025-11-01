@@ -1,4 +1,8 @@
 {
+  "config": {
+    "no-multiple-blanks": "warning",
+    "single-trailing-newline": "warning"
+  },
   "outputFormatters": [
     [ "../../formatter-pretty" ]
   ]
