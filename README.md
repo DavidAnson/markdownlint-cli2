@@ -178,6 +178,35 @@ onto the base image `davidanson/markdownlint-cli2`.
 **Note**: This container image exists for convenience and is not an endorsement
 of the rules within.
 
+### Output Formatters
+
+In addition to (or instead of) the default behavior of writing a list of all
+issues to the standard error (`stderr`) device, custom output formatters can be
+configured to produce a variety of outputs like:
+
+- [List of issues (default)][formatter-default]
+- [List of issues with color and links][formatter-pretty]
+- [GitLab Code Quality report file][formatter-codequality]
+- [JSON file][formatter-json]
+- [JUnit XML file][formatter-junit]
+- [Static Analysis Results Interchange Format/SARIF file][formatter-sarif]
+- [Summary of issues found][formatter-summarize]
+- [Flexible string template][formatter-template] supporting:
+  - Azure Pipelines Task command LogIssue format
+  - GitHub Actions workflow commands format
+
+[formatter-default]: ./formatter-default/README.md
+[formatter-codequality]: ./formatter-codequality/README.md
+[formatter-json]: ./formatter-json/README.md
+[formatter-junit]: ./formatter-junit/README.md
+[formatter-pretty]: ./formatter-pretty/README.md
+[formatter-sarif]: ./formatter-sarif/README.md
+[formatter-summarize]: ./formatter-summarize/README.md
+[formatter-template]: ./formatter-template/README.md
+
+For more information, refer to the documentation for the `outputFormatters`
+parameter below.
+
 ### Exit Codes
 
 - `0`: Linting was successful and there were no errors (there may be warnings)
