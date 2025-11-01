@@ -88,7 +88,7 @@ test("- parameter with invalid input from stdin", (t) => {
     then(() => t.fail()).
     catch((error) => {
       t.is(error.exitCode, 1);
-      t.is("", error.stderr.replace(/^stdin:1:3 MD019\/.*$[\n\r]+^stdin:3:4 MD047\/.*$/mu, ""));
+      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/mu, ""));
     });
 });
 
@@ -101,7 +101,7 @@ test("- parameter with invalid input from stdin and --fix", (t) => {
     then(() => t.fail()).
     catch((error) => {
       t.is(error.exitCode, 1);
-      t.is("", error.stderr.replace(/^stdin:1:3 MD019\/.*$[\n\r]+^stdin:3:4 MD047\/.*$/mu, ""));
+      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/mu, ""));
     });
 });
 
@@ -114,7 +114,7 @@ test("- parameter multiple times with invalid input", (t) => {
     then(() => t.fail()).
     catch((error) => {
       t.is(error.exitCode, 1);
-      t.is("", error.stderr.replace(/^stdin:1:3 MD019\/.*$[\n\r]+^stdin:3:4 MD047\/.*$/mu, ""));
+      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/mu, ""));
     });
 });
 
@@ -137,7 +137,7 @@ test("- parameter with invalid input combined with valid globs", (t) => {
     then(() => t.fail()).
     catch((error) => {
       t.is(error.exitCode, 1);
-      t.is("", error.stderr.replace(/^stdin:1:3 MD019\/.*$[\n\r]+^stdin:3:4 MD047\/.*$/mu, ""));
+      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/mu, ""));
     });
 });
 
@@ -150,7 +150,7 @@ test("- parameter with invalid input combined with invalid glob", (t) => {
     then(() => t.fail()).
     catch((error) => {
       t.is(error.exitCode, 1);
-      t.is("", error.stderr.replace(/^LICENSE:1 MD041\/.*$[\n\r]+^stdin:1:3 MD019\/.*$[\n\r]+^stdin:3:4 MD047\/.*$/mu, ""));
+      t.is("", error.stderr.replace(/^LICENSE:1 error MD041\/.*$[\n\r]+^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/mu, ""));
     });
 });
 
@@ -164,7 +164,7 @@ test("- parameter uses base directory configuration", (t) => {
     then(() => t.fail()).
     catch((error) => {
       t.is(error.exitCode, 1);
-      t.is("", error.stderr.replace(/^stdin:1:3 MD019\/.*$/mu, ""));
+      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$/mu, ""));
     });
 });
 
