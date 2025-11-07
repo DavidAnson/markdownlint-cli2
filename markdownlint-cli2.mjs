@@ -216,12 +216,16 @@ const loadGlobalConfig = async (fs, noImport) => {
     try {
       // eslint-disable-next-line no-await-in-loop
       await fs.promises.access(configPath);
+    } catch {
+      // File not accessible, try next config file
+      continue;
+    }
+    // File exists and is accessible, try to read it
+    try {
       // eslint-disable-next-line no-await-in-loop
       return await readOptionsOrConfig(configPath, fs, noImport);
     } catch (error) {
-      if (error.code !== "ENOENT") {
-        throwForConfigurationFile(configPath, error);
-      }
+      throwForConfigurationFile(configPath, error);
     }
   }
 
@@ -965,7 +969,7 @@ export const main = async (params) => {
   let useStdin = false;
   let sawDashDash = false;
   let shouldShowHelp = false;
-  let noGlobalConfig = false;
+  let noGlobalConfig = params.noGlobalConfig || false;
   const argvFiltered = (argv || []).filter((arg) => {
     if (sawDashDash) {
       return true;

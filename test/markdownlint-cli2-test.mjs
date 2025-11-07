@@ -94,7 +94,8 @@ test("validateMarkdownlintConfigSchema", async (t) => {
       "!**/*-copy-*/**",
       "!**/*mismatch*/**",
       "!**/*invalid*/**",
-      "!**/invalid*"
+      "!**/invalid*",
+      "!test/global-config-test-run*/**"
     ],
     {
       "dot": true
@@ -112,7 +113,7 @@ test("validateMarkdownlintConfigSchema", async (t) => {
 });
 
 test("validateMarkdownlintCli2ConfigSchema", async (t) => {
-  t.plan(92);
+  t.plan(93);
 
   // Validate schema
   // @ts-ignore
@@ -140,7 +141,8 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
       "!**/*mismatch*/**",
       "!**/*invalid*/**",
       "!**/invalid*",
-      "!test/customRules/dir/subdir2/.markdownlint-cli2.jsonc"
+      "!test/customRules/dir/subdir2/.markdownlint-cli2.jsonc",
+      "!test/global-config-test-run*/**"
     ],
     {
       "dot": true
@@ -475,7 +477,8 @@ test("custom fs, extension scenario for untitled", (t) => {
         writeFile
       }
     },
-    "noImport": true
+    "noImport": true,
+    "noGlobalConfig": true
   }).
     then((exitCode) => {
       t.is(exitCode, 1);
@@ -497,7 +500,8 @@ test("custom fs, extension scenario with exception", (t) => {
       "stat": null,
       "readdir": null,
       "readFile": null
-    }
+    },
+    "noGlobalConfig": true
   }).
     then((exitCode) => {
       t.is(exitCode, 0);
@@ -548,7 +552,8 @@ test("custom fs, file and path including/escaping ':'", (t) => {
         );
         return (cb || o)(null, "# Heading\n");
       }
-    }
+    },
+    "noGlobalConfig": true
   }).
     then((exitCode) => {
       t.is(exitCode, 0);
@@ -673,7 +678,8 @@ test("-- stops matching parameters per POSIX Utility Conventions 12.2 Guideline 
     await markdownlintCli2({
       argv,
       "directory": "/",
-      "fs": new FsVirtual(files)
+      "fs": new FsVirtual(files),
+      "noGlobalConfig": true
     }),
     exitCode
   );
