@@ -828,18 +828,21 @@ const lintFiles = (/** @type {FsLike} */ fs, /** @type {DirInfo[]} */ dirInfos, 
 
 // Create list of results
 const createResults = (/** @type {string} */ baseDir, /** @type {import("markdownlint").LintResults[]} */ taskResults) => {
-  /** @type {LintResultWithCounter[]} */
+  /** @type {LintResult[]} */
   const results = [];
+  /** @type {Map<LintResult, number>} */
+  const resultToCounter = new Map();
   let counter = 0;
   for (const taskResult of taskResults) {
     for (const [ fileName, errorInfos ] of Object.entries(taskResult)) {
       for (const errorInfo of errorInfos) {
         const fileNameRelative = pathPosix.relative(baseDir, fileName);
-        results.push({
+        const result = {
           "fileName": fileNameRelative,
-          ...errorInfo,
-          counter
-        });
+          ...errorInfo
+        };
+        results.push(result);
+        resultToCounter.set(result, counter);
         counter++;
       }
     }
@@ -848,15 +851,10 @@ const createResults = (/** @type {string} */ baseDir, /** @type {import("markdow
     a.fileName.localeCompare(b.fileName) ||
     (a.lineNumber - b.lineNumber) ||
     a.ruleNames[0].localeCompare(b.ruleNames[0]) ||
-    (a.counter - b.counter)
-  ));
-  for (const result of results) {
     // @ts-ignore
-    delete result.counter;
-  }
-  /** @type {LintResult[]} */
-  const resultsNoCounter = results;
-  return resultsNoCounter;
+    (resultToCounter.get(a) - resultToCounter.get(b))
+  ));
+  return results;
 };
 
 // Output summary via formatters
@@ -1142,12 +1140,6 @@ export const main = async (/** @type {Parameters} */ params) => {
  */
 
 /** @typedef {import("markdownlint").LintError & LintContext} LintResult */
-
-/**
- * @typedef LintResultCounter
- * @property {number} counter Counter.
- */
-/** @typedef {LintResult & LintResultCounter} LintResultWithCounter */
 
 /**
  * @callback Logger
