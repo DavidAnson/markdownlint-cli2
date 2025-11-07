@@ -214,7 +214,9 @@ const loadGlobalConfig = async (fs, noImport) => {
   for (const configFile of configFiles) {
     const configPath = pathPosix.join(globalConfigDir, configFile);
     try {
+      // eslint-disable-next-line no-await-in-loop
       await fs.promises.access(configPath);
+      // eslint-disable-next-line no-await-in-loop
       return await readOptionsOrConfig(configPath, fs, noImport);
     } catch (error) {
       if (error.code !== "ENOENT") {
