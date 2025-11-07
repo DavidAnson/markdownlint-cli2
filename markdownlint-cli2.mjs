@@ -186,6 +186,46 @@ const readOptionsOrConfig = async (configPath, fs, noImport) => {
   return { config };
 };
 
+// Get global configuration directory
+const getGlobalConfigDir = () => {
+  const xdgConfigHome = process.env.XDG_CONFIG_HOME;
+  const homeDir = os.homedir();
+  const configBase = xdgConfigHome || pathDefault.join(homeDir, ".config");
+  return posixPath(pathDefault.join(configBase, "markdownlint-cli2"));
+};
+
+// Load global configuration files
+const loadGlobalConfig = async (fs, noImport) => {
+  const globalConfigDir = getGlobalConfigDir();
+
+  const configFiles = [
+    ".markdownlint-cli2.jsonc",
+    ".markdownlint-cli2.yaml",
+    ".markdownlint-cli2.cjs",
+    ".markdownlint-cli2.mjs",
+    ".markdownlint.jsonc",
+    ".markdownlint.json",
+    ".markdownlint.yaml",
+    ".markdownlint.yml",
+    ".markdownlint.cjs",
+    ".markdownlint.mjs"
+  ];
+
+  for (const configFile of configFiles) {
+    const configPath = pathPosix.join(globalConfigDir, configFile);
+    try {
+      await fs.promises.access(configPath);
+      return await readOptionsOrConfig(configPath, fs, noImport);
+    } catch (error) {
+      if (error.code !== "ENOENT") {
+        throwForConfigurationFile(configPath, error);
+      }
+    }
+  }
+
+  return null;
+};
+
 // Filter a list of files to ignore by glob
 const removeIgnoredFiles = (dir, files, ignores) => (
   micromatch(
@@ -225,7 +265,7 @@ const showHelp = (logMessage, showBanner) => {
   }
   logMessage(`https://github.com/DavidAnson/markdownlint-cli2
 
-Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix] [--help]
+Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix] [--help] [--no-global-config]
 
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
@@ -242,10 +282,11 @@ Dot-only glob:
 - To lint every file in the current directory tree, the command "markdownlint-cli2 **" can be used instead
 
 Optional parameters:
-- --config    specifies the path to a configuration file to define the base configuration
-- --fix       updates files to resolve fixable issues (can be overridden in configuration)
-- --help      writes this message to the console and exits without doing anything else
-- --no-globs  ignores the "globs" property if present in the top-level options object
+- --config            specifies the path to a configuration file to define the base configuration
+- --fix               updates files to resolve fixable issues (can be overridden in configuration)
+- --help              writes this message to the console and exits without doing anything else
+- --no-globs          ignores the "globs" property if present in the top-level options object
+- --no-global-config  ignores global configuration files in ~/.config/markdownlint-cli2
 
 Configuration via:
 - .markdownlint-cli2.jsonc
@@ -406,8 +447,15 @@ const getBaseOptions = async (
   options,
   fixDefault,
   noGlobs,
-  noImport
+  noImport,
+  noGlobalConfig
 ) => {
+  // Load global configuration if not disabled
+  let globalOptions = null;
+  if (!noGlobalConfig) {
+    globalOptions = await loadGlobalConfig(fs, noImport);
+  }
+
   const tasks = [];
   const dirToDirInfo = {};
   getAndProcessDirInfo(
@@ -424,7 +472,10 @@ const getBaseOptions = async (
   const baseMarkdownlintOptions = dirToDirInfo[baseDir].markdownlintOptions =
     mergeOptions(
       mergeOptions(
-        { "fix": fixDefault },
+        mergeOptions(
+          { "fix": fixDefault },
+          globalOptions
+        ),
         options
       ),
       dirToDirInfo[baseDir].markdownlintOptions
@@ -912,6 +963,7 @@ export const main = async (params) => {
   let useStdin = false;
   let sawDashDash = false;
   let shouldShowHelp = false;
+  let noGlobalConfig = false;
   const argvFiltered = (argv || []).filter((arg) => {
     if (sawDashDash) {
       return true;
@@ -930,6 +982,8 @@ export const main = async (params) => {
       shouldShowHelp = true;
     } else if (arg === "--no-globs") {
       noGlobs = true;
+    } else if (arg === "--no-global-config") {
+      noGlobalConfig = true;
     } else {
       return true;
     }
@@ -961,7 +1015,8 @@ export const main = async (params) => {
       optionsArgv || optionsDefault,
       fixDefault,
       noGlobs,
-      noImport
+      noImport,
+      noGlobalConfig
     );
   } finally {
     if (!baseOptions?.baseMarkdownlintOptions.noBanner) {

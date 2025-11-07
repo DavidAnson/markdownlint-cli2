@@ -84,10 +84,11 @@ Dot-only glob:
 - To lint every file in the current directory tree, the command "markdownlint-cli2 **" can be used instead
 
 Optional parameters:
-- --config    specifies the path to a configuration file to define the base configuration
-- --fix       updates files to resolve fixable issues (can be overridden in configuration)
-- --help      writes this message to the console and exits without doing anything else
-- --no-globs  ignores the "globs" property if present in the top-level options object
+- --config            specifies the path to a configuration file to define the base configuration
+- --fix               updates files to resolve fixable issues (can be overridden in configuration)
+- --help              writes this message to the console and exits without doing anything else
+- --no-globs          ignores the "globs" property if present in the top-level options object
+- --no-global-config  ignores global configuration files in ~/.config/markdownlint-cli2
 
 Configuration via:
 - .markdownlint-cli2.jsonc
@@ -206,6 +207,14 @@ of the rules within.
     parent directory.
 - Paths beginning with `~` are resolved relative to the user's home directory
   (typically `$HOME` on UNIX and `%USERPROFILE%` on Windows)
+- Global configuration files can be placed in `~/.config/markdownlint-cli2/` (or
+  `$XDG_CONFIG_HOME/markdownlint-cli2/` if the `XDG_CONFIG_HOME` environment
+  variable is set) to define defaults for all projects on a system.
+  - Global configuration files are loaded first and have the lowest precedence,
+    allowing project-specific configurations to override them.
+  - The same file formats are supported as for local configurations.
+  - Global configuration can be disabled with the `--no-global-config` flag.
+  - If no global configuration files exist, this is not an error.
 - There are two kinds of configuration file (both detailed below):
   - Configuration files like `.markdownlint-cli2.*` allow complete control of
     `markdownlint-cli2` behavior and are also used by `vscode-markdownlint`.
@@ -227,12 +236,39 @@ of the rules within.
       4. `.markdownlint.yml`
       5. `.markdownlint.cjs`
       6. `.markdownlint.mjs`
+- Configuration files are applied with the following precedence (lowest to
+  highest):
+  1. Global configuration (`~/.config/markdownlint-cli2/`)
+  2. Configuration specified via `--config` flag
+  3. Local project configurations (`.markdownlint-cli2.*` and `.markdownlint.*`
+     files in the current directory and parent directories)
+  4. Configuration specified via `optionsOverride` (programmatic API only)
 - The VS Code extension includes a [JSON Schema][json-schema] definition for the
   `JSON(C)` configuration files described below. This adds auto-complete and can
   make it easier to define proper structure.
 - See [markdownlint-cli2-config-schema.json][markdownlint-cli2-config-schema]
   for that schema and [ValidatingConfiguration.md][validating-configuration] for
   ways to use it to validate configuration files.
+
+### Global Configuration Example
+
+To set user-wide defaults for all projects, create a configuration file in
+`~/.config/markdownlint-cli2/`. For example, create
+`~/.config/markdownlint-cli2/.markdownlint-cli2.jsonc`:
+
+```json
+{
+  "config": {
+    "default": true,
+    "MD013": false,
+    "MD003": { "style": "atx" }
+  },
+  "fix": true
+}
+```
+
+This configuration will apply to all projects, but can be overridden by
+project-specific configurations.
 
 ### `.markdownlint-cli2.jsonc`
 

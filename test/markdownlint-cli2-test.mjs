@@ -709,3 +709,186 @@ test ("- not supported by main entry point", (t) => {
       t.is(exitCode, 0);
     });
 });
+
+test("global config is loaded from XDG_CONFIG_HOME", async (t) => {
+  t.plan(1);
+  const globalConfigDir = path.join(__dirname(import.meta), "global-config-test");
+  const testDir = path.join(__dirname(import.meta), "global-config-test-run");
+  const originalXdgConfigHome = process.env.XDG_CONFIG_HOME;
+
+  try {
+    // Create test directory and file
+    await fs.mkdir(testDir, { "recursive": true });
+    await fs.writeFile(path.join(testDir, "file.md"), "# Title\nFirst paragraph without blank line above.\n");
+
+    // Set XDG_CONFIG_HOME to our test directory
+    process.env.XDG_CONFIG_HOME = globalConfigDir;
+
+    const exitCode = await markdownlintCli2({
+      "argv": [ "file.md" ],
+      "directory": testDir
+    });
+
+    // Global config disables MD013 and MD041, so should pass
+    t.is(exitCode, 0);
+  } finally {
+    if (originalXdgConfigHome === undefined) {
+      delete process.env.XDG_CONFIG_HOME;
+    } else {
+      process.env.XDG_CONFIG_HOME = originalXdgConfigHome;
+    }
+    // Clean up test directory
+    await fs.rm(testDir, { "recursive": true, "force": true });
+  }
+});
+
+test("--no-global-config disables global config", async (t) => {
+  t.plan(1);
+  const globalConfigDir = path.join(__dirname(import.meta), "global-config-test");
+  const testDir = path.join(__dirname(import.meta), "global-config-test-run-noglobal");
+  const originalXdgConfigHome = process.env.XDG_CONFIG_HOME;
+
+  try {
+    // Create test directory and file
+    await fs.mkdir(testDir, { "recursive": true });
+    await fs.writeFile(path.join(testDir, "file.md"), "First paragraph without blank line above.\n");
+
+    process.env.XDG_CONFIG_HOME = globalConfigDir;
+
+    const exitCode = await markdownlintCli2({
+      "argv": [ "file.md", "--no-global-config" ],
+      "directory": testDir
+    });
+
+    // Without global config, MD041 is enabled by default, so should fail
+    t.is(exitCode, 1);
+  } finally {
+    if (originalXdgConfigHome === undefined) {
+      delete process.env.XDG_CONFIG_HOME;
+    } else {
+      process.env.XDG_CONFIG_HOME = originalXdgConfigHome;
+    }
+    // Clean up test directory
+    await fs.rm(testDir, { "recursive": true, "force": true });
+  }
+});
+
+test("local config overrides global config", async (t) => {
+  t.plan(1);
+  const globalConfigDir = path.join(__dirname(import.meta), "global-config-test");
+  const testDir = path.join(__dirname(import.meta), "global-config-test-run-override");
+  const originalXdgConfigHome = process.env.XDG_CONFIG_HOME;
+
+  try {
+    // Create test directory with local config
+    await fs.mkdir(testDir, { "recursive": true });
+    await fs.writeFile(path.join(testDir, "file.md"), "First paragraph without blank line above.\n");
+    await fs.writeFile(path.join(testDir, ".markdownlint.jsonc"), "{ \"MD041\": true }");
+
+    process.env.XDG_CONFIG_HOME = globalConfigDir;
+
+    const exitCode = await markdownlintCli2({
+      "argv": [ "file.md" ],
+      "directory": testDir
+    });
+
+    // Local config enables MD041, overriding global config that disables it
+    t.is(exitCode, 1);
+  } finally {
+    if (originalXdgConfigHome === undefined) {
+      delete process.env.XDG_CONFIG_HOME;
+    } else {
+      process.env.XDG_CONFIG_HOME = originalXdgConfigHome;
+    }
+    await fs.rm(testDir, { "recursive": true, "force": true });
+  }
+});
+
+test("--config flag takes precedence over global config", async (t) => {
+  t.plan(1);
+  const globalConfigDir = path.join(__dirname(import.meta), "global-config-test");
+  const testDir = path.join(__dirname(import.meta), "global-config-test-run-configflag");
+  const originalXdgConfigHome = process.env.XDG_CONFIG_HOME;
+
+  try {
+    // Create test directory with custom config
+    await fs.mkdir(testDir, { "recursive": true });
+    await fs.writeFile(path.join(testDir, "file.md"), "First paragraph without blank line above.\n");
+    await fs.writeFile(path.join(testDir, "custom.markdownlint-cli2.jsonc"), "{ \"config\": { \"MD041\": true } }");
+
+    process.env.XDG_CONFIG_HOME = globalConfigDir;
+
+    const exitCode = await markdownlintCli2({
+      "argv": [ "--config", "custom.markdownlint-cli2.jsonc", "file.md" ],
+      "directory": testDir
+    });
+
+    // --config flag config enables MD041, overriding global config
+    t.is(exitCode, 1);
+  } finally {
+    if (originalXdgConfigHome === undefined) {
+      delete process.env.XDG_CONFIG_HOME;
+    } else {
+      process.env.XDG_CONFIG_HOME = originalXdgConfigHome;
+    }
+    await fs.rm(testDir, { "recursive": true, "force": true });
+  }
+});
+
+test("missing global config does not cause error", async (t) => {
+  t.plan(1);
+  const testDir = path.join(__dirname(import.meta), "global-config-test-run-missing");
+  const originalXdgConfigHome = process.env.XDG_CONFIG_HOME;
+
+  try {
+    // Create test directory
+    await fs.mkdir(testDir, { "recursive": true });
+    await fs.writeFile(path.join(testDir, "file.md"), "# Title\n\nContent.\n");
+
+    // Point to non-existent directory
+    process.env.XDG_CONFIG_HOME = "/nonexistent-global-config-dir";
+
+    const exitCode = await markdownlintCli2({
+      "argv": [ "file.md" ],
+      "directory": testDir
+    });
+
+    // Should succeed with no errors about missing global config
+    t.is(exitCode, 0);
+  } finally {
+    if (originalXdgConfigHome === undefined) {
+      delete process.env.XDG_CONFIG_HOME;
+    } else {
+      process.env.XDG_CONFIG_HOME = originalXdgConfigHome;
+    }
+    await fs.rm(testDir, { "recursive": true, "force": true });
+  }
+});
+
+test("global config supports all file formats", async (t) => {
+  t.plan(1);
+  const globalConfigDir = path.join(__dirname(import.meta), "global-config-test");
+  const testDir = path.join(__dirname(import.meta), "global-config-test-run-formats");
+  const originalXdgConfigHome = process.env.XDG_CONFIG_HOME;
+
+  try {
+    // Create test directory
+    await fs.mkdir(testDir, { "recursive": true });
+    await fs.writeFile(path.join(testDir, "file.md"), "# Title\nFirst paragraph without blank line above.\n");
+
+    // Test with global config
+    process.env.XDG_CONFIG_HOME = globalConfigDir;
+    const exitCode = await markdownlintCli2({
+      "argv": [ "file.md" ],
+      "directory": testDir
+    });
+    t.is(exitCode, 0, "Global config should work");
+  } finally {
+    if (originalXdgConfigHome === undefined) {
+      delete process.env.XDG_CONFIG_HOME;
+    } else {
+      process.env.XDG_CONFIG_HOME = originalXdgConfigHome;
+    }
+    await fs.rm(testDir, { "recursive": true, "force": true });
+  }
+});

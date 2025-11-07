@@ -1,0 +1,9 @@
+// Global configuration for testing
+{
+  "config": {
+    "default": true,
+    "MD013": false,
+    "MD022": false,
+    "MD041": false
+  }
+}
