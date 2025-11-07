@@ -3,7 +3,7 @@
 import test from "ava";
 import appendToArray, { sliceSize } from "../append-to-array.mjs";
 
-const makeArray = (minimum, maximum) => {
+const makeArray = (/** @type {number} */ minimum, /** @type {number} */ maximum) => {
   const length = maximum - minimum + 1;
   const array = Array.from({ length });
   for (let i = 0, j = minimum; j <= maximum; i++, j++) {
@@ -13,14 +13,16 @@ const makeArray = (minimum, maximum) => {
 };
 
 const checkArray =
-  (array, maximum) => ((array.length === (maximum + 1)) &&
-    array.every((v, i) => v === i));
+  (/** @type {object[]} */ array, /** @type {number} */ maximum) => ((array.length === (maximum + 1)) &&
+    array.every((v, i) => Number(v) === i));
 
 /* eslint-disable unicorn/numeric-separators-style */
 
 test("empty source and destination", (t) => {
   t.plan(1);
+  /** @type {object[]} */
   const destination = [];
+  /** @type {object[]} */
   const source = [];
   appendToArray(destination, source);
   t.deepEqual(destination, []);
@@ -29,6 +31,7 @@ test("empty source and destination", (t) => {
 test("empty source", (t) => {
   t.plan(1);
   const destination = makeArray(0, 3);
+  /** @type {object[]} */
   const source = [];
   appendToArray(destination, source);
   t.true(checkArray(destination, 3));
@@ -36,6 +39,7 @@ test("empty source", (t) => {
 
 test("empty destination", (t) => {
   t.plan(1);
+  /** @type {object[]} */
   const destination = [];
   const source = makeArray(0, 2);
   appendToArray(destination, source);
@@ -76,6 +80,7 @@ test("large source and large destination", (t) => {
 
 test("sliceSize", (t) => {
   t.plan(1);
+  /** @type {object[]} */
   const destination = [];
   const source = makeArray(0, sliceSize - 1);
   appendToArray(destination, source);
@@ -84,6 +89,7 @@ test("sliceSize", (t) => {
 
 test("sliceSize - 1", (t) => {
   t.plan(1);
+  /** @type {object[]} */
   const destination = [];
   const source = makeArray(0, sliceSize - 2);
   appendToArray(destination, source);
@@ -92,6 +98,7 @@ test("sliceSize - 1", (t) => {
 
 test("sliceSize + 1", (t) => {
   t.plan(1);
+  /** @type {object[]} */
   const destination = [];
   const source = makeArray(0, sliceSize);
   appendToArray(destination, source);

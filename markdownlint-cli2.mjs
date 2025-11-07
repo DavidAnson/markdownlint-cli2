@@ -17,6 +17,8 @@ import parsers from "./parsers/parsers.mjs";
 import jsoncParse from "./parsers/jsonc-parse.mjs";
 import yamlParse from "./parsers/yaml-parse.mjs";
 
+/* eslint-disable jsdoc/reject-any-type */
+
 // Variables
 const packageName = "markdownlint-cli2";
 const packageVersion = "0.18.1";
@@ -30,10 +32,10 @@ const utf8 = "utf8";
 const noop = () => null;
 
 // Negates a glob
-const negateGlob = (glob) => `!${glob}`;
+const negateGlob = (/** @type {string} */ glob) => `!${glob}`;
 
 // Throws a meaningful exception for an unusable configuration file
-const throwForConfigurationFile = (file, error) => {
+const throwForConfigurationFile = (/** @type {string} */ file, /** @type {Error | any} */ error) => {
   throw new Error(
     `Unable to use configuration file '${file}'; ${error?.message}`,
     { "cause": error }
@@ -41,15 +43,15 @@ const throwForConfigurationFile = (file, error) => {
 };
 
 // Return a posix path (even on Windows)
-const posixPath = (p) => p.split(pathDefault.sep).join(pathPosix.sep);
+const posixPath = (/** @type {string} */ p) => p.split(pathDefault.sep).join(pathPosix.sep);
 
 // Resolves module paths relative to the specified directory
-const resolveModulePaths = (dir, modulePaths) => (
+const resolveModulePaths = (/** @type {string} */ dir, /** @type {string[]} */ modulePaths) => (
   modulePaths.map((path) => pathDefault.resolve(dir, expandTildePath(path, os)))
 );
 
 // Read a JSON(C) or YAML file and return the object
-const readConfigFile = (fs, dir, name, otherwise) => () => {
+const readConfigFile = (/** @type {FsLike} */ fs, /** @type {string} */ dir, /** @type {string} */ name, /** @type {() => void} */ otherwise) => () => {
   const file = pathPosix.join(dir, name);
   return fs.promises.access(file).
     then(
@@ -63,7 +65,7 @@ const readConfigFile = (fs, dir, name, otherwise) => () => {
 };
 
 // Import a module ID with a custom directory in the path
-const importModule = async (dirOrDirs, id, noImport) => {
+const importModule = async (/** @type {string[] | string} */ dirOrDirs, /** @type {string} */ id, /** @type {boolean} */ noImport) => {
   if (typeof id !== "string") {
     return id;
   } else if (noImport) {
@@ -83,6 +85,7 @@ const importModule = async (dirOrDirs, id, noImport) => {
           ? new URL(expandId)
           : pathToFileURL(pathDefault.resolve(dirs[0], expandId));
     }
+    // @ts-ignore
     // eslint-disable-next-line no-inline-comments
     const module = await import(/* webpackIgnore: true */ moduleName);
     return module.default;
@@ -97,7 +100,7 @@ const importModule = async (dirOrDirs, id, noImport) => {
 };
 
 // Import an array of modules by ID
-const importModuleIds = (dirs, ids, noImport) => (
+const importModuleIds = (/** @type {string[]} */ dirs, /** @type {string[]} */ ids, /** @type {boolean} */ noImport) => (
   Promise.all(
     ids.map(
       (id) => importModule(dirs, id, noImport)
@@ -106,7 +109,7 @@ const importModuleIds = (dirs, ids, noImport) => (
 );
 
 // Import an array of modules by ID (preserving parameters)
-const importModuleIdsAndParams = (dirs, idsAndParams, noImport) => (
+const importModuleIdsAndParams = (/** @type {string[]} */ dirs, /** @type {string[][]} */ idsAndParams, /** @type {boolean} */ noImport) => (
   Promise.all(
     idsAndParams.map(
       (idAndParams) => importModule(dirs, idAndParams[0], noImport).
@@ -116,7 +119,7 @@ const importModuleIdsAndParams = (dirs, idsAndParams, noImport) => (
 );
 
 // Import a JavaScript file and return the exported object
-const importConfig = (fs, dir, name, noImport, otherwise) => () => {
+const importConfig = (/** @type {FsLike} */ fs, /** @type {string} */ dir, /** @type {string} */ name, /** @type {boolean} */ noImport, /** @type {() => void} */ otherwise) => () => {
   const file = pathPosix.join(dir, name);
   return fs.promises.access(file).
     then(
@@ -126,7 +129,7 @@ const importConfig = (fs, dir, name, noImport, otherwise) => () => {
 };
 
 // Extend a config object if it has 'extends' property
-const getExtendedConfig = (config, configPath, fs) => {
+const getExtendedConfig = (/** @type {import("markdownlint").Configuration} */ config, /** @type {string} */ configPath, /** @type {FsLike} */ fs) => {
   if (config.extends) {
     return extendConfig(
       config,
@@ -140,7 +143,7 @@ const getExtendedConfig = (config, configPath, fs) => {
 };
 
 // Read an options or config file in any format and return the object
-const readOptionsOrConfig = async (configPath, fs, noImport) => {
+const readOptionsOrConfig = async (/** @type {string} */ configPath, /** @type {FsLike} */ fs, /** @type {boolean} */ noImport) => {
   const basename = pathPosix.basename(configPath);
   const dirname = pathPosix.dirname(configPath);
   let options = null;
@@ -188,7 +191,7 @@ const readOptionsOrConfig = async (configPath, fs, noImport) => {
 };
 
 // Filter a list of files to ignore by glob
-const removeIgnoredFiles = (dir, files, ignores) => (
+const removeIgnoredFiles = (/** @type {string} */ dir, /** @type {string[]} */ files, /** @type {string[]} */ ignores) => (
   micromatch(
     files.map((file) => pathPosix.relative(dir, file)),
     ignores
@@ -196,7 +199,7 @@ const removeIgnoredFiles = (dir, files, ignores) => (
 );
 
 // Process/normalize command-line arguments and return glob patterns
-const processArgv = (argv) => {
+const processArgv = (/** @type {string[]} */ argv) => {
   const globPatterns = argv.map(
     (glob) => {
       if (glob.startsWith(":")) {
@@ -220,7 +223,7 @@ const processArgv = (argv) => {
 };
 
 // Show help if missing arguments
-const showHelp = (logMessage, showBanner) => {
+const showHelp = (/** @type {Logger} */ logMessage, /** @type {boolean} */ showBanner) => {
   if (showBanner) {
     logMessage(bannerMessage);
   }
@@ -273,13 +276,13 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"`
 
 // Get (creating if necessary) and process a directory's info object
 const getAndProcessDirInfo = (
-  fs,
-  tasks,
-  dirToDirInfo,
-  dir,
-  relativeDir,
-  noImport,
-  allowPackageJson
+  /** @type {FsLike} */ fs,
+  /** @type {Task[]} */ tasks,
+  /** @type {DirToDirInfo} */ dirToDirInfo,
+  /** @type {string} */ dir,
+  /** @type {string | null} */ relativeDir,
+  /** @type {boolean} */ noImport,
+  /** @type {boolean} */ allowPackageJson
 ) => {
   // Create dirInfo
   let dirInfo = dirToDirInfo[dir];
@@ -289,8 +292,8 @@ const getAndProcessDirInfo = (
       relativeDir,
       "parent": null,
       "files": [],
-      "markdownlintConfig": null,
-      "markdownlintOptions": null
+      "markdownlintConfig": {},
+      "markdownlintOptions": {}
     };
     dirToDirInfo[dir] = dirInfo;
 
@@ -302,7 +305,7 @@ const getAndProcessDirInfo = (
     const packageJson = pathPosix.join(dir, "package.json");
     let file = "[UNKNOWN]";
     // eslint-disable-next-line no-return-assign
-    const captureFile = (f) => file = f;
+    const captureFile = (/** @type {string} */ f) => file = f;
     tasks.push(
       fs.promises.access(captureFile(markdownlintCli2Jsonc)).
         then(
@@ -325,14 +328,14 @@ const getAndProcessDirInfo = (
                           () => fs.promises.
                             readFile(file, utf8).
                             then(jsoncParse).
-                            then((obj) => obj[packageName]),
+                            then((/** @type {any} */ obj) => obj[packageName]),
                           noop
                         )
                     )
                 )
             )
         ).
-        then((options) => {
+        then((/** @type {Options} */ options) => {
           dirInfo.markdownlintOptions = options;
           return options &&
             options.config &&
@@ -346,7 +349,7 @@ const getAndProcessDirInfo = (
                 options.config = config;
               });
         }).
-        catch((error) => {
+        catch((/** @type {Error} */ error) => {
           throwForConfigurationFile(file, error);
         })
     );
@@ -388,7 +391,7 @@ const getAndProcessDirInfo = (
       );
     tasks.push(
       readConfigs().
-        then((config) => {
+        then((/** @type {import("markdownlint").Configuration} */ config) => {
           dirInfo.markdownlintConfig = config;
         })
     );
@@ -400,16 +403,18 @@ const getAndProcessDirInfo = (
 
 // Get base markdownlint-cli2 options object
 const getBaseOptions = async (
-  fs,
-  baseDir,
-  relativeDir,
-  globPatterns,
-  options,
-  fixDefault,
-  noGlobs,
-  noImport
+  /** @type {FsLike} */ fs,
+  /** @type {string} */ baseDir,
+  /** @type {string | null} */ relativeDir,
+  /** @type {string[]} */ globPatterns,
+  /** @type {Options} */ options,
+  /** @type {boolean} */ fixDefault,
+  /** @type {boolean} */ noGlobs,
+  /** @type {boolean} */ noImport
 ) => {
+  /** @type {Task[]} */
   const tasks = [];
+  /** @type {DirToDirInfo} */
   const dirToDirInfo = {};
   getAndProcessDirInfo(
     fs,
@@ -451,15 +456,16 @@ const getBaseOptions = async (
 
 // Enumerate files from globs and build directory infos
 const enumerateFiles = async (
-  fs,
-  baseDirSystem,
-  baseDir,
-  globPatterns,
-  dirToDirInfo,
-  gitignore,
-  ignoreFiles,
-  noImport
+  /** @type {FsLike} */ fs,
+  /** @type {string} */ baseDirSystem,
+  /** @type {string} */ baseDir,
+  /** @type {string[]} */ globPatterns,
+  /** @type {DirToDirInfo} */ dirToDirInfo,
+  /** @type {boolean} */ gitignore,
+  /** @type {string | undefined} */ ignoreFiles,
+  /** @type {boolean} */ noImport
 ) => {
+  /** @type {Task[]} */
   const tasks = [];
   /** @type {import("globby").Options} */
   const globbyOptions = {
@@ -473,6 +479,7 @@ const enumerateFiles = async (
     fs
   };
   // Special-case literal files
+  /** @type {string[]} */
   const literalFiles = [];
   const filteredGlobPatterns = globPatterns.filter(
     (globPattern) => {
@@ -487,7 +494,7 @@ const enumerateFiles = async (
   ).map((globPattern) => globPattern.replace(/^\\:/u, ":"));
   const baseMarkdownlintOptions = dirToDirInfo[baseDir].markdownlintOptions;
   const globsForIgnore =
-    (baseMarkdownlintOptions.globs || []).
+    (baseMarkdownlintOptions?.globs || []).
       filter((glob) => glob.startsWith("!"));
   const filteredLiteralFiles =
     ((literalFiles.length > 0) && (globsForIgnore.length > 0))
@@ -507,7 +514,7 @@ const enumerateFiles = async (
         ? barePattern
         : pathPosix.join(baseDir, barePattern);
       return fs.promises.stat(globPath).
-        then((stats) => (stats.isDirectory()
+        then((/** @type {import("node:fs").Stats} */ stats) => (stats.isDirectory()
           ? pathPosix.join(globPattern, "**")
           : globPattern)).
         catch(() => globPattern);
@@ -536,14 +543,16 @@ const enumerateFiles = async (
 
 // Enumerate (possibly missing) parent directories and update directory infos
 const enumerateParents = async (
-  fs,
-  baseDir,
-  dirToDirInfo,
-  noImport
+  /** @type {FsLike} */ fs,
+  /** @type {string} */ baseDir,
+  /** @type {DirToDirInfo} */ dirToDirInfo,
+  /** @type {boolean} */ noImport
 ) => {
+  /** @type {Task[]} */
   const tasks = [];
 
   // Create a lookup of baseDir and parents
+  /** @type {Record<string, boolean>} */
   const baseDirParents = {};
   let baseDirParent = baseDir;
   do {
@@ -585,15 +594,15 @@ const enumerateParents = async (
 
 // Create directory info objects by enumerating file globs
 const createDirInfos = async (
-  fs,
-  baseDirSystem,
-  baseDir,
-  globPatterns,
-  dirToDirInfo,
-  optionsOverride,
-  gitignore,
-  ignoreFiles,
-  noImport
+  /** @type {FsLike} */ fs,
+  /** @type {string} */ baseDirSystem,
+  /** @type {string} */ baseDir,
+  /** @type {string[]} */ globPatterns,
+  /** @type {DirToDirInfo} */ dirToDirInfo,
+  /** @type {Options | undefined} */ optionsOverride,
+  /** @type {boolean} */ gitignore,
+  /** @type {string | undefined} */ ignoreFiles,
+  /** @type {boolean} */ noImport
 ) => {
   await enumerateFiles(
     fs,
@@ -616,21 +625,14 @@ const createDirInfos = async (
   const dirs = Object.keys(dirToDirInfo);
   dirs.sort((a, b) => b.length - a.length);
   const dirInfos = [];
-  const noConfigDirInfo =
-    // eslint-disable-next-line unicorn/consistent-function-scoping
-    (dirInfo) => (
-      dirInfo.parent &&
-      !dirInfo.markdownlintConfig &&
-      !dirInfo.markdownlintOptions
-    );
   const tasks = [];
   for (const dir of dirs) {
     const dirInfo = dirToDirInfo[dir];
-    if (noConfigDirInfo(dirInfo)) {
+    if (dirInfo.parent && !dirInfo.markdownlintConfig && !dirInfo.markdownlintOptions) {
       if (dirInfo.parent) {
         appendToArray(dirInfo.parent.files, dirInfo.files);
       }
-      dirToDirInfo[dir] = null;
+      delete dirToDirInfo[dir];
     } else {
       const { markdownlintOptions, relativeDir } = dirInfo;
       const effectiveDir = relativeDir || dir;
@@ -642,6 +644,7 @@ const createDirInfos = async (
         tasks.push(
           importModuleIds(
             [ effectiveDir, ...effectiveModulePaths ],
+            // @ts-ignore
             markdownlintOptions.customRules,
             noImport
           ).then((customRules) => {
@@ -702,6 +705,7 @@ const createDirInfos = async (
   for (const dirInfo of dirInfos) {
     let markdownlintOptions = dirInfo.markdownlintOptions || {};
     let { markdownlintConfig } = dirInfo;
+    /** @type {DirInfo | null} */
     let parent = dirInfo;
     // eslint-disable-next-line prefer-destructuring
     while ((parent = parent.parent)) {
@@ -730,7 +734,7 @@ const createDirInfos = async (
 };
 
 // Lint files in groups by shared configuration
-const lintFiles = (fs, dirInfos, fileContents) => {
+const lintFiles = (/** @type {FsLike} */ fs, /** @type {DirInfo[]} */ dirInfos, /** @type {Record<string, string>} */ fileContents) => {
   const tasks = [];
   // For each dirInfo
   for (const dirInfo of dirInfos) {
@@ -762,6 +766,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
       const module = await import(/* webpackMode: "eager" */ "markdown-it");
       const markdownIt = module.default({ "html": true });
       for (const plugin of (markdownlintOptions.markdownItPlugins || [])) {
+        // @ts-ignore
         markdownIt.use(...plugin);
       }
       return markdownIt;
@@ -773,6 +778,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
       "strings": filteredStrings,
       "config": markdownlintConfig || markdownlintOptions.config,
       "configParsers": parsers,
+      // @ts-ignore
       "customRules": markdownlintOptions.customRules,
       "frontMatter": markdownlintOptions.frontMatter
         ? new RegExp(markdownlintOptions.frontMatter, "u")
@@ -798,7 +804,7 @@ const lintFiles = (fs, dirInfos, fileContents) => {
             delete results[fileName];
             options.files.push(fileName);
             subTasks.push(fs.promises.readFile(fileName, utf8).
-              then((original) => {
+              then((/** @type {string} */ original) => {
                 const fixed = applyFixes(original, errorInfos);
                 return fs.promises.writeFile(fileName, fixed, utf8);
               })
@@ -821,8 +827,8 @@ const lintFiles = (fs, dirInfos, fileContents) => {
 };
 
 // Create list of results
-const createResults = (baseDir, taskResults) => {
-  /** @type {LintResult[]} */
+const createResults = (/** @type {string} */ baseDir, /** @type {import("markdownlint").LintResults[]} */ taskResults) => {
+  /** @type {LintResultWithCounter[]} */
   const results = [];
   let counter = 0;
   for (const taskResult of taskResults) {
@@ -845,21 +851,24 @@ const createResults = (baseDir, taskResults) => {
     (a.counter - b.counter)
   ));
   for (const result of results) {
+    // @ts-ignore
     delete result.counter;
   }
-  return results;
+  /** @type {LintResult[]} */
+  const resultsNoCounter = results;
+  return resultsNoCounter;
 };
 
 // Output summary via formatters
 const outputResults = async (
-  baseDir,
-  relativeDir,
-  results,
-  outputFormatters,
-  modulePaths,
-  logMessage,
-  logError,
-  noImport
+  /** @type {string} */ baseDir,
+  /** @type {string | null} */ relativeDir,
+  /** @type {LintResult[]} */ results,
+  /** @type {OutputFormatterConfiguration[] | undefined} */ outputFormatters,
+  /** @type {string[]} */ modulePaths,
+  /** @type {Logger} */ logMessage,
+  /** @type {Logger} */ logError,
+  /** @type {boolean} */ noImport
 ) => {
   if ((results.length > 0) || outputFormatters) {
     /** @type {OutputFormatterOptions} */
@@ -883,7 +892,7 @@ const outputResults = async (
 };
 
 // Main function
-export const main = async (params) => {
+export const main = async (/** @type {Parameters} */ params) => {
   // Capture parameters
   const {
     directory,
@@ -907,6 +916,7 @@ export const main = async (params) => {
   const baseDir = posixPath(baseDirSystem);
   // Merge and process args/argv
   let fixDefault = false;
+  /** @type {undefined | null | string} */
   // eslint-disable-next-line unicorn/no-useless-undefined
   let configPath = undefined;
   let useStdin = false;
@@ -948,7 +958,7 @@ export const main = async (params) => {
       const resolvedConfigPath =
         posixPath(pathDefault.resolve(baseDirSystem, configPath));
       optionsArgv =
-        await readOptionsOrConfig(resolvedConfigPath, fs, noImport);
+        await readOptionsOrConfig(resolvedConfigPath, fs, Boolean(noImport));
       relativeDir = pathPosix.dirname(resolvedConfigPath);
     }
     // Process arguments and get base options
@@ -960,8 +970,8 @@ export const main = async (params) => {
       globPatterns,
       optionsArgv || optionsDefault,
       fixDefault,
-      noGlobs,
-      noImport
+      Boolean(noGlobs),
+      Boolean(noImport)
     );
   } finally {
     if (!baseOptions?.baseMarkdownlintOptions.noBanner) {
@@ -984,6 +994,7 @@ export const main = async (params) => {
     };
   }
   // Include any file overrides or non-file content
+  /** @type {Record<string, string>} */
   const resolvedFileContents = {};
   for (const file in fileContents) {
     const resolvedFile = posixPath(pathDefault.resolve(baseDirSystem, file));
@@ -1020,7 +1031,7 @@ export const main = async (params) => {
       optionsOverride,
       gitignore,
       ignoreFiles,
-      noImport
+      Boolean(noImport)
     );
   // Output linting status
   if (showProgress) {
@@ -1058,7 +1069,7 @@ export const main = async (params) => {
     modulePaths,
     logMessage,
     logError,
-    noImport
+    Boolean(noImport)
   );
   // Return result
   const errorsPresent = lintResults.flatMap(
@@ -1071,12 +1082,72 @@ export const main = async (params) => {
   return errorsPresent ? 1 : 0;
 };
 
+/** @typedef {any} FsLike */
+
+/** @typedef {Promise<any>} Task */
+
+/**
+ * @typedef Parameters
+ * @property {boolean} [allowStdin] Allow stdin.
+ * @property {string[]} argv Arguments.
+ * @property {string} [directory] Directory.
+ * @property {Record<string, string>} [fileContents] File contents.
+ * @property {FsLike} [fs] File system object.
+ * @property {Logger} [logError] Log error.
+ * @property {Logger} [logMessage] Log message.
+ * @property {boolean} [noGlobs] No globs.
+ * @property {boolean} [noImport] No import.
+ * @property {Record<string, string>} [nonFileContents] Non-file contents.
+ * @property {Options} [optionsDefault] Options default.
+ * @property {Options} [optionsOverride] Options override.
+ */
+
+/**
+ * @typedef DirInfo
+ * @property {string} dir Directory.
+ * @property {string | null} relativeDir Relative directory.
+ * @property {DirInfo | null} parent Parent.
+ * @property {string[]} files Files.
+ * @property {import("markdownlint").Configuration} markdownlintConfig Configuration.
+ * @property {Options} markdownlintOptions Options.
+ */
+
+/** @typedef {Record<string, DirInfo>} DirToDirInfo */
+
+/** @typedef {[string]} MarkdownItPluginConfiguration */
+
+/** @typedef {[string]} OutputFormatterConfiguration */
+
+/**
+ * @typedef Options
+ * @property {import("markdownlint").Configuration} [config] Config.
+ * @property {import("markdownlint").Rule[] | string[]} [customRules] Custom rules.
+ * @property {boolean} [fix] Fix.
+ * @property {string} [frontMatter] Front matter.
+ * @property {boolean | string} [gitignore] Git ignore.
+ * @property {string[]} [globs] Globs.
+ * @property {string[]} [ignores] Ignores.
+ * @property {MarkdownItPluginConfiguration[]} [markdownItPlugins] Markdown-it plugins.
+ * @property {string[]} [modulePaths] Module paths.
+ * @property {boolean} [noBanner] No banner.
+ * @property {boolean} [noInlineConfig] No inline config.
+ * @property {boolean} [noProgress] No progress.
+ * @property {OutputFormatterConfiguration[]} [outputFormatters] Output formatters.
+ * @property {boolean} [showFound] Show found.
+ */
+
 /**
  * @typedef LintContext
  * @property {string} fileName File name.
  */
 
 /** @typedef {import("markdownlint").LintError & LintContext} LintResult */
+
+/**
+ * @typedef LintResultCounter
+ * @property {number} counter Counter.
+ */
+/** @typedef {LintResult & LintResultCounter} LintResultWithCounter */
 
 /**
  * @callback Logger

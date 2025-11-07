@@ -11,6 +11,7 @@ const thisFile = path.basename(__filename(import.meta));
 const testFile = path.join(mockPath, thisFile);
 const missingFile = `${mockPath}/missing`;
 
+/** @type {[string, string][]} */
 const virtualFiles = [
   [ "/mock/fs-virtual-test.mjs", "// content" ]
 ];
@@ -62,19 +63,17 @@ test("fsVirtual.*", async (t) => {
   // @ts-ignore
   await fsAccess(testFile);
   const fsLstat = promisify(fs.lstat);
-  // @ts-ignore
   await fsLstat(testFile);
   const fsStat = promisify(fs.lstat);
-  // @ts-ignore
   await fsStat(testFile);
   const fsReadFile = promisify(fs.readFile);
-  // @ts-ignore
   const content = await fsReadFile(testFile, "utf8");
+  // @ts-ignore
   t.true(content.length > 0);
   // @ts-ignore
   await t.throwsAsync(() => fsAccess(missingFile));
   // @ts-ignore
-  await t.throwsAsync(() => fsReadFile(missingFile));
+  await t.throwsAsync(() => fsReadFile(missingFile, "utf8"));
 });
 
 test("fsVirtual.promises.*", async (t) => {
@@ -83,7 +82,7 @@ test("fsVirtual.promises.*", async (t) => {
   const tempName = "fs-mock.tmp";
   const tempFile = path.join(mockPath, tempName);
   await t.throwsAsync(() => fs.promises.access(tempFile));
-  await fs.promises.writeFile(tempFile, tempFile, "utf8");
+  await fs.promises.writeFile(tempFile, tempFile);
   await fs.promises.access(tempFile);
   await fs.promises.stat(tempFile);
   t.is(await fs.promises.readFile(tempFile, "utf8"), tempFile);

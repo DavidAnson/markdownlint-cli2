@@ -1,10 +1,12 @@
 // @ts-check
 
+/** @typedef {import("markdownlint-cli2").Options} Options */
+
 /**
  * Merges two options objects by combining config and replacing properties.
- * @param {{ config: object }} first First options object.
- * @param {{ config: object }} second Second options object.
- * @returns {object} Merged options object.
+ * @param {Options | null | undefined} first First options object.
+ * @param {Options | null | undefined} second Second options object.
+ * @returns {Options} Merged options object.
  */
 const mergeOptions = (first, second) => {
   const merged = {

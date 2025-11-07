@@ -5,6 +5,7 @@ import yamlParse from "./yaml-parse.mjs";
 
 /**
  * Array of parser objects ordered by priority.
+ * @type {import("markdownlint").ConfigurationParser[]}
  */
 const parsers = [
   jsoncParse,

@@ -4,8 +4,9 @@ const sliceSize = 1000;
 
 /**
  * Efficiently appends the source array to the destination array.
- * @param {object[]} destination Destination Array.
- * @param {object[]} source Source Array.
+ * @template T
+ * @param {T[]} destination Destination Array.
+ * @param {T[]} source Source Array.
  * @returns {void}
  */
 const appendToArray = (destination, source) => {

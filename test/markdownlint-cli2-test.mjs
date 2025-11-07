@@ -15,18 +15,20 @@ import FsMock from "./fs-mock.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 import firstLine from "./customRules/rules/first-line.cjs";
 
+/* eslint-disable jsdoc/no-undefined-types */
+
 const schemaIdVersionRe = /^.*v(?<version>\d+\.\d+\.\d+).*$/u;
 const markdownlintConfigSchemaDefinition = await importWithTypeJson(import.meta, "../schema/markdownlint-config-schema.json");
 const markdownlintCli2ConfigSchemaDefinition = await importWithTypeJson(import.meta, "../schema/markdownlint-cli2-config-schema.json");
 
-const outputFormatterLengthIs = (t, length) => (options) => {
+const outputFormatterLengthIs = (/** @type {import("ava").ExecutionContext<unknown>} */ t, /** @type {number} */ length) => (/** @type {import("../markdownlint-cli2.mjs").OutputFormatterOptions} */ options) => {
   const { results } = options;
   t.is(Object.keys(results).length, length, JSON.stringify(results, null, 2));
 };
 
 test("name and version", (t) => {
   t.plan(3);
-  const logMessage = (msg) => {
+  const logMessage = (/** @type {string} */ msg) => {
     const match = (/^(?<name>\S+)\sv(?<version>\S+)\s/u).exec(msg);
     if (match) {
       // @ts-ignore
@@ -35,7 +37,7 @@ test("name and version", (t) => {
       t.is(version, packageJson.version);
     }
   };
-  const logError = (msg) => t.fail(`message logged: ${msg}`);
+  const logError = (/** @type {string} */ msg) => t.fail(`message logged: ${msg}`);
   return markdownlintCli2({
     "argv": [],
     logMessage,
@@ -46,7 +48,7 @@ test("name and version", (t) => {
 
 test("README files", (t) => {
   t.plan(1);
-  const uncalled = (msg) => t.fail(`message logged: ${msg}`);
+  const uncalled = (/** @type {string} */ msg) => t.fail(`message logged: ${msg}`);
   const argv = [
     "CHANGELOG.md",
     "README.md",
@@ -183,7 +185,7 @@ test("absolute path to directory glob", async (t) => {
 
 test("main options default", (t) => {
   t.plan(2);
-  const uncalled = (msg) => t.fail(`message logged: ${msg}`);
+  const uncalled = (/** @type {string} */ msg) => t.fail(`message logged: ${msg}`);
   return Promise.all([
     markdownlintCli2({
       "directory": "test/main-options-default",
@@ -213,7 +215,7 @@ test("main options default", (t) => {
 
 test("main options override", (t) => {
   t.plan(2);
-  const uncalled = (msg) => t.fail(`message logged: ${msg}`);
+  const uncalled = (/** @type {string} */ msg) => t.fail(`message logged: ${msg}`);
   return markdownlintCli2({
     "directory": "test/main-options-override",
     "argv": [ "*.md" ],
@@ -223,6 +225,7 @@ test("main options override", (t) => {
         "no-trailing-spaces": false
       },
       "fix": false,
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 2) ] ]
     }
   }).
@@ -265,6 +268,7 @@ test("alternate file contents", (t) => {
     fileContents,
     nonFileContents,
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 7) ] ]
     }
   }).
@@ -285,6 +289,7 @@ test("alternate file contents with ignores", (t) => {
     fileContents,
     "optionsOverride": {
       "fix": false,
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 4) ] ]
     }
   }).
@@ -297,6 +302,7 @@ test("extension scenario, file, no changes", (t) => {
     "directory": __dirname(import.meta),
     "argv": [ ":./markdownlint-json/viewme.md" ],
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 4) ] ]
     }
   }).
@@ -312,6 +318,7 @@ test("extension scenario, file, changes", (t) => {
       "./markdownlint-json/viewme.md": "# Title\n\n> Tagline \n\n\n"
     },
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 1) ] ]
     }
   }).
@@ -327,6 +334,7 @@ test("extension scenario, no file", (t) => {
       "untitled-1": "# Title\n\nText\t\n"
     },
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 2) ] ]
     }
   }).
@@ -342,6 +350,7 @@ test("extension scenario, no file, empty", (t) => {
       "untitled-1": ""
     },
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 0) ] ]
     }
   }).
@@ -364,6 +373,7 @@ test("extension scenario, ignores handled", (t) => {
     argv,
     fileContents,
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 6) ] ]
     }
   }).
@@ -392,6 +402,7 @@ test("extension scenario, ignores handled, absolute paths", (t) => {
     argv,
     fileContents,
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 6) ] ]
     }
   }).
@@ -416,6 +427,7 @@ test("extension scenario, globs ignored/filtered", (t) => {
     },
     "noGlobs": true,
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 4) ] ]
     }
   }).
@@ -435,6 +447,7 @@ test("backslash translation", (t) => {
       path.join(__dirname(import.meta), "markdownlint-cli2-yaml\\viewme.md")
     ],
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 24) ] ]
     }
   }).
@@ -444,13 +457,13 @@ test("backslash translation", (t) => {
 test("custom fs, extension scenario for untitled", (t) => {
   t.plan(4);
   let accessCalls = 0;
-  const access = (file) => {
+  const access = (/** @type {string} */ file) => {
     accessCalls++;
     return (path.basename(file) === ".markdownlint-cli2.jsonc")
       ? Promise.resolve()
       : Promise.reject(new Error("No access"));
   };
-  const readFile = (file) => {
+  const readFile = (/** @type {string} */ file) => {
     t.is(path.basename(file), ".markdownlint-cli2.jsonc");
     return Promise.resolve(JSON.stringify({
       "config": {
@@ -466,6 +479,7 @@ test("custom fs, extension scenario for untitled", (t) => {
       "name": "Text"
     },
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 1) ] ]
     },
     "fs": {
@@ -521,7 +535,7 @@ test("custom fs, file and path including/escaping ':'", (t) => {
         "access": () => Promise.reject(new Error("No access")),
         "stat": () => Promise.reject(new Error("No stat"))
       },
-      "lstat": (p, o, cb) => {
+      "lstat": (/** @type {string} */ p, /** @type {object} */ o, /** @type {((err: NodeJS.ErrnoException | null, stats: import("node:fs").Stats) => void)} */ cb) => {
         const stats = {
           "isBlockDevice": () => false,
           "isCharacterDevice": () => false,
@@ -531,9 +545,10 @@ test("custom fs, file and path including/escaping ':'", (t) => {
           "isSocket": () => false,
           "isSymbolicLink": () => false
         };
+        // @ts-ignore
         return (cb || o)(null, stats);
       },
-      "readFile": (p, o, cb) => {
+      "readFile": (/** @type {string} */ p, /** @type {object} */ o, /** @type {((err: NodeJS.ErrnoException | null, stats: string) => void)} */ cb) => {
         const normalized = p.replace(/^[^/]*/u, "");
         t.true(
           [
@@ -561,6 +576,7 @@ test("custom fs, using node:fs", (t) => {
     "directory": "test/markdownlint-cli2-jsonc",
     "argv": [ "**/*.md" ],
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
     },
     "fs": nodeFs
@@ -576,6 +592,7 @@ test("custom fs, using node:fs and noImport=false", (t) => {
     "directory": "test/markdownlint-cjs",
     "argv": [ "**/*.md" ],
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 11) ] ]
     },
     "fs": nodeFs,
@@ -592,6 +609,7 @@ test("custom fs, using node:fs and noImport=true", (t) => {
     "directory": "test/markdownlint-cjs",
     "argv": [ "**/*.md" ],
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 14) ] ]
     },
     "fs": nodeFs,
@@ -608,6 +626,7 @@ test("custom fs, using fsMock", (t) => {
     "directory": "/mock",
     "argv": [ "**/*.md", "viewme.md" ],
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
     },
     "fs": new FsMock(path.join(__dirname(import.meta), "markdownlint-cli2-jsonc")),
@@ -624,6 +643,7 @@ test("custom fs, using fsMock simulating symbolic links", (t) => {
     "directory": "/mock",
     "argv": [ "**/*.md", "viewme.md" ],
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
     },
     "fs": new FsMock(path.join(__dirname(import.meta), "markdownlint-cli2-jsonc"), true),
@@ -636,11 +656,12 @@ test("custom fs, using fsMock simulating symbolic links", (t) => {
 
 test("--help", (t) => {
   t.plan(2);
+  /** @type {string[]} */
   const stdouts = [];
   return markdownlintCli2({
     "argv": [ "--help" ],
-    "logMessage": (msg) => stdouts.push(msg),
-    "logError": (msg) => t.fail(`message logged: ${msg}`)
+    "logMessage": (/** @type {string} */ msg) => stdouts.push(msg),
+    "logError": (/** @type {string} */ msg) => t.fail(`message logged: ${msg}`)
   }).
     then((exitCode) => {
       t.is(exitCode, 2);
@@ -650,11 +671,12 @@ test("--help", (t) => {
 
 test("--help, glob also present", (t) => {
   t.plan(2);
+  /** @type {string[]} */
   const stdouts = [];
   return markdownlintCli2({
     "argv": [ "README.md", "--help" ],
-    "logMessage": (msg) => stdouts.push(msg),
-    "logError": (msg) => t.fail(`message logged: ${msg}`)
+    "logMessage": (/** @type {string} */ msg) => stdouts.push(msg),
+    "logError": (/** @type {string} */ msg) => t.fail(`message logged: ${msg}`)
   }).
     then((exitCode) => {
       t.is(exitCode, 2);
@@ -664,12 +686,13 @@ test("--help, glob also present", (t) => {
 
 test("-- stops matching parameters per POSIX Utility Conventions 12.2 Guideline 10", async (t) => {
   t.plan(17);
+  /** @type {[string, string][]} */
   const files = [
     [ "/--fix", "# Title" ],
     [ "/bad.md", "# Title" ],
     [ "/good.md", "# Title\n" ]
   ];
-  const scenario = async (argv, exitCode) => t.is(
+  const scenario = async (/** @type {string[]} */ argv, /** @type {number} */ exitCode) => t.is(
     await markdownlintCli2({
       argv,
       "directory": "/",
@@ -702,6 +725,7 @@ test ("- not supported by main entry point", (t) => {
   return markdownlintCli2({
     "argv": [ "-" ],
     "optionsOverride": {
+      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 0) ] ]
     }
   }).

@@ -6,6 +6,7 @@ import mergeOptions from "../merge-options.mjs";
 test("null/null", (t) => {
   t.plan(1);
   t.deepEqual(
+    // @ts-ignore
     mergeOptions(null, null),
     {}
   );
@@ -16,6 +17,56 @@ test("empty/empty", (t) => {
   t.deepEqual(
     mergeOptions({}, {}),
     {}
+  );
+});
+
+test("full/null", (t) => {
+  t.plan(1);
+  t.deepEqual(
+    mergeOptions(
+      {
+        "config": {
+          "no-trailing-spaces": false,
+          "no-multiple-blanks": false
+        },
+        "customRules": [ "markdownlint-rule-extended-ascii" ],
+        "fix": true
+      },
+      null
+    ),
+    {
+      "config": {
+        "no-trailing-spaces": false,
+        "no-multiple-blanks": false
+      },
+      "customRules": [ "markdownlint-rule-extended-ascii" ],
+      "fix": true
+    }
+  );
+});
+
+test("null/full", (t) => {
+  t.plan(1);
+  t.deepEqual(
+    mergeOptions(
+      null,
+      {
+        "config": {
+          "no-trailing-spaces": false,
+          "no-multiple-blanks": false
+        },
+        "customRules": [ "markdownlint-rule-extended-ascii" ],
+        "fix": true
+      }
+    ),
+    {
+      "config": {
+        "no-trailing-spaces": false,
+        "no-multiple-blanks": false
+      },
+      "customRules": [ "markdownlint-rule-extended-ascii" ],
+      "fix": true
+    }
   );
 });
 

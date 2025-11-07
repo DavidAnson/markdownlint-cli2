@@ -4,8 +4,7 @@ import { parse, printParseErrorCode } from "jsonc-parser";
 
 /**
  * Parses a JSONC string, returning the corresponding object.
- * @param {string} text String to parse as JSONC.
- * @returns {object} Corresponding object.
+ * @type {import("markdownlint").ConfigurationParser}
  */
 const jsoncParse = (text) => {
   /** @type {import("jsonc-parser").ParseError[]} */
