@@ -218,6 +218,7 @@ const loadGlobalConfig = async (fs, noImport) => {
       await fs.promises.access(configPath);
     } catch {
       // File not accessible, try next config file
+      // eslint-disable-next-line no-continue
       continue;
     }
     // File exists and is accessible, try to read it
