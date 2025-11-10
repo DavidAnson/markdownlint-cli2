@@ -229,7 +229,7 @@ const showHelp = (/** @type {Logger} */ logMessage, /** @type {boolean} */ showB
   }
   logMessage(`https://github.com/DavidAnson/markdownlint-cli2
 
-Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix] [--help]
+Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix] [--help] [--no-globs]
 
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
