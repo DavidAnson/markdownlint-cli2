@@ -24,6 +24,7 @@ RUN npm install --global --no-package-lock --omit=dev \
     markdownlint-rule-trace-template-headers \
     markdownlint-rules-foliant \
     markdownlint-rules-grav-pages \
+    mkdocs-material-linter \
     sentences-per-line
 
 USER 1000
