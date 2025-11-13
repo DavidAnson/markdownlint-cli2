@@ -229,7 +229,7 @@ const showHelp = (/** @type {Logger} */ logMessage, /** @type {boolean} */ showB
   }
   logMessage(`https://github.com/DavidAnson/markdownlint-cli2
 
-Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix] [--help] [--no-globs]
+Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix] [--format] [--help] [--no-globs]
 
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
@@ -248,6 +248,7 @@ Dot-only glob:
 Optional parameters:
 - --config    specifies the path to a configuration file to define the base configuration
 - --fix       updates files to resolve fixable issues (can be overridden in configuration)
+- --format    reads standard input (stdin), applies fixes, writes standard output (stdout)
 - --help      writes this message to the console and exits without doing anything else
 - --no-globs  ignores the "globs" property if present in the top-level options object
 
@@ -734,7 +735,7 @@ const createDirInfos = async (
 };
 
 // Lint files in groups by shared configuration
-const lintFiles = (/** @type {FsLike} */ fs, /** @type {DirInfo[]} */ dirInfos, /** @type {Record<string, string>} */ fileContents) => {
+const lintFiles = (/** @type {FsLike} */ fs, /** @type {DirInfo[]} */ dirInfos, /** @type {Record<string, string>} */ fileContents, /** @type {FormattingContext} */ formattingContext) => {
   const tasks = [];
   // For each dirInfo
   for (const dirInfo of dirInfos) {
@@ -790,8 +791,16 @@ const lintFiles = (/** @type {FsLike} */ fs, /** @type {DirInfo[]} */ dirInfos, 
     };
     // Invoke markdownlint
     let task = lint(options);
-    // For any fixable errors, read file, apply fixes, and write it back
-    if (markdownlintOptions.fix) {
+    if (formattingContext.formatting) {
+      // Apply fixes to stdin input
+      task = task.then((results) => {
+        const [ [ id, original ] ] = Object.entries(filteredStrings);
+        const errorInfos = results[id];
+        formattingContext.formatted = applyFixes(original, errorInfos);
+        return {};
+      });
+    } else if (markdownlintOptions.fix) {
+      // For any fixable errors, read file, apply fixes, write it back, and re-lint
       task = task.then((results) => {
         options.files = [];
         const subTasks = [];
@@ -912,6 +921,8 @@ export const main = async (/** @type {Parameters} */ params) => {
     (directory && pathDefault.resolve(directory)) ||
     process.cwd();
   const baseDir = posixPath(baseDirSystem);
+  /** @type {FormattingContext} */
+  const formattingContext = {};
   // Merge and process args/argv
   let fixDefault = false;
   /** @type {undefined | null | string} */
@@ -934,6 +945,9 @@ export const main = async (/** @type {Parameters} */ params) => {
       configPath = null;
     } else if (arg === "--fix") {
       fixDefault = true;
+    } else if (arg === "--format") {
+      formattingContext.formatting = true;
+      useStdin = true;
     } else if (arg === "--help") {
       shouldShowHelp = true;
     } else if (arg === "--no-globs") {
@@ -972,7 +986,7 @@ export const main = async (/** @type {Parameters} */ params) => {
       Boolean(noImport)
     );
   } finally {
-    if (!baseOptions?.baseMarkdownlintOptions.noBanner) {
+    if (!baseOptions?.baseMarkdownlintOptions.noBanner && !formattingContext.formatting) {
       logMessage(bannerMessage);
     }
   }
@@ -1007,7 +1021,7 @@ export const main = async (/** @type {Parameters} */ params) => {
     Object.keys(nonFileContents || {})
   );
   // Output finding status
-  const showProgress = !baseMarkdownlintOptions.noProgress;
+  const showProgress = !baseMarkdownlintOptions.noProgress && !formattingContext.formatting;
   if (showProgress) {
     logMessage(`Finding: ${globPatterns.join(" ")}`);
   }
@@ -1046,29 +1060,33 @@ export const main = async (/** @type {Parameters} */ params) => {
     logMessage(`Linting: ${fileCount} file(s)`);
   }
   // Lint files
-  const lintResults = await lintFiles(fs, dirInfos, resolvedFileContents);
+  const lintResults = await lintFiles(fs, dirInfos, resolvedFileContents, formattingContext);
   // Output summary
   const results = createResults(baseDir, lintResults);
   if (showProgress) {
     logMessage(`Summary: ${results.length} error(s)`);
   }
-  const outputFormatters =
-    (optionsOverride && optionsOverride.outputFormatters) ||
-    baseMarkdownlintOptions.outputFormatters;
-  const modulePaths = resolveModulePaths(
-    baseDir,
-    baseMarkdownlintOptions.modulePaths || []
-  );
-  await outputResults(
-    baseDir,
-    relativeDir,
-    results,
-    outputFormatters,
-    modulePaths,
-    logMessage,
-    logError,
-    Boolean(noImport)
-  );
+  if (formattingContext.formatting) {
+    console.log(formattingContext.formatted);
+  } else {
+    const outputFormatters =
+      (optionsOverride && optionsOverride.outputFormatters) ||
+      baseMarkdownlintOptions.outputFormatters;
+    const modulePaths = resolveModulePaths(
+      baseDir,
+      baseMarkdownlintOptions.modulePaths || []
+    );
+    await outputResults(
+      baseDir,
+      relativeDir,
+      results,
+      outputFormatters,
+      modulePaths,
+      logMessage,
+      logError,
+      Boolean(noImport)
+    );
+  }
   // Return result
   const errorsPresent = lintResults.flatMap(
     (lintResult) => Object.values(lintResult).flatMap(
@@ -1140,6 +1158,12 @@ export const main = async (/** @type {Parameters} */ params) => {
  */
 
 /** @typedef {import("markdownlint").LintError & LintContext} LintResult */
+
+/**
+ * @typedef FormattingContext
+ * @property {boolean} [formatting] True iff formatting.
+ * @property {string} [formatted] Formatted content.
+ */
 
 /**
  * @callback Logger

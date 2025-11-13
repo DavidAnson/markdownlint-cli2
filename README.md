@@ -67,7 +67,7 @@ As a [GitHub Action][github-action] via
 markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)
 https://github.com/DavidAnson/markdownlint-cli2
 
-Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix] [--help] [--no-globs]
+Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix] [--format] [--help] [--no-globs]
 
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
@@ -86,6 +86,7 @@ Dot-only glob:
 Optional parameters:
 - --config    specifies the path to a configuration file to define the base configuration
 - --fix       updates files to resolve fixable issues (can be overridden in configuration)
+- --format    reads standard input (stdin), applies fixes, writes standard output (stdout)
 - --help      writes this message to the console and exits without doing anything else
 - --no-globs  ignores the "globs" property if present in the top-level options object
 
@@ -212,6 +213,17 @@ parameter below.
 - `0`: Linting was successful and there were no errors (there may be warnings)
 - `1`: Linting was successful and there were errors (and possibly warnings)
 - `2`: Linting was not successful due to a problem or failure
+
+### Formatting
+
+Some editors implement document formatting by invoking an external program,
+passing the text of the current document on standard input (`stdin`), and
+reading the formatted result from standard output (`stdout`). This scenario is
+supported by the `--format` command-line parameter. When `--format` is set:
+
+- Globs and other input sources are ignored
+- The `--fix` parameter is implicitly set
+- The exit code `1` is not used
 
 ## Rule List
 
@@ -432,10 +444,6 @@ parameter below.
   root).
 - The `INI` config format, `.markdownlintrc`, and `.markdownlintignore` are not
   supported.
-
-### `vscode-markdownlint`
-
-- `.markdownlintignore` is not supported.
 
 ## pre-commit
 
