@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.19.0
+
+- Add `--format` parameter for editor integration
+- Update output formatters for severity `warning`
+- Explicitly version Docker containers for `pre-commit`
+- Update dependencies (including `markdownlint`)
+
 ## 0.18.1
 
 - Update dependencies (including `markdownlint`)
