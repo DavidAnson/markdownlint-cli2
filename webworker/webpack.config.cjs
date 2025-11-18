@@ -42,13 +42,6 @@ module.exports = {
         resource.request = require.resolve("./module-empty.cjs");
       }
     ),
-    // Intercept existing "unicorn-magic" package to provide missing import
-    new webpack.NormalModuleReplacementPlugin(
-      /^unicorn-magic$/u,
-      (resource) => {
-        resource.request = require.resolve("./unicorn-magic-stub.cjs");
-      }
-    ),
     // Intercept use of "process" to provide implementation
     new webpack.ProvidePlugin({
       "process": "process-wrapper"
@@ -58,6 +51,7 @@ module.exports = {
     "conditionNames": [ "markdownlint-imports-node", "..." ],
     "fallback": {
       "buffer": false,
+      "child_process": false,
       "fs": false,
       "os": require.resolve("./os-stub.cjs"),
       "path": require.resolve("path-browserify"),
