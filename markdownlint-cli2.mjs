@@ -1026,11 +1026,9 @@ export const main = async (/** @type {Parameters} */ params) => {
     logMessage(`Finding: ${globPatterns.join(" ")}`);
   }
   // Create linting tasks
-  const gitignore =
-    // https://github.com/sindresorhus/globby/issues/265
-    (!params.fs && (baseMarkdownlintOptions.gitignore === true));
+  const gitignore = (baseMarkdownlintOptions.gitignore === true);
   const ignoreFiles =
-    (!params.fs && (typeof baseMarkdownlintOptions.gitignore === "string"))
+    (typeof baseMarkdownlintOptions.gitignore === "string")
       ? baseMarkdownlintOptions.gitignore
       : undefined;
   const dirInfos =

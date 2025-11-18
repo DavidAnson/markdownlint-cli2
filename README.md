@@ -301,12 +301,13 @@ supported by the `--format` command-line parameter. When `--format` is set:
     - For example: `(^---\s*$[^]*?^---\s*$)(\r\n|\r|\n|$)`
   - `gitignore`: `Boolean` or `String` value to automatically ignore files
     referenced by `.gitignore` (or similar) when linting
-    - When the value `true` is specified, all `.gitignore` files in the tree are
-      imported (default `git` behavior)
+    - When the value `true` is specified, all `.gitignore` files in the tree
+      *and up to the repository root* are used (default `git` behavior)
     - When a `String` value is specified, that glob pattern is used to identify
-      the set of ignore files to import
-      - The value `**/.gitignore` corresponds to the `Boolean` value `true`
-      - The value `.gitignore` imports only the file in the root of the tree;
+      the set of ignore files to use
+      - The value `**/.gitignore` corresponds to the `Boolean` value `true` *but
+        does not use `.gitignore` files up to the repository root*
+      - The value `.gitignore` uses only the file in the root of the tree;
         this is usually equivalent and can be much faster for large trees
     - This top-level setting is valid **only** in the directory from which
       `markdownlint-cli2` is run
