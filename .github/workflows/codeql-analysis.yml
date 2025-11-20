@@ -30,6 +30,12 @@ jobs:
       with:
         queries: +security-and-quality
         languages: ${{ matrix.language }}
+        config: |
+          paths-ignore:
+            - 'test/config-files/cfg/invalid.markdownlint.cjs'
+            - 'test/config-files/cfg/invalid.markdownlint.mjs'
+            - 'test/config-files/cfg/invalid.markdownlint-cli2.mjs'
+            - 'test/config-files/cfg/invalid.markdownlint-cli2.cjs'
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4
