@@ -1067,7 +1067,11 @@ export const main = async (/** @type {Parameters} */ params) => {
     logMessage(`Summary: ${results.length} error(s)`);
   }
   if (formattingContext.formatting) {
-    console.log(formattingContext.formatted);
+    const { pipeline } = await import("node:stream/promises");
+    await pipeline(
+      String(formattingContext.formatted),
+      process.stdout
+    );
   } else {
     const outputFormatters =
       (optionsOverride && optionsOverride.outputFormatters) ||

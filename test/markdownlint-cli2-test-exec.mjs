@@ -3,7 +3,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import test from "ava";
-import spawn from "nano-spawn";
+import { execa } from "execa";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
 import { __dirname } from "./esm-helpers.mjs";
 
@@ -12,7 +12,7 @@ const repositoryPath = (/** @type {string} */ name) => path.join(__dirname(impor
 
 const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport, /** @type {Record<string, string> | undefined} */ env, /** @type {string | undefined} */ script) => async () => {
   await fs.access(directory);
-  return spawn(
+  return execa(
     "node",
     [
       repositoryPath(script || "markdownlint-cli2-bin.mjs"),
@@ -43,15 +43,17 @@ testCases({
 
 // eslint-disable-next-line unicorn/no-useless-undefined
 const invokeStdin = (/** @type {string[]} */ args, /** @type {string} */ stdin, /** @type {string | undefined} */ cwd = undefined) => (
-  spawn(
+  execa(
     "node",
     [
       repositoryPath("markdownlint-cli2-bin.mjs"),
       ...args
     ],
     {
+      "all": true,
       "cwd": cwd || __dirname(import.meta),
-      "stdin": { "string": stdin }
+      "input": stdin,
+      "stripFinalNewline": false
     }
   )
 );
@@ -90,7 +92,7 @@ test("- parameter with invalid input from stdin", (t) => {
     then(() => t.fail()).
     catch((error) => {
       t.is(error.exitCode, 1);
-      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/mu, ""));
+      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/msu, ""));
     });
 });
 
@@ -103,7 +105,7 @@ test("- parameter with invalid input from stdin and --fix reports existing issue
     then(() => t.fail()).
     catch((error) => {
       t.is(error.exitCode, 1);
-      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/mu, ""));
+      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/msu, ""));
     });
 });
 
@@ -116,7 +118,7 @@ test("- parameter multiple times with invalid input", (t) => {
     then(() => t.fail()).
     catch((error) => {
       t.is(error.exitCode, 1);
-      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/mu, ""));
+      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/msu, ""));
     });
 });
 
@@ -139,7 +141,7 @@ test("- parameter with invalid input combined with valid globs", (t) => {
     then(() => t.fail()).
     catch((error) => {
       t.is(error.exitCode, 1);
-      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/mu, ""));
+      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/msu, ""));
     });
 });
 
@@ -152,7 +154,7 @@ test("- parameter with invalid input combined with invalid glob", (t) => {
     then(() => t.fail()).
     catch((error) => {
       t.is(error.exitCode, 1);
-      t.is("", error.stderr.replace(/^\.\.\/LICENSE:1 error MD041\/.*$[\n\r]+^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/mu, ""));
+      t.is("", error.stderr.replace(/^\.\.\/LICENSE:1 error MD041\/.*$[\n\r]+^stdin:1:3 error MD019\/.*$[\n\r]+^stdin:3:4 error MD047\/.*$/msu, ""));
     });
 });
 
@@ -166,7 +168,7 @@ test("- parameter uses base directory configuration", (t) => {
     then(() => t.fail()).
     catch((error) => {
       t.is(error.exitCode, 1);
-      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$/mu, ""));
+      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$/msu, ""));
     });
 });
 
@@ -179,7 +181,7 @@ test("- parameter with --config behaves correctly", (t) => {
     then(() => t.fail()).
     catch((error) => {
       t.is(error.exitCode, 1);
-      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$/mu, ""));
+      t.is("", error.stderr.replace(/^stdin:1:3 error MD019\/.*$/msu, ""));
     });
 });
 
@@ -210,7 +212,7 @@ test("--format of empty input produces same output", (t) => {
     [ "--format" ],
     ""
   ).
-    then((result) => t.is(result.output, "")).
+    then((result) => t.is(result.all, "")).
     catch(() => t.fail());
 });
 
@@ -220,7 +222,7 @@ test("--format of input with no issues produces same output", (t) => {
     [ "--format" ],
     inputWithNoIssues
   ).
-    then((result) => t.is(result.output, inputWithNoIssues)).
+    then((result) => t.is(result.all, inputWithNoIssues)).
     catch(() => t.fail());
 });
 
@@ -230,7 +232,7 @@ test("--format of input with all fixable issues produces output with no issues",
     [ "--format" ],
     inputWithFixableIssues
   ).
-    then((result) => t.is(result.output, inputWithNoIssues)).
+    then((result) => t.is(result.all, inputWithNoIssues)).
     catch(() => t.fail());
 });
 
@@ -240,7 +242,7 @@ test("--format of input with no fixable issues produces same output", (t) => {
     [ "--format" ],
     inputWithUnfixableIssues
   ).
-    then((result) => t.is(result.output, inputWithUnfixableIssues)).
+    then((result) => t.is(result.all, inputWithUnfixableIssues)).
     catch(() => t.fail());
 });
 
@@ -250,7 +252,7 @@ test("--format of input with some fixable issues produces output with unfixable 
     [ "--format" ],
     inputWithSomeFixableIssues
   ).
-    then((result) => t.is(result.output, inputWithUnfixableIssues)).
+    then((result) => t.is(result.all, inputWithUnfixableIssues)).
     catch(() => t.fail());
 });
 
@@ -260,7 +262,7 @@ test("--format with globs behaves the same", (t) => {
     [ "--format", path.join(__dirname(import.meta), "no-config", "viewme.md") ],
     inputWithSomeFixableIssues
   ).
-    then((result) => t.is(result.output, inputWithUnfixableIssues)).
+    then((result) => t.is(result.all, inputWithUnfixableIssues)).
     catch(() => t.fail());
 });
 
@@ -270,7 +272,7 @@ test("--format with --fix behaves the same", (t) => {
     [ "--format", "--fix" ],
     inputWithSomeFixableIssues
   ).
-    then((result) => t.is(result.output, inputWithUnfixableIssues)).
+    then((result) => t.is(result.all, inputWithUnfixableIssues)).
     catch(() => t.fail());
 });
 
@@ -280,7 +282,7 @@ test("--format with - behaves the same", (t) => {
     [ "--format", "-" ],
     inputWithSomeFixableIssues
   ).
-    then((result) => t.is(result.output, inputWithUnfixableIssues)).
+    then((result) => t.is(result.all, inputWithUnfixableIssues)).
     catch(() => t.fail());
 });
 
@@ -291,7 +293,7 @@ test("--format uses base directory configuration", (t) => {
     inputWithSomeFixableIssues,
     path.join(__dirname(import.meta), "stdin")
   ).
-    then((result) => t.is(result.output, inputWithUnfixableIssues.slice(0, -1))).
+    then((result) => t.is(result.all, inputWithUnfixableIssues.slice(0, -1))).
     catch(() => t.fail());
 });
 
@@ -302,7 +304,7 @@ test("--format with base directory configuration ignores globs", (t) => {
     inputWithSomeFixableIssues,
     path.join(__dirname(import.meta), "globs")
   ).
-    then((result) => t.is(result.output, inputWithUnfixableIssues)).
+    then((result) => t.is(result.all, inputWithUnfixableIssues)).
     catch(() => t.fail());
 });
 
@@ -312,7 +314,7 @@ test("--format with --config behaves correctly", (t) => {
     [ "--format", "--config", path.join(__dirname(import.meta), "stdin", ".markdownlint.jsonc") ],
     inputWithSomeFixableIssues
   ).
-    then((result) => t.is(result.output, inputWithUnfixableIssues.slice(0, -1))).
+    then((result) => t.is(result.all, inputWithUnfixableIssues.slice(0, -1))).
     catch(() => t.fail());
 });
 
@@ -326,65 +328,65 @@ test("exit codes", (t) => {
     invokeStdin(
       [ "-" ],
       inputWithNoIssues
-    ).then((result) => t.notRegex(result.output, /MD\d{3}/su)),
+    ).then((result) => t.notRegex(result.all, /MD\d{3}/su)),
     invokeStdin(
       [ "-" ],
       inputWithFixableIssues
     ).catch((error) => {
       t.is(error.exitCode, 1);
-      t.regex(error.output, /MD019.*MD047/su);
+      t.regex(error.all, /MD019.*MD047/su);
     }),
     invokeStdin(
       [ "-" ],
       `${inputWithFixableIssues} <!-- markdownlint-configure-file { "default": false } -->`
-    ).then((result) => t.notRegex(result.output, /MD\d{3}/su)),
+    ).then((result) => t.notRegex(result.all, /MD\d{3}/su)),
     invokeStdin(
       [ "-" ],
       `${inputWithFixableIssues} <!-- markdownlint-configure-file { "default": "warning" } -->`
-    ).then((result) => t.regex(result.output, /MD019.*MD047/su)),
+    ).then((result) => t.regex(result.all, /MD019.*MD047/su)),
     invokeStdin(
       [ "-" ],
       `${inputWithFixableIssues} <!-- markdownlint-configure-file { "default": "error" } -->`
     ).catch((error) => {
       t.is(error.exitCode, 1);
-      t.regex(error.output, /MD019.*MD047/su);
+      t.regex(error.all, /MD019.*MD047/su);
     }),
     invokeStdin(
       [ "-" ],
       `${inputWithFixableIssues} <!-- markdownlint-configure-file { "MD019": false } -->`
     ).catch((error) => {
       t.is(error.exitCode, 1);
-      t.regex(error.output, /MD047/su);
+      t.regex(error.all, /MD047/su);
     }),
     invokeStdin(
       [ "-" ],
       `${inputWithFixableIssues} <!-- markdownlint-configure-file { "MD019": "warning" } -->`
     ).catch((error) => {
       t.is(error.exitCode, 1);
-      t.regex(error.output, /MD019.*MD047/su);
+      t.regex(error.all, /MD019.*MD047/su);
     }),
     invokeStdin(
       [ "-" ],
       `${inputWithFixableIssues} <!-- markdownlint-configure-file { "MD047": false } -->`
     ).catch((error) => {
       t.is(error.exitCode, 1);
-      t.regex(error.output, /MD019/su);
+      t.regex(error.all, /MD019/su);
     }),
     invokeStdin(
       [ "-" ],
       `${inputWithFixableIssues} <!-- markdownlint-configure-file { "MD047": "warning" } -->`
     ).catch((error) => {
       t.is(error.exitCode, 1);
-      t.regex(error.output, /MD019.*MD047/su);
+      t.regex(error.all, /MD019.*MD047/su);
     }),
     invokeStdin(
       [ "-" ],
       `${inputWithFixableIssues} <!-- markdownlint-configure-file { "MD019": false, "MD047": false } -->`
-    ).then((result) => t.notRegex(result.output, /MD\d{3}/su)),
+    ).then((result) => t.notRegex(result.all, /MD\d{3}/su)),
     invokeStdin(
       [ "-" ],
       `${inputWithFixableIssues} <!-- markdownlint-configure-file {"MD019":"warning","MD047":"warning"} -->`
-    ).then((result) => t.regex(result.output, /MD019.*MD047/su))
+    ).then((result) => t.regex(result.all, /MD019.*MD047/su))
   ]).
     then(() => t.pass()).
     catch(() => t.fail());
