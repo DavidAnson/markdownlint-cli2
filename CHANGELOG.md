@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.19.1
+
+- Update `--format` to avoid trailing newline
+- Update dependencies
+
 ## 0.19.0
 
 - Add `--format` parameter for editor integration

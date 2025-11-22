@@ -7,12 +7,12 @@
 - id: markdownlint-cli2-docker
   name: markdownlint-cli2-docker
   description: "Checks the style of Markdown/CommonMark files."
-  entry: davidanson/markdownlint-cli2:v0.19.0
+  entry: davidanson/markdownlint-cli2:v0.19.1
   language: docker_image
   types: [markdown]
 - id: markdownlint-cli2-rules-docker
   name: markdownlint-cli2-rules-docker
   description: "Checks the style of Markdown/CommonMark files."
-  entry: davidanson/markdownlint-cli2-rules:v0.19.0
+  entry: davidanson/markdownlint-cli2-rules:v0.19.1
   language: docker_image
   types: [markdown]
