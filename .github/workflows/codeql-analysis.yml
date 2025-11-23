@@ -34,8 +34,12 @@ jobs:
           paths-ignore:
             - 'test/config-files/cfg/invalid.markdownlint.cjs'
             - 'test/config-files/cfg/invalid.markdownlint.mjs'
-            - 'test/config-files/cfg/invalid.markdownlint-cli2.mjs'
             - 'test/config-files/cfg/invalid.markdownlint-cli2.cjs'
+            - 'test/config-files/cfg/invalid.markdownlint-cli2.mjs'
+            - 'test/markdownlint-cjs-invalid/.markdownlint.cjs'
+            - 'test/markdownlint-mjs-invalid/.markdownlint.mjs'
+            - 'test/markdownlint-cli2-cjs-invalid/.markdownlint-cli2.cjs'
+            - 'test/markdownlint-cli2-mjs-invalid/.markdownlint-cli2.mjs'
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4
