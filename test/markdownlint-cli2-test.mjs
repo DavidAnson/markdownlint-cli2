@@ -46,6 +46,42 @@ test("name and version", (t) => {
     then((exitCode) => t.is(exitCode, 2));
 });
 
+test("version numbers match", async (t) => {
+  t.plan(142);
+  const files = [
+    // See previous test
+    // "./package.json",
+    "./.pre-commit-hooks.yaml",
+    "./CHANGELOG.md",
+    "./README.md",
+    "./doc/OutputFormatters.md",
+    "./schema/markdownlint-cli2-config-schema.json",
+    "./schema/markdownlint-config-schema.json"
+  ];
+  const packages = [
+    // eslint-disable-next-line prefer-named-capture-group
+    [ packageJson.version, /(?:DavidAnson\/markdownlint-cli2\/|markdownlint-cli2\/blob\/|davidanson\/markdownlint-cli2(?:-rules)?:|rev: )v(\d+\.\d+\.\d+)/gu ],
+    // eslint-disable-next-line prefer-named-capture-group
+    [ packageJson.dependencies.markdownlint, /(?:DavidAnson\/markdownlint|markdownlint\/blob)\/v(\d+\.\d+\.\d+)/gu ]
+  ];
+  const contents = await Promise.all(files.map((file) => fs.readFile(file, "utf8")));
+  for (const content of contents) {
+    // eslint-disable-next-line init-declarations
+    let match;
+    for (const [ version, githubProjectOrFileRe ] of packages) {
+      while ((match = githubProjectOrFileRe.exec(content)) !== null) {
+        t.is(match[1], version);
+      }
+    }
+    // eslint-disable-next-line prefer-named-capture-group
+    const firstChangelogRe = /## (\d+\.\d+\.\d+)/u;
+    match = firstChangelogRe.exec(content);
+    if (match) {
+      t.is(match[1], packageJson.version);
+    }
+  }
+});
+
 test("README files", (t) => {
   t.plan(1);
   const uncalled = (/** @type {string} */ msg) => t.fail(`message logged: ${msg}`);
