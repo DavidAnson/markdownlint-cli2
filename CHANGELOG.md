@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.20.0
+
+- Update dependencies
+
 ## 0.19.1
 
 - Update `--format` to avoid trailing newline
