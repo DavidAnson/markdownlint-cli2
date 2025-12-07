@@ -16,6 +16,7 @@ RUN npm install --global --no-package-lock --omit=dev \
     markdownlint-rule-list-duplicates \
     markdownlint-rule-max-one-sentence-per-line \
     markdownlint-rule-no-trailing-slash-in-links \
+    markdownlint-rule-numbered-headings-unique \
     markdownlint-rule-olstart \
     markdownlint-rule-relative-links \
     markdownlint-rule-search-replace \
