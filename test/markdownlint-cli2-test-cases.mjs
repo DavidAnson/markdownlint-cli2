@@ -248,9 +248,30 @@ const testCases = (/** @type {TestConfiguration} */ {
   });
 
   testCase({
-    "name": "no-config-ignore",
-    "args": [ "**", "!dir" ],
+    "name": "no-config-ignore-violation",
+    "args": [ "*.md", "!viewme.md" ],
+    "exitCode": 0,
+    "cwd": "no-config"
+  });
+
+  testCase({
+    "name": "no-config-ignore-other",
+    "args": [ "*.md", "!dir" ],
     "exitCode": 1,
+    "cwd": "no-config"
+  });
+
+  testCase({
+    "name": "no-config-ignore-only-violation",
+    "args": [ "!viewme.md" ],
+    "exitCode": 0,
+    "cwd": "no-config"
+  });
+
+  testCase({
+    "name": "no-config-ignore-only-other",
+    "args": [ "!dir" ],
+    "exitCode": 0,
     "cwd": "no-config"
   });
 
