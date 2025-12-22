@@ -3,5 +3,5 @@
 "use strict";
 
 module.exports = {
-  "toPath": (path) => path
+  "toPath": (/** @type {string} */ path) => path
 };

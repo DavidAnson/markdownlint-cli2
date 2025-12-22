@@ -474,6 +474,7 @@ const enumerateFiles = async (
     "cwd": baseDir,
     "dot": true,
     "expandDirectories": false,
+    "expandNegationOnlyPatterns": false,
     gitignore,
     ignoreFiles,
     "suppressErrors": true,
