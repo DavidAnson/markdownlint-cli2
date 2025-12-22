@@ -187,7 +187,7 @@ QUnit.test("workspace", (assert) => {
   });
 });
 
-QUnit.test("workspace, gitignore (unsupported)", (assert) => {
+QUnit.test("workspace, gitignore", (assert) => {
   assert.expect(1);
   const filesWithGitignore = [
     ...files,
@@ -197,7 +197,7 @@ QUnit.test("workspace, gitignore (unsupported)", (assert) => {
     "fs": new FsVirtual(filesWithGitignore),
     "argv": [ "**/*.md" ],
     "optionsOverride": {
-      "outputFormatters": [ [ outputFormatterLengthIs(assert, 8) ] ]
+      "outputFormatters": [ [ outputFormatterLengthIs(assert, 3) ] ]
     }
   });
 });
