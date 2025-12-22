@@ -2,6 +2,9 @@
 
 /* globals markdownlintCli2, FsVirtual, QUnit */
 
+// QUnit <3 has no default timeout (QUnit >=3 has a 3 second default timeout)
+QUnit.config.testTimeout = 3000;
+
 const md009 = "# Title\n\nText \n";
 const md010 = "# Title\n\n\tText\n";
 const md009md010 = "# Title\n\nText\t\n";
