@@ -16,15 +16,6 @@ const virtualFiles = [
   [ "/mock/fs-virtual-test.mjs", "// content" ]
 ];
 
-test("fsVirtual.stat", async (t) => {
-  t.plan(1);
-  const fs = new FsVirtual(virtualFiles);
-  const fsStat = promisify(fs.stat);
-  // @ts-ignore
-  const stat = await fsStat(testFile);
-  t.truthy(stat);
-});
-
 test("fsVirtual.lstat", async (t) => {
   t.plan(10);
   const fs = new FsVirtual(virtualFiles);
@@ -64,8 +55,6 @@ test("fsVirtual.*", async (t) => {
   await fsAccess(testFile);
   const fsLstat = promisify(fs.lstat);
   await fsLstat(testFile);
-  const fsStat = promisify(fs.lstat);
-  await fsStat(testFile);
   const fsReadFile = promisify(fs.readFile);
   const content = await fsReadFile(testFile, "utf8");
   // @ts-ignore

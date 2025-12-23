@@ -473,7 +473,6 @@ const enumerateFiles = async (
     "absolute": true,
     "cwd": baseDir,
     "dot": true,
-    "expandDirectories": false,
     "expandNegationOnlyPatterns": false,
     gitignore,
     ignoreFiles,
@@ -502,29 +501,9 @@ const enumerateFiles = async (
     ((literalFiles.length > 0) && (globsForIgnore.length > 0))
       ? removeIgnoredFiles(baseDir, literalFiles, globsForIgnore)
       : literalFiles;
-  // Manually expand directories to avoid globby call to dir-glob.sync
-  const expandedDirectories = await Promise.all(
-    filteredGlobPatterns.map((globPattern) => {
-      const barePattern =
-        globPattern.startsWith("!")
-          ? globPattern.slice(1)
-          : globPattern;
-      const globPath = (
-        pathPosix.isAbsolute(barePattern) ||
-        pathDefault.isAbsolute(barePattern)
-      )
-        ? barePattern
-        : pathPosix.join(baseDir, barePattern);
-      return fs.promises.stat(globPath).
-        then((/** @type {import("node:fs").Stats} */ stats) => (stats.isDirectory()
-          ? pathPosix.join(globPattern, "**")
-          : globPattern)).
-        catch(() => globPattern);
-    })
-  );
   // Process glob patterns
   const files = [
-    ...await globby(expandedDirectories, globbyOptions),
+    ...await globby(filteredGlobPatterns, globbyOptions),
     ...filteredLiteralFiles
   ];
   for (const file of files) {

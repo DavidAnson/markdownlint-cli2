@@ -11,16 +11,6 @@ const mockPath = "/mock";
 const thisFile = path.basename(__filename(import.meta));
 const testFile = path.join(mockPath, thisFile);
 
-test("fsMock.stat", async (t) => {
-  t.plan(2);
-  const fs = new FsMock(__dirname(import.meta));
-  const fsStat = promisify(fs.stat);
-  // @ts-ignore
-  const stat = await fsStat(testFile);
-  t.truthy(stat);
-  t.true(stat.size > 0);
-});
-
 test("fsMock.lstat", async (t) => {
   t.plan(3);
   const fs = new FsMock(__dirname(import.meta));
@@ -63,9 +53,6 @@ test("fsMock.*", async (t) => {
   const fsLstat = promisify(fs.lstat);
   // @ts-ignore
   await fsLstat(testFile);
-  const fsStat = promisify(fs.stat);
-  // @ts-ignore
-  await fsStat(testFile);
   const fsReadFile = promisify(fs.readFile);
   // @ts-ignore
   const content = await fsReadFile(testFile, "utf8");

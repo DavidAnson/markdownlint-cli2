@@ -75,8 +75,7 @@ class FsVirtual {
       return (callback || mode)(new Error(`fs-virtual:access(${path})`));
     };
 
-    // eslint-disable-next-line no-multi-assign
-    this.stat = this.lstat = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException | null, dirent: Dirent) => void)} */ callback) => {
+    this.lstat = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException | null, dirent: Dirent) => void)} */ callback) => {
       path = normalize(path);
       if (this.files.has(path)) {
         return callback(null, dirent(path, false));

@@ -50,9 +50,6 @@ class fsMock {
         return callback(null, stats);
       });
     };
-    this.stat = (/** @type {string} */ path, /** @type {object} */ options, /** @type {((err: NodeJS.ErrnoException | null, stats: fs.Stats) => void)} */ callback) => (
-      fs.stat(mapPath(base, path), options, callback)
-    );
     this.readdir = (/** @type {string} */ path, /** @type {NodeJS.BufferEncoding} */ options, /** @type {((err: NodeJS.ErrnoException | null, files: string[]) => void)} */ callback) => (
       fs.readdir(mapPath(base, path), options, callback)
     );
