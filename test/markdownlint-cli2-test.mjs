@@ -15,8 +15,6 @@ import FsMock from "./fs-mock.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 import firstLine from "./customRules/rules/first-line.cjs";
 
-/* eslint-disable jsdoc/no-undefined-types */
-
 const schemaIdVersionRe = /^.*v(?<version>\d+\.\d+\.\d+).*$/u;
 const markdownlintConfigSchemaDefinition = await importWithTypeJson(import.meta, "../schema/markdownlint-config-schema.json");
 const markdownlintCli2ConfigSchemaDefinition = await importWithTypeJson(import.meta, "../schema/markdownlint-cli2-config-schema.json");
@@ -555,54 +553,30 @@ test("custom fs, extension scenario with exception", (t) => {
 });
 
 test("custom fs, file and path including/escaping ':'", (t) => {
-  t.plan(7);
+  t.plan(2);
+  const names = [
+    "normal.md",
+    ":literal.md",
+    "\\:escaped.md",
+    "path/normal.md",
+    ":path/literal.md",
+    "\\:path/escaped.md"
+  ];
+  /** @type {[string, string][]} */
+  const files = names.map((name) =>
+    [ `/dir/${name.replace(/^:/u, "").replace(/^\\:/u, ":")}`, "# Heading" ]
+  );
   return markdownlintCli2({
-    "directory": "/custom",
-    "argv": [
-      "normal.md",
-      ":literal.md",
-      "\\:escaped.md",
-      "path/normal.md",
-      ":path/literal.md",
-      "\\:path/escaped.md"
-    ],
-    "fs": {
-      "promises": {
-        "access": () => Promise.reject(new Error("No access")),
-        "stat": () => Promise.reject(new Error("No stat"))
-      },
-      "lstat": (/** @type {string} */ p, /** @type {object} */ o, /** @type {((err: NodeJS.ErrnoException | null, stats: import("node:fs").Stats) => void)} */ cb) => {
-        const stats = {
-          "isBlockDevice": () => false,
-          "isCharacterDevice": () => false,
-          "isDirectory": () => false,
-          "isFIFO": () => false,
-          "isFile": () => true,
-          "isSocket": () => false,
-          "isSymbolicLink": () => false
-        };
-        // @ts-ignore
-        return (cb || o)(null, stats);
-      },
-      "readFile": (/** @type {string} */ p, /** @type {object} */ o, /** @type {((err: NodeJS.ErrnoException | null, stats: string) => void)} */ cb) => {
-        const normalized = p.replace(/^[^/]*/u, "");
-        t.true(
-          [
-            "/custom/normal.md",
-            "/custom/literal.md",
-            "/custom/:escaped.md",
-            "/custom/path/normal.md",
-            "/custom/path/literal.md",
-            "/custom/:path/escaped.md"
-          ].includes(normalized),
-          normalized
-        );
-        return (cb || o)(null, "# Heading\n");
-      }
-    }
+    "directory": "/dir",
+    "argv": names,
+    "optionsOverride": {
+      // @ts-ignore
+      "outputFormatters": [ [ outputFormatterLengthIs(t, 6) ] ]
+    },
+    "fs": new FsVirtual(files)
   }).
     then((exitCode) => {
-      t.is(exitCode, 0);
+      t.is(exitCode, 1);
     });
 });
 
