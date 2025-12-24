@@ -4,21 +4,38 @@
 
 /* eslint-disable jsdoc/no-undefined-types */
 
-/** @typedef {import("fs").Dirent} Dirent */
+/** @typedef {import("fs").Stats} Stats */
 
-const dirent = (/** @type {string} */ path, /** @type {boolean} */ directory = false) => {
-  const name = path.replace(/^.*\//u, "");
-  /** @type {Dirent} */
+const stats = (/** @type {string} */ path, /** @type {number} */ size, /** @type {boolean} */ symbolic = false) => {
+  const directory = false;
+  const date = new Date();
+  /** @type {Stats} */
   return {
-    name,
     "isBlockDevice": () => false,
     "isCharacterDevice": () => false,
     "isDirectory": directory ? () => true : () => false,
     "isFIFO": () => false,
     "isFile": directory ? () => false : () => true,
     "isSocket": () => false,
-    "isSymbolicLink": () => false,
-    "parentPath": ""
+    "isSymbolicLink": symbolic ? () => true : () => false,
+    "dev": 0,
+    "ino": 0,
+    "mode": 0,
+    "nlink": 0,
+    "uid": 0,
+    "gid": 0,
+    "rdev": 0,
+    size,
+    "blksize": 0,
+    "blocks": 0,
+    "atimeMs": 0,
+    "mtimeMs": 0,
+    "ctimeMs": 0,
+    "birthtimeMs": 0,
+    "atime": date,
+    "mtime": date,
+    "ctime": date,
+    "birthtime": date
   };
 };
 
@@ -44,8 +61,8 @@ class FsVirtual {
       // eslint-disable-next-line no-unused-vars
       "readFile": (/** @type {string} */ path, /** @type {NodeJS.BufferEncoding} */ options) => {
         path = normalize(path);
-        const content = this.files.get(path);
-        if (content) {
+        if (this.files.has(path)) {
+          const content = this.files.get(path);
           return Promise.resolve(content);
         }
         return Promise.reject(new Error(`fs-virtual:promises.readFile(${path})`));
@@ -54,7 +71,7 @@ class FsVirtual {
       "stat": (/** @type {string} */ path) => {
         path = normalize(path);
         if (this.files.has(path)) {
-          return Promise.resolve(dirent(path));
+          return Promise.resolve(stats(path, (this.files.get(path) || "").length, false));
         }
         return Promise.reject(new Error(`fs-virtual:promises.stat(${path})`));
       },
@@ -75,12 +92,14 @@ class FsVirtual {
       return (callback || mode)(new Error(`fs-virtual:access(${path})`));
     };
 
-    this.lstat = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException | null, dirent: Dirent) => void)} */ callback) => {
+    this.lstat = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException | null, dirent: Stats) => void)} */ callback) => {
       path = normalize(path);
       if (this.files.has(path)) {
-        return callback(null, dirent(path, false));
+        return callback(null, stats(path, (this.files.get(path) || "").length, true));
       }
-      return callback(null, dirent(path, true));
+      // @ts-ignore
+      return callback(new Error(`fs-virtual:lstat(${path})`));
+      // return callback(null, stats(path, true));
     };
 
     this.readdir = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException | null, names: string[]) => void)} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: string[]) => void)} */ callback) => {
@@ -88,10 +107,10 @@ class FsVirtual {
       /** @type {string[]} */
       const names = [];
       for (const file of this.files.keys()) {
-        if (file.startsWith(`${path}`)) {
-          const [ name ] = file.slice(path.length).split("/");
-          if (!names.includes(name)) {
-            names.push(name);
+        if (file.startsWith(`${path}/`)) {
+          const parts = file.slice(path.length + 1).split("/");
+          if ((parts.length === 1) && !names.includes(parts[0])) {
+            names.push(parts[0]);
           }
         }
       }
@@ -100,12 +119,24 @@ class FsVirtual {
 
     this.readFile = (/** @type {string} */ path, /** @type {NodeJS.BufferEncoding} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: string=[]) => void)} */ callback) => {
       path = normalize(path);
-      const content = this.files.get(path);
-      if (content) {
+      if (this.files.has(path)) {
+        const content = this.files.get(path);
         return callback(null, content);
       }
       return callback(new Error(`fs-virtual:readFile(${path})`));
     };
+  }
+
+  static async mirrorDirectory(/** @type {import("../markdownlint-cli2.mjs").FsLike} */ fs, /** @type {string} */ directory, /** @type {import("globby")} */ globby, /** @type {string} */ virtualRoot) {
+    const names = await globby.globby(
+      "**",
+      {
+        "cwd": directory
+      }
+    );
+    /** @type {[string, string][]} */
+    const files = names.map((name) => [ `${virtualRoot}/${name}`, "hi" ]);
+    return files;
   }
 }
 

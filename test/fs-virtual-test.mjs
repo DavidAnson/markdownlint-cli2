@@ -17,7 +17,7 @@ const virtualFiles = [
 ];
 
 test("fsVirtual.lstat", async (t) => {
-  t.plan(10);
+  t.plan(9);
   const fs = new FsVirtual(virtualFiles);
   const fsLstat = promisify(fs.lstat);
   // @ts-ignore
@@ -29,11 +29,9 @@ test("fsVirtual.lstat", async (t) => {
   t.false(stat.isFIFO());
   t.true(stat.isFile());
   t.false(stat.isSocket());
-  t.false(stat.isSymbolicLink());
+  t.true(stat.isSymbolicLink());
   // @ts-ignore
-  const missingStat = await fsLstat(missingFile);
-  t.truthy(missingStat);
-  t.true(missingStat.isDirectory());
+  await t.throwsAsync(() => fsLstat(missingFile));
 });
 
 test("fsVirtual.readdir", async (t) => {
@@ -41,7 +39,7 @@ test("fsVirtual.readdir", async (t) => {
   const fs = new FsVirtual(virtualFiles);
   const fsReaddir = promisify(fs.readdir);
   // @ts-ignore
-  const files = await fsReaddir(`${mockPath}/`);
+  const files = await fsReaddir(mockPath);
   t.true(Array.isArray(files));
   t.true(files.length > 0);
   t.true(files.includes(thisFile));
