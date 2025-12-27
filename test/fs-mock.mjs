@@ -10,7 +10,7 @@ const mapPath = (/** @type {string} */ base, /** @type {string} */ mockPath) => 
 );
 
 class fsMock {
-  constructor(/** @type {string} */ base, /** @type {boolean} */ symbolicLinks = false) {
+  constructor(/** @type {string} */ base) {
     this.promises = {
       // eslint-disable-next-line unicorn/no-useless-undefined
       "access": (/** @type {string} */ path, /** @type {number | undefined} */ mode = undefined) => (
@@ -42,9 +42,6 @@ class fsMock {
         if (err) {
           // @ts-ignore
           return callback(err);
-        }
-        if (symbolicLinks) {
-          stats.isSymbolicLink = () => true;
         }
         // @ts-ignore
         return callback(null, stats);

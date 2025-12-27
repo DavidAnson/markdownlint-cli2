@@ -22,17 +22,6 @@ test("fsMock.lstat", async (t) => {
   t.false(stat.isSymbolicLink());
 });
 
-test("fsMock.lstat symbolic links", async (t) => {
-  t.plan(3);
-  const fs = new FsMock(__dirname(import.meta), true);
-  const fsLstat = promisify(fs.lstat);
-  // @ts-ignore
-  const stat = await fsLstat(testFile);
-  t.truthy(stat);
-  t.true(stat.size > 0);
-  t.true(stat.isSymbolicLink());
-});
-
 test("fsMock.readdir", async (t) => {
   t.plan(3);
   const fs = new FsMock(__dirname(import.meta));
