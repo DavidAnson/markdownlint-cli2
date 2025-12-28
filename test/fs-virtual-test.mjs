@@ -1,14 +1,16 @@
 // @ts-check
 
-import path from "node:path";
+import nodeFs from "node:fs";
+import nodePath from "node:path";
 import { promisify } from "node:util";
 import test from "ava";
-import { __filename } from "./esm-helpers.mjs";
+import * as globby from "globby";
+import { __dirname, __filename } from "./esm-helpers.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 
 const mockPath = "/mock";
-const thisFile = path.basename(__filename(import.meta));
-const testFile = path.join(mockPath, thisFile);
+const thisFile = nodePath.basename(__filename(import.meta));
+const testFile = nodePath.join(mockPath, thisFile);
 const missingFile = `${mockPath}/missing`;
 
 /** @type {[string, string][]} */
@@ -69,11 +71,50 @@ test("fsVirtual.promises.*", async (t) => {
   t.plan(3);
   const fs = new FsVirtual(virtualFiles);
   const tempName = "fs-mock.tmp";
-  const tempFile = path.join(mockPath, tempName);
+  const tempFile = nodePath.join(mockPath, tempName);
   await t.throwsAsync(() => fs.promises.access(tempFile));
   await fs.promises.writeFile(tempFile, tempFile);
   await fs.promises.access(tempFile);
   await fs.promises.stat(tempFile);
   t.is(await fs.promises.readFile(tempFile, "utf8"), tempFile);
   await t.throwsAsync(() => fs.promises.readFile(missingFile, "utf8"));
+});
+
+test("fsVirtual.mirrorDirectory", async (t) => {
+  t.plan(9);
+  const actual = await FsVirtual.mirrorDirectory(
+    nodeFs,
+    nodePath.join(__dirname(import.meta), "globs-and-args"),
+    globby,
+    "/virtual"
+  );
+  actual.sort((a, b) => a[0].localeCompare(b[0]));
+  for (const entry of actual) {
+    entry[1] = entry[1].replaceAll("\r\n", "\n");
+  }
+  const expected = [
+    [
+      "/virtual/.markdownlint-cli2.jsonc",
+      "{\n  \"globs\": [\n    \"**/*.md\"\n  ]\n}\n"
+    ],
+    [
+      "/virtual/dir/about.md",
+      "#  About  #\n\nText text text\n1. List\n3. List\n3. List\n"
+    ],
+    [
+      "/virtual/dir/subdir/info.markdown",
+      "## Information\nText ` code1` text `code2 ` text\n\n"
+    ],
+    [
+      "/virtual/viewme.md",
+      "# Title\n\n> Tagline \n\n\n# Description\n\nText text text\nText text text\nText text text\n\n##  Summary\n\nText text text"
+    ]
+  ];
+  t.deepEqual(actual, expected);
+  const fs = new FsVirtual(actual);
+  for (const [ path, content ] of expected) {
+    t.assert(fs.promises.access(path));
+    // eslint-disable-next-line no-await-in-loop
+    t.is(await fs.promises.readFile(path, "utf8"), content);
+  }
 });

@@ -107,6 +107,27 @@ class FsVirtual {
       return callback(new Error(`fs-virtual:readFile(${path})`));
     };
   }
+
+  static async mirrorDirectory(/** @type {import("../markdownlint-cli2.mjs").FsLike} */ fs, /** @type {string} */ directory, /** @type {import("globby")} */ globby, /** @type {string} */ virtualRoot) {
+    const names = await globby.globby(
+      "**",
+      {
+        "cwd": directory,
+        "dot": true,
+        fs
+      }
+    );
+    /** @type {[string, string][]} */
+    const files = await Promise.all(
+      names.map(
+        async (name) => [
+          `${virtualRoot}/${name}`,
+          await fs.promises.readFile(`${directory}/${name}`, "utf8")
+        ]
+      )
+    );
+    return files;
+  }
 }
 
 if (typeof module !== "undefined") {
