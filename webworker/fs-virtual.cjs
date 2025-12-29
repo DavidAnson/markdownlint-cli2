@@ -6,19 +6,22 @@
 
 /** @typedef {import("fs").Dirent} Dirent */
 
-const dirent = (/** @type {string} */ path, /** @type {boolean} */ directory = false) => {
-  const name = path.replace(/^.*\//u, "");
+const dirent = (/** @type {string} */ path, /** @type {boolean} */ isDirectory) => {
+  const segments = path.split("/");
+  // eslint-disable-next-line unicorn/prefer-at
+  const name = segments[segments.length - 1];
+  const parentPath = segments.slice(0, -1).join("/") || "/";
   /** @type {Dirent} */
   return {
     name,
+    parentPath,
     "isBlockDevice": () => false,
     "isCharacterDevice": () => false,
-    "isDirectory": directory ? () => true : () => false,
+    "isDirectory": isDirectory ? () => true : () => false,
     "isFIFO": () => false,
-    "isFile": directory ? () => false : () => true,
+    "isFile": isDirectory ? () => false : () => true,
     "isSocket": () => false,
-    "isSymbolicLink": () => false,
-    "parentPath": ""
+    "isSymbolicLink": () => false
   };
 };
 
@@ -54,7 +57,7 @@ class FsVirtual {
       "stat": (/** @type {string} */ path) => {
         path = normalize(path);
         if (this.files.has(path)) {
-          return Promise.resolve(dirent(path));
+          return Promise.resolve(dirent(path, false));
         }
         return Promise.reject(new Error(`fs-virtual:promises.stat(${path})`));
       },
@@ -83,19 +86,27 @@ class FsVirtual {
       return callback(null, dirent(path, true));
     };
 
-    this.readdir = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException | null, names: string[]) => void)} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: string[]) => void)} */ callback) => {
-      path = normalize(path);
+    this.readdir = (/** @type {string} */ path, /** @type {{ "withFileTypes": boolean}} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: (string | Dirent)[]) => void)} */ callback) => {
+      path = normalize(path).replace(/(?<!\/)$/u, "/");
       /** @type {string[]} */
       const names = [];
+      const results = [];
       for (const file of this.files.keys()) {
-        if (file.startsWith(`${path}`)) {
+        if (file.startsWith(path)) {
           const [ name ] = file.slice(path.length).split("/");
           if (!names.includes(name)) {
             names.push(name);
+            if (options.withFileTypes) {
+              const item = `${path}${name}`;
+              const isDirectory = !this.files.has(item);
+              results.push(dirent(item, isDirectory));
+            } else {
+              results.push(name);
+            }
           }
         }
       }
-      return (callback || options)(null, names);
+      return (callback || options)(null, results);
     };
 
     this.readFile = (/** @type {string} */ path, /** @type {NodeJS.BufferEncoding} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: string=[]) => void)} */ callback) => {

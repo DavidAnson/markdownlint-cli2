@@ -39,14 +39,33 @@ test("fsVirtual.lstat", async (t) => {
 });
 
 test("fsVirtual.readdir", async (t) => {
-  t.plan(3);
+  t.plan(11);
   const fs = new FsVirtual(virtualFiles);
   const fsReaddir = promisify(fs.readdir);
+  const expectedFile = [ "fs-virtual-test.mjs" ];
   // @ts-ignore
-  const files = await fsReaddir(`${mockPath}/`);
-  t.true(Array.isArray(files));
-  t.true(files.length > 0);
-  t.true(files.includes(thisFile));
+  t.deepEqual(await fsReaddir(mockPath), expectedFile);
+  // @ts-ignore
+  t.deepEqual(await fsReaddir(`${mockPath}/`), expectedFile);
+  const expectedDir = [ mockPath.replace(/^\//u, "") ];
+  // @ts-ignore
+  t.deepEqual(await fsReaddir("/"), expectedDir);
+  // @ts-ignore
+  const [ direntFile ] = await fsReaddir(mockPath, { "withFileTypes": true });
+  if (typeof direntFile !== "string") {
+    t.is(direntFile.name, expectedFile[0]);
+    t.is(direntFile.parentPath, mockPath);
+    t.true(direntFile.isFile());
+    t.false(direntFile.isDirectory());
+  }
+  // @ts-ignore
+  const [ direntDir ] = await fsReaddir("/", { "withFileTypes": true });
+  if (typeof direntDir !== "string") {
+    t.is(direntDir.name, expectedDir[0]);
+    t.is(direntDir.parentPath, "/");
+    t.false(direntDir.isFile());
+    t.true(direntDir.isDirectory());
+  }
 });
 
 test("fsVirtual.*", async (t) => {
