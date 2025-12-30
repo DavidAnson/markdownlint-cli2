@@ -99,41 +99,56 @@ test("fsVirtual.promises.*", async (t) => {
   await t.throwsAsync(() => fs.promises.readFile(missingFile, "utf8"));
 });
 
+/** @type {[string, string][]} */
+const globsAndArgsMirror = [
+  [
+    "/virtual/.markdownlint-cli2.jsonc",
+    "{\n  \"globs\": [\n    \"**/*.md\"\n  ]\n}\n"
+  ],
+  [
+    "/virtual/dir/about.md",
+    "#  About  #\n\nText text text\n1. List\n3. List\n3. List\n"
+  ],
+  [
+    "/virtual/dir/subdir/info.markdown",
+    "## Information\nText ` code1` text `code2 ` text\n\n"
+  ],
+  [
+    "/virtual/viewme.md",
+    "# Title\n\n> Tagline \n\n\n# Description\n\nText text text\nText text text\nText text text\n\n##  Summary\n\nText text text"
+  ]
+];
+
 test("fsVirtual.mirrorDirectory", async (t) => {
-  t.plan(9);
+  t.plan(1);
   const actual = await FsVirtual.mirrorDirectory(
     nodeFs,
     nodePath.join(__dirname(import.meta), "globs-and-args"),
     globby,
     "/virtual"
   );
-  actual.sort((a, b) => a[0].localeCompare(b[0]));
   for (const entry of actual) {
     entry[1] = entry[1].replaceAll("\r\n", "\n");
   }
-  const expected = [
-    [
-      "/virtual/.markdownlint-cli2.jsonc",
-      "{\n  \"globs\": [\n    \"**/*.md\"\n  ]\n}\n"
-    ],
-    [
-      "/virtual/dir/about.md",
-      "#  About  #\n\nText text text\n1. List\n3. List\n3. List\n"
-    ],
-    [
-      "/virtual/dir/subdir/info.markdown",
-      "## Information\nText ` code1` text `code2 ` text\n\n"
-    ],
-    [
-      "/virtual/viewme.md",
-      "# Title\n\n> Tagline \n\n\n# Description\n\nText text text\nText text text\nText text text\n\n##  Summary\n\nText text text"
-    ]
-  ];
-  t.deepEqual(actual, expected);
-  const fs = new FsVirtual(actual);
-  for (const [ path, content ] of expected) {
-    t.assert(fs.promises.access(path));
+  t.deepEqual(actual, globsAndArgsMirror);
+});
+
+test("fsVirtual of mirror", async (t) => {
+  t.plan(4);
+  const fs = new FsVirtual(globsAndArgsMirror);
+  for (const [ path, content ] of globsAndArgsMirror) {
     // eslint-disable-next-line no-await-in-loop
     t.is(await fs.promises.readFile(path, "utf8"), content);
   }
+});
+
+test("fsVirtual mirror of self", async (t) => {
+  t.plan(1);
+  const actual = await FsVirtual.mirrorDirectory(
+    new FsVirtual(globsAndArgsMirror),
+    "/",
+    globby,
+    ""
+  );
+  t.deepEqual(actual, globsAndArgsMirror);
 });

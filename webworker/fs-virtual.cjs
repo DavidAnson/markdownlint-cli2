@@ -128,12 +128,13 @@ class FsVirtual {
         fs
       }
     );
+    names.sort();
     /** @type {[string, string][]} */
     const files = await Promise.all(
       names.map(
         async (name) => [
           `${virtualRoot}/${name}`,
-          await fs.promises.readFile(`${directory}/${name}`, "utf8")
+          await fs.promises.readFile(`${directory === "/" ? "" : directory}/${name}`, "utf8")
         ]
       )
     );
