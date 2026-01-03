@@ -5,23 +5,65 @@
 /* eslint-disable jsdoc/no-undefined-types */
 
 /** @typedef {import("fs").Dirent} Dirent */
+/** @typedef {import("fs").Stats} Stats */
 
-const dirent = (/** @type {string} */ path, /** @type {boolean} */ isDirectory) => {
+const baseFsFunctions = (/** @type {boolean} */ isDirectory) => ({
+  "isBlockDevice": () => false,
+  "isCharacterDevice": () => false,
+  "isDirectory": () => isDirectory,
+  "isFIFO": () => false,
+  "isFile": () => !isDirectory,
+  "isSocket": () => false,
+  "isSymbolicLink": () => false
+});
+
+/**
+ * Returns an fs.Dirent for a path.
+ * @param {string} path File/directory path.
+ * @param {boolean} isDirectory True iff a directory.
+ * @returns {Dirent} fs.Dirent.
+ */
+const dirent = (path, isDirectory) => {
   const segments = path.split("/");
   // eslint-disable-next-line unicorn/prefer-at
   const name = segments[segments.length - 1];
   const parentPath = segments.slice(0, -1).join("/") || "/";
-  /** @type {Dirent} */
   return {
+    ...baseFsFunctions(isDirectory),
     name,
-    parentPath,
-    "isBlockDevice": () => false,
-    "isCharacterDevice": () => false,
-    "isDirectory": isDirectory ? () => true : () => false,
-    "isFIFO": () => false,
-    "isFile": isDirectory ? () => false : () => true,
-    "isSocket": () => false,
-    "isSymbolicLink": () => false
+    parentPath
+  };
+};
+
+/**
+ * Returns an fs.Stats for a path.
+ * @param {boolean} isDirectory True iff a directory.
+ * @param {string} [data] File data.
+ * @returns {Stats} fs.Stats.
+ */
+const stats = (isDirectory, data) => {
+  const size = data?.length || 0;
+  const date = new Date(0);
+  return {
+    ...baseFsFunctions(isDirectory),
+    "dev": 0,
+    "ino": 0,
+    "mode": 0,
+    "nlink": 0,
+    "uid": 0,
+    "gid": 0,
+    "rdev": 0,
+    size,
+    "blksize": 0,
+    "blocks": 0,
+    "atimeMs": 0,
+    "mtimeMs": 0,
+    "ctimeMs": 0,
+    "birthtimeMs": 0,
+    "atime": date,
+    "mtime": date,
+    "ctime": date,
+    "birthtime": date
   };
 };
 
@@ -47,9 +89,8 @@ class FsVirtual {
       // eslint-disable-next-line no-unused-vars
       "readFile": (/** @type {string} */ path, /** @type {NodeJS.BufferEncoding} */ options) => {
         path = normalize(path);
-        const content = this.files.get(path);
-        if (content) {
-          return Promise.resolve(content);
+        if (this.files.has(path)) {
+          return Promise.resolve(this.files.get(path));
         }
         return Promise.reject(new Error(`fs-virtual:promises.readFile(${path})`));
       },
@@ -57,7 +98,7 @@ class FsVirtual {
       "stat": (/** @type {string} */ path) => {
         path = normalize(path);
         if (this.files.has(path)) {
-          return Promise.resolve(dirent(path, false));
+          return Promise.resolve(stats(false, this.files.get(path)));
         }
         return Promise.reject(new Error(`fs-virtual:promises.stat(${path})`));
       },
@@ -78,12 +119,10 @@ class FsVirtual {
       return (callback || mode)(new Error(`fs-virtual:access(${path})`));
     };
 
-    this.lstat = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException | null, dirent: Dirent) => void)} */ callback) => {
+    this.lstat = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException | null, stats: Stats) => void)} */ callback) => {
       path = normalize(path);
-      if (this.files.has(path)) {
-        return callback(null, dirent(path, false));
-      }
-      return callback(null, dirent(path, true));
+      const isDirectory = !this.files.has(path);
+      return callback(null, stats(isDirectory, this.files.get(path)));
     };
 
     this.readdir = (/** @type {string} */ path, /** @type {{ "withFileTypes": boolean}} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: (string | Dirent)[]) => void)} */ callback) => {
@@ -109,11 +148,10 @@ class FsVirtual {
       return (callback || options)(null, results);
     };
 
-    this.readFile = (/** @type {string} */ path, /** @type {NodeJS.BufferEncoding} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: string=[]) => void)} */ callback) => {
+    this.readFile = (/** @type {string} */ path, /** @type {NodeJS.BufferEncoding} */ options, /** @type {((err: NodeJS.ErrnoException | null, data: string=[]) => void)} */ callback) => {
       path = normalize(path);
-      const content = this.files.get(path);
-      if (content) {
-        return callback(null, content);
+      if (this.files.has(path)) {
+        return callback(null, this.files.get(path));
       }
       return callback(new Error(`fs-virtual:readFile(${path})`));
     };
