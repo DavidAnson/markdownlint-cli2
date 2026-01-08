@@ -4,7 +4,6 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "ava";
-import cpy from "cpy";
 import { __dirname } from "./esm-helpers.mjs";
 
 /**
@@ -23,7 +22,8 @@ import { __dirname } from "./esm-helpers.mjs";
  * @typedef {object} TestConfiguration
  * @property {string} host Host name.
  * @property {(directory: string, args: string[], noImport: boolean | undefined, env: Record<string, string> | undefined, script: string | undefined) => InvokeFn} invoke Function to invoke tests.
- * @property {(rootDir: string, file: string) => string} absolute Function to make absolute paths.
+ * @property {(fromDir: string, toDir: string) => Promise<void>} copyDir Function to copy directory.
+ * @property {(dir: string) => Promise<void>} removeDir Function to remove directory.
  * @property {boolean} includeNoImport Include no-import-based tests.
  * @property {boolean} includeEnv Include environment-based tests.
  * @property {boolean} includeScript Include script-based tests.
@@ -41,16 +41,13 @@ import { __dirname } from "./esm-helpers.mjs";
  * @property {string} [cwd] Current working directory.
  * @property {Record<string, string>} [env] Environment.
  * @property {RegExp} [stderrRe] Standard error regular expression.
- * @property {(name: string, shadow: string | undefined) => Promise<void>} [pre] Pre function.
- * @property {(name: string) => Promise<void>} [post] Post function.
+ * @property {boolean} [isolate] Isolate test directory.
  * @property {boolean} [noImport] No import.
  * @property {boolean} [usesRequire] Uses require.
  */
 
 /** @typedef {[ InvokeResult, string, string, string, string, string, string, string, string ]} TestOutput */
 
-// eslint-disable-next-line no-empty-function
-const noop = () => {};
 const empty = () => "";
 const sanitize = (/** @type {string} */ str) => str.
   replace(/\r/gu, "").
@@ -62,7 +59,8 @@ const isModule = (/** @type {string} */ file) => file.endsWith(".cjs") || file.e
 const testCases = (/** @type {TestConfiguration} */ {
   host,
   invoke,
-  absolute,
+  copyDir,
+  removeDir,
   includeNoImport,
   includeEnv,
   includeScript,
@@ -80,15 +78,16 @@ const testCases = (/** @type {TestConfiguration} */ {
       cwd,
       env,
       stderrRe,
-      pre,
-      post,
+      isolate,
       noImport,
       usesRequire
     } = options;
     const usesEnv = Boolean(env);
     const usesScript = Boolean(script);
-    // eslint-disable-next-line unicorn/no-array-callback-reference
-    const usesAbsolute = args.some(path.isAbsolute);
+    const usesAbsolute = args.some((arg) => path.isAbsolute(arg) || ((arg[0] === ":") && path.isAbsolute(arg.slice(1))));
+    const setup = (/** @type {string} */ fromDir, /** @type {string} */ toDir) => isolate ? copyDir(fromDir, toDir) : Promise.resolve();
+    const teardown = (/** @type {string} */ dir) => isolate ? removeDir(dir) : Promise.resolve();
+    const isolatedDir = `${name}-copy-${host}`;
     if (
       (noImport && !includeNoImport) ||
       (usesEnv && !includeEnv) ||
@@ -100,8 +99,8 @@ const testCases = (/** @type {TestConfiguration} */ {
     }
     test(`${name} (${host})`, (t) => {
       t.plan(3);
-      const directory = path.join(__dirname(import.meta), cwd || name);
-      return ((pre || noop)(name, shadow) || Promise.resolve()).
+      const directory = path.join(__dirname(import.meta), (isolate && isolatedDir) || cwd || name);
+      return setup(shadow || name, isolatedDir).
         then(invoke(directory, args, noImport, env, script)).
         then((/** @type {InvokeResult} */ result) => Promise.all([
           result,
@@ -139,7 +138,7 @@ const testCases = (/** @type {TestConfiguration} */ {
           ).catch(empty)
         ])).
         then((/** @type {TestOutput} */ results) => Promise.all([
-          (post || noop)(name),
+          teardown(isolatedDir),
           new Promise((resolve) => {
             const [
               child,
@@ -175,16 +174,6 @@ const testCases = (/** @type {TestConfiguration} */ {
         ]));
     });
   };
-
-  const directoryName = (/** @type {string} */ dir) => `${dir}-copy-${host}`;
-
-  const copyDirectory = (/** @type {string} */ dir, /** @type {string | undefined} */ shadow) => cpy(
-    path.join(__dirname(import.meta), (shadow || dir), "**"),
-    path.join(__dirname(import.meta), directoryName(dir))
-  ).then(noop);
-
-  const deleteDirectory = (/** @type {string} */ dir) =>
-    fs.rm(path.join(__dirname(import.meta), directoryName(dir)), { "recursive": true });
 
   testCase({
     "name": "no-arguments",
@@ -493,9 +482,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "markdownlint-cli2-jsonc-example",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": directoryName("markdownlint-cli2-jsonc-example"),
-    "pre": copyDirectory,
-    "post": deleteDirectory,
+    "isolate": true,
     "usesRequire": true
   });
 
@@ -516,9 +503,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "markdownlint-cli2-yaml-example",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": directoryName("markdownlint-cli2-yaml-example"),
-    "pre": copyDirectory,
-    "post": deleteDirectory,
+    "isolate": true,
     "usesRequire": true
   });
 
@@ -642,8 +627,9 @@ const testCases = (/** @type {TestConfiguration} */ {
     "cwd": "literal-files/sentinel"
   });
 
-  const literalFilesAbsoluteFile = absolute(
-    path.join(__dirname(import.meta), "literal-files"),
+  const literalFilesAbsoluteFile = path.join(
+    __dirname(import.meta),
+    "literal-files",
     "sentinel/dir(1)/(view)me.md"
   ).
     split(path.sep).
@@ -662,18 +648,14 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "fix",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": directoryName("fix"),
-    "pre": copyDirectory,
-    "post": deleteDirectory
+    "isolate": true
   });
 
   testCase({
     "name": "fix-scenarios",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": directoryName("fix-scenarios"),
-    "pre": copyDirectory,
-    "post": deleteDirectory
+    "isolate": true
   });
 
   testCase({
@@ -681,9 +663,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "shadow": "fix-default-true",
     "args": [ "--fix", "**/*.md" ],
     "exitCode": 1,
-    "cwd": directoryName("fix-default-true-arg"),
-    "pre": copyDirectory,
-    "post": deleteDirectory
+    "isolate": true
   });
 
   testCase({
@@ -818,9 +798,7 @@ const testCases = (/** @type {TestConfiguration} */ {
       "info.md"
     ],
     "exitCode": 0,
-    "cwd": directoryName("config-with-fix-arg"),
-    "pre": copyDirectory,
-    "post": deleteDirectory
+    "isolate": true
   });
 
   testCase({
@@ -833,9 +811,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "package-json-fix",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": directoryName("package-json-fix"),
-    "pre": copyDirectory,
-    "post": deleteDirectory
+    "isolate": true
   });
 
   testCase({
@@ -907,9 +883,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "outputFormatters",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": directoryName("outputFormatters"),
-    "pre": copyDirectory,
-    "post": deleteDirectory,
+    "isolate": true,
     "usesRequire": true
   });
 
@@ -917,9 +891,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "outputFormatters-npm",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": directoryName("outputFormatters-npm"),
-    "pre": copyDirectory,
-    "post": deleteDirectory,
+    "isolate": true,
     "env": {
       "FORCE_COLOR": "1",
       "FORCE_HYPERLINK": "1"
@@ -931,9 +903,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "outputFormatters-params",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": directoryName("outputFormatters-params"),
-    "pre": copyDirectory,
-    "post": deleteDirectory,
+    "isolate": true,
     "usesRequire": true
   });
 
@@ -941,9 +911,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "outputFormatters-params-absolute",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": directoryName("outputFormatters-params-absolute"),
-    "pre": copyDirectory,
-    "post": deleteDirectory,
+    "isolate": true,
     "usesRequire": true
   });
 
@@ -951,9 +919,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "outputFormatters-severity",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": directoryName("outputFormatters-severity"),
-    "pre": copyDirectory,
-    "post": deleteDirectory,
+    "isolate": true,
     "usesRequire": true
   });
 
@@ -961,9 +927,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "outputFormatters-pre-imported",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "cwd": directoryName("outputFormatters-pre-imported"),
-    "pre": copyDirectory,
-    "post": deleteDirectory,
+    "isolate": true,
     "usesRequire": true
   });
 
@@ -971,9 +935,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "outputFormatters-clean",
     "args": [ "**/*.md" ],
     "exitCode": 0,
-    "cwd": directoryName("outputFormatters-clean"),
-    "pre": copyDirectory,
-    "post": deleteDirectory,
+    "isolate": true,
     "usesRequire": true
   });
 
@@ -1164,9 +1126,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "shadow": "no-config",
     "args": [ "--fix", "**/*.md" ],
     "exitCode": 1,
-    "cwd": directoryName("fix-first-arg"),
-    "pre": copyDirectory,
-    "post": deleteDirectory
+    "isolate": true
   });
 
   testCase({
@@ -1174,9 +1134,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "shadow": "no-config",
     "args": [ "**/*.md", "--fix" ],
     "exitCode": 1,
-    "cwd": directoryName("fix-last-arg"),
-    "pre": copyDirectory,
-    "post": deleteDirectory
+    "isolate": true
   });
 
   testCase({
@@ -1184,9 +1142,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "shadow": "no-config",
     "args": [ "--fix", "**/*.md", "--fix" ],
     "exitCode": 1,
-    "cwd": directoryName("fix-multiple-arg"),
-    "pre": copyDirectory,
-    "post": deleteDirectory
+    "isolate": true
   });
 
   testCase({
@@ -1199,9 +1155,7 @@ const testCases = (/** @type {TestConfiguration} */ {
       "../config-with-fix/.markdownlint-cli2.jsonc"
     ],
     "exitCode": 1,
-    "cwd": directoryName("fix-and-config-arg"),
-    "pre": copyDirectory,
-    "post": deleteDirectory
+    "isolate": true
   });
 
   testCase({

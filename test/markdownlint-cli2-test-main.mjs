@@ -1,10 +1,8 @@
 // @ts-check
 
-import path from "node:path";
-import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
-
-const linesEndingWithNewLine = (/** @type {string[]} */ lines) => lines.map((line) => `${line}\n`).join("");
+import { copyDir, linesEndingWithNewLine, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
+import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 
 const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
   /** @type {string[]} */
@@ -32,12 +30,11 @@ const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /
     }));
 };
 
-const absolute = (/** @type {string} */ rootDir, /** @type {string} */ file) => path.join(rootDir, file);
-
 testCases({
   "host": "main",
   invoke,
-  absolute,
+  copyDir,
+  removeDir,
   "includeNoImport": true,
   "includeEnv": false,
   "includeScript": false,

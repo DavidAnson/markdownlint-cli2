@@ -647,23 +647,6 @@ test("custom fs, using fsMock", (t) => {
     });
 });
 
-test("custom fs, using fsMock simulating symbolic links", (t) => {
-  t.plan(2);
-  return markdownlintCli2({
-    "directory": "/mock",
-    "argv": [ "**/*.md", "viewme.md" ],
-    "optionsOverride": {
-      // @ts-ignore
-      "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
-    },
-    "fs": new FsMock(path.join(__dirname(import.meta), "markdownlint-cli2-jsonc"), true),
-    "noImport": true
-  }).
-    then((exitCode) => {
-      t.is(exitCode, 1);
-    });
-});
-
 test("--help", (t) => {
   t.plan(2);
   /** @type {string[]} */

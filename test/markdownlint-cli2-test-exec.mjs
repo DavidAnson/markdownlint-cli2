@@ -4,10 +4,10 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import test from "ava";
 import { execa } from "execa";
-import testCases from "./markdownlint-cli2-test-cases.mjs";
 import { __dirname } from "./esm-helpers.mjs";
+import testCases from "./markdownlint-cli2-test-cases.mjs";
+import { copyDir, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
 
-const absolute = (/** @type {string} */ rootDir, /** @type {string} */ file) => path.join(rootDir, file);
 const repositoryPath = (/** @type {string} */ name) => path.join(__dirname(import.meta), "..", name);
 
 const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport, /** @type {Record<string, string> | undefined} */ env, /** @type {string | undefined} */ script) => async () => {
@@ -33,7 +33,8 @@ const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /
 testCases({
   "host": "exec",
   invoke,
-  absolute,
+  copyDir,
+  removeDir,
   "includeNoImport": false,
   "includeEnv": true,
   "includeScript": true,

@@ -1,12 +1,11 @@
 // @ts-check
 
-import path from "node:path";
-import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
+import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
+import { copyDir, linesEndingWithNewLine, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
 import FsMock from "./fs-mock.mjs";
-const mockDirectory = "/mock";
 
-const linesEndingWithNewLine = (/** @type {string[]} */ lines) => lines.map((line) => `${line}\n`).join("");
+const mockDirectory = "/mock";
 
 const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
   /** @type {string[]} */
@@ -35,12 +34,11 @@ const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /
     }));
 };
 
-const absolute = (/** @type {string} */ rootDir, /** @type {string} */ file) => path.join(mockDirectory, file);
-
 testCases({
   "host": "fs",
   invoke,
-  absolute,
+  copyDir,
+  removeDir,
   "includeNoImport": true,
   "includeEnv": false,
   "includeScript": false,
