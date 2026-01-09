@@ -1,24 +1,26 @@
 // @ts-check
 
-import testCases from "./markdownlint-cli2-test-cases.mjs";
+import path from "node:path";
+import { __dirname } from "./esm-helpers.mjs";
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import { copyDir, linesEndingWithNewLine, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
-import FsMock from "./fs-mock.mjs";
+import testCases from "./markdownlint-cli2-test-cases.mjs";
+import { getFsMock, mockRoot } from "./fs-mock.mjs";
 
-const mockDirectory = "/mock";
+const fsMock = await getFsMock(__dirname(import.meta));
 
-const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
+const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
   /** @type {string[]} */
   const stdouts = [];
   /** @type {string[]} */
   const stderrs = [];
   return markdownlintCli2({
-    "directory": mockDirectory,
+    "directory": path.posix.join(mockRoot, relative),
     "argv": args,
     "logMessage": (/** @type {string} */ msg) => stdouts.push(msg),
     "logError": (/** @type {string} */ err) => stderrs.push(err),
     noImport,
-    "fs": new FsMock(directory)
+    "fs": fsMock
   }).
     then(
       (exitCode) => exitCode,

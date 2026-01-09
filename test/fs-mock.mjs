@@ -5,11 +5,13 @@ import nodePath from "node:path";
 
 /* eslint-disable jsdoc/no-undefined-types */
 
+const mockRoot = "/mock";
+
 const mapPath = (/** @type {string} */ base, /** @type {string} */ mockPath) => (
-  nodePath.resolve(base, nodePath.relative("/mock", mockPath))
+  nodePath.resolve(base, nodePath.relative(mockRoot, mockPath))
 );
 
-class fsMock {
+class FsMock {
   constructor(/** @type {string} */ base) {
     this.promises = {
       // eslint-disable-next-line unicorn/no-useless-undefined
@@ -56,4 +58,9 @@ class fsMock {
   }
 }
 
-export default fsMock;
+const getFsMock = (/** @type {string} */ directory) => Promise.resolve(new FsMock(directory));
+
+export {
+  getFsMock,
+  mockRoot
+};

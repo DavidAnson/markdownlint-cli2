@@ -11,7 +11,7 @@ const packageJson = await importWithTypeJson(import.meta, "../package.json");
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import jsoncParse from "../parsers/jsonc-parse.mjs";
 import yamlParse from "../parsers/yaml-parse.mjs";
-import FsMock from "./fs-mock.mjs";
+import { getFsMock, mockRoot } from "./fs-mock.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 import firstLine from "./customRules/rules/first-line.cjs";
 
@@ -632,16 +632,19 @@ test("custom fs, using node:fs and noImport=true", (t) => {
 
 test("custom fs, using fsMock", (t) => {
   t.plan(2);
-  return markdownlintCli2({
-    "directory": "/mock",
-    "argv": [ "**/*.md", "viewme.md" ],
-    "optionsOverride": {
-      // @ts-ignore
-      "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
-    },
-    "fs": new FsMock(path.join(__dirname(import.meta), "markdownlint-cli2-jsonc")),
-    "noImport": true
-  }).
+  return getFsMock(path.join(__dirname(import.meta), "markdownlint-cli2-jsonc")).
+    then(
+      (fsMock) => markdownlintCli2({
+        "directory": mockRoot,
+        "argv": [ "**/*.md", "viewme.md" ],
+        "optionsOverride": {
+          // @ts-ignore
+          "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
+        },
+        "fs": fsMock,
+        "noImport": true
+      })
+    ).
     then((exitCode) => {
       t.is(exitCode, 1);
     });

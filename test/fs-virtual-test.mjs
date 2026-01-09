@@ -15,7 +15,7 @@ const missingFile = `${mockPath}/missing`;
 
 /** @type {[string, string][]} */
 const virtualFiles = [
-  [ "/mock/fs-virtual-test.mjs", "// content" ]
+  [ `${mockPath}/fs-virtual-test.mjs`, "// content" ]
 ];
 
 test("fsVirtual.lstat", async (t) => {

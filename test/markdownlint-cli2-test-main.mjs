@@ -1,10 +1,13 @@
 // @ts-check
 
+import path from "node:path";
+import { __dirname } from "./esm-helpers.mjs";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
 import { copyDir, linesEndingWithNewLine, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 
-const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
+const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
+  const directory = path.join(__dirname(import.meta), relative);
   /** @type {string[]} */
   const stdouts = [];
   /** @type {string[]} */

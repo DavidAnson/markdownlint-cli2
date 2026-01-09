@@ -21,7 +21,7 @@ import { __dirname } from "./esm-helpers.mjs";
 /**
  * @typedef {object} TestConfiguration
  * @property {string} host Host name.
- * @property {(directory: string, args: string[], noImport: boolean | undefined, env: Record<string, string> | undefined, script: string | undefined) => InvokeFn} invoke Function to invoke tests.
+ * @property {(relative: string, args: string[], noImport: boolean | undefined, env: Record<string, string> | undefined, script: string | undefined) => InvokeFn} invoke Function to invoke tests.
  * @property {(fromDir: string, toDir: string) => Promise<void>} copyDir Function to copy directory.
  * @property {(dir: string) => Promise<void>} removeDir Function to remove directory.
  * @property {boolean} includeNoImport Include no-import-based tests.
@@ -99,9 +99,10 @@ const testCases = (/** @type {TestConfiguration} */ {
     }
     test(`${name} (${host})`, (t) => {
       t.plan(3);
-      const directory = path.join(__dirname(import.meta), (isolate && isolatedDir) || cwd || name);
+      const relative = (isolate && isolatedDir) || cwd || name;
+      const directory = path.join(__dirname(import.meta), relative);
       return setup(shadow || name, isolatedDir).
-        then(invoke(directory, args, noImport, env, script)).
+        then(invoke(relative, args, noImport, env, script)).
         then((/** @type {InvokeResult} */ result) => Promise.all([
           result,
           fs.readFile(

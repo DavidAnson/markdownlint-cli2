@@ -10,7 +10,8 @@ import { copyDir, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
 
 const repositoryPath = (/** @type {string} */ name) => path.join(__dirname(import.meta), "..", name);
 
-const invoke = (/** @type {string} */ directory, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport, /** @type {Record<string, string> | undefined} */ env, /** @type {string | undefined} */ script) => async () => {
+const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport, /** @type {Record<string, string> | undefined} */ env, /** @type {string | undefined} */ script) => async () => {
+  const directory = path.join(__dirname(import.meta), relative);
   await fs.access(directory);
   return execa(
     "node",
