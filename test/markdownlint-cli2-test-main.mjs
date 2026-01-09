@@ -6,8 +6,10 @@ import testCases from "./markdownlint-cli2-test-cases.mjs";
 import { copyDir, linesEndingWithNewLine, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 
+const baseDir = __dirname(import.meta);
+
 const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
-  const directory = path.join(__dirname(import.meta), relative);
+  const directory = path.join(baseDir, relative);
   /** @type {string[]} */
   const stdouts = [];
   /** @type {string[]} */
@@ -35,12 +37,12 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
 
 testCases({
   "host": "main",
+  baseDir,
   invoke,
   copyDir,
   removeDir,
   "includeNoImport": true,
   "includeEnv": false,
   "includeScript": false,
-  "includeRequire": true,
-  "includeAbsolute": true
+  "includeRequire": true
 });

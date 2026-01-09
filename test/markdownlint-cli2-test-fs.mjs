@@ -38,12 +38,12 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
 
 testCases({
   "host": "fs",
+  "baseDir": mockRoot,
   invoke,
   copyDir,
   removeDir,
   "includeNoImport": true,
   "includeEnv": false,
   "includeScript": false,
-  "includeRequire": false,
-  "includeAbsolute": false
+  "includeRequire": false
 });

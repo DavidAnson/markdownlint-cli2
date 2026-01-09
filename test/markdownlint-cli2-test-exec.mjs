@@ -8,10 +8,12 @@ import { __dirname } from "./esm-helpers.mjs";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
 import { copyDir, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
 
-const repositoryPath = (/** @type {string} */ name) => path.join(__dirname(import.meta), "..", name);
+const baseDir = __dirname(import.meta);
+
+const repositoryPath = (/** @type {string} */ name) => path.join(baseDir, "..", name);
 
 const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport, /** @type {Record<string, string> | undefined} */ env, /** @type {string | undefined} */ script) => async () => {
-  const directory = path.join(__dirname(import.meta), relative);
+  const directory = path.join(baseDir, relative);
   await fs.access(directory);
   return execa(
     "node",
@@ -33,14 +35,14 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
 
 testCases({
   "host": "exec",
+  baseDir,
   invoke,
   copyDir,
   removeDir,
   "includeNoImport": false,
   "includeEnv": true,
   "includeScript": true,
-  "includeRequire": true,
-  "includeAbsolute": true
+  "includeRequire": true
 });
 
 // eslint-disable-next-line unicorn/no-useless-undefined
@@ -53,7 +55,7 @@ const invokeStdin = (/** @type {string[]} */ args, /** @type {string} */ stdin, 
     ],
     {
       "all": true,
-      "cwd": cwd || __dirname(import.meta),
+      "cwd": cwd || baseDir,
       "input": stdin,
       "stripFinalNewline": false
     }
@@ -165,7 +167,7 @@ test("- parameter uses base directory configuration", (t) => {
   return invokeStdin(
     [ "-" ],
     inputWithFixableIssues,
-    path.join(__dirname(import.meta), "stdin")
+    path.join(baseDir, "stdin")
   ).
     then(() => t.fail()).
     catch((error) => {
@@ -177,7 +179,7 @@ test("- parameter uses base directory configuration", (t) => {
 test("- parameter with --config behaves correctly", (t) => {
   t.plan(2);
   return invokeStdin(
-    [ "-", "--config", path.join(__dirname(import.meta), "stdin", ".markdownlint.jsonc") ],
+    [ "-", "--config", path.join(baseDir, "stdin", ".markdownlint.jsonc") ],
     inputWithFixableIssues
   ).
     then(() => t.fail()).
@@ -192,7 +194,7 @@ test("- parameter not treated as stdin in configuration file globs", (t) => {
   return invokeStdin(
     [],
     inputWithFixableIssues,
-    path.join(__dirname(import.meta), "stdin-globs")
+    path.join(baseDir, "stdin-globs")
   ).
     then(() => t.pass()).
     catch(() => t.fail());
@@ -261,7 +263,7 @@ test("--format of input with some fixable issues produces output with unfixable 
 test("--format with globs behaves the same", (t) => {
   t.plan(1);
   return invokeStdin(
-    [ "--format", path.join(__dirname(import.meta), "no-config", "viewme.md") ],
+    [ "--format", path.join(baseDir, "no-config", "viewme.md") ],
     inputWithSomeFixableIssues
   ).
     then((result) => t.is(result.all, inputWithUnfixableIssues)).
@@ -293,7 +295,7 @@ test("--format uses base directory configuration", (t) => {
   return invokeStdin(
     [ "--format" ],
     inputWithSomeFixableIssues,
-    path.join(__dirname(import.meta), "stdin")
+    path.join(baseDir, "stdin")
   ).
     then((result) => t.is(result.all, inputWithUnfixableIssues.slice(0, -1))).
     catch(() => t.fail());
@@ -304,7 +306,7 @@ test("--format with base directory configuration ignores globs", (t) => {
   return invokeStdin(
     [ "--format" ],
     inputWithSomeFixableIssues,
-    path.join(__dirname(import.meta), "globs")
+    path.join(baseDir, "globs")
   ).
     then((result) => t.is(result.all, inputWithUnfixableIssues)).
     catch(() => t.fail());
@@ -313,7 +315,7 @@ test("--format with base directory configuration ignores globs", (t) => {
 test("--format with --config behaves correctly", (t) => {
   t.plan(1);
   return invokeStdin(
-    [ "--format", "--config", path.join(__dirname(import.meta), "stdin", ".markdownlint.jsonc") ],
+    [ "--format", "--config", path.join(baseDir, "stdin", ".markdownlint.jsonc") ],
     inputWithSomeFixableIssues
   ).
     then((result) => t.is(result.all, inputWithUnfixableIssues.slice(0, -1))).

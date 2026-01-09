@@ -21,6 +21,7 @@ import { __dirname } from "./esm-helpers.mjs";
 /**
  * @typedef {object} TestConfiguration
  * @property {string} host Host name.
+ * @property {string} baseDir Base directory.
  * @property {(relative: string, args: string[], noImport: boolean | undefined, env: Record<string, string> | undefined, script: string | undefined) => InvokeFn} invoke Function to invoke tests.
  * @property {(fromDir: string, toDir: string) => Promise<void>} copyDir Function to copy directory.
  * @property {(dir: string) => Promise<void>} removeDir Function to remove directory.
@@ -28,7 +29,6 @@ import { __dirname } from "./esm-helpers.mjs";
  * @property {boolean} includeEnv Include environment-based tests.
  * @property {boolean} includeScript Include script-based tests.
  * @property {boolean} includeRequire Include require-based tests.
- * @property {boolean} includeAbsolute Include absolute-based tests.
  */
 
 /**
@@ -59,13 +59,13 @@ const isModule = (/** @type {string} */ file) => file.endsWith(".cjs") || file.e
 const testCases = (/** @type {TestConfiguration} */ {
   host,
   invoke,
+  baseDir,
   copyDir,
   removeDir,
   includeNoImport,
   includeEnv,
   includeScript,
-  includeRequire,
-  includeAbsolute
+  includeRequire
 }) => {
 
   const testCase = (/** @type {TestDefinition} */ options) => {
@@ -84,7 +84,6 @@ const testCases = (/** @type {TestConfiguration} */ {
     } = options;
     const usesEnv = Boolean(env);
     const usesScript = Boolean(script);
-    const usesAbsolute = args.some((arg) => path.isAbsolute(arg) || ((arg[0] === ":") && path.isAbsolute(arg.slice(1))));
     const setup = (/** @type {string} */ fromDir, /** @type {string} */ toDir) => isolate ? copyDir(fromDir, toDir) : Promise.resolve();
     const teardown = (/** @type {string} */ dir) => isolate ? removeDir(dir) : Promise.resolve();
     const isolatedDir = `${name}-copy-${host}`;
@@ -92,8 +91,7 @@ const testCases = (/** @type {TestConfiguration} */ {
       (noImport && !includeNoImport) ||
       (usesEnv && !includeEnv) ||
       (usesRequire && !includeRequire) ||
-      (usesScript && !includeScript) ||
-      (usesAbsolute && !includeAbsolute)
+      (usesScript && !includeScript)
     ) {
       return;
     }
@@ -629,7 +627,7 @@ const testCases = (/** @type {TestConfiguration} */ {
   });
 
   const literalFilesAbsoluteFile = path.join(
-    __dirname(import.meta),
+    baseDir,
     "literal-files",
     "sentinel/dir(1)/(view)me.md"
   ).
@@ -706,7 +704,7 @@ const testCases = (/** @type {TestConfiguration} */ {
       "name": `config-files-${configFile}-absolute-arg`,
       "args": [
         "--config",
-        path.join(__dirname(import.meta), "config-files", `cfg/${configFile}`),
+        path.join(baseDir, "config-files", `cfg/${configFile}`),
         "**/*.md"
       ],
       "exitCode": 1,
