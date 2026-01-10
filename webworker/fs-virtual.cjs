@@ -72,9 +72,17 @@ const normalize = (/** @type {string} */ path) => path.replace(/^[A-Za-z]:/u, ""
 /* eslint-disable no-param-reassign */
 
 class FsVirtual {
-  constructor(/** @type {[string, string][]} */ files) {
+  constructor(/** @type {[string, string][]=} */ initialFiles) {
 
-    this.files = new Map(files);
+    this.files = new Map();
+
+    this.updateFiles = (/** @type {[string, string][]} */ files) => {
+      for (const [ path, data ] of files) {
+        this.files.set(path, data);
+      }
+    };
+
+    this.updateFiles(initialFiles || []);
 
     this.promises = {
 
@@ -125,7 +133,7 @@ class FsVirtual {
       return callback(null, stats(isDirectory, this.files.get(path)));
     };
 
-    this.readdir = (/** @type {string} */ path, /** @type {{ "withFileTypes": boolean}} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: (string | Dirent)[]) => void)} */ callback) => {
+    this.readdir = (/** @type {string} */ path, /** @type {{ "withFileTypes": boolean}=} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: (string | Dirent)[]) => void)} */ callback) => {
       path = normalize(path).replace(/(?<!\/)$/u, "/");
       /** @type {string[]} */
       const names = [];
@@ -135,7 +143,7 @@ class FsVirtual {
           const [ name ] = file.slice(path.length).split("/");
           if (!names.includes(name)) {
             names.push(name);
-            if (options.withFileTypes) {
+            if (options?.withFileTypes) {
               const item = `${path}${name}`;
               const isDirectory = !this.files.has(item);
               results.push(dirent(item, isDirectory));

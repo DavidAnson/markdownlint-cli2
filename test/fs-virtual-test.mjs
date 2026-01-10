@@ -8,14 +8,14 @@ import * as globby from "globby";
 import { __dirname, __filename } from "./esm-helpers.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 
-const mockPath = "/mock";
+const basePath = "/virtual";
 const thisFile = nodePath.basename(__filename(import.meta));
-const testFile = nodePath.join(mockPath, thisFile);
-const missingFile = `${mockPath}/missing`;
+const testFile = nodePath.join(basePath, thisFile);
+const missingFile = `${basePath}/missing`;
 
 /** @type {[string, string][]} */
 const virtualFiles = [
-  [ `${mockPath}/fs-virtual-test.mjs`, "// content" ]
+  [ `${basePath}/fs-virtual-test.mjs`, "// content" ]
 ];
 
 test("fsVirtual.lstat", async (t) => {
@@ -44,17 +44,17 @@ test("fsVirtual.readdir", async (t) => {
   const fsReaddir = promisify(fs.readdir);
   const expectedFile = [ "fs-virtual-test.mjs" ];
   // @ts-ignore
-  t.deepEqual(await fsReaddir(mockPath), expectedFile);
+  t.deepEqual(await fsReaddir(basePath), expectedFile);
   // @ts-ignore
-  t.deepEqual(await fsReaddir(`${mockPath}/`), expectedFile);
-  const expectedDir = [ mockPath.replace(/^\//u, "") ];
+  t.deepEqual(await fsReaddir(`${basePath}/`), expectedFile);
+  const expectedDir = [ basePath.replace(/^\//u, "") ];
   // @ts-ignore
   t.deepEqual(await fsReaddir("/"), expectedDir);
   // @ts-ignore
-  const [ direntFile ] = await fsReaddir(mockPath, { "withFileTypes": true });
+  const [ direntFile ] = await fsReaddir(basePath, { "withFileTypes": true });
   if (typeof direntFile !== "string") {
     t.is(direntFile.name, expectedFile[0]);
-    t.is(direntFile.parentPath, mockPath);
+    t.is(direntFile.parentPath, basePath);
     t.true(direntFile.isFile());
     t.false(direntFile.isDirectory());
   }
@@ -89,8 +89,8 @@ test("fsVirtual.*", async (t) => {
 test("fsVirtual.promises.*", async (t) => {
   t.plan(3);
   const fs = new FsVirtual(virtualFiles);
-  const tempName = "fs-mock.tmp";
-  const tempFile = nodePath.join(mockPath, tempName);
+  const tempName = "fs-virtual.tmp";
+  const tempFile = nodePath.join(basePath, tempName);
   await t.throwsAsync(() => fs.promises.access(tempFile));
   await fs.promises.writeFile(tempFile, tempFile);
   await fs.promises.access(tempFile);
@@ -118,6 +118,30 @@ const globsAndArgsMirror = [
     "# Title\n\n> Tagline \n\n\n# Description\n\nText text text\nText text text\nText text text\n\n##  Summary\n\nText text text"
   ]
 ];
+
+test("fsVirtual.updateFiles", async (t) => {
+  t.plan(6);
+  // @ts-ignore
+  const fs = new FsVirtual();
+  const fsReaddir = promisify(fs.readdir);
+  // @ts-ignore
+  const first = await fsReaddir("/");
+  t.is(first.length, 0);
+  fs.updateFiles([ [ "/file", "one" ] ]);
+  const second = await fs.promises.readFile("/file", "utf8");
+  t.is(second, "one");
+  fs.updateFiles([ [ "/file", "two" ], [ "/dir/file", "three" ] ]);
+  const third = await fs.promises.readFile("/file", "utf8");
+  t.is(third, "two");
+  const fourth = await fs.promises.readFile("/dir/file", "utf8");
+  t.is(fourth, "three");
+  // @ts-ignore
+  const fifth = await fsReaddir("/");
+  t.is(fifth.length, 2);
+  // @ts-ignore
+  const sixth = await fsReaddir("/dir");
+  t.is(sixth.length, 1);
+});
 
 test("fsVirtual.mirrorDirectory", async (t) => {
   t.plan(1);
