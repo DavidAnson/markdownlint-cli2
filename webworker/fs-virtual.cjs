@@ -189,7 +189,7 @@ class FsVirtual {
       names.map(
         async (name) => [
           `${virtualRoot}/${name}`,
-          await fs.promises.readFile(`${directory === "/" ? "" : directory}/${name}`, "utf8")
+          await fs.promises.readFile(`${directory === "/" ? "" : directory}/${name}`, "utf8").catch(() => "[DELETED FILE]")
         ]
       )
     );

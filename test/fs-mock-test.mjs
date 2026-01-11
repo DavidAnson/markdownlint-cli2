@@ -1,6 +1,5 @@
 // @ts-check
 
-import fsNodePromises from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
 import test from "ava";
@@ -57,5 +56,4 @@ test("fsMock.promises.*", async (t) => {
   await fs.promises.access(tempFile);
   await fs.promises.stat(tempFile);
   t.is(await fs.promises.readFile(tempFile, "utf8"), tempFile);
-  await fsNodePromises.unlink(path.join(__dirname(import.meta), tempName));
 });
