@@ -10,50 +10,59 @@ import FsVirtual from "../webworker/fs-virtual.cjs";
 
 const basePath = "/virtual";
 const thisFile = nodePath.basename(__filename(import.meta));
-const testFile = nodePath.join(basePath, thisFile);
+const testFile = nodePath.posix.join(basePath, thisFile);
+const testDir = nodePath.posix.join(basePath, "dir");
 const missingFile = `${basePath}/missing`;
 
 /** @type {[string, string][]} */
 const virtualFiles = [
-  [ `${basePath}/fs-virtual-test.mjs`, "// content" ]
+  [ testFile, "// content" ],
+  [ `${testDir}/placeholder`, "placeholder" ]
 ];
 
 test("fsVirtual.lstat", async (t) => {
-  t.plan(10);
+  t.plan(17);
   const fs = new FsVirtual(virtualFiles);
   const fsLstat = promisify(fs.lstat);
   // @ts-ignore
-  const stat = await fsLstat(testFile);
-  t.truthy(stat);
-  t.false(stat.isBlockDevice());
-  t.false(stat.isCharacterDevice());
-  t.false(stat.isDirectory());
-  t.false(stat.isFIFO());
-  t.true(stat.isFile());
-  t.false(stat.isSocket());
-  t.false(stat.isSymbolicLink());
+  const statFile = await fsLstat(testFile);
+  t.truthy(statFile);
+  t.false(statFile.isBlockDevice());
+  t.false(statFile.isCharacterDevice());
+  t.false(statFile.isDirectory());
+  t.false(statFile.isFIFO());
+  t.true(statFile.isFile());
+  t.false(statFile.isSocket());
+  t.false(statFile.isSymbolicLink());
   // @ts-ignore
-  const missingStat = await fsLstat(missingFile);
-  t.truthy(missingStat);
-  t.true(missingStat.isDirectory());
+  const statDir = await fsLstat(testDir);
+  t.truthy(statDir);
+  t.false(statDir.isBlockDevice());
+  t.false(statDir.isCharacterDevice());
+  t.true(statDir.isDirectory());
+  t.false(statDir.isFIFO());
+  t.false(statDir.isFile());
+  t.false(statDir.isSocket());
+  t.false(statDir.isSymbolicLink());
+  await t.throwsAsync(() => fsLstat(missingFile));
 });
 
 test("fsVirtual.readdir", async (t) => {
   t.plan(11);
   const fs = new FsVirtual(virtualFiles);
   const fsReaddir = promisify(fs.readdir);
-  const expectedFile = [ "fs-virtual-test.mjs" ];
+  const expectedFiles = [ thisFile, "dir" ];
   // @ts-ignore
-  t.deepEqual(await fsReaddir(basePath), expectedFile);
+  t.deepEqual(await fsReaddir(basePath), expectedFiles);
   // @ts-ignore
-  t.deepEqual(await fsReaddir(`${basePath}/`), expectedFile);
+  t.deepEqual(await fsReaddir(`${basePath}/`), expectedFiles);
   const expectedDir = [ basePath.replace(/^\//u, "") ];
   // @ts-ignore
   t.deepEqual(await fsReaddir("/"), expectedDir);
   // @ts-ignore
   const [ direntFile ] = await fsReaddir(basePath, { "withFileTypes": true });
   if (typeof direntFile !== "string") {
-    t.is(direntFile.name, expectedFile[0]);
+    t.is(direntFile.name, expectedFiles[0]);
     t.is(direntFile.parentPath, basePath);
     t.true(direntFile.isFile());
     t.false(direntFile.isDirectory());
@@ -90,9 +99,9 @@ test("fsVirtual.promises.*", async (t) => {
   t.plan(3);
   const fs = new FsVirtual(virtualFiles);
   const tempName = "fs-virtual.tmp";
-  const tempFile = nodePath.join(basePath, tempName);
+  const tempFile = nodePath.posix.join(basePath, tempName);
   await t.throwsAsync(() => fs.promises.access(tempFile));
-  await fs.promises.writeFile(tempFile, tempFile);
+  await fs.promises.writeFile(tempFile, tempFile, "utf8");
   await fs.promises.access(tempFile);
   await fs.promises.stat(tempFile);
   t.is(await fs.promises.readFile(tempFile, "utf8"), tempFile);

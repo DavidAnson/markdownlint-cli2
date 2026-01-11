@@ -75,10 +75,15 @@ class FsVirtual {
   constructor(/** @type {[string, string][]=} */ initialFiles) {
 
     this.files = new Map();
+    this.dirs = new Set();
 
     this.updateFiles = (/** @type {[string, string][]} */ files) => {
       for (const [ path, data ] of files) {
         this.files.set(path, data);
+        let dir = path;
+        while ((dir = dir.replace(/\/[^/]+$/u, ""))) {
+          this.dirs.add(dir);
+        }
       }
     };
 
@@ -95,7 +100,7 @@ class FsVirtual {
       },
 
       // eslint-disable-next-line no-unused-vars
-      "readFile": (/** @type {string} */ path, /** @type {NodeJS.BufferEncoding} */ options) => {
+      "readFile": (/** @type {string} */ path, /** @type {NodeJS.BufferEncoding=} */ options) => {
         path = normalize(path);
         if (this.files.has(path)) {
           return Promise.resolve(this.files.get(path));
@@ -107,11 +112,14 @@ class FsVirtual {
         path = normalize(path);
         if (this.files.has(path)) {
           return Promise.resolve(stats(false, this.files.get(path)));
+        } else if (this.dirs.has(path)) {
+          return Promise.resolve(stats(true));
         }
         return Promise.reject(new Error(`fs-virtual:promises.stat(${path})`));
       },
 
-      "writeFile": (/** @type {string} */ path, /** @type {string} */ data) => {
+      // eslint-disable-next-line no-unused-vars
+      "writeFile": (/** @type {string} */ path, /** @type {string} */ data, /** @type {NodeJS.BufferEncoding=} */ options) => {
         path = normalize(path);
         this.files.set(path, data);
       }
@@ -128,9 +136,10 @@ class FsVirtual {
     };
 
     this.lstat = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException | null, stats: Stats) => void)} */ callback) => {
-      path = normalize(path);
-      const isDirectory = !this.files.has(path);
-      return callback(null, stats(isDirectory, this.files.get(path)));
+      this.promises.stat(path).
+        then((result) => callback(null, result)).
+        // @ts-ignore
+        catch(callback);
     };
 
     this.readdir = (/** @type {string} */ path, /** @type {{ "withFileTypes": boolean}=} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: (string | Dirent)[]) => void)} */ callback) => {
