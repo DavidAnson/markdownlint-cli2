@@ -5,13 +5,12 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import Ajv from "ajv";
 import test from "ava";
-import { globby } from "globby";
+import * as globby from "globby";
 import { __dirname, importWithTypeJson } from "./esm-helpers.mjs";
 const packageJson = await importWithTypeJson(import.meta, "../package.json");
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import jsoncParse from "../parsers/jsonc-parse.mjs";
 import yamlParse from "../parsers/yaml-parse.mjs";
-import { getFsMock, mockRoot } from "./fs-mock.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 import firstLine from "./customRules/rules/first-line.cjs";
 
@@ -123,7 +122,7 @@ test("validateMarkdownlintConfigSchema", async (t) => {
   );
 
   // Validate instances
-  const files = await globby(
+  const files = await globby.globby(
     [
       "**/*.markdownlint.(json|jsonc)",
       "!node_modules/**",
@@ -168,7 +167,7 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
   );
 
   // Validate instances
-  const files = await globby(
+  const files = await globby.globby(
     [
       "**/*.markdownlint-cli2.(json|jsonc)",
       "!node_modules/**",
@@ -630,24 +629,22 @@ test("custom fs, using node:fs and noImport=true", (t) => {
     });
 });
 
-test("custom fs, using fsMock", (t) => {
+test("custom fs, using FsVirtual", async (t) => {
   t.plan(2);
-  return getFsMock(path.join(__dirname(import.meta), "markdownlint-cli2-jsonc")).
-    then(
-      (fsMock) => markdownlintCli2({
-        "directory": mockRoot,
-        "argv": [ "**/*.md", "viewme.md" ],
-        "optionsOverride": {
-          // @ts-ignore
-          "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
-        },
-        "fs": fsMock,
-        "noImport": true
-      })
-    ).
-    then((exitCode) => {
-      t.is(exitCode, 1);
-    });
+  const baseDir = "/virtual";
+  const directory = path.join(__dirname(import.meta), "markdownlint-cli2-jsonc");
+  const files = await FsVirtual.mirrorDirectory(nodeFs, directory, globby, baseDir);
+  const exitCode = await markdownlintCli2({
+    "directory": baseDir,
+    "argv": [ "**/*.md", "viewme.md" ],
+    "optionsOverride": {
+      // @ts-ignore
+      "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
+    },
+    "fs": new FsVirtual(files),
+    "noImport": true
+  });
+  t.is(exitCode, 1);
 });
 
 test("--help", (t) => {
