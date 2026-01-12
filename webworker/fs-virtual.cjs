@@ -91,6 +91,7 @@ class FsVirtual {
 
     this.promises = {
 
+      // Used by: markdownlint-cli2(lint)
       "access": (/** @type {string} */ path) => {
         path = normalize(path);
         if (this.files.has(path)) {
@@ -99,6 +100,7 @@ class FsVirtual {
         return Promise.reject(new Error(`fs-virtual:promises.access(${path})`));
       },
 
+      // Used by: markdownlint-cli2(lint/fix)
       // eslint-disable-next-line no-unused-vars
       "readFile": (/** @type {string} */ path, /** @type {NodeJS.BufferEncoding=} */ options) => {
         path = normalize(path);
@@ -108,6 +110,7 @@ class FsVirtual {
         return Promise.reject(new Error(`fs-virtual:promises.readFile(${path})`));
       },
 
+      // Used by: globby(globbing)
       "stat": (/** @type {string} */ path) => {
         path = normalize(path);
         if (this.files.has(path)) {
@@ -118,6 +121,7 @@ class FsVirtual {
         return Promise.reject(new Error(`fs-virtual:promises.stat(${path})`));
       },
 
+      // Used by: markdownlint-cli2(fix)
       // eslint-disable-next-line no-unused-vars
       "writeFile": (/** @type {string} */ path, /** @type {string} */ data, /** @type {NodeJS.BufferEncoding=} */ options) => {
         path = normalize(path);
@@ -126,16 +130,19 @@ class FsVirtual {
 
     };
 
+    // Used by: markdownlint(config)
     this.access = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException) => void)} */ mode, /** @type {((err: NodeJS.ErrnoException) => void)=} */ callback) => {
       // @ts-ignore
       this.promises.access(path).then(callback || mode).catch(callback || mode);
     };
 
+    // Used by: globby(globbing)
     this.lstat = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException | null, stats: Stats) => void)} */ callback) => {
       // @ts-ignore
       this.promises.stat(path).then((result) => callback(null, result)).catch(callback);
     };
 
+    // Used by: globby(globbing)
     this.readdir = (/** @type {string} */ path, /** @type {{ "withFileTypes": boolean}=} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: (string | Dirent)[]) => void)} */ callback) => {
       path = normalize(path).replace(/(?<!\/)$/u, "/");
       /** @type {string[]} */
@@ -159,6 +166,7 @@ class FsVirtual {
       return (callback || options)(null, results);
     };
 
+    // Used by: markdownlint(lint)
     this.readFile = (/** @type {string} */ path, /** @type {NodeJS.BufferEncoding} */ options, /** @type {((err: NodeJS.ErrnoException | null, data: string=[]) => void)} */ callback) => {
       this.promises.readFile(path, options).then((result) => callback(null, result)).catch(callback);
     };
