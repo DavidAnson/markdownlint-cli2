@@ -127,19 +127,13 @@ class FsVirtual {
     };
 
     this.access = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException) => void)} */ mode, /** @type {((err: NodeJS.ErrnoException) => void)=} */ callback) => {
-      path = normalize(path);
-      if (this.files.has(path)) {
-        // @ts-ignore
-        return (callback || mode)();
-      }
-      return (callback || mode)(new Error(`fs-virtual:access(${path})`));
+      // @ts-ignore
+      this.promises.access(path).then(callback || mode).catch(callback || mode);
     };
 
     this.lstat = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException | null, stats: Stats) => void)} */ callback) => {
-      this.promises.stat(path).
-        then((result) => callback(null, result)).
-        // @ts-ignore
-        catch(callback);
+      // @ts-ignore
+      this.promises.stat(path).then((result) => callback(null, result)).catch(callback);
     };
 
     this.readdir = (/** @type {string} */ path, /** @type {{ "withFileTypes": boolean}=} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: (string | Dirent)[]) => void)} */ callback) => {
@@ -166,11 +160,7 @@ class FsVirtual {
     };
 
     this.readFile = (/** @type {string} */ path, /** @type {NodeJS.BufferEncoding} */ options, /** @type {((err: NodeJS.ErrnoException | null, data: string=[]) => void)} */ callback) => {
-      path = normalize(path);
-      if (this.files.has(path)) {
-        return callback(null, this.files.get(path));
-      }
-      return callback(new Error(`fs-virtual:readFile(${path})`));
+      this.promises.readFile(path, options).then((result) => callback(null, result)).catch(callback);
     };
   }
 
