@@ -50,20 +50,6 @@ const resolveModulePaths = (/** @type {string} */ dir, /** @type {string[]} */ m
   modulePaths.map((path) => pathDefault.resolve(dir, expandTildePath(path, os)))
 );
 
-// Read a JSON(C) or YAML file and return the object
-const readConfigFile = (/** @type {FsLike} */ fs, /** @type {string} */ dir, /** @type {string} */ name, /** @type {() => void} */ otherwise) => () => {
-  const file = pathPosix.join(dir, name);
-  return fs.promises.access(file).
-    then(
-      () => readConfig(
-        file,
-        parsers,
-        fs
-      ),
-      otherwise
-    );
-};
-
 // Import a module ID with a custom directory in the path
 const importModule = async (/** @type {string[] | string} */ dirOrDirs, /** @type {string} */ id, /** @type {boolean} */ noImport) => {
   if (typeof id !== "string") {
@@ -118,18 +104,8 @@ const importModuleIdsAndParams = (/** @type {string[]} */ dirs, /** @type {strin
   ).then((results) => results.filter(Boolean))
 );
 
-// Import a JavaScript file and return the exported object
-const importConfig = (/** @type {FsLike} */ fs, /** @type {string} */ dir, /** @type {string} */ name, /** @type {boolean} */ noImport, /** @type {() => void} */ otherwise) => () => {
-  const file = pathPosix.join(dir, name);
-  return fs.promises.access(file).
-    then(
-      () => importModule(dir, name, noImport),
-      otherwise
-    );
-};
-
 // Extend a config object if it has 'extends' property
-const getExtendedConfig = (/** @type {import("markdownlint").Configuration} */ config, /** @type {string} */ configPath, /** @type {FsLike} */ fs) => {
+const getExtendedConfig = (/** @type {Configuration} */ config, /** @type {string} */ configPath, /** @type {FsLike} */ fs) => {
   if (config.extends) {
     return extendConfig(
       config,
@@ -275,6 +251,54 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"`
   return 2;
 };
 
+// Helpers for getAndProcessDirInfo/handleFirstMatchingConfigurationFile
+const readFileParseJson = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => fs.promises.readFile(file, utf8).then(jsoncParse);
+const readFileParseYaml = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => fs.promises.readFile(file, utf8).then(yamlParse);
+const readConfigWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => readConfig(file, parsers, fs);
+const importModuleWrapper = (/** @type {ConfigurationHandlerParams} */ { dir, file, noImport }) => importModule(dir, file, noImport);
+
+/** @type {ConfigurationFileAndHandler[] } */
+const optionsFiles = [
+  [ ".markdownlint-cli2.jsonc", readFileParseJson ],
+  [ ".markdownlint-cli2.yaml", readFileParseYaml ],
+  [ ".markdownlint-cli2.cjs", importModuleWrapper ],
+  [ ".markdownlint-cli2.mjs", importModuleWrapper ],
+  [ "package.json", (params) => readFileParseJson(params).then((/** @type {any} */ obj) => (obj || {})[packageName]) ]
+];
+
+/** @type {ConfigurationFileAndHandler[] } */
+const configurationFiles = [
+  [ ".markdownlint.jsonc", readConfigWrapper ],
+  [ ".markdownlint.json", readConfigWrapper ],
+  [ ".markdownlint.yaml", readConfigWrapper ],
+  [ ".markdownlint.yml", readConfigWrapper ],
+  [ ".markdownlint.cjs", importModuleWrapper ],
+  [ ".markdownlint.mjs", importModuleWrapper ]
+];
+
+/**
+ * Processes the first matching configuration file.
+ * @param {ConfigurationFileAndHandler[]} fileAndHandlers List of configuration files and handlers.
+ * @param {string} dir Configuration file directory.
+ * @param {FsLike} fs File system object.
+ * @param {boolean} noImport No import.
+ * @param {(file: string) => void} memoizeFile Function to memoize file name.
+ * @returns {Promise<any>} Configuration file content.
+ */
+const processFirstMatchingConfigurationFile = (fileAndHandlers, dir, fs, noImport, memoizeFile) =>
+  Promise.allSettled(
+    fileAndHandlers.map(([ name, handler ]) => {
+      const file = pathPosix.join(dir, name);
+      return fs.promises.access(file).then(() => [ file, handler ]);
+    })
+  ).
+    then((values) => {
+      /** @type {ConfigurationFileAndHandler} */
+      const [ file, handler ] = values.find((result) => (result.status === "fulfilled"))?.value || [ "[UNUSED]", noop ];
+      memoizeFile(file);
+      return handler({ dir, file, fs, noImport });
+    });
+
 // Get (creating if necessary) and process a directory's info object
 const getAndProcessDirInfo = (
   /** @type {FsLike} */ fs,
@@ -298,52 +322,25 @@ const getAndProcessDirInfo = (
     };
     dirToDirInfo[dir] = dirInfo;
 
-    // Load markdownlint-cli2 object(s)
-    const markdownlintCli2Jsonc = pathPosix.join(dir, ".markdownlint-cli2.jsonc");
-    const markdownlintCli2Yaml = pathPosix.join(dir, ".markdownlint-cli2.yaml");
-    const markdownlintCli2Cjs = pathPosix.join(dir, ".markdownlint-cli2.cjs");
-    const markdownlintCli2Mjs = pathPosix.join(dir, ".markdownlint-cli2.mjs");
-    const packageJson = pathPosix.join(dir, "package.json");
-    let file = "[UNKNOWN]";
-    // eslint-disable-next-line no-return-assign
-    const captureFile = (/** @type {string} */ f) => file = f;
+    let cli2File = "[UNKNOWN]";
     tasks.push(
-      fs.promises.access(captureFile(markdownlintCli2Jsonc)).
-        then(
-          () => fs.promises.readFile(file, utf8).then(jsoncParse),
-          () => fs.promises.access(captureFile(markdownlintCli2Yaml)).
-            then(
-              () => fs.promises.readFile(file, utf8).then(yamlParse),
-              () => fs.promises.access(captureFile(markdownlintCli2Cjs)).
-                then(
-                  () => importModule(dir, file, noImport),
-                  () => fs.promises.access(captureFile(markdownlintCli2Mjs)).
-                    then(
-                      () => importModule(dir, file, noImport),
-                      () => (allowPackageJson
-                        ? fs.promises.access(captureFile(packageJson))
-                        // eslint-disable-next-line prefer-promise-reject-errors
-                        : Promise.reject()
-                      ).
-                        then(
-                          () => fs.promises.
-                            readFile(file, utf8).
-                            then(jsoncParse).
-                            then((/** @type {any} */ obj) => (obj || {})[packageName]),
-                          noop
-                        )
-                    )
-                )
-            )
-        ).
+
+      // Load markdownlint-cli2 object(s)
+      processFirstMatchingConfigurationFile(
+        allowPackageJson ? optionsFiles : optionsFiles.slice(0, -1),
+        dir,
+        fs,
+        noImport,
+        (file) => { cli2File = file; }
+      ).
         then((/** @type {Options} */ options) => {
           dirInfo.markdownlintOptions = options;
           return options &&
             options.config &&
             getExtendedConfig(
               options.config,
-              // Just need to identify a file in the right directory
-              markdownlintCli2Jsonc,
+              // Just need to identify the right directory
+              pathPosix.join(dir, utf8),
               fs
             ).
               then((config) => {
@@ -351,48 +348,12 @@ const getAndProcessDirInfo = (
               });
         }).
         catch((/** @type {Error} */ error) => {
-          throwForConfigurationFile(file, error);
-        })
-    );
+          throwForConfigurationFile(cli2File, error);
+        }),
 
-    // Load markdownlint object(s)
-    const readConfigs =
-      readConfigFile(
-        fs,
-        dir,
-        ".markdownlint.jsonc",
-        readConfigFile(
-          fs,
-          dir,
-          ".markdownlint.json",
-          readConfigFile(
-            fs,
-            dir,
-            ".markdownlint.yaml",
-            readConfigFile(
-              fs,
-              dir,
-              ".markdownlint.yml",
-              importConfig(
-                fs,
-                dir,
-                ".markdownlint.cjs",
-                noImport,
-                importConfig(
-                  fs,
-                  dir,
-                  ".markdownlint.mjs",
-                  noImport,
-                  noop
-                )
-              )
-            )
-          )
-        )
-      );
-    tasks.push(
-      readConfigs().
-        then((/** @type {import("markdownlint").Configuration} */ config) => {
+      // Load markdownlint object(s)
+      processFirstMatchingConfigurationFile(configurationFiles, dir, fs, noImport, noop).
+        then((/** @type {Configuration} */ config) => {
           dirInfo.markdownlintConfig = config;
         })
     );
@@ -816,7 +777,7 @@ const lintFiles = (/** @type {FsLike} */ fs, /** @type {DirInfo[]} */ dirInfos, 
 };
 
 // Create list of results
-const createResults = (/** @type {string} */ baseDir, /** @type {import("markdownlint").LintResults[]} */ taskResults) => {
+const createResults = (/** @type {string} */ baseDir, /** @type {LintResults[]} */ taskResults) => {
   /** @type {LintResult[]} */
   const results = [];
   /** @type {Map<LintResult, number>} */
@@ -1099,13 +1060,25 @@ export const main = async (/** @type {Parameters} */ params) => {
  * @property {Options} [optionsOverride] Options override.
  */
 
+/** @typedef {import("markdownlint").Configuration} Configuration */
+
+/**
+ * @typedef ConfigurationHandlerParams
+ * @property {string} dir Configuration file directory.
+ * @property {string} file Configuration file.
+ * @property {FsLike} fs File system object.
+ * @property {boolean} noImport No import.
+ */
+
+/** @typedef {[ string, (params: ConfigurationHandlerParams) => Promise<any> ] } ConfigurationFileAndHandler */
+
 /**
  * @typedef DirInfo
  * @property {string} dir Directory.
  * @property {string | null} relativeDir Relative directory.
  * @property {DirInfo | null} parent Parent.
  * @property {string[]} files Files.
- * @property {import("markdownlint").Configuration} markdownlintConfig Configuration.
+ * @property {Configuration} markdownlintConfig Configuration.
  * @property {Options} markdownlintOptions Options.
  */
 
@@ -1115,10 +1088,12 @@ export const main = async (/** @type {Parameters} */ params) => {
 
 /** @typedef {[string]} OutputFormatterConfiguration */
 
+/** @typedef {import("markdownlint").Rule} Rule */
+
 /**
  * @typedef Options
- * @property {import("markdownlint").Configuration} [config] Config.
- * @property {import("markdownlint").Rule[] | string[]} [customRules] Custom rules.
+ * @property {Configuration} [config] Config.
+ * @property {Rule[] | string[]} [customRules] Custom rules.
  * @property {boolean} [fix] Fix.
  * @property {string} [frontMatter] Front matter.
  * @property {boolean | string} [gitignore] Git ignore.
@@ -1139,6 +1114,8 @@ export const main = async (/** @type {Parameters} */ params) => {
  */
 
 /** @typedef {import("markdownlint").LintError & LintContext} LintResult */
+
+/** @typedef {import("markdownlint").LintResults} LintResults */
 
 /**
  * @typedef FormattingContext
