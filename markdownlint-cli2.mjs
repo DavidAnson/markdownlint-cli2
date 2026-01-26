@@ -329,7 +329,7 @@ const getAndProcessDirInfo = (
                           () => fs.promises.
                             readFile(file, utf8).
                             then(jsoncParse).
-                            then((/** @type {any} */ obj) => obj[packageName]),
+                            then((/** @type {any} */ obj) => (obj || {})[packageName]),
                           noop
                         )
                     )

@@ -354,6 +354,12 @@ const testCases = (/** @type {TestConfiguration} */ {
   });
 
   testCase({
+    "name": "markdownlint-json-null",
+    "args": [ "**/*.md" ],
+    "exitCode": 1
+  });
+
+  testCase({
     "name": "markdownlint-yaml",
     "args": [ "**/*.md" ],
     "exitCode": 1
@@ -490,6 +496,12 @@ const testCases = (/** @type {TestConfiguration} */ {
     "args": [ ".*" ],
     "exitCode": 2,
     "stderrRe": /'[^']*\.markdownlint-cli2\.jsonc'.*Unable to parse JSONC content/u
+  });
+
+  testCase({
+    "name": "markdownlint-cli2-jsonc-null",
+    "args": [ "**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
@@ -818,6 +830,12 @@ const testCases = (/** @type {TestConfiguration} */ {
     "args": [ "**/*.md" ],
     "exitCode": 2,
     "stderrRe": /'[^']*package\.json'.*Unable to parse JSONC content/u
+  });
+
+  testCase({
+    "name": "package-json-null",
+    "args": [ "**/*.md" ],
+    "exitCode": 1
   });
 
   testCase({
