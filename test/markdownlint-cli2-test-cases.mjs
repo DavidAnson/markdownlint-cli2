@@ -360,6 +360,12 @@ const testCases = (/** @type {TestConfiguration} */ {
   });
 
   testCase({
+    "name": "markdownlint-json-number",
+    "args": [ "**/*.md" ],
+    "exitCode": 1
+  });
+
+  testCase({
     "name": "markdownlint-yaml",
     "args": [ "**/*.md" ],
     "exitCode": 1
@@ -500,6 +506,12 @@ const testCases = (/** @type {TestConfiguration} */ {
 
   testCase({
     "name": "markdownlint-cli2-jsonc-null",
+    "args": [ "**/*.md" ],
+    "exitCode": 1
+  });
+
+  testCase({
+    "name": "markdownlint-cli2-jsonc-number",
     "args": [ "**/*.md" ],
     "exitCode": 1
   });
@@ -834,6 +846,12 @@ const testCases = (/** @type {TestConfiguration} */ {
 
   testCase({
     "name": "package-json-null",
+    "args": [ "**/*.md" ],
+    "exitCode": 1
+  });
+
+  testCase({
+    "name": "package-json-number",
     "args": [ "**/*.md" ],
     "exitCode": 1
   });

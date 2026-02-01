@@ -130,6 +130,7 @@ test("validateMarkdownlintConfigSchema", async (t) => {
       "!**/*invalid/**",
       "!**/*mismatch/**",
       "!**/*null/**",
+      "!**/*number/**",
       "!**/invalid.*"
     ],
     {
@@ -176,6 +177,7 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
       "!**/*invalid/**",
       "!**/*mismatch/**",
       "!**/*null/**",
+      "!**/*number/**",
       "!**/invalid.*",
       "!test/customRules/dir/subdir2/.markdownlint-cli2.jsonc"
     ],
