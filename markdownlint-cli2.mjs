@@ -317,8 +317,8 @@ const getAndProcessDirInfo = (
       relativeDir,
       "parent": null,
       "files": [],
-      "markdownlintConfig": {},
-      "markdownlintOptions": {}
+      "markdownlintConfig": null,
+      "markdownlintOptions": null
     };
     dirToDirInfo[dir] = dirInfo;
 
@@ -333,7 +333,7 @@ const getAndProcessDirInfo = (
         noImport,
         (file) => { cli2File = file; }
       ).
-        then((/** @type {Options} */ options) => {
+        then((/** @type {Options | null} */ options) => {
           dirInfo.markdownlintOptions = options;
           return options &&
             options.config &&
@@ -353,7 +353,7 @@ const getAndProcessDirInfo = (
 
       // Load markdownlint object(s)
       processFirstMatchingConfigurationFile(configurationFiles, dir, fs, noImport, noop).
-        then((/** @type {Configuration} */ config) => {
+        then((/** @type {Configuration | null} */ config) => {
           dirInfo.markdownlintConfig = config;
         })
     );
@@ -645,8 +645,7 @@ const createDirInfos = async (
 
   // Merge configuration by inheritance
   for (const dirInfo of dirInfos) {
-    let markdownlintOptions = dirInfo.markdownlintOptions || {};
-    let { markdownlintConfig } = dirInfo;
+    let { markdownlintConfig, markdownlintOptions } = dirInfo;
     /** @type {DirInfo | null} */
     let parent = dirInfo;
     // eslint-disable-next-line prefer-destructuring
@@ -660,7 +659,7 @@ const createDirInfos = async (
       if (
         !markdownlintConfig &&
         parent.markdownlintConfig &&
-        !markdownlintOptions.config
+        !markdownlintOptions?.config
       ) {
         // eslint-disable-next-line prefer-destructuring
         markdownlintConfig = parent.markdownlintConfig;
@@ -684,6 +683,7 @@ const lintFiles = (/** @type {FsLike} */ fs, /** @type {DirInfo[]} */ dirInfos, 
     // Filter file/string inputs to only those in the dirInfo
     let filesAfterIgnores = files;
     if (
+      markdownlintOptions &&
       markdownlintOptions.ignores &&
       (markdownlintOptions.ignores.length > 0)
     ) {
@@ -707,7 +707,7 @@ const lintFiles = (/** @type {FsLike} */ fs, /** @type {DirInfo[]} */ dirInfos, 
       // eslint-disable-next-line no-inline-comments
       const module = await import(/* webpackMode: "eager" */ "markdown-it");
       const markdownIt = module.default({ "html": true });
-      for (const plugin of (markdownlintOptions.markdownItPlugins || [])) {
+      for (const plugin of (markdownlintOptions?.markdownItPlugins || [])) {
         // @ts-ignore
         markdownIt.use(...plugin);
       }
@@ -718,16 +718,16 @@ const lintFiles = (/** @type {FsLike} */ fs, /** @type {DirInfo[]} */ dirInfos, 
     const options = {
       "files": filteredFiles,
       "strings": filteredStrings,
-      "config": markdownlintConfig || markdownlintOptions.config,
+      "config": markdownlintConfig || markdownlintOptions?.config,
       "configParsers": parsers,
       // @ts-ignore
       "customRules": markdownlintOptions.customRules,
-      "frontMatter": markdownlintOptions.frontMatter
-        ? new RegExp(markdownlintOptions.frontMatter, "u")
+      "frontMatter": markdownlintOptions?.frontMatter
+        ? new RegExp(markdownlintOptions?.frontMatter, "u")
         : undefined,
       "handleRuleFailures": true,
       markdownItFactory,
-      "noInlineConfig": Boolean(markdownlintOptions.noInlineConfig),
+      "noInlineConfig": Boolean(markdownlintOptions?.noInlineConfig),
       fs
     };
     // Invoke markdownlint
@@ -740,7 +740,7 @@ const lintFiles = (/** @type {FsLike} */ fs, /** @type {DirInfo[]} */ dirInfos, 
         formattingContext.formatted = applyFixes(original, errorInfos);
         return {};
       });
-    } else if (markdownlintOptions.fix) {
+    } else if (markdownlintOptions?.fix) {
       // For any fixable errors, read file, apply fixes, write it back, and re-lint
       task = task.then((results) => {
         options.files = [];
@@ -1078,8 +1078,8 @@ export const main = async (/** @type {Parameters} */ params) => {
  * @property {string | null} relativeDir Relative directory.
  * @property {DirInfo | null} parent Parent.
  * @property {string[]} files Files.
- * @property {Configuration} markdownlintConfig Configuration.
- * @property {Options} markdownlintOptions Options.
+ * @property {Configuration | null} markdownlintConfig Configuration.
+ * @property {Options | null} markdownlintOptions Options.
  */
 
 /** @typedef {Record<string, DirInfo>} DirToDirInfo */
