@@ -10,7 +10,8 @@ const noop = () => {};
 
 const copyDir = (/** @type {string} */ fromDir, /** @type {string} */ toDir) => cpy(
   path.join(__dirname(import.meta), fromDir, "**"),
-  path.join(__dirname(import.meta), toDir)
+  path.join(__dirname(import.meta), toDir),
+  { "dot": true }
 ).then(noop);
 
 const removeDir = (/** @type {string} */ dir) =>
