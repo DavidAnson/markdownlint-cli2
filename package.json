@@ -78,7 +78,7 @@
     "jsonc-parser": "3.3.1",
     "markdownlint": "0.40.0",
     "markdownlint-cli2-formatter-default": "0.0.6",
-    "markdown-it": "14.1.0",
+    "markdown-it": "14.1.1",
     "micromatch": "4.0.8"
   },
   "devDependencies": {
