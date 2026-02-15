@@ -8,8 +8,10 @@ USER 0
 
 RUN npm install --global --no-package-lock --omit=dev \
     @github/markdownlint-github \
+    @johnzook/sentences-per-line \
     markdownlint-rule-enhanced-proper-names \
     markdownlint-rule-extended-ascii \
+    markdownlint-rule-force-align-table-columns \
     markdownlint-rule-github-admonition \
     markdownlint-rule-github-internal-links \
     markdownlint-rule-header-id \
@@ -23,10 +25,10 @@ RUN npm install --global --no-package-lock --omit=dev \
     markdownlint-rule-title-case-style \
     markdownlint-rule-titlecase \
     markdownlint-rule-trace-template-headers \
+    markdownlint-rule-unique-table-numbering \
     markdownlint-rules-foliant \
     markdownlint-rules-grav-pages \
-    mkdocs-material-linter \
-    sentences-per-line
+    mkdocs-material-linter
 
 USER 1000
 # 1000 is the documented user ID for the unprivileged "node" user: https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
