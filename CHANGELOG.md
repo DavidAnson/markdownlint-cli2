@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.21.0
+
+- Refactor options/configuration file loading
+- Update dependencies
+
 ## 0.20.0
 
 - Update dependencies
