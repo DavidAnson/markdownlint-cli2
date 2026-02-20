@@ -2,6 +2,8 @@
 
 "use strict";
 
+const { styleText } = require("node:util");
+
 /** @typedef {import("../markdownlint-cli2.mjs").OutputFormatterOptions} OutputFormatterOptions */
 
 /**
@@ -14,7 +16,6 @@
 const outputFormatter = async (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
   const { results, logError } = options;
   const { appendLink } = (params || {});
-  const { "default": chalk } = await import("chalk");
   const { "default": terminalLink } = await import("terminal-link");
   for (const errorInfo of results) {
     const { fileName, lineNumber, ruleNames, ruleDescription, ruleInformation, errorDetail, errorContext, errorRange, severity } = errorInfo;
@@ -31,17 +32,17 @@ const outputFormatter = async (/** @type {OutputFormatterOptions} */ options, /*
     const column = (errorRange && errorRange[0]) || 0;
     logError(
       // eslint-disable-next-line prefer-template
-      chalk.magenta(fileName) +
-      chalk.cyan(":") +
-      chalk.green(lineNumber) +
-      (column ? chalk.cyan(":") + chalk.green(column) : "") +
+      styleText("magenta", fileName) +
+      styleText("cyan", ":") +
+      styleText("green", String(lineNumber)) +
+      (column ? styleText("cyan", ":") + styleText("green", String(column)) : "") +
       " " +
-      (severity ? `${chalk.grey(severity)} ` : "") +
-      chalk.yellow(ruleText) +
+      (severity ? `${styleText("gray", severity)} ` : "") +
+      styleText("yellow", ruleText) +
       " " +
       ruleDescription +
-      chalk.yellow(detailsAndContext) +
-      (appendText.length > 0 ? chalk.blueBright(appendText) : "")
+      styleText("yellow", detailsAndContext) +
+      (appendText.length > 0 ? styleText("blueBright", appendText) : "")
     );
   }
 };

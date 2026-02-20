@@ -24,10 +24,9 @@ To enable this formatter, use the following `.markdownlint-cli2.jsonc`:
 }
 ```
 
-Many terminals support color (implemented by [chalk][chalk]), but support for
-clickable links (implemented by [terminal-link][terminal-link]) is not as
-widespread. Where possible, rule names in output are rendered as clickable links
-with information about the rule.
+Many terminals support color, but support for clickable links (implemented by
+[terminal-link][terminal-link]) is not as widespread. Where possible, rule names
+in output are rendered as clickable links with information about the rule.
 
 To append informational links to the output instead (which may be clickable):
 
@@ -66,7 +65,6 @@ And as text (which may have its formatting removed by GitHub, etc.):
 <span style="color:#e850a8">viewme.md</span><span style="color:#00aaaa">:</span><span style="color:#00aa00">14</span><span style="color:#00aaaa">:</span><span style="color:#00aa00">14</span> <span style="color:#7f7f7f">warning</span> <span style="color:#aa5500"><a href="https://github.com/DavidAnson/markdownlint/blob/v0.39.0/doc/md047.md">MD047/single-trailing-newline</a></span> Files should end with a single newline character</span>
 </pre>
 
-[chalk]: https://github.com/chalk/chalk
 [example-png]: example.png
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2-formatter-pretty.svg
 [license-url]: https://opensource.org/licenses/MIT
