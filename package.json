@@ -66,6 +66,7 @@
     "merge-options.mjs",
     "parsers/parsers.mjs",
     "parsers/jsonc-parse.mjs",
+    "parsers/toml-parse.mjs",
     "parsers/yaml-parse.mjs",
     "README.md",
     "schema/markdownlint-cli2-config-schema.json",
@@ -79,6 +80,7 @@
     "markdownlint": "0.40.0",
     "markdownlint-cli2-formatter-default": "0.0.6",
     "markdown-it": "14.1.1",
+    "smol-toml": "1.4.2",
     "micromatch": "4.0.8"
   },
   "devDependencies": {

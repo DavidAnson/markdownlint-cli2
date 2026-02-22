@@ -98,6 +98,8 @@ Configuration via:
 - .markdownlint.yaml or .markdownlint.yml
 - .markdownlint.cjs or .markdownlint.mjs
 - package.json
+- .markdownlint-cli2.toml
+- .markdownlint.toml
 
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended
@@ -112,8 +114,8 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"
 ```
 
 For scenarios where it is preferable to specify glob expressions in a
-configuration file, the `globs` property of `.markdownlint-cli2.jsonc`, `.yaml`,
-`.cjs`, or `.mjs` may be used instead of (or in addition to) passing
+configuration file, the `globs` property of `.markdownlint-cli2.jsonc`, `.toml`,
+`.yaml`, `.cjs`, or `.mjs` may be used instead of (or in addition to) passing
 `glob0 ... globN` on the command-line.
 
 As shown above, a typical command-line for `markdownlint-cli2` looks something
@@ -257,6 +259,7 @@ supported by the `--format` command-line parameter. When `--format` is set:
       3. `.markdownlint-cli2.cjs`
       4. `.markdownlint-cli2.mjs`
       5. `package.json` (only supported in the current directory)
+      6. `.markdownlint-cli2.toml`
   - Configuration files like `.markdownlint.*` allow control over only the
     `markdownlint` `config` object and tend to be supported more broadly (such
     as by `markdownlint-cli`).
@@ -268,6 +271,7 @@ supported by the `--format` command-line parameter. When `--format` is set:
       4. `.markdownlint.yml`
       5. `.markdownlint.cjs`
       6. `.markdownlint.mjs`
+      7. `.markdownlint.toml`
 - The VS Code extension includes a [JSON Schema][json-schema] definition for the
   `JSON(C)` configuration files described below. This adds auto-complete and can
   make it easier to define proper structure.
@@ -282,10 +286,13 @@ supported by the `--format` command-line parameter. When `--format` is set:
 - Valid properties are:
   - `config`: [`markdownlint` `config` object][markdownlint-config] to configure
     rules for this part of the directory tree
-    - If a `.markdownlint.{jsonc,json,yaml,yml,js}` file (see below) is present
+    - If a `.markdownlint.{jsonc,json,toml,yaml,yml,cjs,mjs}` file (see below)
+      is present
       in the same directory, it overrides the value of this property
     - If the `config` object contains an `extends` property, it will be resolved
-      the same as `.markdownlint.{jsonc,json,yaml,yml,js}` (see below)
+      the same as `.markdownlint.{jsonc,json,toml,yaml,yml,cjs,mjs}` (see
+      below) and can
+      also reference `.toml` files (for example `pyproject.toml`)
   - `customRules`: `Array` of `String`s (or `Array`s of `String`s) of module
     names/paths of [custom rules][markdownlint-custom-rules] to load and use
     when linting
@@ -377,6 +384,16 @@ supported by the `--format` command-line parameter. When `--format` is set:
 - For example: [`.markdownlint-cli2.jsonc`][markdownlint-cli2-jsonc] with all
   properties set
 
+### `.markdownlint-cli2.toml`
+
+- The format of this file is a [TOML][toml] object with the structure described
+  above for `.markdownlint-cli2.jsonc`.
+- For convenience, a `[markdownlint]` table is also recognized and mapped to
+  the `config` property.
+- The `markdownlint` table can be nested (for example
+  `[tool.markdownlint.MD013]`).
+- Other details are the same as for `.markdownlint-cli2.jsonc` described above.
+
 ### `.markdownlint-cli2.yaml`
 
 - The format of this file is a [YAML][yaml] object with the structure described
@@ -417,6 +434,14 @@ supported by the `--format` command-line parameter. When `--format` is set:
   property (documented in the link above).
 - Both file types support comments in JSON.
 - For example: [`.markdownlint.jsonc`][markdownlint-jsonc]
+
+### `.markdownlint.toml`
+
+- The format of this file is a [TOML][toml] object representing the
+  [`markdownlint` `config` object][markdownlint-config].
+- A `[markdownlint]` table is supported for this file type.
+- The `markdownlint` table can be nested (for example
+  `[any.markdownlint.MD013]` or `[*.markdownlint.MD013]`) .
 
 ### `.markdownlint.yaml` or `.markdownlint.yml`
 
@@ -525,6 +550,7 @@ See [CHANGELOG.md][changelog].
 [pre-commit-version]: https://pre-commit.com/#overriding-language-version
 [regexp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 [regexp-constructor]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp
+[toml]: https://toml.io/
 [validating-configuration]: schema/ValidatingConfiguration.md
 [vscode]: https://code.visualstudio.com/
 [vscode-markdownlint]: https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint
