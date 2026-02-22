@@ -8,6 +8,7 @@ const pathPosix = pathDefault.posix;
 import { pathToFileURL } from "node:url";
 import { globby } from "globby";
 import micromatch from "micromatch";
+import toml from "smol-toml";
 import { applyFixes, getVersion, resolveModule } from "markdownlint";
 import { lint, extendConfig, readConfig } from "markdownlint/promise";
 import { expandTildePath } from "markdownlint/helpers";
@@ -15,6 +16,7 @@ import appendToArray from "./append-to-array.mjs";
 import mergeOptions from "./merge-options.mjs";
 import parsers from "./parsers/parsers.mjs";
 import jsoncParse from "./parsers/jsonc-parse.mjs";
+import { findMarkdownlintConfig } from "./parsers/toml-parse.mjs";
 import yamlParse from "./parsers/yaml-parse.mjs";
 
 /* eslint-disable jsdoc/reject-any-type */
@@ -118,6 +120,19 @@ const getExtendedConfig = (/** @type {Configuration} */ config, /** @type {strin
   return Promise.resolve(config);
 };
 
+const mapTomlOptions = (/** @type {Record<string, any>} */ options) => {
+  const markdownlint = findMarkdownlintConfig(options);
+  if (markdownlint && (typeof markdownlint === "object") && !Array.isArray(markdownlint) && !options.config) {
+    const optionsWithoutMarkdownlint = { ...options };
+    delete optionsWithoutMarkdownlint.markdownlint;
+    return {
+      ...optionsWithoutMarkdownlint,
+      "config": markdownlint
+    };
+  }
+  return options;
+};
+
 // Read an options or config file in any format and return the object
 const readOptionsOrConfig = async (/** @type {string} */ configPath, /** @type {FsLike} */ fs, /** @type {boolean} */ noImport) => {
   const basename = pathPosix.basename(configPath);
@@ -134,6 +149,8 @@ const readOptionsOrConfig = async (/** @type {string} */ configPath, /** @type {
       basename.endsWith(".markdownlint-cli2.mjs")
     ) {
       options = await importModule(dirname, basename, noImport);
+    } else if (basename.endsWith(".markdownlint-cli2.toml")) {
+      options = mapTomlOptions(toml.parse(await fs.promises.readFile(configPath, utf8)));
     } else if (
       basename.endsWith(".markdownlint.jsonc") ||
       basename.endsWith(".markdownlint.json") ||
@@ -146,6 +163,8 @@ const readOptionsOrConfig = async (/** @type {string} */ configPath, /** @type {
       basename.endsWith(".markdownlint.mjs")
     ) {
       config = await importModule(dirname, basename, noImport);
+    } else if (basename.endsWith(".markdownlint.toml")) {
+      config = await readConfig(configPath, parsers, fs);
     } else {
       throw new Error(
         "Configuration file should be one of the supported names " +
@@ -236,6 +255,8 @@ Configuration via:
 - .markdownlint.yaml or .markdownlint.yml
 - .markdownlint.cjs or .markdownlint.mjs
 - package.json
+- .markdownlint-cli2.toml
+- .markdownlint.toml
 
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended
@@ -253,6 +274,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"`
 
 // Helpers for getAndProcessDirInfo/handleFirstMatchingConfigurationFile
 const readFileParseJson = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => fs.promises.readFile(file, utf8).then(jsoncParse);
+const readFileParseToml = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => fs.promises.readFile(file, utf8).then((text) => mapTomlOptions(toml.parse(text)));
 const readFileParseYaml = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => fs.promises.readFile(file, utf8).then(yamlParse);
 const readConfigWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => readConfig(file, parsers, fs);
 const importModuleWrapper = (/** @type {ConfigurationHandlerParams} */ { dir, file, noImport }) => importModule(dir, file, noImport);
@@ -263,7 +285,8 @@ const optionsFiles = [
   [ ".markdownlint-cli2.yaml", readFileParseYaml ],
   [ ".markdownlint-cli2.cjs", importModuleWrapper ],
   [ ".markdownlint-cli2.mjs", importModuleWrapper ],
-  [ "package.json", (params) => readFileParseJson(params).then((/** @type {any} */ obj) => (obj || {})[packageName]) ]
+  [ "package.json", (params) => readFileParseJson(params).then((/** @type {any} */ obj) => (obj || {})[packageName]) ],
+  [ ".markdownlint-cli2.toml", readFileParseToml ]
 ];
 
 /** @type {ConfigurationFileAndHandler[] } */
@@ -273,7 +296,8 @@ const configurationFiles = [
   [ ".markdownlint.yaml", readConfigWrapper ],
   [ ".markdownlint.yml", readConfigWrapper ],
   [ ".markdownlint.cjs", importModuleWrapper ],
-  [ ".markdownlint.mjs", importModuleWrapper ]
+  [ ".markdownlint.mjs", importModuleWrapper ],
+  [ ".markdownlint.toml", readConfigWrapper ]
 ];
 
 /**
