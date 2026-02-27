@@ -57,7 +57,7 @@ jobs:
     - run: npm run webworker
     - run: npm run playwright-install-bare
     - run: npm run playwright-test-docker
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: playwright-screenshots
         path: playwright-screenshot-*.png
