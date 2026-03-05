@@ -468,7 +468,7 @@ See [CHANGELOG.md][changelog].
 [changelog]: CHANGELOG.md
 [command-line]: #command-line
 [commonmark]: https://commonmark.org/
-[commonjs-module]: https://nodejs.org/api/modules.html#modules_modules_commonjs_modules
+[commonjs-module]: https://nodejs.org/api/modules.html#modules-commonjs-modules
 [ecmascript-module]: https://nodejs.org/api/esm.html#modules-ecmascript-modules
 [docker]: https://www.docker.com
 [docker-bind-mounts]: https://docs.docker.com/storage/bind-mounts/
@@ -515,7 +515,7 @@ See [CHANGELOG.md][changelog].
 [nodejs-docker-non-root]: https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
 [nodejs-import-expression]: https://nodejs.org/api/esm.html#import-expressions
 [nodejs-import-meta-resolve]: https://nodejs.org/api/esm.html#importmetaresolvespecifier
-[nodejs-require]: https://nodejs.org/api/modules.html#modules_require_id
+[nodejs-require]: https://nodejs.org/api/modules.html#requireid
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2
 [output-formatters]: doc/OutputFormatters.md
