@@ -13,7 +13,6 @@ import { lint, extendConfig, readConfig } from "markdownlint/promise";
 import { expandTildePath } from "markdownlint/helpers";
 import appendToArray from "./append-to-array.mjs";
 import mergeOptions from "./merge-options.mjs";
-import parsers from "./parsers/parsers.mjs";
 import jsoncParse from "./parsers/jsonc-parse.mjs";
 import yamlParse from "./parsers/yaml-parse.mjs";
 
@@ -105,8 +104,9 @@ const importModuleIdsAndParams = (/** @type {string[]} */ dirs, /** @type {strin
 );
 
 // Extend a config object if it has 'extends' property
-const getExtendedConfig = (/** @type {Configuration} */ config, /** @type {string} */ configPath, /** @type {FsLike} */ fs) => {
+const getExtendedConfig = (/** @type {ExecutionContext} */ context, /** @type {Configuration} */ config, /** @type {string} */ configPath) => {
   if (config.extends) {
+    const { fs, parsers } = context;
     return extendConfig(
       config,
       configPath,
@@ -119,7 +119,8 @@ const getExtendedConfig = (/** @type {Configuration} */ config, /** @type {strin
 };
 
 // Read an options or config file in any format and return the object
-const readOptionsOrConfig = async (/** @type {string} */ configPath, /** @type {FsLike} */ fs, /** @type {boolean} */ noImport) => {
+const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** @type {string} */ configPath) => {
+  const { fs, noImport, parsers } = context;
   const basename = pathPosix.basename(configPath);
   const dirname = pathPosix.dirname(configPath);
   let options = null;
@@ -158,11 +159,11 @@ const readOptionsOrConfig = async (/** @type {string} */ configPath, /** @type {
   }
   if (options) {
     if (options.config) {
-      options.config = await getExtendedConfig(options.config, configPath, fs);
+      options.config = await getExtendedConfig(context, options.config, configPath);
     }
     return options;
   }
-  config = await getExtendedConfig(config, configPath, fs);
+  config = await getExtendedConfig(context, config, configPath);
   return { config };
 };
 
@@ -254,7 +255,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"`
 // Helpers for getAndProcessDirInfo/handleFirstMatchingConfigurationFile
 const readFileParseJson = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => fs.promises.readFile(file, utf8).then(jsoncParse);
 const readFileParseYaml = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => fs.promises.readFile(file, utf8).then(yamlParse);
-const readConfigWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => readConfig(file, parsers, fs);
+const readConfigWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs, parsers }) => readConfig(file, parsers, fs);
 const importModuleWrapper = (/** @type {ConfigurationHandlerParams} */ { dir, file, noImport }) => importModule(dir, file, noImport);
 
 /** @type {ConfigurationFileAndHandler[] } */
@@ -278,15 +279,15 @@ const configurationFiles = [
 
 /**
  * Processes the first matching configuration file.
+ * @param {ExecutionContext} context Execution context.
  * @param {ConfigurationFileAndHandler[]} fileAndHandlers List of configuration files and handlers.
  * @param {string} dir Configuration file directory.
- * @param {FsLike} fs File system object.
- * @param {boolean} noImport No import.
  * @param {(file: string) => void} memoizeFile Function to memoize file name.
  * @returns {Promise<any>} Configuration file content.
  */
-const processFirstMatchingConfigurationFile = (fileAndHandlers, dir, fs, noImport, memoizeFile) =>
-  Promise.allSettled(
+const processFirstMatchingConfigurationFile = (context, fileAndHandlers, dir, memoizeFile) => {
+  const { fs, noImport, parsers } = context;
+  return Promise.allSettled(
     fileAndHandlers.map(([ name, handler ]) => {
       const file = pathPosix.join(dir, name);
       return fs.promises.access(file).then(() => [ file, handler ]);
@@ -296,17 +297,17 @@ const processFirstMatchingConfigurationFile = (fileAndHandlers, dir, fs, noImpor
       /** @type {ConfigurationFileAndHandler} */
       const [ file, handler ] = values.find((result) => (result.status === "fulfilled"))?.value || [ "[UNUSED]", noop ];
       memoizeFile(file);
-      return handler({ dir, file, fs, noImport });
+      return handler({ dir, file, fs, noImport, parsers });
     });
+};
 
 // Get (creating if necessary) and process a directory's info object
 const getAndProcessDirInfo = (
-  /** @type {FsLike} */ fs,
+  /** @type {ExecutionContext} */ context,
   /** @type {Task[]} */ tasks,
   /** @type {DirToDirInfo} */ dirToDirInfo,
   /** @type {string} */ dir,
   /** @type {string | null} */ relativeDir,
-  /** @type {boolean} */ noImport,
   /** @type {boolean} */ allowPackageJson
 ) => {
   // Create dirInfo
@@ -327,10 +328,9 @@ const getAndProcessDirInfo = (
 
       // Load markdownlint-cli2 object(s)
       processFirstMatchingConfigurationFile(
+        context,
         allowPackageJson ? optionsFiles : optionsFiles.slice(0, -1),
         dir,
-        fs,
-        noImport,
         (file) => { cli2File = file; }
       ).
         then((/** @type {Options | null} */ options) => {
@@ -338,10 +338,10 @@ const getAndProcessDirInfo = (
           return options &&
             options.config &&
             getExtendedConfig(
+              context,
               options.config,
               // Just need to identify the right directory
-              pathPosix.join(dir, utf8),
-              fs
+              pathPosix.join(dir, utf8)
             ).
               then((config) => {
                 options.config = config;
@@ -352,7 +352,7 @@ const getAndProcessDirInfo = (
         }),
 
       // Load markdownlint object(s)
-      processFirstMatchingConfigurationFile(configurationFiles, dir, fs, noImport, noop).
+      processFirstMatchingConfigurationFile(context, configurationFiles, dir, noop).
         then((/** @type {Configuration | null} */ config) => {
           dirInfo.markdownlintConfig = config;
         })
@@ -365,26 +365,24 @@ const getAndProcessDirInfo = (
 
 // Get base markdownlint-cli2 options object
 const getBaseOptions = async (
-  /** @type {FsLike} */ fs,
-  /** @type {string} */ baseDir,
+  /** @type {ExecutionContext} */ context,
   /** @type {string | null} */ relativeDir,
   /** @type {string[]} */ globPatterns,
   /** @type {Options} */ options,
   /** @type {boolean} */ fixDefault,
-  /** @type {boolean} */ noGlobs,
-  /** @type {boolean} */ noImport
+  /** @type {boolean} */ noGlobs
 ) => {
+  const { baseDir } = context;
   /** @type {Task[]} */
   const tasks = [];
   /** @type {DirToDirInfo} */
   const dirToDirInfo = {};
   getAndProcessDirInfo(
-    fs,
+    context,
     tasks,
     dirToDirInfo,
     baseDir,
     relativeDir,
-    noImport,
     true
   );
   await Promise.all(tasks);
@@ -418,15 +416,13 @@ const getBaseOptions = async (
 
 // Enumerate files from globs and build directory infos
 const enumerateFiles = async (
-  /** @type {FsLike} */ fs,
-  /** @type {string} */ baseDirSystem,
-  /** @type {string} */ baseDir,
+  /** @type {ExecutionContext} */ context,
   /** @type {string[]} */ globPatterns,
   /** @type {DirToDirInfo} */ dirToDirInfo,
   /** @type {boolean} */ gitignore,
-  /** @type {string | undefined} */ ignoreFiles,
-  /** @type {boolean} */ noImport
+  /** @type {string | undefined} */ ignoreFiles
 ) => {
+  const { baseDir, baseDirSystem, fs } = context;
   /** @type {Task[]} */
   const tasks = [];
   /** @type {import("globby").Options} */
@@ -470,12 +466,11 @@ const enumerateFiles = async (
   for (const file of files) {
     const dir = pathPosix.dirname(file);
     const dirInfo = getAndProcessDirInfo(
-      fs,
+      context,
       tasks,
       dirToDirInfo,
       dir,
       null,
-      noImport,
       false
     );
     dirInfo.files.push(file);
@@ -485,11 +480,10 @@ const enumerateFiles = async (
 
 // Enumerate (possibly missing) parent directories and update directory infos
 const enumerateParents = async (
-  /** @type {FsLike} */ fs,
-  /** @type {string} */ baseDir,
-  /** @type {DirToDirInfo} */ dirToDirInfo,
-  /** @type {boolean} */ noImport
+  /** @type {ExecutionContext} */ context,
+  /** @type {DirToDirInfo} */ dirToDirInfo
 ) => {
+  const { baseDir } = context;
   /** @type {Task[]} */
   const tasks = [];
 
@@ -514,12 +508,11 @@ const enumerateParents = async (
       lastDir = dir;
       const dirInfo =
         getAndProcessDirInfo(
-          fs,
+          context,
           tasks,
           dirToDirInfo,
           dir,
           null,
-          noImport,
           false
         );
       lastDirInfo.parent = dirInfo;
@@ -536,31 +529,23 @@ const enumerateParents = async (
 
 // Create directory info objects by enumerating file globs
 const createDirInfos = async (
-  /** @type {FsLike} */ fs,
-  /** @type {string} */ baseDirSystem,
-  /** @type {string} */ baseDir,
+  /** @type {ExecutionContext} */ context,
   /** @type {string[]} */ globPatterns,
   /** @type {DirToDirInfo} */ dirToDirInfo,
   /** @type {Options | undefined} */ optionsOverride,
   /** @type {boolean} */ gitignore,
-  /** @type {string | undefined} */ ignoreFiles,
-  /** @type {boolean} */ noImport
+  /** @type {string | undefined} */ ignoreFiles
 ) => {
   await enumerateFiles(
-    fs,
-    baseDirSystem,
-    baseDir,
+    context,
     globPatterns,
     dirToDirInfo,
     gitignore,
-    ignoreFiles,
-    noImport
+    ignoreFiles
   );
   await enumerateParents(
-    fs,
-    baseDir,
-    dirToDirInfo,
-    noImport
+    context,
+    dirToDirInfo
   );
 
   // Merge file lists with identical configuration
@@ -576,6 +561,7 @@ const createDirInfos = async (
       }
       delete dirToDirInfo[dir];
     } else {
+      const { noImport } = context;
       const { markdownlintOptions, relativeDir } = dirInfo;
       const effectiveDir = relativeDir || dir;
       const effectiveModulePaths = resolveModulePaths(
@@ -675,7 +661,13 @@ const createDirInfos = async (
 };
 
 // Lint files in groups by shared configuration
-const lintFiles = (/** @type {FsLike} */ fs, /** @type {DirInfo[]} */ dirInfos, /** @type {Record<string, string>} */ fileContents, /** @type {FormattingContext} */ formattingContext) => {
+const lintFiles = (
+  /** @type {ExecutionContext} */ context,
+  /** @type {DirInfo[]} */ dirInfos,
+  /** @type {Record<string, string>} */ fileContents,
+  /** @type {FormattingContext} */ formattingContext
+) => {
+  const { fs, parsers } = context;
   const tasks = [];
   // For each dirInfo
   for (const dirInfo of dirInfos) {
@@ -848,7 +840,6 @@ export const main = async (/** @type {Parameters} */ params) => {
     optionsDefault,
     optionsOverride,
     fileContents,
-    noImport,
     allowStdin
   } = params;
   let {
@@ -858,6 +849,7 @@ export const main = async (/** @type {Parameters} */ params) => {
   const logMessage = params.logMessage || noop;
   const logError = params.logError || noop;
   const fs = params.fs || fsNode;
+  const noImport = Boolean(params.noImport);
   const baseDirSystem =
     (directory && pathDefault.resolve(directory)) ||
     process.cwd();
@@ -901,6 +893,9 @@ export const main = async (/** @type {Parameters} */ params) => {
   if (shouldShowHelp) {
     return showHelp(logMessage, true);
   }
+  const parsers = [ jsoncParse, yamlParse ];
+  /** @type {ExecutionContext} */
+  const context = { baseDir, baseDirSystem, fs, noImport, parsers };
   // Read argv configuration file (if relevant and present)
   let optionsArgv = null;
   let relativeDir = null;
@@ -908,23 +903,19 @@ export const main = async (/** @type {Parameters} */ params) => {
   let baseOptions = null;
   try {
     if (configPath) {
-      const resolvedConfigPath =
-        posixPath(pathDefault.resolve(baseDirSystem, configPath));
-      optionsArgv =
-        await readOptionsOrConfig(resolvedConfigPath, fs, Boolean(noImport));
+      const resolvedConfigPath = posixPath(pathDefault.resolve(baseDirSystem, configPath));
+      optionsArgv = await readOptionsOrConfig(context, resolvedConfigPath);
       relativeDir = pathPosix.dirname(resolvedConfigPath);
     }
     // Process arguments and get base options
     globPatterns = processArgv(argvFiltered);
     baseOptions = await getBaseOptions(
-      fs,
-      baseDir,
+      context,
       relativeDir,
       globPatterns,
       optionsArgv || optionsDefault,
       fixDefault,
-      Boolean(noGlobs),
-      Boolean(noImport)
+      Boolean(noGlobs)
     );
   } finally {
     if (!baseOptions?.baseMarkdownlintOptions.noBanner && !formattingContext.formatting) {
@@ -973,15 +964,12 @@ export const main = async (/** @type {Parameters} */ params) => {
     : undefined;
   const dirInfos =
     await createDirInfos(
-      fs,
-      baseDirSystem,
-      baseDir,
+      context,
       globPatterns,
       dirToDirInfo,
       optionsOverride,
       gitignore,
-      ignoreFiles,
-      Boolean(noImport)
+      ignoreFiles
     );
   // Output linting status
   if (showProgress) {
@@ -998,7 +986,7 @@ export const main = async (/** @type {Parameters} */ params) => {
     logMessage(`Linting: ${fileCount} file(s)`);
   }
   // Lint files
-  const lintResults = await lintFiles(fs, dirInfos, resolvedFileContents, formattingContext);
+  const lintResults = await lintFiles(context, dirInfos, resolvedFileContents, formattingContext);
   // Output summary
   const results = createResults(baseDir, lintResults);
   if (showProgress) {
@@ -1045,6 +1033,15 @@ export const main = async (/** @type {Parameters} */ params) => {
 /** @typedef {Promise<any>} Task */
 
 /**
+ * @typedef ExecutionContext
+ * @property {string} baseDir Base directory (POSIX).
+ * @property {string} baseDirSystem Base directory (non-POSIX).
+ * @property {FsLike} fs File system object.
+ * @property {boolean} noImport No import.
+ * @property {ConfigurationParser[]} parsers Configuration file parsers.
+ */
+
+/**
  * @typedef Parameters
  * @property {boolean} [allowStdin] Allow stdin.
  * @property {string[]} argv Arguments.
@@ -1062,11 +1059,14 @@ export const main = async (/** @type {Parameters} */ params) => {
 
 /** @typedef {import("markdownlint").Configuration} Configuration */
 
+/** @typedef {import("markdownlint").ConfigurationParser} ConfigurationParser */
+
 /**
  * @typedef ConfigurationHandlerParams
  * @property {string} dir Configuration file directory.
  * @property {string} file Configuration file.
  * @property {FsLike} fs File system object.
+ * @property {ConfigurationParser[]} parsers Configuration file parsers.
  * @property {boolean} noImport No import.
  */
 
