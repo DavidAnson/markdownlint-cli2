@@ -12,6 +12,7 @@ import { applyFixes, getVersion, resolveModule } from "markdownlint";
 import { lint, extendConfig, readConfig } from "markdownlint/promise";
 import { expandTildePath } from "markdownlint/helpers";
 import appendToArray from "./append-to-array.mjs";
+import { cli2SchemaKeys, libraryName, packageName, packageVersion } from "./constants.mjs";
 import mergeOptions from "./merge-options.mjs";
 import jsoncParse from "./parsers/jsonc-parse.mjs";
 import yamlParse from "./parsers/yaml-parse.mjs";
@@ -19,9 +20,6 @@ import yamlParse from "./parsers/yaml-parse.mjs";
 /* eslint-disable jsdoc/reject-any-type */
 
 // Variables
-const packageName = "markdownlint-cli2";
-const packageVersion = "0.21.0";
-const libraryName = "markdownlint";
 const libraryVersion = getVersion();
 const bannerMessage = `${packageName} v${packageVersion} (${libraryName} v${libraryVersion})`;
 const dotOnlySubstitute = "*.{md,markdown}";
@@ -32,6 +30,12 @@ const noop = () => null;
 
 // Negates a glob
 const negateGlob = (/** @type {string} */ glob) => `!${glob}`;
+
+// Reads and parses a JSONC file
+const readJsonc = (/** @type {string} */ file, /** @type {FsLike} */ fs) => fs.promises.readFile(file, utf8).then(jsoncParse);
+
+// Reads and parses a YAML file
+const readYaml = (/** @type {string} */ file, /** @type {FsLike} */ fs) => fs.promises.readFile(file, utf8).then(yamlParse);
 
 // Throws a meaningful exception for an unusable configuration file
 const throwForConfigurationFile = (/** @type {string} */ file, /** @type {Error | any} */ error) => {
@@ -120,16 +124,17 @@ const getExtendedConfig = (/** @type {ExecutionContext} */ context, /** @type {C
 
 // Read an options or config file in any format and return the object
 const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** @type {string} */ configPath) => {
-  const { fs, noImport, parsers } = context;
+  const { fs, noImport } = context;
   const basename = pathPosix.basename(configPath);
   const dirname = pathPosix.dirname(configPath);
   let options = null;
   let config = null;
+  let unknown = null;
   try {
     if (basename.endsWith(".markdownlint-cli2.jsonc")) {
-      options = jsoncParse(await fs.promises.readFile(configPath, utf8));
+      options = await readJsonc(configPath, fs);
     } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
-      options = yamlParse(await fs.promises.readFile(configPath, utf8));
+      options = await readYaml(configPath, fs);
     } else if (
       basename.endsWith(".markdownlint-cli2.cjs") ||
       basename.endsWith(".markdownlint-cli2.mjs")
@@ -137,25 +142,52 @@ const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** 
       options = await importModule(dirname, basename, noImport);
     } else if (
       basename.endsWith(".markdownlint.jsonc") ||
-      basename.endsWith(".markdownlint.json") ||
+      basename.endsWith(".markdownlint.json")
+    ) {
+      config = await readJsonc(configPath, fs);
+    } else if (
       basename.endsWith(".markdownlint.yaml") ||
       basename.endsWith(".markdownlint.yml")
     ) {
-      config = await readConfig(configPath, parsers, fs);
+      config = await readYaml(configPath, fs);
     } else if (
       basename.endsWith(".markdownlint.cjs") ||
       basename.endsWith(".markdownlint.mjs")
     ) {
       config = await importModule(dirname, basename, noImport);
+    } else if (
+      basename.endsWith(".jsonc") ||
+      basename.endsWith(".json")
+    ) {
+      unknown = await readJsonc(configPath, fs);
+    } else if (
+      basename.endsWith(".yaml") ||
+      basename.endsWith(".yml")
+    ) {
+      unknown = await readYaml(configPath, fs);
+    } else if (
+      basename.endsWith(".cjs") ||
+      basename.endsWith(".mjs")
+    ) {
+      unknown = await importModule(dirname, basename, noImport);
     } else {
       throw new Error(
         "Configuration file should be one of the supported names " +
         "(e.g., '.markdownlint-cli2.jsonc') or a prefix with a supported name " +
-        "(e.g., 'example.markdownlint-cli2.jsonc')."
+        "(e.g., 'example.markdownlint-cli2.jsonc') or have a supported extension " +
+        "(e.g., jsonc, json, yaml, yml, cjs, mjs)."
       );
     }
   } catch (error) {
     throwForConfigurationFile(configPath, error);
+  }
+  if (unknown) {
+    const keys = Object.keys(unknown);
+    if (keys.some((key) => cli2SchemaKeys.has(key))) {
+      options = unknown;
+    } else {
+      config = unknown;
+    }
   }
   if (options) {
     if (options.config) {
@@ -253,18 +285,18 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"`
 };
 
 // Helpers for getAndProcessDirInfo/handleFirstMatchingConfigurationFile
-const readFileParseJson = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => fs.promises.readFile(file, utf8).then(jsoncParse);
-const readFileParseYaml = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => fs.promises.readFile(file, utf8).then(yamlParse);
+const readJsoncWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => readJsonc(file, fs);
+const readYamlWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => readYaml(file, fs);
 const readConfigWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs, parsers }) => readConfig(file, parsers, fs);
 const importModuleWrapper = (/** @type {ConfigurationHandlerParams} */ { dir, file, noImport }) => importModule(dir, file, noImport);
 
 /** @type {ConfigurationFileAndHandler[] } */
 const optionsFiles = [
-  [ ".markdownlint-cli2.jsonc", readFileParseJson ],
-  [ ".markdownlint-cli2.yaml", readFileParseYaml ],
+  [ ".markdownlint-cli2.jsonc", readJsoncWrapper ],
+  [ ".markdownlint-cli2.yaml", readYamlWrapper ],
   [ ".markdownlint-cli2.cjs", importModuleWrapper ],
   [ ".markdownlint-cli2.mjs", importModuleWrapper ],
-  [ "package.json", (params) => readFileParseJson(params).then((/** @type {any} */ obj) => (obj || {})[packageName]) ]
+  [ "package.json", (params) => readJsoncWrapper(params).then((/** @type {any} */ obj) => (obj || {})[packageName]) ]
 ];
 
 /** @type {ConfigurationFileAndHandler[] } */

@@ -456,14 +456,16 @@ const testCases = (/** @type {TestConfiguration} */ {
   testCase({
     "name": "markdownlint-json-mismatch-config",
     "args": [ "--config", "../markdownlint-json-mismatch/.markdownlint.json", "viewme.md" ],
-    "exitCode": 0,
+    "exitCode": 2,
+    "stderrRe": /'[^']*\.markdownlint\.json'.*Unable to parse JSONC content/u,
     "cwd": "no-config"
   });
 
   testCase({
     "name": "markdownlint-yaml-mismatch-config",
     "args": [ "--config", "../markdownlint-yaml-mismatch/.markdownlint.yaml", "viewme.md" ],
-    "exitCode": 0,
+    "exitCode": 2,
+    "stderrRe": /'[^']*\.markdownlint\.yaml'.*missed comma between flow collection entries/u,
     "cwd": "no-config"
   });
 
@@ -724,6 +726,16 @@ const testCases = (/** @type {TestConfiguration} */ {
       "cwd": "config-files",
       usesRequire
     });
+    const ambiguousFile = configFile.
+      replace(".markdownlint-cli2", "options").
+      replace(".markdownlint", "config");
+    testCase({
+      "name": `config-files-${ambiguousFile}-arg`,
+      "args": [ "--config", `cfg/${ambiguousFile}`, "**/*.md" ],
+      "exitCode": 1,
+      "cwd": "config-files",
+      usesRequire
+    });
     testCase({
       "name": `config-files-${configFile}-absolute-arg`,
       "args": [
@@ -738,13 +750,14 @@ const testCases = (/** @type {TestConfiguration} */ {
   }
 
   const unableToParseJsonc = "Unable to parse JSONC content";
+  const unableToParseYaml = "duplicated mapping key";
   const unableToRequireOrImport = "Unable to import module";
   const invalidConfigFiles = [
     [ "invalid.markdownlint-cli2.jsonc", unableToParseJsonc ],
     [ "invalid.markdownlint-cli2.cjs", unableToRequireOrImport ],
     [ "invalid.markdownlint-cli2.mjs", unableToRequireOrImport ],
     [ "invalid.markdownlint.json", unableToParseJsonc ],
-    [ "invalid.markdownlint.yaml", unableToParseJsonc ],
+    [ "invalid.markdownlint.yaml", unableToParseYaml ],
     [ "invalid.markdownlint.cjs", unableToRequireOrImport ],
     [ "invalid.markdownlint.mjs", unableToRequireOrImport ]
   ];
@@ -778,10 +791,10 @@ const testCases = (/** @type {TestConfiguration} */ {
 
   testCase({
     "name": "config-file-unrecognized-arg",
-    "args": [ "--config", "cfg/unrecognized.jsonc", "**/*.md" ],
+    "args": [ "--config", "cfg/unrecognized.txt", "**/*.md" ],
     "exitCode": 2,
     "stderrRe":
-      /Unable to use configuration file '[^']*cfg\/unrecognized\.jsonc'; Configuration file should be one of the supported names \(e\.g\., '\.markdownlint-cli2\.jsonc'\) or a prefix with a supported name \(e\.g\., 'example\.markdownlint-cli2\.jsonc'\)\./u,
+      /Unable to use configuration file '[^']*cfg\/unrecognized\.txt'; Configuration file should be one of the supported names \(e\.g\., '\.markdownlint-cli2\.jsonc'\) or a prefix with a supported name \(e\.g\., 'example\.markdownlint-cli2\.jsonc'\) or have a supported extension \(e.g., jsonc, json, yaml, yml, cjs, mjs\)\./u,
     "cwd": "config-files"
   });
 

@@ -139,10 +139,12 @@ supported configuration file (except `package.json`):
 markdownlint-cli2 --config "config/.markdownlint-cli2.jsonc" "**/*.md" "#node_modules"
 ```
 
-The configuration file name must be (or end with) one of the supported names
+The configuration file name should be (or end with) one of the supported names
 above. For example, `.markdownlint.json` or `example.markdownlint-cli2.jsonc`.
-The specified configuration file will be loaded, parsed, and applied as a base
-configuration for the current directory - which will then be handled normally.
+Alternatively, the configuration file name should have a supported extension
+like `.jsonc`, `.yaml`, or `.mjs` and its kind (see below) will be inferred. The
+configuration file will be loaded, parsed, and applied as a base configuration
+for the current directory - which will then be handled normally.
 
 ### Container Image
 
