@@ -701,12 +701,14 @@ const testCases = (/** @type {TestConfiguration} */ {
     ".markdownlint-cli2.yaml",
     ".markdownlint-cli2.cjs",
     ".markdownlint-cli2.mjs",
+    ".markdownlint-cli2.toml",
     ".markdownlint.jsonc",
     ".markdownlint.json",
     ".markdownlint.yaml",
     ".markdownlint.yml",
     ".markdownlint.cjs",
-    ".markdownlint.mjs"
+    ".markdownlint.mjs",
+    ".markdownlint.toml"
   ];
   for (const configFile of configFiles) {
     const usesRequire = isModule(configFile);
@@ -738,15 +740,18 @@ const testCases = (/** @type {TestConfiguration} */ {
   }
 
   const unableToParseJsonc = "Unable to parse JSONC content";
+  const unableToParseToml = "Unable to parse|Expected|Unexpected";
   const unableToRequireOrImport = "Unable to import module";
   const invalidConfigFiles = [
     [ "invalid.markdownlint-cli2.jsonc", unableToParseJsonc ],
     [ "invalid.markdownlint-cli2.cjs", unableToRequireOrImport ],
     [ "invalid.markdownlint-cli2.mjs", unableToRequireOrImport ],
+    [ "invalid.markdownlint-cli2.toml", unableToParseToml ],
     [ "invalid.markdownlint.json", unableToParseJsonc ],
     [ "invalid.markdownlint.yaml", unableToParseJsonc ],
     [ "invalid.markdownlint.cjs", unableToRequireOrImport ],
-    [ "invalid.markdownlint.mjs", unableToRequireOrImport ]
+    [ "invalid.markdownlint.mjs", unableToRequireOrImport ],
+    [ "invalid.markdownlint.toml", unableToParseToml ]
   ];
   for (const [ invalidConfigFile, stderrRe ] of invalidConfigFiles) {
     const usesRequire = isModule(invalidConfigFile);

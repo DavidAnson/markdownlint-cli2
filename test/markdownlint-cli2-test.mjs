@@ -10,6 +10,7 @@ import { __dirname, importWithTypeJson } from "./esm-helpers.mjs";
 const packageJson = await importWithTypeJson(import.meta, "../package.json");
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import jsoncParse from "../parsers/jsonc-parse.mjs";
+import tomlParse from "../parsers/toml-parse.mjs";
 import yamlParse from "../parsers/yaml-parse.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 import firstLine from "./customRules/rules/first-line.cjs";
@@ -211,6 +212,51 @@ test("validateExampleObjectsMatch", async (t) => {
     )
   );
   t.deepEqual(jsonExample, yamlExample);
+});
+
+test("toml parser supports markdownlint table nesting", (t) => {
+  t.plan(5);
+  const parsedPyproject = tomlParse(`\
+[project]
+name = "sample"
+
+[tool.markdownlint]
+"single-title" = false
+`);
+  t.deepEqual(parsedPyproject, {
+    "single-title": false
+  });
+  const parsedGenericToml = tomlParse(`\
+"single-title" = false
+`);
+  t.deepEqual(parsedGenericToml, {
+    "single-title": false
+  });
+  const parsedMarkdownlintTable = tomlParse(`\
+[markdownlint]
+"single-title" = false
+`);
+  t.deepEqual(parsedMarkdownlintTable, {
+    "single-title": false
+  });
+  const parsedMarkdownlintNestedRule = tomlParse(`\
+[tool.markdownlint.MD013]
+line_length = 200
+`);
+  t.deepEqual(parsedMarkdownlintNestedRule, {
+    "MD013": {
+      "line_length": 200
+    }
+  });
+  const parsedMarkdownlintArbitraryPrefix = tomlParse(`\
+[any.prefix.markdownlint.MD013]
+line_length = 160
+`);
+  t.deepEqual(parsedMarkdownlintArbitraryPrefix, {
+    "MD013": {
+      "line_length": 160
+    }
+  });
 });
 
 test("absolute path to directory glob", async (t) => {
