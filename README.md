@@ -67,7 +67,7 @@ As a [GitHub Action][github-action] via
 markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)
 https://github.com/DavidAnson/markdownlint-cli2
 
-Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix] [--format] [--help] [--no-globs]
+Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--configPointer pointer] [--fix] [--format] [--help] [--no-globs]
 
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
@@ -84,11 +84,12 @@ Dot-only glob:
 - To lint every file in the current directory tree, the command "markdownlint-cli2 **" can be used instead
 
 Optional parameters:
-- --config    specifies the path to a configuration file to define the base configuration
-- --fix       updates files to resolve fixable issues (can be overridden in configuration)
-- --format    reads standard input (stdin), applies fixes, writes standard output (stdout)
-- --help      writes this message to the console and exits without doing anything else
-- --no-globs  ignores the "globs" property if present in the top-level options object
+- --config        specifies the path to a configuration file to define the base configuration
+- --configPointer specifies a JSON Pointer to a configuration object within the --config file
+- --fix           updates files to resolve fixable issues (can be overridden in configuration)
+- --format        reads standard input (stdin), applies fixes, writes standard output (stdout)
+- --help          writes this message to the console and exits without doing anything else
+- --no-globs      ignores the "globs" property if present in the top-level options object
 
 Configuration via:
 - .markdownlint-cli2.jsonc
@@ -97,7 +98,6 @@ Configuration via:
 - .markdownlint.jsonc or .markdownlint.json
 - .markdownlint.yaml or .markdownlint.yml
 - .markdownlint.cjs or .markdownlint.mjs
-- package.json
 
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended
@@ -133,7 +133,7 @@ markdownlint-cli2 --fix "**/*.md" "#node_modules"
 
 In cases where it is not convenient to store a configuration file in the root
 of a project, the `--config` argument can be used to provide a path to any
-supported configuration file (except `package.json`):
+supported configuration file/format:
 
 ```bash
 markdownlint-cli2 --config "config/.markdownlint-cli2.jsonc" "**/*.md" "#node_modules"
@@ -145,6 +145,32 @@ Alternatively, the configuration file name should have a supported extension
 like `.jsonc`, `.yaml`, or `.mjs` and its kind (see below) will be inferred. The
 configuration file will be loaded, parsed, and applied as a base configuration
 for the current directory - which will then be handled normally.
+
+The `--configPointer` argument allows the use of [JSON Pointer][json-pointer]
+syntax to identify a sub-object within the configuration file specified by
+`--config` (see above). This argument can be used with any configuration file
+type and makes it possible to nest configuration data within another file like
+`package.json` (e.g., via `/key` or `/key/subkey`).
+
+For example, a `package.json` file like this:
+
+```json
+{
+  "...": "...",
+  "markdownlint-cli2": {
+    "config": {
+      "no-multiple-blanks": false
+    },
+    "noProgress": true
+  }
+}
+```
+
+Could be used like this:
+
+```bash
+markdownlint-cli2 --config package.json --configPointer /markdownlint-cli2 "*.md"
+```
 
 ### Container Image
 
@@ -258,7 +284,6 @@ supported by the `--format` command-line parameter. When `--format` is set:
       2. `.markdownlint-cli2.yaml`
       3. `.markdownlint-cli2.cjs`
       4. `.markdownlint-cli2.mjs`
-      5. `package.json` (only supported in the current directory)
   - Configuration files like `.markdownlint.*` allow control over only the
     `markdownlint` `config` object and tend to be supported more broadly (such
     as by `markdownlint-cli`).
@@ -399,15 +424,6 @@ supported by the `--format` command-line parameter. When `--format` is set:
 - For example: [`.markdownlint-cli2.cjs`][markdownlint-cli2-cjs] or
   [`.markdownlint-cli2.mjs`][markdownlint-cli2-mjs]
 
-### `package.json`
-
-- The format of this file is a standard [npm `package.json`][package-json] file
-  including a `markdownlint-cli2` property at the root and a value corresponding
-  to the object described above for `.markdownlint-cli2.jsonc`.
-- `package.json` is only supported in the current directory.
-- `package.json` is not supported by the `--config` argument.
-- For example: [`package-json-sample`][package-json-sample]
-
 ### `.markdownlint.jsonc` or `.markdownlint.json`
 
 - The format of this file is a [JSONC][jsonc] or [JSON][json] object matching
@@ -482,6 +498,7 @@ See [CHANGELOG.md][changelog].
 [homebrew]: https://brew.sh
 [html-comment]: https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started
 [json]: https://wikipedia.org/wiki/JSON
+[json-pointer]: https://datatracker.ietf.org/doc/html/rfc6901
 [json-schema]: https://json-schema.org
 [jsonc]: https://code.visualstudio.com/Docs/languages/json#_json-with-comments
 [license-image]: https://img.shields.io/npm/l/markdownlint-cli2.svg
@@ -521,8 +538,6 @@ See [CHANGELOG.md][changelog].
 [npm-image]: https://img.shields.io/npm/v/markdownlint-cli2.svg
 [npm-url]: https://www.npmjs.com/package/markdownlint-cli2
 [output-formatters]: doc/OutputFormatters.md
-[package-json]: https://docs.npmjs.com/cli/v9/configuring-npm/package-json
-[package-json-sample]: test/package-json/package.json
 [pre-commit]: https://pre-commit.com/
 [pre-commit-version]: https://pre-commit.com/#overriding-language-version
 [regexp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp

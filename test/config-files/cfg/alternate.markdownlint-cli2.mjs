@@ -5,7 +5,8 @@ const options = {
     "no-trailing-spaces": false,
     "no-multiple-space-atx": false,
     "single-trailing-newline": false
-  }
+  },
+  "noBanner": true
 };
 
 export default options;

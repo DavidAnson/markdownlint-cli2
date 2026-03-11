@@ -749,15 +749,55 @@ const testCases = (/** @type {TestConfiguration} */ {
     });
   }
 
+  /** @type { [ string, string, number, RegExp | undefined ][] } */
+  const configPointerFiles = [
+    [ "config.json", "invalid", 2, /Invalid JSON pointer./u ],
+    [ "config.json", "", 1, undefined ],
+    [ "config.json", "/extra", 1, undefined ],
+    [ "config.json", "/null", 1, undefined ],
+    [ "config.json", "/number", 1, undefined ],
+    [ "config.json", "/string", 1, undefined ],
+    [ "config-nested.json", "invalid", 2, /Invalid JSON pointer./u ],
+    [ "config-nested.json", "/nested", 1, undefined ],
+    [ "config-nested.json", "/nested/extra", 1, undefined ],
+    [ "config-nested.json", "/null", 1, undefined ],
+    [ "config-nested.json", "/number", 1, undefined ],
+    [ "config-nested.json", "/string", 1, undefined ],
+    [ "config-nested-nested.json", "/missing", 1, undefined ],
+    [ "config-nested-nested.json", "/outer/inner", 1, undefined ],
+    [ "config-nested-nested.json", "/outer/inner/extra", 1, undefined ],
+    [ "options-nested.yaml", "invalid", 2, /Invalid JSON pointer./u ],
+    [ "options-nested.yaml", "/nested", 1, undefined ],
+    [ "options-nested.yaml", "/nested/extra", 1, undefined ],
+    [ "options-nested.yaml", "/null", 1, undefined ],
+    [ "options-nested.yaml", "/number", 1, undefined ],
+    [ "options-nested.yaml", "/string", 1, undefined ],
+    [ "options-nested-nested.yaml", "/missing", 1, undefined ],
+    [ "options-nested-nested.yaml", "/outer/inner", 1, undefined ],
+    [ "options-nested-nested.yaml", "/outer/inner/extra", 1, undefined ]
+  ];
+  for (const [ configPointerFile, configPointer, exitCode, stderrRe ] of configPointerFiles) {
+    testCase({
+      "name": `config-files-${configPointerFile}-${configPointer}-arg`,
+      "args": [ "--config", `cfg/${configPointerFile}`, "--configPointer", configPointer, "**/*.md" ],
+      exitCode,
+      stderrRe,
+      "cwd": "config-files"
+    });
+  }
+
   const unableToParseJsonc = "Unable to parse JSONC content";
   const unableToParseYaml = "duplicated mapping key";
   const unableToRequireOrImport = "Unable to import module";
   const invalidConfigFiles = [
     [ "invalid.markdownlint-cli2.jsonc", unableToParseJsonc ],
+    [ "invalid.markdownlint-cli2.yaml", unableToParseYaml ],
     [ "invalid.markdownlint-cli2.cjs", unableToRequireOrImport ],
     [ "invalid.markdownlint-cli2.mjs", unableToRequireOrImport ],
     [ "invalid.markdownlint.json", unableToParseJsonc ],
+    [ "invalid.markdownlint.jsonc", unableToParseJsonc ],
     [ "invalid.markdownlint.yaml", unableToParseYaml ],
+    [ "invalid.markdownlint.yml", unableToParseYaml ],
     [ "invalid.markdownlint.cjs", unableToRequireOrImport ],
     [ "invalid.markdownlint.mjs", unableToRequireOrImport ]
   ];
@@ -839,40 +879,22 @@ const testCases = (/** @type {TestConfiguration} */ {
 
   testCase({
     "name": "package-json",
-    "args": [ "**/*.md" ],
+    "args": [ "--config", "package.json", "--configPointer", "/markdownlint-cli2", "**/*.md" ],
     "exitCode": 1
   });
 
   testCase({
     "name": "package-json-fix",
-    "args": [ "**/*.md" ],
+    "args": [ "--config", "package.json", "--configPointer", "/markdownlint-cli2", "**/*.md" ],
     "exitCode": 1,
     "isolate": true
   });
 
   testCase({
     "name": "package-json-invalid",
-    "args": [ "**/*.md" ],
+    "args": [ "--config", "package.json", "--configPointer", "/markdownlint-cli2", "**/*.md" ],
     "exitCode": 2,
     "stderrRe": /'[^']*package\.json'.*Unable to parse JSONC content/u
-  });
-
-  testCase({
-    "name": "package-json-null",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "package-json-number",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "package-json-nested",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
   });
 
   testCase({

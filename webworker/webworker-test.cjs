@@ -180,7 +180,7 @@ QUnit.test("workspace", (assert) => {
   assert.expect(1);
   return markdownlintCli2.main({
     "fs": new FsVirtual(files),
-    "argv": [ "**/*.md" ],
+    "argv": [ "--config", "package.json", "--configPointer", "/markdownlint-cli2", "**/*.md" ],
     "optionsOverride": {
       "outputFormatters": [ [ outputFormatterLengthIs(assert, 7) ] ]
     }

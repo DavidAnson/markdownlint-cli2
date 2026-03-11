@@ -7,6 +7,7 @@ import pathDefault from "node:path";
 const pathPosix = pathDefault.posix;
 import { pathToFileURL } from "node:url";
 import { globby } from "globby";
+import jsonpointer from "jsonpointer";
 import micromatch from "micromatch";
 import { applyFixes, getVersion, resolveModule } from "markdownlint";
 import { lint, extendConfig, readConfig } from "markdownlint/promise";
@@ -123,7 +124,7 @@ const getExtendedConfig = (/** @type {ExecutionContext} */ context, /** @type {C
 };
 
 // Read an options or config file in any format and return the object
-const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** @type {string} */ configPath) => {
+const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** @type {string} */ configPath, /** @type {string | undefined} */ configPointer) => {
   const { fs, noImport } = context;
   const basename = pathPosix.basename(configPath);
   const dirname = pathPosix.dirname(configPath);
@@ -135,40 +136,19 @@ const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** 
       options = await readJsonc(configPath, fs);
     } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
       options = await readYaml(configPath, fs);
-    } else if (
-      basename.endsWith(".markdownlint-cli2.cjs") ||
-      basename.endsWith(".markdownlint-cli2.mjs")
-    ) {
+    } else if (basename.endsWith(".markdownlint-cli2.cjs") || basename.endsWith(".markdownlint-cli2.mjs")) {
       options = await importModule(dirname, basename, noImport);
-    } else if (
-      basename.endsWith(".markdownlint.jsonc") ||
-      basename.endsWith(".markdownlint.json")
-    ) {
+    } else if (basename.endsWith(".markdownlint.jsonc") || basename.endsWith(".markdownlint.json")) {
       config = await readJsonc(configPath, fs);
-    } else if (
-      basename.endsWith(".markdownlint.yaml") ||
-      basename.endsWith(".markdownlint.yml")
-    ) {
+    } else if (basename.endsWith(".markdownlint.yaml") || basename.endsWith(".markdownlint.yml")) {
       config = await readYaml(configPath, fs);
-    } else if (
-      basename.endsWith(".markdownlint.cjs") ||
-      basename.endsWith(".markdownlint.mjs")
-    ) {
+    } else if (basename.endsWith(".markdownlint.cjs") || basename.endsWith(".markdownlint.mjs")) {
       config = await importModule(dirname, basename, noImport);
-    } else if (
-      basename.endsWith(".jsonc") ||
-      basename.endsWith(".json")
-    ) {
+    } else if (basename.endsWith(".jsonc") || basename.endsWith(".json")) {
       unknown = await readJsonc(configPath, fs);
-    } else if (
-      basename.endsWith(".yaml") ||
-      basename.endsWith(".yml")
-    ) {
+    } else if (basename.endsWith(".yaml") || basename.endsWith(".yml")) {
       unknown = await readYaml(configPath, fs);
-    } else if (
-      basename.endsWith(".cjs") ||
-      basename.endsWith(".mjs")
-    ) {
+    } else if (basename.endsWith(".cjs") || basename.endsWith(".mjs")) {
       unknown = await importModule(dirname, basename, noImport);
     } else {
       throw new Error(
@@ -180,6 +160,10 @@ const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** 
     }
   } catch (error) {
     throwForConfigurationFile(configPath, error);
+  }
+  if (configPointer) {
+    const objects = [ options, config, unknown ];
+    [ options, config, unknown ] = objects.map((obj) => obj && (jsonpointer.get(obj, configPointer) || {}));
   }
   if (unknown) {
     const keys = Object.keys(unknown);
@@ -238,7 +222,7 @@ const showHelp = (/** @type {Logger} */ logMessage, /** @type {boolean} */ showB
   }
   logMessage(`https://github.com/DavidAnson/markdownlint-cli2
 
-Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--fix] [--format] [--help] [--no-globs]
+Syntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--configPointer pointer] [--fix] [--format] [--help] [--no-globs]
 
 Glob expressions (from the globby library):
 - * matches any number of characters, but not /
@@ -255,11 +239,12 @@ Dot-only glob:
 - To lint every file in the current directory tree, the command "markdownlint-cli2 **" can be used instead
 
 Optional parameters:
-- --config    specifies the path to a configuration file to define the base configuration
-- --fix       updates files to resolve fixable issues (can be overridden in configuration)
-- --format    reads standard input (stdin), applies fixes, writes standard output (stdout)
-- --help      writes this message to the console and exits without doing anything else
-- --no-globs  ignores the "globs" property if present in the top-level options object
+- --config        specifies the path to a configuration file to define the base configuration
+- --configPointer specifies a JSON Pointer to a configuration object within the --config file
+- --fix           updates files to resolve fixable issues (can be overridden in configuration)
+- --format        reads standard input (stdin), applies fixes, writes standard output (stdout)
+- --help          writes this message to the console and exits without doing anything else
+- --no-globs      ignores the "globs" property if present in the top-level options object
 
 Configuration via:
 - .markdownlint-cli2.jsonc
@@ -268,7 +253,6 @@ Configuration via:
 - .markdownlint.jsonc or .markdownlint.json
 - .markdownlint.yaml or .markdownlint.yml
 - .markdownlint.cjs or .markdownlint.mjs
-- package.json
 
 Cross-platform compatibility:
 - UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended
@@ -295,8 +279,7 @@ const optionsFiles = [
   [ ".markdownlint-cli2.jsonc", readJsoncWrapper ],
   [ ".markdownlint-cli2.yaml", readYamlWrapper ],
   [ ".markdownlint-cli2.cjs", importModuleWrapper ],
-  [ ".markdownlint-cli2.mjs", importModuleWrapper ],
-  [ "package.json", (params) => readJsoncWrapper(params).then((/** @type {any} */ obj) => (obj || {})[packageName]) ]
+  [ ".markdownlint-cli2.mjs", importModuleWrapper ]
 ];
 
 /** @type {ConfigurationFileAndHandler[] } */
@@ -339,8 +322,7 @@ const getAndProcessDirInfo = (
   /** @type {Task[]} */ tasks,
   /** @type {DirToDirInfo} */ dirToDirInfo,
   /** @type {string} */ dir,
-  /** @type {string | null} */ relativeDir,
-  /** @type {boolean} */ allowPackageJson
+  /** @type {string | null} */ relativeDir
 ) => {
   // Create dirInfo
   let dirInfo = dirToDirInfo[dir];
@@ -359,12 +341,7 @@ const getAndProcessDirInfo = (
     tasks.push(
 
       // Load markdownlint-cli2 object(s)
-      processFirstMatchingConfigurationFile(
-        context,
-        allowPackageJson ? optionsFiles : optionsFiles.slice(0, -1),
-        dir,
-        (file) => { cli2File = file; }
-      ).
+      processFirstMatchingConfigurationFile(context, optionsFiles, dir, (file) => { cli2File = file; }).
         then((/** @type {Options | null} */ options) => {
           dirInfo.markdownlintOptions = options;
           return options &&
@@ -414,8 +391,7 @@ const getBaseOptions = async (
     tasks,
     dirToDirInfo,
     baseDir,
-    relativeDir,
-    true
+    relativeDir
   );
   await Promise.all(tasks);
   // eslint-disable-next-line no-multi-assign
@@ -502,8 +478,7 @@ const enumerateFiles = async (
       tasks,
       dirToDirInfo,
       dir,
-      null,
-      false
+      null
     );
     dirInfo.files.push(file);
   }
@@ -544,8 +519,7 @@ const enumerateParents = async (
           tasks,
           dirToDirInfo,
           dir,
-          null,
-          false
+          null
         );
       lastDirInfo.parent = dirInfo;
       lastDirInfo = dirInfo;
@@ -893,6 +867,9 @@ export const main = async (/** @type {Parameters} */ params) => {
   /** @type {undefined | null | string} */
   // eslint-disable-next-line unicorn/no-useless-undefined
   let configPath = undefined;
+  /** @type {undefined | null | string} */
+  // eslint-disable-next-line unicorn/no-useless-undefined
+  let configPointer = undefined;
   let useStdin = false;
   let sawDashDash = false;
   let shouldShowHelp = false;
@@ -901,6 +878,8 @@ export const main = async (/** @type {Parameters} */ params) => {
       return true;
     } else if (configPath === null) {
       configPath = arg;
+    } else if (configPointer === null) {
+      configPointer = arg;
     } else if ((arg === "-") && allowStdin) {
       useStdin = true;
       // eslint-disable-next-line unicorn/prefer-switch
@@ -908,6 +887,8 @@ export const main = async (/** @type {Parameters} */ params) => {
       sawDashDash = true;
     } else if (arg === "--config") {
       configPath = null;
+    } else if (arg === "--configPointer") {
+      configPointer = null;
     } else if (arg === "--fix") {
       fixDefault = true;
     } else if (arg === "--format") {
@@ -936,7 +917,7 @@ export const main = async (/** @type {Parameters} */ params) => {
   try {
     if (configPath) {
       const resolvedConfigPath = posixPath(pathDefault.resolve(baseDirSystem, configPath));
-      optionsArgv = await readOptionsOrConfig(context, resolvedConfigPath);
+      optionsArgv = await readOptionsOrConfig(context, resolvedConfigPath, configPointer);
       relativeDir = pathPosix.dirname(resolvedConfigPath);
     }
     // Process arguments and get base options

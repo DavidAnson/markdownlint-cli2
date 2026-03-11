@@ -1,12 +1,11 @@
-// @ts-check
-
-const options = {
-  "config": {
+{
+  "nested": {
+    "extends": "base.jsonc",
     "no-trailing-spaces": false,
     "no-multiple-space-atx": false,
     "single-trailing-newline": false
   },
-  "noBanner": true
-};
-
-export default options;
+  "null": null,
+  "number": 5,
+  "string": "str"
+}

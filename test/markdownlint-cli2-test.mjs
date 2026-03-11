@@ -149,7 +149,7 @@ test("validateMarkdownlintConfigSchema", async (t) => {
 });
 
 test("validateMarkdownlintCli2ConfigSchema", async (t) => {
-  t.plan(93);
+  t.plan(92);
 
   // Validate schema
   // @ts-ignore
@@ -530,7 +530,7 @@ test("custom fs, extension scenario for untitled", (t) => {
   }).
     then((exitCode) => {
       t.is(exitCode, 1);
-      t.is(accessCalls, 11);
+      t.is(accessCalls, 10);
     });
 });
 
