@@ -11,7 +11,6 @@ import yamlParse from "./yaml-parse.mjs";
 const parsers = [
   jsoncParse,
   yamlParse,
-  // TOML files can be (incorrectly) read by yamlParse (but not vice versa), so tomlParse needs to go before yamlParse
   tomlParse
 ];
 

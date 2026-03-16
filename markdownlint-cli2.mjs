@@ -15,7 +15,7 @@ import { expandTildePath } from "markdownlint/helpers";
 import appendToArray from "./append-to-array.mjs";
 import { cli2SchemaKeys, libraryName, packageName, packageVersion } from "./constants.mjs";
 import mergeOptions from "./merge-options.mjs";
-import boop from "./parsers/parsers.mjs";
+import allParsers from "./parsers/parsers.mjs";
 import jsoncParse from "./parsers/jsonc-parse.mjs";
 import tomlParse from "./parsers/toml-parse.mjs";
 import yamlParse from "./parsers/yaml-parse.mjs";
@@ -37,11 +37,11 @@ const negateGlob = (/** @type {string} */ glob) => `!${glob}`;
 // Reads and parses a JSONC file
 const readJsonc = (/** @type {string} */ file, /** @type {FsLike} */ fs) => fs.promises.readFile(file, utf8).then(jsoncParse);
 
-// Reads and parses a YAML file
-const readYaml = (/** @type {string} */ file, /** @type {FsLike} */ fs) => fs.promises.readFile(file, utf8).then(yamlParse);
-
 // Reads and parses a TOML file
 const readToml = (/** @type {string} */ file, /** @type {FsLike} */ fs) => fs.promises.readFile(file, utf8).then(tomlParse);
+
+// Reads and parses a YAML file
+const readYaml = (/** @type {string} */ file, /** @type {FsLike} */ fs) => fs.promises.readFile(file, utf8).then(yamlParse);
 
 // Throws a meaningful exception for an unusable configuration file
 const throwForConfigurationFile = (/** @type {string} */ file, /** @type {Error | any} */ error) => {
@@ -914,7 +914,7 @@ export const main = async (/** @type {Parameters} */ params) => {
     return showHelp(logMessage, true);
   }
   /** @type {ExecutionContext} */
-  const context = { baseDir, baseDirSystem, fs, noImport, "parsers": boop };
+  const context = { baseDir, baseDirSystem, fs, noImport, "parsers": allParsers };
   // Read argv configuration file (if relevant and present)
   let optionsArgv = null;
   let relativeDir = null;
