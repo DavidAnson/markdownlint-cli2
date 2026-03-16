@@ -8,8 +8,11 @@ import test from "ava";
 import * as globby from "globby";
 import { __dirname, importWithTypeJson } from "./esm-helpers.mjs";
 const packageJson = await importWithTypeJson(import.meta, "../package.json");
+import { readConfig } from "markdownlint/promise";
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
+import parsers from "../parsers/parsers.mjs";
 import jsoncParse from "../parsers/jsonc-parse.mjs";
+import tomlParse from "../parsers/toml-parse.mjs";
 import yamlParse from "../parsers/yaml-parse.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 import firstLine from "./customRules/rules/first-line.cjs";
@@ -149,7 +152,7 @@ test("validateMarkdownlintConfigSchema", async (t) => {
 });
 
 test("validateMarkdownlintCli2ConfigSchema", async (t) => {
-  t.plan(92);
+  t.plan(94);
 
   // Validate schema
   // @ts-ignore
@@ -197,7 +200,7 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
 });
 
 test("validateExampleObjectsMatch", async (t) => {
-  t.plan(1);
+  t.plan(2);
   const jsonExample = jsoncParse(
     await fs.readFile(
       "./test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc",
@@ -210,7 +213,31 @@ test("validateExampleObjectsMatch", async (t) => {
       "utf8"
     )
   );
-  t.deepEqual(jsonExample, yamlExample);
+  t.deepEqual(yamlExample, jsonExample);
+  const tomlExample = tomlParse(
+    await fs.readFile(
+      "./test/markdownlint-cli2-toml-example/.markdownlint-cli2.toml",
+      "utf8"
+    )
+  );
+  t.deepEqual(tomlExample, jsonExample);
+});
+
+test("parser precedence", (t) => {
+  t.plan(4);
+  /** @type { [ string, string ][] } */
+  const files = [
+    [ "/json", "{ \"value\": true }" ],
+    [ "/toml", "value = true" ],
+    [ "/yaml", "value: true" ]
+  ];
+  t.is(files.length, parsers.length);
+  const fsv = new FsVirtual(files);
+  return Promise.all(files.map(async ([ name ]) => {
+    // @ts-ignore
+    const config = await readConfig(name, parsers, fsv);
+    t.deepEqual(config, { "value": true });
+  }));
 });
 
 test("absolute path to directory glob", async (t) => {

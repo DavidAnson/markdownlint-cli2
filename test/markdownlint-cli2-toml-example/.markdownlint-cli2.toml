@@ -1,0 +1,47 @@
+#
+# An example .markdownlint-cli2.toml file
+#
+
+# Include a custom rule package
+customRules = [ "markdownlint-rule-extended-ascii" ]
+
+# Fix any fixable errors
+fix = true
+
+# Define a custom front matter pattern
+frontMatter = "<head>[^]*</head>"
+
+# Ignore files referenced by .gitignore (only valid at root)
+gitignore = true
+
+# Define glob expressions to use (only valid at root)
+globs = [ "!*bout.md" ]
+
+# Define glob expressions to ignore
+ignores = [ "ignore*.md" ]
+
+# Use a plugin to recognize math
+markdownItPlugins = [ [ "markdown-it-emoji/dist/light.cjs.js" ] ]
+
+# Additional paths to resolve module locations from
+modulePaths = [ "./modules" ]
+
+# Disable banner message on stdout (only valid at root)
+noBanner = true
+
+# Disable inline config comments
+noInlineConfig = true
+
+# Disable progress on stdout (only valid at root)
+noProgress = true
+
+# Use a specific formatter (only valid at root)
+outputFormatters = [ [ "markdownlint-cli2-formatter-default" ] ]
+
+# Show found files on stdout (only valid at root)
+showFound = true
+
+# Disable some built-in rules
+[config]
+no-trailing-spaces = false
+no-multiple-blanks = false

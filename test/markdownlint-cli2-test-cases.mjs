@@ -401,21 +401,21 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "markdownlint-json-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint\.json'.*Unable to parse JSONC content/u
+    "stderrRe": /'[^']*\.markdownlint\.json'.*Unable to parse JSONC content/su
   });
 
   testCase({
     "name": "markdownlint-yaml-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint\.yaml'.*duplicated mapping key/u
+    "stderrRe": /'[^']*\.markdownlint\.yaml'.*duplicated mapping key/su
   });
 
   testCase({
     "name": "markdownlint-cjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to import module '.*\.markdownlint\.cjs'/u,
+    "stderrRe": /Unable to import module '.*\.markdownlint\.cjs'/su,
     "usesRequire": true
   });
 
@@ -423,7 +423,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "markdownlint-mjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to import module '.*\.markdownlint\.mjs'/u,
+    "stderrRe": /Unable to import module '.*\.markdownlint\.mjs'/su,
     "usesRequire": true
   });
 
@@ -503,7 +503,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "markdownlint-cli2-jsonc-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.jsonc'.*Unable to parse JSONC content/u
+    "stderrRe": /'[^']*\.markdownlint-cli2\.jsonc'.*Unable to parse JSONC content/su
   });
 
   testCase({
@@ -536,7 +536,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "markdownlint-cli2-yaml-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.yaml'.*duplicated mapping key/u
+    "stderrRe": /'[^']*\.markdownlint-cli2\.yaml'.*duplicated mapping key/su
   });
 
   testCase({
@@ -557,7 +557,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "markdownlint-cli2-cjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.cjs'.*Unable to import module '/u,
+    "stderrRe": /'[^']*\.markdownlint-cli2\.cjs'.*Unable to import module '/su,
     "usesRequire": true
   });
 
@@ -565,7 +565,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "markdownlint-cli2-mjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.mjs'.*Unable to import module '/u,
+    "stderrRe": /'[^']*\.markdownlint-cli2\.mjs'.*Unable to import module '/su,
     "usesRequire": true
   });
 
@@ -700,11 +700,13 @@ const testCases = (/** @type {TestConfiguration} */ {
 
   const configFiles = [
     ".markdownlint-cli2.jsonc",
+    ".markdownlint-cli2.toml",
     ".markdownlint-cli2.yaml",
     ".markdownlint-cli2.cjs",
     ".markdownlint-cli2.mjs",
     ".markdownlint.jsonc",
     ".markdownlint.json",
+    ".markdownlint.toml",
     ".markdownlint.yaml",
     ".markdownlint.yml",
     ".markdownlint.cjs",
@@ -894,7 +896,27 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "package-json-invalid",
     "args": [ "--config", "package.json", "--configPointer", "/markdownlint-cli2", "**/*.md" ],
     "exitCode": 2,
-    "stderrRe": /'[^']*package\.json'.*Unable to parse JSONC content/u
+    "stderrRe": /'[^']*package\.json'.*Unable to parse JSONC content/su
+  });
+
+  testCase({
+    "name": "pyproject-toml",
+    "args": [ "--config", "pyproject.toml", "--configPointer", "/tool/markdownlint-cli2", "**/*.md" ],
+    "exitCode": 1
+  });
+
+  testCase({
+    "name": "pyproject-toml-fix",
+    "args": [ "--config", "pyproject.toml", "--configPointer", "/tool/markdownlint-cli2", "**/*.md" ],
+    "exitCode": 1,
+    "isolate": true
+  });
+
+  testCase({
+    "name": "pyproject-toml-invalid",
+    "args": [ "--config", "pyproject.toml", "--configPointer", "/tool/markdownlint-cli2", "**/*.md" ],
+    "exitCode": 2,
+    "stderrRe": /'[^']*pyproject\.toml'.*Invalid TOML document/su
   });
 
   testCase({

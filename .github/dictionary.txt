@@ -36,4 +36,5 @@ SARIF
 schemas
 subdirectories
 syntaxes
+TOML
 YAML

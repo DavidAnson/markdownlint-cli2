@@ -12,6 +12,7 @@ const exportMappings = new Map([
   [ "./markdownlint/promise", "markdownlint/promise" ],
   [ "./parsers", "../parsers/parsers.mjs" ],
   [ "./parsers/jsonc", "../parsers/jsonc-parse.mjs" ],
+  [ "./parsers/toml", "../parsers/toml-parse.mjs" ],
   [ "./parsers/yaml", "../parsers/yaml-parse.mjs" ]
 ]);
 

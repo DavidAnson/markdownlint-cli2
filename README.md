@@ -142,15 +142,15 @@ markdownlint-cli2 --config "config/.markdownlint-cli2.jsonc" "**/*.md" "#node_mo
 The configuration file name should be (or end with) one of the supported names
 above. For example, `.markdownlint.json` or `example.markdownlint-cli2.jsonc`.
 Alternatively, the configuration file name should have a supported extension
-like `.jsonc`, `.yaml`, or `.mjs` and its kind (see below) will be inferred. The
-configuration file will be loaded, parsed, and applied as a base configuration
-for the current directory - which will then be handled normally.
+like `.jsonc`, `.yaml`, `.mjs`, or `.toml` and its kind (see below) will be
+inferred. The configuration file will be loaded, parsed, and applied as a base
+configuration for the current directory - which will then be handled normally.
 
 The `--configPointer` argument allows the use of [JSON Pointer][json-pointer]
 syntax to identify a sub-object within the configuration file specified by
 `--config` (see above). This argument can be used with any configuration file
 type and makes it possible to nest configuration data within another file like
-`package.json` (e.g., via `/key` or `/key/subkey`).
+`package.json` or `pyproject.toml` (e.g., via `/key` or `/key/subkey`).
 
 For example, a `package.json` file like this:
 
@@ -171,6 +171,28 @@ Could be used like this:
 ```bash
 markdownlint-cli2 --config package.json --configPointer /markdownlint-cli2 "*.md"
 ```
+
+And a `pyproject.toml` file like this:
+
+```toml
+[project]
+# ...
+
+[tool.markdownlint-cli2]
+noProgress = true
+
+[tool.markdownlint-cli2.config]
+no-multiple-blanks = false
+```
+
+Could be used like this:
+
+```bash
+markdownlint-cli2 --config pyproject.toml --configPointer /tool/markdownlint-cli2 "*.md"
+```
+
+**Note**: The [TOML][toml] format is supported by `--config`, `--configPointer`,
+and the `extends` configuration property, but *not* for per-directory overrides.
 
 ### Container Image
 
@@ -295,6 +317,8 @@ supported by the `--format` command-line parameter. When `--format` is set:
       4. `.markdownlint.yml`
       5. `.markdownlint.cjs`
       6. `.markdownlint.mjs`
+  - Both configuration file types can appear in any directory and will override
+    configuration defined in the project root or any directories in between.
 - The VS Code extension includes a [JSON Schema][json-schema] definition for the
   `JSON(C)` configuration files described below. This adds auto-complete and can
   make it easier to define proper structure.
@@ -309,10 +333,10 @@ supported by the `--format` command-line parameter. When `--format` is set:
 - Valid properties are:
   - `config`: [`markdownlint` `config` object][markdownlint-config] to configure
     rules for this part of the directory tree
-    - If a `.markdownlint.{jsonc,json,yaml,yml,js}` file (see below) is present
-      in the same directory, it overrides the value of this property
+    - If a `.markdownlint.{jsonc,json,yaml,yml,cjs,mjs}` file (see below) is
+      present in the same directory, it overrides the value of this property
     - If the `config` object contains an `extends` property, it will be resolved
-      the same as `.markdownlint.{jsonc,json,yaml,yml,js}` (see below)
+      the same as `.markdownlint.{jsonc,json,yaml,yml,cjs,mjs}` (see below)
   - `customRules`: `Array` of `String`s (or `Array`s of `String`s) of module
     names/paths of [custom rules][markdownlint-custom-rules] to load and use
     when linting
@@ -542,6 +566,7 @@ See [CHANGELOG.md][changelog].
 [pre-commit-version]: https://pre-commit.com/#overriding-language-version
 [regexp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 [regexp-constructor]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp
+[toml]: https://wikipedia.org/wiki/TOML
 [validating-configuration]: schema/ValidatingConfiguration.md
 [vscode]: https://code.visualstudio.com/
 [vscode-markdownlint]: https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint
