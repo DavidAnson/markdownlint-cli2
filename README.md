@@ -175,7 +175,14 @@ markdownlint-cli2 --config package.json --configPointer /markdownlint-cli2 "*.md
 And a `pyproject.toml` file like this:
 
 ```toml
-...
+[project]
+# ...
+
+[tool.markdownlint-cli2]
+noProgress = true
+
+[tool.markdownlint-cli2.config]
+no-multiple-blanks = false
 ```
 
 Could be used like this:
