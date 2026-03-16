@@ -898,6 +898,26 @@ const testCases = (/** @type {TestConfiguration} */ {
   });
 
   testCase({
+    "name": "pyproject-toml",
+    "args": [ "--config", "pyproject.toml", "--configPointer", "/tool/markdownlint-cli2", "**/*.md" ],
+    "exitCode": 1
+  });
+
+  testCase({
+    "name": "pyproject-toml-fix",
+    "args": [ "--config", "pyproject.toml", "--configPointer", "/tool/markdownlint-cli2", "**/*.md" ],
+    "exitCode": 1,
+    "isolate": true
+  });
+
+  testCase({
+    "name": "pyproject-toml-invalid",
+    "args": [ "--config", "pyproject.toml", "--configPointer", "/tool/markdownlint-cli2", "**/*.md" ],
+    "exitCode": 2,
+    "stderrRe": /'[^']*pyproject\.toml'.*Invalid TOML document/u
+  });
+
+  testCase({
     "name": "customRules",
     "args": [ "**/*.md" ],
     "exitCode": 1,

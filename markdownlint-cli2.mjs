@@ -15,7 +15,9 @@ import { expandTildePath } from "markdownlint/helpers";
 import appendToArray from "./append-to-array.mjs";
 import { cli2SchemaKeys, libraryName, packageName, packageVersion } from "./constants.mjs";
 import mergeOptions from "./merge-options.mjs";
+import boop from "./parsers/parsers.mjs";
 import jsoncParse from "./parsers/jsonc-parse.mjs";
+import tomlParse from "./parsers/toml-parse.mjs";
 import yamlParse from "./parsers/yaml-parse.mjs";
 
 /* eslint-disable jsdoc/reject-any-type */
@@ -37,6 +39,9 @@ const readJsonc = (/** @type {string} */ file, /** @type {FsLike} */ fs) => fs.p
 
 // Reads and parses a YAML file
 const readYaml = (/** @type {string} */ file, /** @type {FsLike} */ fs) => fs.promises.readFile(file, utf8).then(yamlParse);
+
+// Reads and parses a TOML file
+const readToml = (/** @type {string} */ file, /** @type {FsLike} */ fs) => fs.promises.readFile(file, utf8).then(tomlParse);
 
 // Throws a meaningful exception for an unusable configuration file
 const throwForConfigurationFile = (/** @type {string} */ file, /** @type {Error | any} */ error) => {
@@ -148,6 +153,8 @@ const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** 
       unknown = await readJsonc(configPath, fs);
     } else if (basename.endsWith(".yaml") || basename.endsWith(".yml")) {
       unknown = await readYaml(configPath, fs);
+    } else if (basename.endsWith(".toml")) {
+      unknown = await readToml(configPath, fs);
     } else if (basename.endsWith(".cjs") || basename.endsWith(".mjs")) {
       unknown = await importModule(dirname, basename, noImport);
     } else {
@@ -906,9 +913,8 @@ export const main = async (/** @type {Parameters} */ params) => {
   if (shouldShowHelp) {
     return showHelp(logMessage, true);
   }
-  const parsers = [ jsoncParse, yamlParse ];
   /** @type {ExecutionContext} */
-  const context = { baseDir, baseDirSystem, fs, noImport, parsers };
+  const context = { baseDir, baseDirSystem, fs, noImport, "parsers": boop };
   // Read argv configuration file (if relevant and present)
   let optionsArgv = null;
   let relativeDir = null;

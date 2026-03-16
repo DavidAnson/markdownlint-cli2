@@ -1,0 +1,6 @@
+[project]
+name = "my-project"
+
+[tool.markdownlint-cli2.config]
+MD032 = false
+no-multiple-blanks = false

@@ -15,6 +15,7 @@
     "./markdownlint/promise": "./export-markdownlint-promise.mjs",
     "./parsers": "./parsers/parsers.mjs",
     "./parsers/jsonc": "./parsers/jsonc-parse.mjs",
+    "./parsers/toml": "./parsers/toml-parse.mjs",
     "./parsers/yaml": "./parsers/yaml-parse.mjs"
   },
   "bin": {
@@ -67,6 +68,7 @@
     "merge-options.mjs",
     "parsers/parsers.mjs",
     "parsers/jsonc-parse.mjs",
+    "parsers/toml-parse.mjs",
     "parsers/yaml-parse.mjs",
     "README.md",
     "schema/markdownlint-cli2-config-schema.json",
@@ -81,7 +83,8 @@
     "markdownlint": "0.40.0",
     "markdownlint-cli2-formatter-default": "0.0.6",
     "markdown-it": "14.1.1",
-    "micromatch": "4.0.8"
+    "micromatch": "4.0.8",
+    "smol-toml": "1.6.0"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

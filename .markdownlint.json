@@ -16,6 +16,7 @@
       "json",
       "markdown",
       "text",
+      "toml",
       "xml",
       "yaml"
     ],

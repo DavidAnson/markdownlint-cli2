@@ -1,6 +1,7 @@
 // @ts-check
 
 import jsoncParse from "./jsonc-parse.mjs";
+import tomlParse from "./toml-parse.mjs";
 import yamlParse from "./yaml-parse.mjs";
 
 /**
@@ -9,7 +10,9 @@ import yamlParse from "./yaml-parse.mjs";
  */
 const parsers = [
   jsoncParse,
-  yamlParse
+  yamlParse,
+  // TOML files can be (incorrectly) read by yamlParse (but not vice versa), so tomlParse needs to go before yamlParse
+  tomlParse
 ];
 
 export default parsers;

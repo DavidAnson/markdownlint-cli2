@@ -142,15 +142,15 @@ markdownlint-cli2 --config "config/.markdownlint-cli2.jsonc" "**/*.md" "#node_mo
 The configuration file name should be (or end with) one of the supported names
 above. For example, `.markdownlint.json` or `example.markdownlint-cli2.jsonc`.
 Alternatively, the configuration file name should have a supported extension
-like `.jsonc`, `.yaml`, or `.mjs` and its kind (see below) will be inferred. The
-configuration file will be loaded, parsed, and applied as a base configuration
-for the current directory - which will then be handled normally.
+like `.jsonc`, `.yaml`, `.mjs`, or `.toml` and its kind (see below) will be
+inferred. The configuration file will be loaded, parsed, and applied as a base
+configuration for the current directory - which will then be handled normally.
 
 The `--configPointer` argument allows the use of [JSON Pointer][json-pointer]
 syntax to identify a sub-object within the configuration file specified by
 `--config` (see above). This argument can be used with any configuration file
 type and makes it possible to nest configuration data within another file like
-`package.json` (e.g., via `/key` or `/key/subkey`).
+`package.json` or `pyproject.toml` (e.g., via `/key` or `/key/subkey`).
 
 For example, a `package.json` file like this:
 
@@ -170,6 +170,18 @@ Could be used like this:
 
 ```bash
 markdownlint-cli2 --config package.json --configPointer /markdownlint-cli2 "*.md"
+```
+
+And a `pyproject.toml` file like this:
+
+```toml
+...
+```
+
+Could be used like this:
+
+```bash
+markdownlint-cli2 --config pyproject.toml --configPointer /tool/markdownlint-cli2 "*.md"
 ```
 
 ### Container Image
