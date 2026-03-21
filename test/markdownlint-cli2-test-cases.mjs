@@ -4,7 +4,6 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "ava";
-import { __dirname } from "./esm-helpers.mjs";
 
 /**
  * @typedef {object} InvokeResult
@@ -53,7 +52,7 @@ const sanitize = (/** @type {string} */ str) => str.
   replace(/\r/gu, "").
   replace(/\bv\d+\.\d+\.\d+\b/gu, "vX.Y.Z").
   replace(/ :.+[/\\]sentinel/gu, " :[PATH]");
-const sameFileSystem = (path.relative(os.homedir(), __dirname(import.meta)) !== __dirname(import.meta));
+const sameFileSystem = (path.relative(os.homedir(), import.meta.dirname) !== import.meta.dirname);
 const isModule = (/** @type {string} */ file) => file.endsWith(".cjs") || file.endsWith(".mjs");
 
 const testCases = (/** @type {TestConfiguration} */ {
@@ -98,7 +97,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     test(`${name} (${host})`, (t) => {
       t.plan(3);
       const relative = (isolate && isolatedDir) || cwd || name;
-      const directory = path.join(__dirname(import.meta), relative);
+      const directory = path.join(import.meta.dirname, relative);
       return setup(shadow || name, isolatedDir).
         then(invoke(relative, args, noImport, env, script)).
         then((/** @type {InvokeResult} */ result) => Promise.all([

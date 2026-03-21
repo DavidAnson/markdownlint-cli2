@@ -1,9 +1,7 @@
 // @ts-check
 
 import test from "ava";
-import { importWithTypeJson } from "./esm-helpers.mjs";
-/** @type {{ exports: object, name: string }} */
-const packageJson = await importWithTypeJson(import.meta, "../package.json");
+import packageJson from "../package.json" with { "type": "json" };
 
 const exportMappings = new Map([
   [ ".", "../markdownlint-cli2.mjs" ],

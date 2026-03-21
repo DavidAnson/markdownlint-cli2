@@ -6,8 +6,7 @@ import path from "node:path";
 import Ajv from "ajv";
 import test from "ava";
 import * as globby from "globby";
-import { __dirname, importWithTypeJson } from "./esm-helpers.mjs";
-const packageJson = await importWithTypeJson(import.meta, "../package.json");
+import packageJson from "../package.json" with { "type": "json" };
 import { readConfig } from "markdownlint/promise";
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import parsers from "../parsers/parsers.mjs";
@@ -18,8 +17,8 @@ import FsVirtual from "../webworker/fs-virtual.cjs";
 import firstLine from "./customRules/rules/first-line.cjs";
 
 const schemaIdVersionRe = /^.*v(?<version>\d+\.\d+\.\d+).*$/u;
-const markdownlintConfigSchemaDefinition = await importWithTypeJson(import.meta, "../schema/markdownlint-config-schema.json");
-const markdownlintCli2ConfigSchemaDefinition = await importWithTypeJson(import.meta, "../schema/markdownlint-cli2-config-schema.json");
+import markdownlintConfigSchemaDefinition from "../schema/markdownlint-config-schema.json" with { "type": "json" };
+import markdownlintCli2ConfigSchemaDefinition from "../schema/markdownlint-cli2-config-schema.json" with { "type": "json" };
 
 const outputFormatterLengthIs = (/** @type {import("ava").ExecutionContext<unknown>} */ t, /** @type {number} */ length) => (/** @type {import("../markdownlint-cli2.mjs").OutputFormatterOptions} */ options) => {
   const { results } = options;
@@ -58,6 +57,7 @@ test("version numbers match", async (t) => {
     "./schema/markdownlint-cli2-config-schema.json",
     "./schema/markdownlint-config-schema.json"
   ];
+  /** @type { [ string, RegExp ][] } */
   const packages = [
     // eslint-disable-next-line prefer-named-capture-group
     [ packageJson.version, /(?:DavidAnson\/markdownlint-cli2\/|markdownlint-cli2\/blob\/|davidanson\/markdownlint-cli2(?:-rules)?:|rev: )v(\d+\.\d+\.\d+)/gu ],
@@ -363,7 +363,7 @@ test("alternate file contents with ignores", (t) => {
 test("extension scenario, file, no changes", (t) => {
   t.plan(2);
   return markdownlintCli2({
-    "directory": __dirname(import.meta),
+    "directory": import.meta.dirname,
     "argv": [ ":./markdownlint-json/viewme.md" ],
     "optionsOverride": {
       // @ts-ignore
@@ -376,7 +376,7 @@ test("extension scenario, file, no changes", (t) => {
 test("extension scenario, file, changes", (t) => {
   t.plan(2);
   return markdownlintCli2({
-    "directory": __dirname(import.meta),
+    "directory": import.meta.dirname,
     "argv": [ ":./markdownlint-json/viewme.md" ],
     "fileContents": {
       "./markdownlint-json/viewme.md": "# Title\n\n> Tagline \n\n\n"
@@ -392,7 +392,7 @@ test("extension scenario, file, changes", (t) => {
 test("extension scenario, no file", (t) => {
   t.plan(2);
   return markdownlintCli2({
-    "directory": __dirname(import.meta),
+    "directory": import.meta.dirname,
     "argv": [],
     "nonFileContents": {
       "untitled-1": "# Title\n\nText\t\n"
@@ -408,7 +408,7 @@ test("extension scenario, no file", (t) => {
 test("extension scenario, no file, empty", (t) => {
   t.plan(2);
   return markdownlintCli2({
-    "directory": __dirname(import.meta),
+    "directory": import.meta.dirname,
     "argv": [],
     "nonFileContents": {
       "untitled-1": ""
@@ -433,7 +433,7 @@ test("extension scenario, ignores handled", (t) => {
   };
   const argv = Object.keys(fileContents).map((key) => `:${key}`);
   return markdownlintCli2({
-    "directory": path.join(__dirname(import.meta), "extension-scenario-ignores"),
+    "directory": path.join(import.meta.dirname, "extension-scenario-ignores"),
     argv,
     fileContents,
     "optionsOverride": {
@@ -446,7 +446,7 @@ test("extension scenario, ignores handled", (t) => {
 
 test("extension scenario, ignores handled, absolute paths", (t) => {
   t.plan(2);
-  const directory = path.join(__dirname(import.meta), "extension-scenario-ignores");
+  const directory = path.join(import.meta.dirname, "extension-scenario-ignores");
   const fileContents = Object.fromEntries(
     Object.entries({
       "viewme.md": "Heading",
@@ -476,7 +476,7 @@ test("extension scenario, ignores handled, absolute paths", (t) => {
 test("extension scenario, globs ignored/filtered", (t) => {
   t.plan(2);
   return markdownlintCli2({
-    "directory": path.join(__dirname(import.meta), "extension-scenario-globs"),
+    "directory": path.join(import.meta.dirname, "extension-scenario-globs"),
     "argv": [
       ":viewme.md",
       ":dir/viewme.md",
@@ -501,14 +501,14 @@ test("extension scenario, globs ignored/filtered", (t) => {
 test("backslash translation", (t) => {
   t.plan(2);
   return markdownlintCli2({
-    "directory": __dirname(import.meta),
+    "directory": import.meta.dirname,
     "argv": [
       "./markdownlint-json/viewme.md",
       "markdownlint-jsonc/viewme.md",
-      path.join(__dirname(import.meta), "markdownlint-cli2-jsonc/viewme.md"),
+      path.join(import.meta.dirname, "markdownlint-cli2-jsonc/viewme.md"),
       ".\\markdownlint-yml\\viewme.md",
       "markdownlint-yaml\\viewme.md",
-      path.join(__dirname(import.meta), "markdownlint-cli2-yaml\\viewme.md")
+      path.join(import.meta.dirname, "markdownlint-cli2-yaml\\viewme.md")
     ],
     "optionsOverride": {
       // @ts-ignore
@@ -663,7 +663,7 @@ test("custom fs, using node:fs and noImport=true", (t) => {
 test("custom fs, using FsVirtual", async (t) => {
   t.plan(2);
   const baseDir = "/virtual";
-  const directory = path.join(__dirname(import.meta), "markdownlint-cli2-jsonc");
+  const directory = path.join(import.meta.dirname, "markdownlint-cli2-jsonc");
   const files = await FsVirtual.mirrorDirectory(nodeFs, directory, globby, baseDir);
   const exitCode = await markdownlintCli2({
     "directory": baseDir,

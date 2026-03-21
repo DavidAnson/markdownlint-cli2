@@ -5,11 +5,10 @@ import nodePath from "node:path";
 import { promisify } from "node:util";
 import test from "ava";
 import * as globby from "globby";
-import { __dirname, __filename } from "./esm-helpers.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 
 const basePath = "/virtual";
-const thisFile = nodePath.basename(__filename(import.meta));
+const thisFile = nodePath.basename(import.meta.filename);
 const testFile = nodePath.posix.join(basePath, thisFile);
 const testDir = nodePath.posix.join(basePath, "dir");
 const missingFile = `${basePath}/missing`;
@@ -156,7 +155,7 @@ test("fsVirtual.mirrorDirectory", async (t) => {
   t.plan(1);
   const actual = await FsVirtual.mirrorDirectory(
     nodeFs,
-    nodePath.join(__dirname(import.meta), "globs-and-args"),
+    nodePath.join(import.meta.dirname, "globs-and-args"),
     globby,
     "/virtual"
   );

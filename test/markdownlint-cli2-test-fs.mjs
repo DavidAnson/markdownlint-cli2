@@ -3,13 +3,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import * as globby from "globby";
-import { __dirname } from "./esm-helpers.mjs";
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import { linesEndingWithNewLine } from "./markdownlint-cli2-test-helpers.mjs";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 
-const directory = __dirname(import.meta);
+const directory = import.meta.dirname;
 const baseDir = "/virtual";
 const files = await FsVirtual.mirrorDirectory(fs, directory, globby, baseDir);
 const fsVirtual = new FsVirtual(files);

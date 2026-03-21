@@ -3,7 +3,6 @@
 import { deepEqual } from "node:assert";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { __dirname } from "../esm-helpers.mjs";
 
 /** @type {import("markdownlint").Rule} */
 export default {
@@ -13,7 +12,7 @@ export default {
   "parser": "markdownit",
   "function": (params) => {
     const file = resolve(
-      __dirname(import.meta),
+      import.meta.dirname,
       params.config.file
     );
     const actual = params.parsers.markdownit.tokens;

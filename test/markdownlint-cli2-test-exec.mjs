@@ -4,11 +4,10 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import test from "ava";
 import { execa } from "execa";
-import { __dirname } from "./esm-helpers.mjs";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
 import { copyDir, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
 
-const baseDir = __dirname(import.meta);
+const baseDir = import.meta.dirname;
 
 const repositoryPath = (/** @type {string} */ name) => path.join(baseDir, "..", name);
 

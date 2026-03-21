@@ -3,7 +3,6 @@
 import { mkdir, readFile, rm } from "node:fs/promises";
 import path from "node:path";
 import test from "ava";
-import { __filename } from "./esm-helpers.mjs";
 
 /** @typedef {import("../markdownlint-cli2.mjs").OutputFormatterOptions} OutputFormatterOptions */
 /** @typedef {import("../markdownlint-cli2.mjs").LintResult} LintResult */
@@ -19,7 +18,7 @@ const formatterInfos = [
   [ "template" ]
 ];
 
-const testDirectory = __filename(import.meta).replace(/\..+$/u, "");
+const testDirectory = import.meta.filename.replace(/\..+$/u, "");
 
 test.before("make test directory", () => mkdir(testDirectory));
 
