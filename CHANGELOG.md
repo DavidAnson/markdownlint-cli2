@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.22.0
+
+- Make `--config` parameter more flexible
+- Support TOML with `--config` parameter
+- Add `--configPointer` parameter
+- Update dependencies
+
 ## 0.21.0
 
 - Refactor options/configuration file loading

@@ -1,7 +1,7 @@
 // @ts-check
 
 const packageName = "markdownlint-cli2";
-const packageVersion = "0.21.0";
+const packageVersion = "0.22.0";
 
 const libraryName = "markdownlint";
 
