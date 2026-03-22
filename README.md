@@ -503,6 +503,11 @@ reference to the `repos` list in that project's `.pre-commit-config.yaml` like:
 > Depending on the environment that workflow runs in, it may be necessary to
 > [override the version of Node.js used by pre-commit][pre-commit-version].
 
+Setting the `id` above to `markdownlint-cli2-docker` uses the Docker container
+image instead. That image bundles Node.js and all dependencies and provides the
+most consistent experience because it is not affected by new releases of any
+dependencies.
+
 ## History
 
 See [CHANGELOG.md][changelog].
