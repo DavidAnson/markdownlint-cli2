@@ -194,7 +194,8 @@ const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** 
 const removeIgnoredFiles = (/** @type {string} */ dir, /** @type {string[]} */ files, /** @type {string[]} */ ignores) => (
   micromatch(
     files.map((file) => pathPosix.relative(dir, file)),
-    ignores
+    ignores,
+    { "dot": true }
   ).map((file) => pathPosix.join(dir, file))
 );
 

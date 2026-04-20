@@ -303,6 +303,20 @@ const testCases = (/** @type {TestConfiguration} */ {
   });
 
   testCase({
+    "name": "dotfiles-explicit",
+    "args": [ "--config", ".dotfiles-explicit.markdownlint-cli2.jsonc", "viewme.md", "dir/about.md", ".dir/about.md", "dir/subdir/info.md", ".dir/subdir/info.md", "dir/.subdir/info.md", ".dir/.subdir/info.md" ],
+    "exitCode": 0,
+    "cwd": "dotfiles"
+  });
+
+  testCase({
+    "name": "dotfiles-explicit-literal",
+    "args": [ "--config", ".dotfiles-explicit.markdownlint-cli2.jsonc", ":viewme.md", ":dir/about.md", ":.dir/about.md", ":dir/subdir/info.md", ":.dir/subdir/info.md", ":dir/.subdir/info.md", ":.dir/.subdir/info.md" ],
+    "exitCode": 0,
+    "cwd": "dotfiles"
+  });
+
+  testCase({
     "name": "globs",
     "args": [],
     "exitCode": 1

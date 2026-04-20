@@ -1,0 +1,7 @@
+{
+  "ignores": [
+    "**/viewme.md",
+    "**/about.md",
+    "**/info.md"
+  ]
+}
