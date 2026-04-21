@@ -5,7 +5,7 @@
 const { homedir } = require("os");
 const { relative, resolve } = require("path");
 
-const makeTildePath = (script) => {
+const makeTildePath = (/** @type {string} */ script) => {
   const dir = resolve(__dirname, script);
   return `~/${relative(homedir(), dir)}`;
 };

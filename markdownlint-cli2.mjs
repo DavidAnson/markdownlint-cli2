@@ -60,7 +60,7 @@ const resolveModulePaths = (/** @type {string} */ dir, /** @type {string[]} */ m
 );
 
 // Import a module ID with a custom directory in the path
-const importModule = async (/** @type {string[] | string} */ dirOrDirs, /** @type {string} */ id, /** @type {boolean} */ noImport) => {
+const importModule = async (/** @type {string[] | string} */ dirOrDirs, /** @type {any} */ id, /** @type {boolean} */ noImport) => {
   if (typeof id !== "string") {
     return id;
   } else if (noImport) {
@@ -95,7 +95,7 @@ const importModule = async (/** @type {string[] | string} */ dirOrDirs, /** @typ
 };
 
 // Import an array of modules by ID
-const importModuleIds = (/** @type {string[]} */ dirs, /** @type {string[]} */ ids, /** @type {boolean} */ noImport) => (
+const importModuleIds = (/** @type {string[]} */ dirs, /** @type {any[]} */ ids, /** @type {boolean} */ noImport) => (
   Promise.all(
     ids.map(
       (id) => importModule(dirs, id, noImport)
@@ -104,7 +104,7 @@ const importModuleIds = (/** @type {string[]} */ dirs, /** @type {string[]} */ i
 );
 
 // Import an array of modules by ID (preserving parameters)
-const importModuleIdsAndParams = (/** @type {string[]} */ dirs, /** @type {string[][]} */ idsAndParams, /** @type {boolean} */ noImport) => (
+const importModuleIdsAndParams = (/** @type {string[]} */ dirs, /** @type {any[][]} */ idsAndParams, /** @type {boolean} */ noImport) => (
   Promise.all(
     idsAndParams.map(
       (idAndParams) => importModule(dirs, idAndParams[0], noImport).
@@ -1064,7 +1064,7 @@ export const main = async (/** @type {Parameters} */ params) => {
 /**
  * @typedef Parameters
  * @property {boolean} [allowStdin] Allow stdin.
- * @property {string[]} argv Arguments.
+ * @property {string[]} [argv] Arguments.
  * @property {string} [directory] Directory.
  * @property {Record<string, string>} [fileContents] File contents.
  * @property {FsLike} [fs] File system object.
@@ -1106,7 +1106,7 @@ export const main = async (/** @type {Parameters} */ params) => {
 
 /** @typedef {[string]} MarkdownItPluginConfiguration */
 
-/** @typedef {[string]} OutputFormatterConfiguration */
+/** @typedef {[OutputFormatter, ...any]} OutputFormatterConfiguration */
 
 /** @typedef {import("markdownlint").Rule} Rule */
 
@@ -1147,6 +1147,13 @@ export const main = async (/** @type {Parameters} */ params) => {
  * @callback Logger
  * @param {string} msg Message.
  * @returns {void}
+ */
+
+/**
+ * @callback OutputFormatter
+ * @param {OutputFormatterOptions} options
+ * @param {...any} parameters
+ * @returns {Promise<void> | void}
  */
 
 /**

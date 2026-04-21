@@ -110,7 +110,6 @@ test("validateMarkdownlintConfigSchema", async (t) => {
   t.plan(27);
 
   // Validate schema
-  // @ts-ignore
   const ajv = new Ajv({
     "allowUnionTypes": true
   });
@@ -155,7 +154,6 @@ test("validateMarkdownlintCli2ConfigSchema", async (t) => {
   t.plan(96);
 
   // Validate schema
-  // @ts-ignore
   const ajv = new Ajv({
     "allowUnionTypes": true,
     "strictTuples": false
@@ -289,7 +287,6 @@ test("main options override", (t) => {
         "no-trailing-spaces": false
       },
       "fix": false,
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 2) ] ]
     }
   }).
@@ -332,7 +329,6 @@ test("alternate file contents", (t) => {
     fileContents,
     nonFileContents,
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 7) ] ]
     }
   }).
@@ -353,7 +349,6 @@ test("alternate file contents with ignores", (t) => {
     fileContents,
     "optionsOverride": {
       "fix": false,
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 4) ] ]
     }
   }).
@@ -366,7 +361,6 @@ test("extension scenario, file, no changes", (t) => {
     "directory": import.meta.dirname,
     "argv": [ ":./markdownlint-json/viewme.md" ],
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 4) ] ]
     }
   }).
@@ -382,7 +376,6 @@ test("extension scenario, file, changes", (t) => {
       "./markdownlint-json/viewme.md": "# Title\n\n> Tagline \n\n\n"
     },
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 1) ] ]
     }
   }).
@@ -398,7 +391,6 @@ test("extension scenario, no file", (t) => {
       "untitled-1": "# Title\n\nText\t\n"
     },
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 2) ] ]
     }
   }).
@@ -414,7 +406,6 @@ test("extension scenario, no file, empty", (t) => {
       "untitled-1": ""
     },
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 0) ] ]
     }
   }).
@@ -437,7 +428,6 @@ test("extension scenario, ignores handled", (t) => {
     argv,
     fileContents,
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 6) ] ]
     }
   }).
@@ -466,7 +456,6 @@ test("extension scenario, ignores handled, absolute paths", (t) => {
     argv,
     fileContents,
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 6) ] ]
     }
   }).
@@ -491,7 +480,6 @@ test("extension scenario, globs ignored/filtered", (t) => {
     },
     "noGlobs": true,
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 4) ] ]
     }
   }).
@@ -511,7 +499,6 @@ test("backslash translation", (t) => {
       path.join(import.meta.dirname, "markdownlint-cli2-yaml\\viewme.md")
     ],
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 24) ] ]
     }
   }).
@@ -543,7 +530,6 @@ test("custom fs, extension scenario for untitled", (t) => {
       "name": "Text"
     },
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 1) ] ]
     },
     "fs": {
@@ -600,7 +586,6 @@ test("custom fs, file and path including/escaping ':'", (t) => {
     "directory": "/dir",
     "argv": names,
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 6) ] ]
     },
     "fs": new FsVirtual(files)
@@ -616,7 +601,6 @@ test("custom fs, using node:fs", (t) => {
     "directory": "test/markdownlint-cli2-jsonc",
     "argv": [ "**/*.md" ],
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
     },
     "fs": nodeFs
@@ -632,7 +616,6 @@ test("custom fs, using node:fs and noImport=false", (t) => {
     "directory": "test/markdownlint-cjs",
     "argv": [ "**/*.md" ],
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 11) ] ]
     },
     "fs": nodeFs,
@@ -649,7 +632,6 @@ test("custom fs, using node:fs and noImport=true", (t) => {
     "directory": "test/markdownlint-cjs",
     "argv": [ "**/*.md" ],
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 14) ] ]
     },
     "fs": nodeFs,
@@ -669,7 +651,6 @@ test("custom fs, using FsVirtual", async (t) => {
     "directory": baseDir,
     "argv": [ "**/*.md", "viewme.md" ],
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 10) ] ]
     },
     "fs": new FsVirtual(files),
@@ -749,7 +730,6 @@ test ("- not supported by main entry point", (t) => {
   return markdownlintCli2({
     "argv": [ "-" ],
     "optionsOverride": {
-      // @ts-ignore
       "outputFormatters": [ [ outputFormatterLengthIs(t, 0) ] ]
     }
   }).

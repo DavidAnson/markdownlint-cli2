@@ -6,7 +6,6 @@ import mergeOptions from "../merge-options.mjs";
 test("null/null", (t) => {
   t.plan(1);
   t.deepEqual(
-    // @ts-ignore
     mergeOptions(null, null),
     {}
   );

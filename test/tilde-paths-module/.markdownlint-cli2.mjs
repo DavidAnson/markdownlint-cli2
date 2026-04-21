@@ -4,7 +4,7 @@ import { homedir } from "os";
 import { dirname, relative, resolve } from "path";
 import { fileURLToPath } from "url";
 
-const makeTildePath = (script) => {
+const makeTildePath = (/** @type {string} */ script) => {
   const dir = resolve(
     dirname(fileURLToPath(import.meta.url)),
     script
