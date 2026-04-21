@@ -317,6 +317,12 @@ const testCases = (/** @type {TestConfiguration} */ {
   });
 
   testCase({
+    "name": "dotfiles-nested",
+    "args": [ "**/*.md" ],
+    "exitCode": 0
+  });
+
+  testCase({
     "name": "globs",
     "args": [],
     "exitCode": 1
