@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.22.1
+
+- Update dependencies
+
 ## 0.22.0
 
 - Make `--config` parameter more flexible
@@ -14,7 +18,7 @@
 
 ## 0.20.0
 
-- Update dependencies
+- Update dependencies (including `markdownlint`)
 
 ## 0.19.1
 
