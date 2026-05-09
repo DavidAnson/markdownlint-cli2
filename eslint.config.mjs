@@ -59,12 +59,18 @@ export default [
       "@stylistic/operator-linebreak": [ "error", "after", { "overrides": { "?": "before", ":": "before" } } ],
       "@stylistic/padded-blocks": "off",
 
-      "n/no-unsupported-features/node-builtins": [ "error", { "version": "^20.12.0 || ^21.7.0 || ^22.16.0 || >=23.5.0" } ],
-
       "unicorn/no-null": "off",
       "unicorn/prefer-string-raw": "off",
       "unicorn/prefer-string-replace-all": "off",
       "unicorn/prevent-abbreviations": "off"
+    }
+  },
+  {
+    "files": [
+      "test/**/*.mjs"
+    ],
+    "rules": {
+      "n/no-unsupported-features/node-builtins": [ "error", { "version": ">=22.16.0" } ]
     }
   },
   {
