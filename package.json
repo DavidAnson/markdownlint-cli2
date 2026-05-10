@@ -97,7 +97,7 @@
     "cpy-cli": "7.0.0",
     "eslint": "10.3.0",
     "eslint-plugin-jsdoc": "62.9.0",
-    "eslint-plugin-n": "17.24.0",
+    "eslint-plugin-n": "18.0.1",
     "eslint-plugin-unicorn": "64.0.0",
     "execa": "9.6.1",
     "markdown-it-emoji": "3.0.0",
