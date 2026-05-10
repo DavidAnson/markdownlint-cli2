@@ -49,7 +49,7 @@ incorporate code from other projects is not allowed.
 
 Thank you!
 
-[example-com]: https://en.wikipedia.org/wiki/Example.com
+[example-com]: https://wikipedia.org/wiki/Example.com
 [github-issues]: https://github.com/DavidAnson/markdownlint-cli2/issues
 [linking-pull-request]: https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword
 [version-pinning]: https://dlaa.me/blog/post/versionpinning
