@@ -70,7 +70,7 @@ export default [
       "test/**/*.mjs"
     ],
     "rules": {
-      "n/no-unsupported-features/node-builtins": [ "error", { "version": ">=22.16.0" } ]
+      "n/no-unsupported-features/node-builtins": [ "error", { "allowExperimental": true } ]
     }
   },
   {
