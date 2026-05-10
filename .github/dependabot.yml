@@ -4,58 +4,78 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 10
     target-branch: "next"
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 10
     target-branch: "next"
     versioning-strategy: "increase"
   - package-ecosystem: "npm"
     directory: "/formatter-codequality"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 10
     target-branch: "next"
     versioning-strategy: "increase"
   - package-ecosystem: "npm"
     directory: "/formatter-default"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 10
     target-branch: "next"
     versioning-strategy: "increase"
   - package-ecosystem: "npm"
     directory: "/formatter-json"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 10
     target-branch: "next"
     versioning-strategy: "increase"
   - package-ecosystem: "npm"
     directory: "/formatter-junit"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 10
     target-branch: "next"
     versioning-strategy: "increase"
   - package-ecosystem: "npm"
     directory: "/formatter-pretty"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 10
     target-branch: "next"
     versioning-strategy: "increase"
   - package-ecosystem: "npm"
     directory: "/formatter-sarif"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 10
     target-branch: "next"
     versioning-strategy: "increase"
   - package-ecosystem: "npm"
     directory: "/formatter-summarize"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 10
     target-branch: "next"
     versioning-strategy: "increase"
   - package-ecosystem: "npm"
     directory: "/formatter-template"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 10
     target-branch: "next"
     versioning-strategy: "increase"
