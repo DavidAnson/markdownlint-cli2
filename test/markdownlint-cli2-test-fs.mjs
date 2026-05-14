@@ -2,6 +2,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import test from "node:test";
 import * as globby from "globby";
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import { linesEndingWithNewLine } from "./markdownlint-cli2-test-helpers.mjs";
@@ -56,14 +57,18 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
     }));
 };
 
-testCases({
-  "host": "fs",
-  baseDir,
-  invoke,
-  copyDir,
-  removeDir,
-  "includeNoImport": true,
-  "includeEnv": false,
-  "includeScript": false,
-  "includeRequire": false
+test.suite(import.meta.url.replace(/^.*?(?<name>[^/]*)$/u, "$<name>"), () => {
+
+  testCases({
+    "host": "fs",
+    baseDir,
+    invoke,
+    copyDir,
+    removeDir,
+    "includeNoImport": true,
+    "includeEnv": false,
+    "includeScript": false,
+    "includeRequire": false
+  });
+
 });

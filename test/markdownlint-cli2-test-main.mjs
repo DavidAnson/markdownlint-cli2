@@ -1,6 +1,7 @@
 // @ts-check
 
 import path from "node:path";
+import test from "node:test";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
 import { copyDir, linesEndingWithNewLine, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
@@ -34,14 +35,18 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
     }));
 };
 
-testCases({
-  "host": "main",
-  baseDir,
-  invoke,
-  copyDir,
-  removeDir,
-  "includeNoImport": true,
-  "includeEnv": false,
-  "includeScript": false,
-  "includeRequire": true
+test.suite(import.meta.url.replace(/^.*?(?<name>[^/]*)$/u, "$<name>"), () => {
+
+  testCases({
+    "host": "main",
+    baseDir,
+    invoke,
+    copyDir,
+    removeDir,
+    "includeNoImport": true,
+    "includeEnv": false,
+    "includeScript": false,
+    "includeRequire": true
+  });
+
 });

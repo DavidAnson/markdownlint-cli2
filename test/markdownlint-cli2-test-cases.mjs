@@ -3,7 +3,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import test from "ava";
+import test from "node:test";
 
 /**
  * @typedef {object} InvokeResult
@@ -94,11 +94,11 @@ const testCases = (/** @type {TestConfiguration} */ {
     ) {
       return;
     }
-    test(`${name} (${host})`, (t) => {
+    test(`${name} (${host})`, async (t) => {
       t.plan(3);
       const relative = (isolate && isolatedDir) || cwd || name;
       const directory = path.join(import.meta.dirname, relative);
-      return setup(shadow || name, isolatedDir).
+      await setup(shadow || name, isolatedDir).
         then(invoke(relative, args, noImport, env, script)).
         then((/** @type {InvokeResult} */ result) => Promise.all([
           result,
@@ -149,7 +149,7 @@ const testCases = (/** @type {TestConfiguration} */ {
               formatterOutputSarif,
               formatterOutputSarifCustom
             ] = results;
-            t.is(child.exitCode, exitCode);
+            t.assert.equal(child.exitCode, exitCode);
             const actual = {
               "exitCode": child.exitCode,
               "stdout": sanitize(child.stdout),
@@ -160,13 +160,13 @@ const testCases = (/** @type {TestConfiguration} */ {
               "formatterSarif": sanitize(formatterOutputSarif || formatterOutputSarifCustom)
             };
             if (stderrRe) {
-              t.regex(child.stderr, stderrRe);
+              t.assert.match(child.stderr, stderrRe);
               // @ts-ignore
               delete actual.stderr;
             } else {
-              t.true(true);
+              t.assert.equal(true, true);
             }
-            t.snapshot(actual);
+            t.assert.snapshot(actual);
             resolve(null);
           })
         ]));

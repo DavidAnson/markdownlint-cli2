@@ -1,6 +1,6 @@
 // @ts-check
 
-import test from "ava";
+import test from "node:test";
 import packageJson from "../package.json" with { "type": "json" };
 
 const exportMappings = new Map([
@@ -14,34 +14,38 @@ const exportMappings = new Map([
   [ "./parsers/yaml", "../parsers/yaml-parse.mjs" ]
 ]);
 
-test("exportMappings table", (t) => {
-  t.deepEqual(
-    Object.keys(packageJson.exports),
-    [ ...exportMappings.keys() ]
-  );
-});
+test.suite(import.meta.url.replace(/^.*?(?<name>[^/]*)$/u, "$<name>"), () => {
 
-for (const [ exportName, exportPath ] of exportMappings) {
-  test(exportName, async (t) => {
-    const commonJs = exportPath.includes("helpers");
-    const importExportName = await import(exportName.replace(/^\./u, packageJson.name));
-    const importExportPath = await import(exportPath);
-    t.deepEqual(
-      commonJs ? importExportName.default : importExportName,
-      commonJs ? importExportPath.default : importExportPath
+  test("exportMappings table", (t) => {
+    t.assert.deepEqual(
+      Object.keys(packageJson.exports),
+      [ ...exportMappings.keys() ]
     );
   });
-}
 
-test("exported names", async (t) => {
-  t.plan(1);
-  /** @type {Record<string, object>} */
-  const exportedNames = {};
-  for (const [ exportName ] of exportMappings) {
-    const exportByName = exportName.replace(/^\./u, packageJson.name);
-    // eslint-disable-next-line no-await-in-loop
-    const importExportByName = await import(exportByName);
-    exportedNames[exportByName] = Object.keys(importExportByName);
+  for (const [ exportName, exportPath ] of exportMappings) {
+    test(exportName, async (t) => {
+      const commonJs = exportPath.includes("helpers");
+      const importExportName = await import(exportName.replace(/^\./u, packageJson.name));
+      const importExportPath = await import(exportPath);
+      t.assert.deepEqual(
+        commonJs ? importExportName.default : importExportName,
+        commonJs ? importExportPath.default : importExportPath
+      );
+    });
   }
-  t.snapshot(exportedNames);
+
+  test("exported names", async (t) => {
+    t.plan(1);
+    /** @type {Record<string, object>} */
+    const exportedNames = {};
+    for (const [ exportName ] of exportMappings) {
+      const exportByName = exportName.replace(/^\./u, packageJson.name);
+      // eslint-disable-next-line no-await-in-loop
+      const importExportByName = await import(exportByName);
+      exportedNames[exportByName] = Object.keys(importExportByName);
+    }
+    t.assert.snapshot(exportedNames);
+  });
+
 });
