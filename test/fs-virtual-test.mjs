@@ -184,3 +184,47 @@ test("fsVirtual mirror of self", async (t) => {
   );
   t.deepEqual(actual, globsAndArgsMirror);
 });
+
+/** @type {[string, string][]} */
+const deletedFileMirror = [
+  [
+    "/file.txt",
+    "[DELETED FILE]"
+  ]
+];
+
+/* eslint-disable jsdoc/no-undefined-types */
+
+class FsDeletedFile {
+  constructor() {
+    this.promises = {
+      "readFile": () => Promise.reject(new Error("Deleted file."))
+    };
+    this.lstat = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException | null, stats: import("fs").Stats) => void)} */ callback) => {
+      const stats = {};
+      // @ts-ignore
+      callback(null, stats);
+    };
+    this.readdir = (/** @type {string} */ path, /** @type {{ "withFileTypes": boolean}=} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: (string | import("fs").Dirent)[]) => void)} */ callback) => {
+      const dirent = {
+        "isDirectory": () => false,
+        "isFile": () => true,
+        "isSymbolicLink": () => false,
+        "name": "file.txt"
+      };
+      // @ts-ignore
+      return (callback || options)(null, [ dirent ]);
+    };
+  }
+}
+
+test("fsVirtual mirror of deleted file", async (t) => {
+  t.plan(1);
+  const actual = await FsVirtual.mirrorDirectory(
+    new FsDeletedFile(),
+    "/",
+    globby,
+    ""
+  );
+  t.deepEqual(actual, deletedFileMirror);
+});
