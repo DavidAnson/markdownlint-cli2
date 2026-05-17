@@ -51,8 +51,7 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
   const content = builder.build();
   return fs.writeFile(
     path.resolve(
-      // eslint-disable-next-line no-inline-comments
-      directory /* c8 ignore next */ || "",
+      directory,
       name || "markdownlint-cli2-junit.xml"
     ),
     content,
