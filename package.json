@@ -45,7 +45,6 @@
     "test-docker-hub-image-rules": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker image rm davidanson/markdownlint-cli2-rules:v$VERSION davidanson/markdownlint-cli2-rules:latest || true && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2-rules:v$VERSION \"*.md\" && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2-rules:latest \"*.md\"",
     "test-docker-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2:v$VERSION \"*.md\"",
     "test-docker-image-rules": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker run --rm -v $PWD:/workdir davidanson/markdownlint-cli2-rules:v$VERSION \"*.md\"",
-    "test-invoke-as-cli": "markdownlint-cli2 CHANGELOG.md",
     "test-watch": "git ls-files | entr npm run test",
     "update-snapshots": "node --test --test-update-snapshots test/markdownlint-cli2-test-exec.mjs test/markdownlint-cli2-test-exports.mjs test/markdownlint-cli2-test-formatters.mjs test/markdownlint-cli2-test-fs.mjs test/markdownlint-cli2-test-main.mjs",
     "webworker": "cd webworker && webpack --mode none",
