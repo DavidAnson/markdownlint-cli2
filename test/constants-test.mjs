@@ -8,7 +8,6 @@ import packageJson from "../package.json" with { "type": "json" };
 import markdownlintCli2ConfigSchema from "../schema/markdownlint-cli2-config-schema.json" with { "type": "json" };
 import * as constants from "../constants.mjs";
 
-// eslint-disable-next-line unicorn/prefer-json-parse-buffer
 const libraryJson = JSON.parse(await fs.readFile(path.join(fileURLToPath(import.meta.resolve("markdownlint")), "..", "..", "package.json"), "utf8"));
 
 test.suite(import.meta.url.replace(/^.*?(?<name>[^/]*)$/u, "$<name>"), () => {

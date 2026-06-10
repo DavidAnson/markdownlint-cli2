@@ -16,10 +16,10 @@ const copyDir = (/** @type {string} */ fromDir, /** @type {string} */ toDir) => 
 const removeDir = (/** @type {string} */ dir) =>
   fs.rm(path.join(import.meta.dirname, dir), { "recursive": true });
 
-const linesEndingWithNewLine = (/** @type {string[]} */ lines) => lines.map((line) => `${line}\n`).join("");
+const linesEndingWithNewline = (/** @type {string[]} */ lines) => lines.map((line) => `${line}\n`).join("");
 
 export {
   copyDir,
-  linesEndingWithNewLine,
+  linesEndingWithNewline,
   removeDir
 };

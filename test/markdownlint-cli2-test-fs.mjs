@@ -5,7 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import * as globby from "globby";
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
-import { linesEndingWithNewLine } from "./markdownlint-cli2-test-helpers.mjs";
+import { linesEndingWithNewline } from "./markdownlint-cli2-test-helpers.mjs";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 
@@ -52,8 +52,8 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
     ).
     then((exitCode) => ({
       exitCode,
-      "stdout": linesEndingWithNewLine(stdouts),
-      "stderr": linesEndingWithNewLine(stderrs)
+      "stdout": linesEndingWithNewline(stdouts),
+      "stderr": linesEndingWithNewline(stderrs)
     }));
 };
 
