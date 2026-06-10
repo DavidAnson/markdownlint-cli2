@@ -3,7 +3,7 @@
 import path from "node:path";
 import test from "node:test";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
-import { copyDir, linesEndingWithNewLine, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
+import { copyDir, linesEndingWithNewline, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 
 const baseDir = import.meta.dirname;
@@ -30,8 +30,8 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
     ).
     then((exitCode) => ({
       exitCode,
-      "stdout": linesEndingWithNewLine(stdouts),
-      "stderr": linesEndingWithNewLine(stderrs)
+      "stdout": linesEndingWithNewline(stdouts),
+      "stderr": linesEndingWithNewline(stderrs)
     }));
 };
 
