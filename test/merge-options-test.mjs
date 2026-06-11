@@ -3,7 +3,7 @@
 import test from "node:test";
 import mergeOptions from "../merge-options.mjs";
 
-test.suite(import.meta.url.replace(/^.*?(?<name>[^/]*)$/u, "$<name>"), () => {
+test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
 
   test("null/null", (t) => {
     t.plan(1);

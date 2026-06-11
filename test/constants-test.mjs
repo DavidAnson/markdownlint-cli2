@@ -10,7 +10,7 @@ import * as constants from "../constants.mjs";
 
 const libraryJson = JSON.parse(await fs.readFile(path.join(fileURLToPath(import.meta.resolve("markdownlint")), "..", "..", "package.json"), "utf8"));
 
-test.suite(import.meta.url.replace(/^.*?(?<name>[^/]*)$/u, "$<name>"), () => {
+test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
 
   test("package name and version", (t) => {
     t.plan(2);

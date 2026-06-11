@@ -20,7 +20,7 @@ const formatterInfos = [
 
 const testDirectory = import.meta.filename.replace(/\..+$/u, "");
 
-test.suite(import.meta.url.replace(/^.*?(?<name>[^/]*)$/u, "$<name>"), () => {
+test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
 
   test.before(async () => {
     process.env.FORCE_COLOR = "1";

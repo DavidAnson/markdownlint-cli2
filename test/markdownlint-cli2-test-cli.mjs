@@ -25,7 +25,7 @@ const invokeStdin = (/** @type {string[]} */ args, /** @type {string} */ stdin, 
   )
 );
 
-test.suite(import.meta.url.replace(/^.*?(?<name>[^/]*)$/u, "$<name>"), () => {
+test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
 
   const inputWithNoIssues = "# Heading\n\nText\n";
   const inputWithFixableIssues = "#  Heading\n\nText";

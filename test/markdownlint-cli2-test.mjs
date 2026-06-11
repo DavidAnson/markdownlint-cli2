@@ -25,7 +25,7 @@ const outputFormatterLengthIs = (/** @type {import("node:test").TestContext} */ 
   t.assert.equal(Object.keys(results).length, length, JSON.stringify(results, null, 2));
 };
 
-test.suite(import.meta.url.replace(/^.*?(?<name>[^/]*)$/u, "$<name>"), () => {
+test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
 
   test("name and version", (t) => {
     t.plan(3);

@@ -14,7 +14,7 @@ const exportMappings = new Map([
   [ "./parsers/yaml", "../parsers/yaml-parse.mjs" ]
 ]);
 
-test.suite(import.meta.url.replace(/^.*?(?<name>[^/]*)$/u, "$<name>"), () => {
+test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
 
   test("exportMappings table", (t) => {
     t.assert.deepEqual(

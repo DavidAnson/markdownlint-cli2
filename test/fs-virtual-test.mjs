@@ -19,7 +19,7 @@ const virtualFiles = [
   [ `${testDir}/placeholder`, "placeholder" ]
 ];
 
-test.suite(import.meta.url.replace(/^.*?(?<name>[^/]*)$/u, "$<name>"), () => {
+test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
 
   test("fsVirtual.lstat", async (t) => {
     t.plan(15);

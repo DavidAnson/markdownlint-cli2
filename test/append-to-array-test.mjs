@@ -18,7 +18,7 @@ const checkArray =
 
 /* eslint-disable unicorn/numeric-separators-style */
 
-test.suite(import.meta.url.replace(/^.*?(?<name>[^/]*)$/u, "$<name>"), () => {
+test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
 
   test("empty source and destination", (t) => {
     t.plan(1);
