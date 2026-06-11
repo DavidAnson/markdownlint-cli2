@@ -31,7 +31,7 @@
   "scripts": {
     "build-docker-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker build -t davidanson/markdownlint-cli2:v$VERSION -f docker/Dockerfile --label org.opencontainers.image.version=v$VERSION .",
     "build-docker-image-rules": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker build -t davidanson/markdownlint-cli2-rules:v$VERSION -f docker/Dockerfile-rules --build-arg VERSION=v$VERSION --label org.opencontainers.image.version=v$VERSION .",
-    "ci": "npm-run-all --continue-on-error --parallel test lint schema && git diff --exit-code",
+    "ci": "concurrently npm:test npm:lint npm:schema && git diff --exit-code && echo PASS",
     "lint": "eslint --max-warnings 0",
     "lint-dockerfile": "docker run --rm -i hadolint/hadolint:latest-alpine < docker/Dockerfile",
     "lint-watch": "git ls-files | entr npm run lint",
@@ -89,6 +89,7 @@
     "@playwright/test": "1.60.0",
     "@stylistic/eslint-plugin": "5.10.0",
     "ajv": "8.20.0",
+    "concurrently": "10.0.3",
     "cpy": "13.2.2",
     "cpy-cli": "7.0.0",
     "eslint": "10.4.1",
@@ -107,7 +108,6 @@
     "markdownlint-cli2-formatter-summarize": "0.0.8",
     "markdownlint-cli2-formatter-template": "0.0.4",
     "markdownlint-rule-extended-ascii": "0.2.1",
-    "npm-run-all": "4.1.5",
     "terminal-link": "5.0.0"
   },
   "keywords": [
