@@ -1112,20 +1112,20 @@ export const main = async (/** @type {Parameters} */ params) => {
 
 /**
  * @typedef Options
- * @property {Configuration} [config] Config.
+ * @property {Configuration} [config] Configuration object.
  * @property {Rule[] | string[]} [customRules] Custom rules.
- * @property {boolean} [fix] Fix.
- * @property {string} [frontMatter] Front matter.
- * @property {boolean | string} [gitignore] Git ignore.
- * @property {string[]} [globs] Globs.
- * @property {string[]} [ignores] Ignores.
+ * @property {boolean} [fix] Fix supported violations.
+ * @property {string} [frontMatter] Front matter regular expression.
+ * @property {boolean | string} [gitignore] Switch or glob for .gitignore.
+ * @property {string[]} [globs] Globs to lint.
+ * @property {string[]} [ignores] Globs to ignore.
  * @property {MarkdownItPluginConfiguration[]} [markdownItPlugins] Markdown-it plugins.
- * @property {string[]} [modulePaths] Module paths.
- * @property {boolean} [noBanner] No banner.
- * @property {boolean} [noInlineConfig] No inline config.
- * @property {boolean} [noProgress] No progress.
+ * @property {string[]} [modulePaths] Additional module paths.
+ * @property {boolean} [noBanner] Disable banner display.
+ * @property {boolean} [noInlineConfig] Disable inline config.
+ * @property {boolean} [noProgress] Disable progress display.
  * @property {OutputFormatterConfiguration[]} [outputFormatters] Output formatters.
- * @property {boolean} [showFound] Show found.
+ * @property {boolean} [showFound] Show found files.
  */
 
 /**
