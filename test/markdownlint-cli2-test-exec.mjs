@@ -22,7 +22,8 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
     ],
     {
       "cwd": directory,
-      "env": env || {}
+      "env": env || {},
+      "lines": true
     }
   ).
     then((subprocess) => ({

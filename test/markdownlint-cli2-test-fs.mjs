@@ -5,7 +5,6 @@ import path from "node:path";
 import test from "node:test";
 import * as globby from "globby";
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
-import { linesEndingWithNewline } from "./markdownlint-cli2-test-helpers.mjs";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 
@@ -32,28 +31,28 @@ const removeDir = () => Promise.resolve();
 
 const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
   /** @type {string[]} */
-  const stdouts = [];
+  const stdout = [];
   /** @type {string[]} */
-  const stderrs = [];
+  const stderr = [];
   return markdownlintCli2({
     "directory": path.posix.join(baseDir, relative),
     "argv": args,
-    "logMessage": (/** @type {string} */ msg) => stdouts.push(msg),
-    "logError": (/** @type {string} */ err) => stderrs.push(err),
+    "logMessage": (/** @type {string} */ msg) => stdout.push(msg),
+    "logError": (/** @type {string} */ err) => stderr.push(err),
     noImport,
     "fs": fsVirtual
   }).
     then(
       (exitCode) => exitCode,
       (error) => {
-        stderrs.push(error.message);
+        stderr.push(error.message);
         return 2;
       }
     ).
     then((exitCode) => ({
       exitCode,
-      "stdout": linesEndingWithNewline(stdouts),
-      "stderr": linesEndingWithNewline(stderrs)
+      stdout,
+      stderr
     }));
 };
 

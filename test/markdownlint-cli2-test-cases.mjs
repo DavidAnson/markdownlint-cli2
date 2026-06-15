@@ -4,12 +4,13 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { newLineRe as newlineRe } from "markdownlint/helpers";
 
 /**
  * @typedef {object} InvokeResult
  * @property {number} exitCode Exit code.
- * @property {string} stderr Standard error.
- * @property {string} stdout Standard output.
+ * @property {string[]} stderr Standard error.
+ * @property {string[]} stdout Standard output.
  */
 
 /**
@@ -48,10 +49,11 @@ import test from "node:test";
 /** @typedef {[ InvokeResult, string, string, string, string, string, string, string, string ]} TestOutput */
 
 const empty = () => "";
-const sanitize = (/** @type {string} */ str) => str.
-  replace(/\r/gu, "").
-  replace(/\bv\d+\.\d+\.\d+\b/gu, "vX.Y.Z").
-  replace(/ :.+[/\\]sentinel/gu, " :[PATH]");
+const sanitize = (/** @type {string[]} */ strs) =>
+  strs.map((str) => str.
+    replace(/\bv\d+\.\d+\.\d+\b/gu, "vX.Y.Z").
+    replace(/ :.+[/\\]sentinel/gu, " :[PATH]")
+  );
 const sameFileSystem = (path.relative(os.homedir(), import.meta.dirname) !== import.meta.dirname);
 const isModule = (/** @type {string} */ file) => file.endsWith(".cjs") || file.endsWith(".mjs");
 
@@ -154,13 +156,13 @@ const testCases = (/** @type {TestConfiguration} */ {
               "exitCode": child.exitCode,
               "stdout": sanitize(child.stdout),
               "stderr": sanitize(child.stderr),
-              "formatterCodeQuality": sanitize(formatterOutputCodeQuality || formatterOutputCodeQualityCustom),
-              "formatterJson": sanitize(formatterOutputJson || formatterOutputJsonCustom),
-              "formatterJunit": sanitize(formatterOutputJunit || formatterOutputJunitCustom),
-              "formatterSarif": sanitize(formatterOutputSarif || formatterOutputSarifCustom)
+              "formatterCodeQuality": sanitize((formatterOutputCodeQuality || formatterOutputCodeQualityCustom).split(newlineRe)),
+              "formatterJson": sanitize((formatterOutputJson || formatterOutputJsonCustom).split(newlineRe)),
+              "formatterJunit": sanitize((formatterOutputJunit || formatterOutputJunitCustom).split(newlineRe)),
+              "formatterSarif": sanitize((formatterOutputSarif || formatterOutputSarifCustom).split(newlineRe))
             };
             if (stderrRe) {
-              t.assert.match(child.stderr, stderrRe);
+              t.assert.match(child.stderr.join("\n"), stderrRe);
               // @ts-ignore
               delete actual.stderr;
             } else {

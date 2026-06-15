@@ -3,7 +3,7 @@
 import path from "node:path";
 import test from "node:test";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
-import { copyDir, linesEndingWithNewline, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
+import { copyDir, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
 import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 
 const baseDir = import.meta.dirname;
@@ -11,27 +11,27 @@ const baseDir = import.meta.dirname;
 const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
   const directory = path.join(baseDir, relative);
   /** @type {string[]} */
-  const stdouts = [];
+  const stdout = [];
   /** @type {string[]} */
-  const stderrs = [];
+  const stderr = [];
   return markdownlintCli2({
     directory,
     "argv": args,
-    "logMessage": (/** @type {string} */ msg) => stdouts.push(msg),
-    "logError": (/** @type {string} */ msg) => stderrs.push(msg),
+    "logMessage": (/** @type {string} */ msg) => stdout.push(msg),
+    "logError": (/** @type {string} */ msg) => stderr.push(msg),
     noImport
   }).
     then(
       (exitCode) => exitCode,
       (error) => {
-        stderrs.push(error.message);
+        stderr.push(error.message);
         return 2;
       }
     ).
     then((exitCode) => ({
       exitCode,
-      "stdout": linesEndingWithNewline(stdouts),
-      "stderr": linesEndingWithNewline(stderrs)
+      stdout,
+      stderr
     }));
 };
 
