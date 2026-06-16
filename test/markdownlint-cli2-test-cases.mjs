@@ -46,14 +46,15 @@ import { newLineRe as newlineRe } from "markdownlint/helpers";
  * @property {boolean} [usesRequire] Uses require.
  */
 
-/** @typedef {[ InvokeResult, string, string, string, string, string, string, string, string ]} TestOutput */
+/** @typedef {[ InvokeResult, string | null, string | null, string | null, string | null, string | null, string | null, string | null, string | null ]} TestOutput */
 
-const empty = () => "";
+const empty = () => null;
 const sanitize = (/** @type {string[]} */ strs) =>
   strs.map((str) => str.
     replace(/\bv\d+\.\d+\.\d+\b/gu, "vX.Y.Z").
     replace(/ :.+[/\\]sentinel/gu, " :[PATH]")
   );
+const splitSanitize = (/** @type {string | null} */ str) => str ? sanitize(str.split(newlineRe)) : [];
 const sameFileSystem = (path.relative(os.homedir(), import.meta.dirname) !== import.meta.dirname);
 const isModule = (/** @type {string} */ file) => file.endsWith(".cjs") || file.endsWith(".mjs");
 
@@ -156,10 +157,10 @@ const testCases = (/** @type {TestConfiguration} */ {
               "exitCode": child.exitCode,
               "stdout": sanitize(child.stdout),
               "stderr": sanitize(child.stderr),
-              "formatterCodeQuality": sanitize((formatterOutputCodeQuality || formatterOutputCodeQualityCustom).split(newlineRe)),
-              "formatterJson": sanitize((formatterOutputJson || formatterOutputJsonCustom).split(newlineRe)),
-              "formatterJunit": sanitize((formatterOutputJunit || formatterOutputJunitCustom).split(newlineRe)),
-              "formatterSarif": sanitize((formatterOutputSarif || formatterOutputSarifCustom).split(newlineRe))
+              "formatterCodeQuality": splitSanitize(formatterOutputCodeQuality || formatterOutputCodeQualityCustom),
+              "formatterJson": splitSanitize(formatterOutputJson || formatterOutputJsonCustom),
+              "formatterJunit": splitSanitize(formatterOutputJunit || formatterOutputJunitCustom),
+              "formatterSarif": splitSanitize(formatterOutputSarif || formatterOutputSarifCustom)
             };
             if (stderrRe) {
               t.assert.match(child.stderr.join("\n"), stderrRe);

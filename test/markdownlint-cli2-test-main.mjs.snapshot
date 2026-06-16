@@ -8,18 +8,10 @@ exports[`markdownlint-cli2-test-main.mjs > all-ok (main) 1`] = `
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -29,18 +21,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-file-unrecognized-arg (main) 1
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -59,18 +43,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.cjs-a
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -89,18 +65,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.cjs-a
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -119,18 +87,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.cjs-a
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -149,18 +109,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.jsonc
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -179,18 +131,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.jsonc
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -209,18 +153,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.jsonc
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -239,18 +175,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.jsonc
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -269,18 +197,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.mjs-a
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -299,18 +219,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.mjs-a
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -329,18 +241,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.mjs-a
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -359,18 +263,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.toml-
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -389,18 +285,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.toml-
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -419,18 +307,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.toml-
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -449,18 +329,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.yaml-
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -479,18 +351,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.yaml-
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -509,18 +373,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint-cli2.yaml-
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -540,18 +396,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.cjs-absolu
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -571,18 +419,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.cjs-altern
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -602,18 +442,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.cjs-arg (m
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -632,18 +464,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.cjs-redund
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -663,18 +487,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.json-absol
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -694,18 +510,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.json-alter
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -725,18 +533,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.json-arg (
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -755,18 +555,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.json-redun
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -786,18 +578,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.jsonc-abso
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -817,18 +601,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.jsonc-alte
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -848,18 +624,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.jsonc-arg 
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -879,18 +647,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.mjs-absolu
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -910,18 +670,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.mjs-altern
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -941,18 +693,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.mjs-arg (m
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -972,18 +716,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.toml-absol
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1003,18 +739,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.toml-alter
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1034,18 +762,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.toml-arg (
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1065,18 +785,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.yaml-absol
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1096,18 +808,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.yaml-alter
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1127,18 +831,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.yaml-arg (
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1158,18 +854,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.yml-absolu
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1189,18 +877,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.yml-altern
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1220,18 +900,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-.markdownlint.yml-arg (m
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1257,18 +929,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config-nested-nested.jso
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1286,18 +950,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config-nested-nested.jso
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1323,18 +979,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config-nested-nested.jso
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1352,18 +1000,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config-nested.json-/nest
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1389,18 +1029,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config-nested.json-/nest
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1426,18 +1058,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config-nested.json-/null
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1463,18 +1087,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config-nested.json-/numb
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1500,18 +1116,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config-nested.json-/stri
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1521,18 +1129,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config-nested.json-inval
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1550,18 +1150,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config.cjs-arg (main) 1`
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1579,18 +1171,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config.json--arg (main) 
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1616,18 +1200,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config.json-/extra-arg (
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1653,18 +1229,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config.json-/null-arg (m
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1690,18 +1258,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config.json-/number-arg 
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1727,18 +1287,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config.json-/string-arg 
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1756,18 +1308,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config.json-arg (main) 1
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1777,18 +1321,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config.json-invalid-arg 
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1806,18 +1342,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config.jsonc-arg (main) 
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1835,18 +1363,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config.mjs-arg (main) 1`
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1864,18 +1384,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config.toml-arg (main) 1
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1893,18 +1405,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config.yaml-arg (main) 1
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1922,18 +1426,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-config.yml-arg (main) 1`
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1943,18 +1439,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-invalid.markdownlint-cli
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1964,18 +1452,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-invalid.markdownlint-cli
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -1985,18 +1465,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-invalid.markdownlint-cli
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2006,18 +1478,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-invalid.markdownlint-cli
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2027,18 +1491,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-invalid.markdownlint.cjs
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2048,18 +1504,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-invalid.markdownlint.jso
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2069,18 +1517,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-invalid.markdownlint.jso
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2090,18 +1530,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-invalid.markdownlint.mjs
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2111,18 +1543,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-invalid.markdownlint.yam
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2132,18 +1556,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-invalid.markdownlint.yml
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2169,18 +1585,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options-nested-nested.ya
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2197,18 +1605,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options-nested-nested.ya
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2234,18 +1634,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options-nested-nested.ya
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2262,18 +1654,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options-nested.yaml-/nes
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2299,18 +1683,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options-nested.yaml-/nes
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2336,18 +1712,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options-nested.yaml-/nul
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2373,18 +1741,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options-nested.yaml-/num
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2410,18 +1770,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options-nested.yaml-/str
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2431,18 +1783,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options-nested.yaml-inva
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2459,18 +1803,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options.cjs-arg (main) 1
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2487,18 +1823,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options.jsonc-arg (main)
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2515,18 +1843,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options.mjs-arg (main) 1
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2543,18 +1863,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options.toml-arg (main) 
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2571,18 +1883,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-files-options.yaml-arg (main) 
     "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2607,18 +1911,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-first-arg (main) 1`] = `
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2643,18 +1939,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-last-arg (main) 1`] = `
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2679,18 +1967,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-last-used-arg (main) 1`] = `
     "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2704,18 +1984,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-option-extends (main) 1`] = `
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2733,18 +2005,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-overrides-options (main) 1`] =
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2767,18 +2031,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-relative-commonjs-arg (main) 1
     "viewme.md 12 MD019/no-multiple-space-atx",
     "viewme.md 14 MD047/single-trailing-newline"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2801,18 +2057,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-relative-module-arg (main) 1`]
     "viewme.md 12 MD019/no-multiple-space-atx",
     "viewme.md 14 MD047/single-trailing-newline"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2826,18 +2074,10 @@ exports[`markdownlint-cli2-test-main.mjs > config-with-fix-arg (main) 1`] = `
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2901,18 +2141,10 @@ exports[`markdownlint-cli2-test-main.mjs > customRules (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2924,18 +2156,10 @@ exports[`markdownlint-cli2-test-main.mjs > customRules-invalid (main) 1`] = `
     "Finding: .*",
     "Linting: 1 file(s)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2946,18 +2170,10 @@ exports[`markdownlint-cli2-test-main.mjs > customRules-missing (main) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: .*"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -2996,18 +2212,10 @@ exports[`markdownlint-cli2-test-main.mjs > customRules-no-require (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3028,18 +2236,10 @@ exports[`markdownlint-cli2-test-main.mjs > customRules-pre-imported (main) 1`] =
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3060,18 +2260,10 @@ exports[`markdownlint-cli2-test-main.mjs > customRules-throws (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3096,18 +2288,10 @@ exports[`markdownlint-cli2-test-main.mjs > dot (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3188,18 +2372,10 @@ exports[`markdownlint-cli2-test-main.mjs > dotfiles (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3242,18 +2418,10 @@ exports[`markdownlint-cli2-test-main.mjs > dotfiles-exclude (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3267,18 +2435,10 @@ exports[`markdownlint-cli2-test-main.mjs > dotfiles-explicit (main) 1`] = `
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3292,18 +2452,10 @@ exports[`markdownlint-cli2-test-main.mjs > dotfiles-explicit-literal (main) 1`] 
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3317,18 +2469,10 @@ exports[`markdownlint-cli2-test-main.mjs > dotfiles-nested (main) 1`] = `
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3353,18 +2497,10 @@ exports[`markdownlint-cli2-test-main.mjs > file-paths-as-args (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3386,18 +2522,10 @@ exports[`markdownlint-cli2-test-main.mjs > fix (main) 1`] = `
     "dir/subdir2/info.md:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
     "viewme.md:5 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3413,18 +2541,10 @@ exports[`markdownlint-cli2-test-main.mjs > fix-and-config-arg (main) 1`] = `
   "stderr": [
     "dir/subdir/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3458,18 +2578,10 @@ exports[`markdownlint-cli2-test-main.mjs > fix-default-true-arg (main) 1`] = `
     "dir3/subdir/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
     "viewme.md:5 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3489,18 +2601,10 @@ exports[`markdownlint-cli2-test-main.mjs > fix-default-true-override-arg (main) 
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3517,18 +2621,10 @@ exports[`markdownlint-cli2-test-main.mjs > fix-first-arg (main) 1`] = `
     "dir/subdir/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
     "viewme.md:5 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3545,18 +2641,10 @@ exports[`markdownlint-cli2-test-main.mjs > fix-last-arg (main) 1`] = `
     "dir/subdir/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
     "viewme.md:5 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3573,18 +2661,10 @@ exports[`markdownlint-cli2-test-main.mjs > fix-multiple-arg (main) 1`] = `
     "dir/subdir/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
     "viewme.md:5 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3605,18 +2685,10 @@ exports[`markdownlint-cli2-test-main.mjs > fix-scenarios (main) 1`] = `
     "some-fixable-issues.md:7 error MD040/fenced-code-language Fenced code blocks should have a language specified [Context: \\"\`\`\`\\"]",
     "some-fixable-issues.md:13 error MD036/no-emphasis-as-heading Emphasis used instead of a heading [Context: \\"Emphasis as heading\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3714,18 +2786,10 @@ exports[`markdownlint-cli2-test-main.mjs > formatter-summarize (main) 1`] = `
     "      1 [Total]"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3750,18 +2814,10 @@ exports[`markdownlint-cli2-test-main.mjs > formatter-template (main) 1`] = `
     "simple.md",
     "\${fileName}"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3775,18 +2831,10 @@ exports[`markdownlint-cli2-test-main.mjs > frontMatter (main) 1`] = `
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3810,18 +2858,10 @@ exports[`markdownlint-cli2-test-main.mjs > gitignore (main) 1`] = `
     "dir/UPPER.MD:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "dir/UPPER.MD:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3850,18 +2890,10 @@ exports[`markdownlint-cli2-test-main.mjs > gitignore-root-only (main) 1`] = `
     "dir/UPPER.MD:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "dir/UPPER.MD:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3886,18 +2918,10 @@ exports[`markdownlint-cli2-test-main.mjs > globs (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3926,18 +2950,10 @@ exports[`markdownlint-cli2-test-main.mjs > globs-and-args (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -3962,18 +2978,10 @@ exports[`markdownlint-cli2-test-main.mjs > globs-and-ignores (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4011,18 +3019,10 @@ exports[`markdownlint-cli2-test-main.mjs > ignores (main) 1`] = `
     "dir4/subdir/info.markdown:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
     "dir4/subdir/info.markdown:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4045,18 +3045,10 @@ exports[`markdownlint-cli2-test-main.mjs > jsonc-trailing-comma (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4091,18 +3083,10 @@ exports[`markdownlint-cli2-test-main.mjs > literal-files (main) 1`] = `
     "view(me).md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "view(me).md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4127,18 +3111,10 @@ exports[`markdownlint-cli2-test-main.mjs > literal-files-absolute (main) 1`] = `
     "sentinel/dir/view(me).md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "sentinel/dir/view(me).md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4175,18 +3151,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownItPlugins (main) 1`] = `
     "single/emoji.md:7:7 error MD059/descriptive-link-text Link text should be descriptive [Context: \\"[ link ]\\"]",
     "single/emoji.md:9 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4197,18 +3165,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownItPlugins-missing (main) 1`] 
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: .*"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4245,18 +3205,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownItPlugins-no-require (main) 1
     "single/emoji.md:7:7 error MD059/descriptive-link-text Link text should be descriptive [Context: \\"[ link ]\\"]",
     "single/emoji.md:9 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4282,18 +3234,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cjs (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4303,18 +3247,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cjs-invalid (main) 1`] =
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4343,18 +3279,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cjs-no-require (main) 1`
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4379,18 +3307,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-cjs (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4400,18 +3320,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-cjs-invalid (main) 
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4440,18 +3352,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-cjs-no-require (mai
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4474,18 +3378,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-extends (main) 1`] 
     "yaml/viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
     "yaml/viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4510,18 +3406,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-jsonc (main) 1`] = 
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4533,18 +3421,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-jsonc-example (main
     "extended-ascii.md:1:9 error extended-ascii Only extended ASCII characters are allowed [Blocked character: '✅']",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4554,18 +3434,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-jsonc-invalid (main
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4575,18 +3447,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-jsonc-mismatch (mai
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4596,18 +3460,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-jsonc-mismatch-conf
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4627,18 +3483,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-jsonc-null (main) 1
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4658,18 +3506,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-jsonc-number (main)
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4694,18 +3534,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-mjs (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4715,18 +3547,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-mjs-invalid (main) 
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4755,18 +3579,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-mjs-no-require (mai
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4791,18 +3607,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-yaml (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4814,18 +3622,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-yaml-example (main)
     "extended-ascii.md:1:9 error extended-ascii Only extended ASCII characters are allowed [Blocked character: '✅']",
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4835,18 +3635,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-yaml-invalid (main)
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4856,18 +3648,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-yaml-mismatch (main
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4877,18 +3661,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-cli2-yaml-mismatch-confi
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4914,18 +3690,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-json (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4951,18 +3719,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-json-extends (main) 1`] 
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4972,18 +3732,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-json-invalid (main) 1`] 
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -4997,18 +3749,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-json-mismatch (main) 1`]
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5018,18 +3762,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-json-mismatch-config (ma
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5049,18 +3785,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-json-null (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5080,18 +3808,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-json-number (main) 1`] =
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5110,18 +3830,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-json-yaml (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5140,18 +3852,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-jsonc (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5177,18 +3881,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-mjs (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5198,18 +3894,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-mjs-invalid (main) 1`] =
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5238,18 +3926,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-mjs-no-require (main) 1`
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5275,18 +3955,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-yaml (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5296,18 +3968,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-yaml-invalid (main) 1`] 
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5321,18 +3985,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-yaml-mismatch (main) 1`]
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5342,18 +3998,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-yaml-mismatch-config (ma
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5372,18 +4020,10 @@ exports[`markdownlint-cli2-test-main.mjs > markdownlint-yml (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5395,18 +4035,10 @@ exports[`markdownlint-cli2-test-main.mjs > missing-argument-config-arg (main) 1`
     "https://github.com/DavidAnson/markdownlint-cli2\\n\\nSyntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--configPointer pointer] [--fix] [--format] [--help] [--no-globs]\\n\\nGlob expressions (from the globby library):\\n- * matches any number of characters, but not /\\n- ? matches a single character, but not /\\n- ** matches any number of characters, including /\\n- {} allows for a comma-separated list of \\"or\\" expressions\\n- ! or # at the beginning of a pattern negate the match\\n- : at the beginning identifies a literal file path\\n- - as a glob represents standard input (stdin)\\n\\nDot-only glob:\\n- The command \\"markdownlint-cli2 .\\" would lint every file in the current directory tree which is probably not intended\\n- Instead, it is mapped to \\"markdownlint-cli2 *.{md,markdown}\\" which lints all Markdown files in the current directory\\n- To lint every file in the current directory tree, the command \\"markdownlint-cli2 **\\" can be used instead\\n\\nOptional parameters:\\n- --config        specifies the path to a configuration file to define the base configuration\\n- --configPointer specifies a JSON Pointer to a configuration object within the --config file\\n- --fix           updates files to resolve fixable issues (can be overridden in configuration)\\n- --format        reads standard input (stdin), applies fixes, writes standard output (stdout)\\n- --help          writes this message to the console and exits without doing anything else\\n- --no-globs      ignores the \\"globs\\" property if present in the top-level options object\\n\\nConfiguration via:\\n- .markdownlint-cli2.jsonc\\n- .markdownlint-cli2.yaml\\n- .markdownlint-cli2.cjs or .markdownlint-cli2.mjs\\n- .markdownlint.jsonc or .markdownlint.json\\n- .markdownlint.yaml or .markdownlint.yml\\n- .markdownlint.cjs or .markdownlint.mjs\\n\\nCross-platform compatibility:\\n- UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended\\n- Some Windows shells don't handle single-quoted (') arguments well; double-quote (\\") is recommended\\n- Shells that expand globs do not support negated patterns (!node_modules); quoting is required here\\n- Some UNIX shells parse exclamation (!) in double-quotes; hashtag (#) is recommended in these cases\\n- The path separator is forward slash (/) on all platforms; backslash (\\\\) is automatically converted\\n- On any platform, passing the parameter \\"--\\" causes all remaining parameters to be treated literally\\n\\nThe most compatible syntax for cross-platform support:\\n$ markdownlint-cli2 \\"**/*.md\\" \\"#node_modules\\""
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5439,18 +4071,10 @@ exports[`markdownlint-cli2-test-main.mjs > modulePaths (main) 1`] = `
     "cjs: viewme.md 12 MD019/no-multiple-space-atx",
     "cjs: viewme.md 14 MD047/single-trailing-newline"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5486,18 +4110,10 @@ exports[`markdownlint-cli2-test-main.mjs > modulePaths-non-root (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5527,18 +4143,10 @@ exports[`markdownlint-cli2-test-main.mjs > nested-directories (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5561,18 +4169,10 @@ exports[`markdownlint-cli2-test-main.mjs > nested-files (main) 1`] = `
     "markdownlint-json/dir/subdir/info.md:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
     "markdownlint-json/dir/subdir/info.md:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5667,18 +4267,10 @@ exports[`markdownlint-cli2-test-main.mjs > nested-options-config (main) 1`] = `
     "options-config-overlap/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
     "options-config-overlap/info.md:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5707,18 +4299,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-arg (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5730,18 +4314,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-arguments (main) 1`] = `
     "https://github.com/DavidAnson/markdownlint-cli2\\n\\nSyntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--configPointer pointer] [--fix] [--format] [--help] [--no-globs]\\n\\nGlob expressions (from the globby library):\\n- * matches any number of characters, but not /\\n- ? matches a single character, but not /\\n- ** matches any number of characters, including /\\n- {} allows for a comma-separated list of \\"or\\" expressions\\n- ! or # at the beginning of a pattern negate the match\\n- : at the beginning identifies a literal file path\\n- - as a glob represents standard input (stdin)\\n\\nDot-only glob:\\n- The command \\"markdownlint-cli2 .\\" would lint every file in the current directory tree which is probably not intended\\n- Instead, it is mapped to \\"markdownlint-cli2 *.{md,markdown}\\" which lints all Markdown files in the current directory\\n- To lint every file in the current directory tree, the command \\"markdownlint-cli2 **\\" can be used instead\\n\\nOptional parameters:\\n- --config        specifies the path to a configuration file to define the base configuration\\n- --configPointer specifies a JSON Pointer to a configuration object within the --config file\\n- --fix           updates files to resolve fixable issues (can be overridden in configuration)\\n- --format        reads standard input (stdin), applies fixes, writes standard output (stdout)\\n- --help          writes this message to the console and exits without doing anything else\\n- --no-globs      ignores the \\"globs\\" property if present in the top-level options object\\n\\nConfiguration via:\\n- .markdownlint-cli2.jsonc\\n- .markdownlint-cli2.yaml\\n- .markdownlint-cli2.cjs or .markdownlint-cli2.mjs\\n- .markdownlint.jsonc or .markdownlint.json\\n- .markdownlint.yaml or .markdownlint.yml\\n- .markdownlint.cjs or .markdownlint.mjs\\n\\nCross-platform compatibility:\\n- UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended\\n- Some Windows shells don't handle single-quoted (') arguments well; double-quote (\\") is recommended\\n- Shells that expand globs do not support negated patterns (!node_modules); quoting is required here\\n- Some UNIX shells parse exclamation (!) in double-quotes; hashtag (#) is recommended in these cases\\n- The path separator is forward slash (/) on all platforms; backslash (\\\\) is automatically converted\\n- On any platform, passing the parameter \\"--\\" causes all remaining parameters to be treated literally\\n\\nThe most compatible syntax for cross-platform support:\\n$ markdownlint-cli2 \\"**/*.md\\" \\"#node_modules\\""
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5753,18 +4329,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-arguments-config-arg (main) 1`] = 
     "https://github.com/DavidAnson/markdownlint-cli2\\n\\nSyntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--configPointer pointer] [--fix] [--format] [--help] [--no-globs]\\n\\nGlob expressions (from the globby library):\\n- * matches any number of characters, but not /\\n- ? matches a single character, but not /\\n- ** matches any number of characters, including /\\n- {} allows for a comma-separated list of \\"or\\" expressions\\n- ! or # at the beginning of a pattern negate the match\\n- : at the beginning identifies a literal file path\\n- - as a glob represents standard input (stdin)\\n\\nDot-only glob:\\n- The command \\"markdownlint-cli2 .\\" would lint every file in the current directory tree which is probably not intended\\n- Instead, it is mapped to \\"markdownlint-cli2 *.{md,markdown}\\" which lints all Markdown files in the current directory\\n- To lint every file in the current directory tree, the command \\"markdownlint-cli2 **\\" can be used instead\\n\\nOptional parameters:\\n- --config        specifies the path to a configuration file to define the base configuration\\n- --configPointer specifies a JSON Pointer to a configuration object within the --config file\\n- --fix           updates files to resolve fixable issues (can be overridden in configuration)\\n- --format        reads standard input (stdin), applies fixes, writes standard output (stdout)\\n- --help          writes this message to the console and exits without doing anything else\\n- --no-globs      ignores the \\"globs\\" property if present in the top-level options object\\n\\nConfiguration via:\\n- .markdownlint-cli2.jsonc\\n- .markdownlint-cli2.yaml\\n- .markdownlint-cli2.cjs or .markdownlint-cli2.mjs\\n- .markdownlint.jsonc or .markdownlint.json\\n- .markdownlint.yaml or .markdownlint.yml\\n- .markdownlint.cjs or .markdownlint.mjs\\n\\nCross-platform compatibility:\\n- UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended\\n- Some Windows shells don't handle single-quoted (') arguments well; double-quote (\\") is recommended\\n- Shells that expand globs do not support negated patterns (!node_modules); quoting is required here\\n- Some UNIX shells parse exclamation (!) in double-quotes; hashtag (#) is recommended in these cases\\n- The path separator is forward slash (/) on all platforms; backslash (\\\\) is automatically converted\\n- On any platform, passing the parameter \\"--\\" causes all remaining parameters to be treated literally\\n\\nThe most compatible syntax for cross-platform support:\\n$ markdownlint-cli2 \\"**/*.md\\" \\"#node_modules\\""
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5798,18 +4366,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-config (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5829,18 +4389,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-config-ignore-hash (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5854,18 +4406,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-config-ignore-only-other (main) 1`
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5879,18 +4423,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-config-ignore-only-violation (main
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5910,18 +4446,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-config-ignore-other (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5935,18 +4463,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-config-ignore-violation (main) 1`]
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5971,18 +4491,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-config-unignore (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -5996,18 +4508,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-files (main) 1`] = `
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -6021,18 +4525,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-files-exclamation (main) 1`] = `
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -6046,18 +4542,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-files-octothorpe (main) 1`] = `
     "Summary: 0 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -6081,18 +4569,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-globs-and-args (main) 1`] = `
     "dir/subdir/info.markdown:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
     "dir/subdir/info.markdown:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -6104,18 +4584,10 @@ exports[`markdownlint-cli2-test-main.mjs > no-globs-and-empty-args (main) 1`] = 
     "https://github.com/DavidAnson/markdownlint-cli2\\n\\nSyntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--configPointer pointer] [--fix] [--format] [--help] [--no-globs]\\n\\nGlob expressions (from the globby library):\\n- * matches any number of characters, but not /\\n- ? matches a single character, but not /\\n- ** matches any number of characters, including /\\n- {} allows for a comma-separated list of \\"or\\" expressions\\n- ! or # at the beginning of a pattern negate the match\\n- : at the beginning identifies a literal file path\\n- - as a glob represents standard input (stdin)\\n\\nDot-only glob:\\n- The command \\"markdownlint-cli2 .\\" would lint every file in the current directory tree which is probably not intended\\n- Instead, it is mapped to \\"markdownlint-cli2 *.{md,markdown}\\" which lints all Markdown files in the current directory\\n- To lint every file in the current directory tree, the command \\"markdownlint-cli2 **\\" can be used instead\\n\\nOptional parameters:\\n- --config        specifies the path to a configuration file to define the base configuration\\n- --configPointer specifies a JSON Pointer to a configuration object within the --config file\\n- --fix           updates files to resolve fixable issues (can be overridden in configuration)\\n- --format        reads standard input (stdin), applies fixes, writes standard output (stdout)\\n- --help          writes this message to the console and exits without doing anything else\\n- --no-globs      ignores the \\"globs\\" property if present in the top-level options object\\n\\nConfiguration via:\\n- .markdownlint-cli2.jsonc\\n- .markdownlint-cli2.yaml\\n- .markdownlint-cli2.cjs or .markdownlint-cli2.mjs\\n- .markdownlint.jsonc or .markdownlint.json\\n- .markdownlint.yaml or .markdownlint.yml\\n- .markdownlint.cjs or .markdownlint.mjs\\n\\nCross-platform compatibility:\\n- UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended\\n- Some Windows shells don't handle single-quoted (') arguments well; double-quote (\\") is recommended\\n- Shells that expand globs do not support negated patterns (!node_modules); quoting is required here\\n- Some UNIX shells parse exclamation (!) in double-quotes; hashtag (#) is recommended in these cases\\n- The path separator is forward slash (/) on all platforms; backslash (\\\\) is automatically converted\\n- On any platform, passing the parameter \\"--\\" causes all remaining parameters to be treated literally\\n\\nThe most compatible syntax for cross-platform support:\\n$ markdownlint-cli2 \\"**/*.md\\" \\"#node_modules\\""
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -6141,18 +4613,10 @@ exports[`markdownlint-cli2-test-main.mjs > noInlineConfig (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:16:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -6163,18 +4627,10 @@ exports[`markdownlint-cli2-test-main.mjs > one-argument-config-arg (main) 1`] = 
     "https://github.com/DavidAnson/markdownlint-cli2\\n\\nSyntax: markdownlint-cli2 glob0 [glob1] [...] [globN] [--config file] [--configPointer pointer] [--fix] [--format] [--help] [--no-globs]\\n\\nGlob expressions (from the globby library):\\n- * matches any number of characters, but not /\\n- ? matches a single character, but not /\\n- ** matches any number of characters, including /\\n- {} allows for a comma-separated list of \\"or\\" expressions\\n- ! or # at the beginning of a pattern negate the match\\n- : at the beginning identifies a literal file path\\n- - as a glob represents standard input (stdin)\\n\\nDot-only glob:\\n- The command \\"markdownlint-cli2 .\\" would lint every file in the current directory tree which is probably not intended\\n- Instead, it is mapped to \\"markdownlint-cli2 *.{md,markdown}\\" which lints all Markdown files in the current directory\\n- To lint every file in the current directory tree, the command \\"markdownlint-cli2 **\\" can be used instead\\n\\nOptional parameters:\\n- --config        specifies the path to a configuration file to define the base configuration\\n- --configPointer specifies a JSON Pointer to a configuration object within the --config file\\n- --fix           updates files to resolve fixable issues (can be overridden in configuration)\\n- --format        reads standard input (stdin), applies fixes, writes standard output (stdout)\\n- --help          writes this message to the console and exits without doing anything else\\n- --no-globs      ignores the \\"globs\\" property if present in the top-level options object\\n\\nConfiguration via:\\n- .markdownlint-cli2.jsonc\\n- .markdownlint-cli2.yaml\\n- .markdownlint-cli2.cjs or .markdownlint-cli2.mjs\\n- .markdownlint.jsonc or .markdownlint.json\\n- .markdownlint.yaml or .markdownlint.yml\\n- .markdownlint.cjs or .markdownlint.mjs\\n\\nCross-platform compatibility:\\n- UNIX and Windows shells expand globs according to different rules; quoting arguments is recommended\\n- Some Windows shells don't handle single-quoted (') arguments well; double-quote (\\") is recommended\\n- Shells that expand globs do not support negated patterns (!node_modules); quoting is required here\\n- Some UNIX shells parse exclamation (!) in double-quotes; hashtag (#) is recommended in these cases\\n- The path separator is forward slash (/) on all platforms; backslash (\\\\) is automatically converted\\n- On any platform, passing the parameter \\"--\\" causes all remaining parameters to be treated literally\\n\\nThe most compatible syntax for cross-platform support:\\n$ markdownlint-cli2 \\"**/*.md\\" \\"#node_modules\\""
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -7229,18 +5685,10 @@ exports[`markdownlint-cli2-test-main.mjs > outputFormatters-file (main) 1`] = `
     "viewme.md 12 MD019/no-multiple-space-atx",
     "viewme.md 14 MD047/single-trailing-newline"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -7253,18 +5701,10 @@ exports[`markdownlint-cli2-test-main.mjs > outputFormatters-missing (main) 1`] =
     "Linting: 1 file(s)",
     "Summary: 0 error(s)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -7299,18 +5739,10 @@ exports[`markdownlint-cli2-test-main.mjs > outputFormatters-module (main) 1`] = 
     "mjs: viewme.md 12 MD019/no-multiple-space-atx",
     "mjs: viewme.md 14 MD047/single-trailing-newline"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -8112,9 +6544,7 @@ exports[`markdownlint-cli2-test-main.mjs > outputFormatters-pre-imported (main) 
     "Summary: 5 error(s)"
   ],
   "stderr": [],
-  "formatterCodeQuality": [
-    ""
-  ],
+  "formatterCodeQuality": [],
   "formatterJson": [
     "[",
     " {",
@@ -8215,12 +6645,8 @@ exports[`markdownlint-cli2-test-main.mjs > outputFormatters-pre-imported (main) 
     " }",
     "]"
   ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -8679,18 +7105,10 @@ exports[`markdownlint-cli2-test-main.mjs > package-json (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -8706,18 +7124,10 @@ exports[`markdownlint-cli2-test-main.mjs > package-json-fix (main) 1`] = `
   "stderr": [
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -8727,18 +7137,10 @@ exports[`markdownlint-cli2-test-main.mjs > package-json-invalid (main) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -8763,18 +7165,10 @@ exports[`markdownlint-cli2-test-main.mjs > pyproject-toml (main) 1`] = `
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -8790,18 +7184,10 @@ exports[`markdownlint-cli2-test-main.mjs > pyproject-toml-fix (main) 1`] = `
   "stderr": [
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -8811,18 +7197,10 @@ exports[`markdownlint-cli2-test-main.mjs > pyproject-toml-invalid (main) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -8845,18 +7223,10 @@ exports[`markdownlint-cli2-test-main.mjs > showFound (main) 1`] = `
     "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
     "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -8882,18 +7252,10 @@ exports[`markdownlint-cli2-test-main.mjs > sibling-directory (main) 1`] = `
     "../markdownlint-json/viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "../markdownlint-json/viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -8918,18 +7280,10 @@ exports[`markdownlint-cli2-test-main.mjs > sibling-directory-options (main) 1`] 
     "../no-config/viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
     "../no-config/viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -8964,18 +7318,10 @@ exports[`markdownlint-cli2-test-main.mjs > tilde-paths-commonjs (main) 1`] = `
     "cjs: viewme.md 12 MD019/no-multiple-space-atx",
     "cjs: viewme.md 14 MD047/single-trailing-newline"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 
@@ -9010,17 +7356,9 @@ exports[`markdownlint-cli2-test-main.mjs > tilde-paths-module (main) 1`] = `
     "cjs: viewme.md 12 MD019/no-multiple-space-atx",
     "cjs: viewme.md 14 MD047/single-trailing-newline"
   ],
-  "formatterCodeQuality": [
-    ""
-  ],
-  "formatterJson": [
-    ""
-  ],
-  "formatterJunit": [
-    ""
-  ],
-  "formatterSarif": [
-    ""
-  ]
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
