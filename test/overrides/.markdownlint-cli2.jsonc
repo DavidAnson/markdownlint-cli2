@@ -1,0 +1,21 @@
+{
+  "config": {
+    "single-trailing-newline": false
+  },
+  "overrides": [
+    {
+      "filter": [ "c*.md" ],
+      "config": {
+        "no-trailing-spaces": false
+      },
+      "combine": "replace"
+    },
+    {
+      "filter": [ "**/v*.md" ],
+      "config": {
+        "no-multiple-blanks": false
+      },
+      "combine": "merge"
+    }
+  ]
+}

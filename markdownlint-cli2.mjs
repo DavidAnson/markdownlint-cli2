@@ -190,11 +190,11 @@ const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** 
   return { config };
 };
 
-// Filter a list of files to ignore by glob
-const removeIgnoredFiles = (/** @type {string} */ dir, /** @type {string[]} */ files, /** @type {string[]} */ ignores) => (
+// Filter a list of files by glob(s)
+const filterByGlobs = (/** @type {string} */ dir, /** @type {string[]} */ files, /** @type {string[]} */ globs) => (
   micromatch(
     files.map((file) => pathPosix.relative(dir, file)),
-    ignores,
+    globs,
     { "dot": true }
   ).map((file) => pathPosix.join(dir, file))
 );
@@ -472,7 +472,7 @@ const enumerateFiles = async (
       filter((glob) => glob.startsWith("!"));
   const filteredLiteralFiles =
     ((literalFiles.length > 0) && (globsForIgnore.length > 0))
-      ? removeIgnoredFiles(baseDir, literalFiles, globsForIgnore)
+      ? filterByGlobs(baseDir, literalFiles, globsForIgnore)
       : literalFiles;
   // Process glob patterns
   const files = [
@@ -563,8 +563,10 @@ const createDirInfos = async (
   );
 
   // Merge file lists with identical configuration
+  // (Sort so parents are handled before children)
   const dirs = Object.keys(dirToDirInfo);
   dirs.sort((a, b) => b.length - a.length);
+  /** @type {DirInfo[]} */
   const dirInfos = [];
   const tasks = [];
   for (const dir of dirs) {
@@ -626,7 +628,7 @@ const createDirInfos = async (
   // }
   // if (
   //   dirInfos.filter(
-  //     (di) => !di.parent && (di.dir !== baseDir)
+  //     (di) => !di.parent && (di.dir !== context.baseDir)
   //   ).length > 0
   // ) {
   //   throw new Error("Missing parent");
@@ -671,6 +673,31 @@ const createDirInfos = async (
     );
     dirInfo.markdownlintConfig = markdownlintConfig;
   }
+
+  // Apply configuration overrides
+  /** @type {DirInfo[]} */
+  const overrideDirInfos = [];
+  for (const dirInfo of dirInfos) {
+    for (const override of (dirInfo.markdownlintOptions?.overrides || [])) {
+      const { filter, config, combine } = override;
+      if (filter && (filter.length > 0) && config && ((combine === "merge") || (combine === "replace"))) {
+        const filteredFiles = filterByGlobs(dirInfo.dir, dirInfo.files, filter);
+        if (filteredFiles.length > 0) {
+          dirInfo.files = dirInfo.files.filter((file) => !filteredFiles.includes(file));
+          const overrideConfig = (combine === "merge") ? { ...dirInfo.markdownlintOptions?.config, ...config } : config;
+          const overrideDirInfo = {
+            ...dirInfo,
+            "files": filteredFiles,
+            "markdownlintOptions": { ...dirInfo.markdownlintOptions, "config": overrideConfig }
+          };
+          overrideDirInfos.push(overrideDirInfo);
+        }
+      }
+    }
+  }
+  appendToArray(dirInfos, overrideDirInfos);
+
+  // Return results
   return dirInfos;
 };
 
@@ -695,7 +722,7 @@ const lintFiles = (
     ) {
       // eslint-disable-next-line unicorn/no-array-callback-reference
       const ignores = markdownlintOptions.ignores.map(negateGlob);
-      filesAfterIgnores = removeIgnoredFiles(dir, files, ignores);
+      filesAfterIgnores = filterByGlobs(dir, files, ignores);
     }
     const filteredFiles = filesAfterIgnores.filter(
       (file) => fileContents[file] === undefined
@@ -1093,6 +1120,13 @@ export const main = async (/** @type {Parameters} */ params) => {
 /** @typedef {[ string, (params: ConfigurationHandlerParams) => Promise<any> ] } ConfigurationFileAndHandler */
 
 /**
+ * @typedef Override
+ * @property {string[]} filter Globs to filter.
+ * @property {Configuration} config Configuration object.
+ * @property {"merge"|"replace"} combine Combine strategy.
+ */
+
+/**
  * @typedef DirInfo
  * @property {string} dir Directory.
  * @property {string | null} relativeDir Relative directory.
@@ -1113,6 +1147,7 @@ export const main = async (/** @type {Parameters} */ params) => {
 /**
  * @typedef Options
  * @property {Configuration} [config] Configuration object.
+ * @property {Override[]} [overrides] Configuration overrides.
  * @property {Rule[] | string[]} [customRules] Custom rules.
  * @property {boolean} [fix] Fix supported violations.
  * @property {string} [frontMatter] Front matter regular expression.

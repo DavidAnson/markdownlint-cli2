@@ -19,6 +19,7 @@ const cli2SchemaKeys = new Set([
   "noInlineConfig",
   "noProgress",
   "outputFormatters",
+  "overrides",
   "showFound"
 ]);
 

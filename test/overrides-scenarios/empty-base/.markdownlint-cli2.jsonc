@@ -1,0 +1,13 @@
+{
+  "config": {
+  },
+  "overrides": [
+    {
+      "filter": [ "f*.md" ],
+      "config": {
+        "single-trailing-newline": false
+      },
+      "combine": "merge"
+    }
+  ]
+}

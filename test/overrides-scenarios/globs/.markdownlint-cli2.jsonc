@@ -1,0 +1,14 @@
+{
+  "config": {
+    "no-trailing-spaces": false
+  },
+  "overrides": [
+    {
+      "filter": [ "file.md", "unused.md", "copy.md" ],
+      "config": {
+        "single-trailing-newline": false
+      },
+      "combine": "merge"
+    }
+  ]
+}

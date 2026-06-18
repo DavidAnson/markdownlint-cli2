@@ -48,7 +48,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
   });
 
   test("version numbers match", async (t) => {
-    t.plan(142);
+    t.plan(145);
     const files = [
       // See previous test
       // "./package.json",
@@ -154,7 +154,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
   });
 
   test("validateMarkdownlintCli2ConfigSchema", async (t) => {
-    t.plan(96);
+    t.plan(111);
 
     // Validate schema
     const ajv = new Ajv({
@@ -183,7 +183,9 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
         "!**/*null/**",
         "!**/*number/**",
         "!**/invalid.*",
-        "!test/customRules/dir/subdir2/.markdownlint-cli2.jsonc"
+        "!test/customRules/dir/subdir2/.markdownlint-cli2.jsonc",
+        "!test/overrides-scenarios/empty-overrides/**",
+        "!test/overrides-scenarios/no-(combine|config|filter)/**"
       ],
       {
         "dot": true

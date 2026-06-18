@@ -1,0 +1,11 @@
+{
+  "config": {
+    "no-trailing-spaces": false
+  },
+  "overrides": [
+    {
+      "filter": [ "f*.md" ],
+      "combine": "merge"
+    }
+  ]
+}

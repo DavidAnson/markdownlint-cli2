@@ -1175,6 +1175,18 @@ const testCases = (/** @type {TestConfiguration} */ {
     "noImport": true
   });
 
+  testCase({
+    "name": "overrides",
+    "args": [ "**/*.md" ],
+    "exitCode": 1
+  });
+
+  testCase({
+    "name": "overrides-scenarios",
+    "args": [ "**/*.md" ],
+    "exitCode": 1
+  });
+
   if (sameFileSystem) {
 
     testCase({

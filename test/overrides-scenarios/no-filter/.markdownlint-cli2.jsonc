@@ -1,0 +1,13 @@
+{
+  "config": {
+    "no-trailing-spaces": false
+  },
+  "overrides": [
+    {
+      "config": {
+        "single-trailing-newline": false
+      },
+      "combine": "merge"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "config": {
+    "no-trailing-spaces": false
+  },
+  "overrides": [
+    {
+      "filter": [ "f*.md" ],
+      "config": {
+        "single-trailing-newline": false
+      },
+      "combine": "merge"
+    },
+    {
+      "filter": [ "*e.md" ],
+      "config": {
+        "no-multiple-space-atx": false
+      },
+      "combine": "merge"
+    }
+  ]
+}

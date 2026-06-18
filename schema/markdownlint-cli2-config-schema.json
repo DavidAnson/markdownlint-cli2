@@ -128,6 +128,40 @@
         "minItems": 1
       }
     },
+    "overrides": {
+      "description": "Configuration overrides : https://github.com/DavidAnson/markdownlint-cli2/blob/v0.22.1/README.md#markdownlint-cli2jsonc",
+      "type": "array",
+      "default": [],
+      "items": {
+        "description": "Configuration override",
+        "type": "object",
+        "properties": {
+          "filter": {
+            "description": "Glob expression(s) of files for which override applies",
+            "type": "array",
+            "default": [],
+            "items": {
+              "description": "Glob expression",
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "config": {
+            "description": "markdownlint configuration schema : https://github.com/DavidAnson/markdownlint/blob/v0.41.0/schema/.markdownlint.jsonc",
+            "$ref": "https://raw.githubusercontent.com/DavidAnson/markdownlint/v0.41.0/schema/markdownlint-config-schema.json",
+            "default": {}
+          },
+          "combine": {
+            "description": "Strategy for combining override config with parent config",
+            "type": "string",
+            "pattern": "merge|replace"
+          }
+        },
+        "required": [ "filter", "config", "combine" ]
+      },
+      "minItems": 1
+    },
     "showFound": {
       "description": "Whether to show the list of found files on stdout (only valid at the root) : https://github.com/DavidAnson/markdownlint-cli2/blob/v0.22.1/README.md#markdownlint-cli2jsonc",
       "type": "boolean",

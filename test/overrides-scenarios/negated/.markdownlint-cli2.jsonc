@@ -1,0 +1,14 @@
+{
+  "config": {
+    "no-trailing-spaces": false
+  },
+  "overrides": [
+    {
+      "filter": [ "*.md", "!copy.*" ],
+      "config": {
+        "single-trailing-newline": false
+      },
+      "combine": "merge"
+    }
+  ]
+}

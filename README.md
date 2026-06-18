@@ -329,8 +329,8 @@ supported by the `--format` command-line parameter. When `--format` is set:
 ### `.markdownlint-cli2.jsonc`
 
 - The format of this file is a [JSONC][jsonc] object similar to the
-  [`markdownlint` `options` object][markdownlint-options].
-- Valid properties are:
+  [`markdownlint` `options` object][markdownlint-options]
+- Valid properties (all optional):
   - `config`: [`markdownlint` `config` object][markdownlint-config] to configure
     rules for this part of the directory tree
     - If a `.markdownlint.{jsonc,json,yaml,yml,cjs,mjs}` file (see below) is
@@ -412,6 +412,20 @@ supported by the `--format` command-line parameter. When `--format` is set:
     - This top-level setting is valid **only** in the directory from which
       `markdownlint-cli2` is run
     - Search [`markdownlint-cli2-formatter` on npm][markdownlint-cli2-formatter]
+  - `overrides`: `Array` of `Override` objects defining configuration overrides
+    - `Override` object properties (all required):
+      - `filter`: `Array` of `String`s defining glob expressions of files to
+        include or exclude (analogous to `globs` above)
+        - Only files *already* in scope for the parent configuration object are
+          subject to override; `filter` will not bring in additional files
+        - If multiple `Override` object `filter`s match a file, only the first
+          matching `Override` is used
+      - `config`: `markdownlint` `config` object (as defined for parent object
+        above)
+        - If an `extends` property is present on this object, it is ignored
+      - `combine`: `String` value `merge` or `replace`:
+        - `merge`: Merges override `config` values with parent config
+        - `replace`: Replaces parent `config` values with override config
   - `showFound`: `Boolean` value to display the list of found files on `stdout`
     - This top-level setting is valid **only** in the directory from which
       `markdownlint-cli2` is run and **only** when `noProgress` has not been set
@@ -422,17 +436,17 @@ supported by the `--format` command-line parameter. When `--format` is set:
   - Importing a locally-installed module using a bare specifier (ex:
     `package-name`) or using a directory name (ex: `./package-dir`) will not
     work until [`import.meta.resolve`][nodejs-import-meta-resolve] is available
-- Settings in this file apply to the directory it is in and all subdirectories.
+- Settings in this file apply to the directory it is in and all subdirectories
 - Settings **merge with** those applied by any versions of this file in a parent
-  directory (up to the current directory).
+  directory (up to the current directory)
 - For example: [`.markdownlint-cli2.jsonc`][markdownlint-cli2-jsonc] with all
   properties set
 
 ### `.markdownlint-cli2.yaml`
 
 - The format of this file is a [YAML][yaml] object with the structure described
-  above for `.markdownlint-cli2.jsonc`.
-- Other details are the same as for `.markdownlint-cli2.jsonc` described above.
+  above for `.markdownlint-cli2.jsonc`
+- Other details are the same as for `.markdownlint-cli2.jsonc` described above
 - For example: [`.markdownlint-cli2.yaml`][markdownlint-cli2-yaml] with all
   properties set
 
@@ -440,31 +454,31 @@ supported by the `--format` command-line parameter. When `--format` is set:
 
 - The format of this file is a [CommonJS module][commonjs-module] (`.cjs`) or
   [ECMAScript module][ecmascript-module] (`.mjs`) that exports the object
-  described above for `.markdownlint-cli2.jsonc` (directly or from a `Promise`).
+  described above for `.markdownlint-cli2.jsonc` (directly or from a `Promise`)
 - Instead of passing a `String` to identify the module name/path to load for
   `customRules`, `markdownItPlugins`, and `outputFormatters`, the corresponding
-  `Object` or `Function` can be provided directly.
-- Other details are the same as for `.markdownlint-cli2.jsonc` described above.
+  `Object` or `Function` can be provided directly
+- Other details are the same as for `.markdownlint-cli2.jsonc` described above
 - For example: [`.markdownlint-cli2.cjs`][markdownlint-cli2-cjs] or
   [`.markdownlint-cli2.mjs`][markdownlint-cli2-mjs]
 
 ### `.markdownlint.jsonc` or `.markdownlint.json`
 
 - The format of this file is a [JSONC][jsonc] or [JSON][json] object matching
-  the [`markdownlint` `config` object][markdownlint-config].
+  the [`markdownlint` `config` object][markdownlint-config]
 - Settings in this file apply to the directory it is in and all subdirectories
 - Settings **override** those applied by any versions of this file in a parent
-  directory (up to the current directory).
+  directory (up to the current directory)
 - To merge the settings of these files or share configuration, use the `extends`
-  property (documented in the link above).
-- Both file types support comments in JSON.
+  property (documented in the link above)
+- Both file types support comments in JSON
 - For example: [`.markdownlint.jsonc`][markdownlint-jsonc]
 
 ### `.markdownlint.yaml` or `.markdownlint.yml`
 
 - The format of this file is a [YAML][yaml] object representing the
-  [`markdownlint` `config` object][markdownlint-config].
-- Other details are the same as for `jsonc`/`json` files described above.
+  [`markdownlint` `config` object][markdownlint-config]
+- Other details are the same as for `jsonc`/`json` files described above
 - For example: [`.markdownlint.yaml`][markdownlint-yaml]
 
 ### `.markdownlint.cjs` or `.markdownlint.mjs`
@@ -472,8 +486,8 @@ supported by the `--format` command-line parameter. When `--format` is set:
 - The format of this file is a [CommonJS module][commonjs-module] (`.cjs`) or
   [ECMAScript module][ecmascript-module] (`.mjs`) that exports the
   [`markdownlint` `config` object][markdownlint-config] (directly or from a
-  `Promise`).
-- Other details are the same as for `jsonc`/`json` files described above.
+  `Promise`)
+- Other details are the same as for `jsonc`/`json` files described above
 - For example: [`.markdownlint.cjs`][markdownlint-cjs] or
   [`.markdownlint.mjs`][markdownlint-mjs]
 
@@ -482,11 +496,11 @@ supported by the `--format` command-line parameter. When `--format` is set:
 ### `markdownlint-cli`
 
 - The glob implementation and handling of pattern matching is slightly
-  different.
+  different
 - Configuration files are supported in every directory (vs. only one at the
-  root).
+  root)
 - The `INI` config format, `.markdownlintrc`, and `.markdownlintignore` are not
-  supported.
+  supported
 
 ## pre-commit
 

@@ -51,5 +51,20 @@ outputFormatters:
   -
     - markdownlint-cli2-formatter-default
 
+# Disable different rules for some files
+overrides:
+  # Add another rule for CHANGELOG.md
+  - filter:
+      - "CHANGELOG.md"
+    config:
+      no-duplicate-heading: false
+    combine: merge
+  # Reset customizations for doc/test directories
+  - filter:
+      - "doc/*.md"
+      - "test/*.md"
+    config: {}
+    combine: replace
+
 # Show found files on stdout (only valid at root)
 showFound: true

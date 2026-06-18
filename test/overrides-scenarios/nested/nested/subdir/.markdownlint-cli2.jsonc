@@ -1,0 +1,11 @@
+{
+  "overrides": [
+    {
+      "filter": [ "**/f*.md" ],
+      "config": {
+        "no-multiple-space-atx": false
+      },
+      "combine": "replace"
+    }
+  ]
+}

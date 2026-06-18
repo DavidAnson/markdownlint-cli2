@@ -45,3 +45,18 @@ showFound = true
 [config]
 no-trailing-spaces = false
 no-multiple-blanks = false
+
+# Disable different rules for some files
+
+# Add another rule for CHANGELOG.md
+[[overrides]]
+filter = [ "CHANGELOG.md" ]
+combine = "merge"
+[overrides.config]
+no-duplicate-heading = false
+
+# Reset customizations for doc/test directories
+[[overrides]]
+filter = [ "doc/*.md", "test/*.md" ]
+combine = "replace"
+[overrides.config]

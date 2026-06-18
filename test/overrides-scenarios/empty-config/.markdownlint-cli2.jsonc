@@ -1,0 +1,19 @@
+{
+  "config": {
+    "no-trailing-spaces": false
+  },
+  "overrides": [
+    {
+      "filter": [ "*il*.md" ],
+      "config": {
+      },
+      "combine": "merge"
+    },
+    {
+      "filter": [ "*op*.md" ],
+      "config": {
+      },
+      "combine": "replace"
+    }
+  ]
+}

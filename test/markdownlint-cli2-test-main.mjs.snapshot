@@ -7084,6 +7084,110 @@ exports[`markdownlint-cli2-test-main.mjs > outputFormatters-severity (main) 1`] 
 }
 `;
 
+exports[`markdownlint-cli2-test-main.mjs > overrides (main) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 4 file(s)",
+    "Summary: 14 error(s)"
+  ],
+  "stderr": [
+    "copyme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "copyme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "copyme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "copyme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character",
+    "dir/copyme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "dir/copyme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "dir/copyme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir/copyme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "dir/viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "dir/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir/viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-main.mjs > overrides-scenarios (main) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 33 file(s)",
+    "Summary: 54 error(s)"
+  ],
+  "stderr": [
+    "all-overridden/copy.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "all-overridden/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "bare/file.md:1:11 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "bare/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "bare/file.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "empty-base/file.md:1:11 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "empty-base/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "empty-config/copy.md:1:11 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "empty-config/copy.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "empty-config/copy.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "empty-config/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "empty-config/file.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "empty-overrides/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "empty-overrides/file.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "globs/copy.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "globs/duplicate.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "globs/duplicate.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "globs/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "missing-base/file.md:1:11 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "missing-base/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "multiple/copy.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "multiple/duplicate.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "multiple/duplicate.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "multiple/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "negated/copy.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "negated/copy.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "negated/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "nested/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "nested/nested/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "nested/nested/subdir/file.md:1:11 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "nested/nested/subdir/file.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "nested/normal/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "nested/normal/subdir/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "no-combine/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "no-combine/file.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "no-config/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "no-config/file.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "no-filter/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "no-filter/file.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "none-matching/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "none-matching/file.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "normal/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "normal/file.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "overlapping/copy.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "overlapping/copy.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "overlapping/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "replace/copy.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "replace/duplicate.md:1:11 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "replace/duplicate.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "replace/file.md:1:11 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "replace/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "single/copy.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "single/copy.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
+    "single/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
 exports[`markdownlint-cli2-test-main.mjs > package-json (main) 1`] = `
 {
   "exitCode": 1,
