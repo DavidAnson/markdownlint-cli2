@@ -14,13 +14,13 @@ jobs:
   linkcheck:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - run: 'npx linkinator "*.md" "doc/*.md" "formatter-*/*.md" --directory-listing --skip "^https://github.com/" --skip "^https://www.npmjs.com/" --skip "^https://opensource.org/" --skip "^https://wikipedia.org/"'
 
   spellcheck:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - uses: tbroadley/spellchecker-cli-action@v1
       with:
         dictionaries: '.github/dictionary.txt'
