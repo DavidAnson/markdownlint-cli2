@@ -6,9 +6,10 @@ import path from "node:path";
 import test from "node:test";
 import Ajv from "ajv";
 import * as globby from "globby";
-import packageJson from "../package.json" with { "type": "json" };
+// eslint-disable-next-line @stylistic/quote-props
+import packageJson from "../package.json" with { type: "json" };
 import { readConfig } from "markdownlint/promise";
-import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
+import { main as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import parsers from "../parsers/parsers.mjs";
 import jsoncParse from "../parsers/jsonc-parse.mjs";
 import tomlParse from "../parsers/toml-parse.mjs";
@@ -17,8 +18,10 @@ import FsVirtual from "../webworker/fs-virtual.cjs";
 import firstLine from "./customRules/rules/first-line.cjs";
 
 const schemaIdVersionRe = /^.*v(?<version>\d+\.\d+\.\d+).*$/u;
-import markdownlintConfigSchemaDefinition from "../schema/markdownlint-config-schema.json" with { "type": "json" };
-import markdownlintCli2ConfigSchemaDefinition from "../schema/markdownlint-cli2-config-schema.json" with { "type": "json" };
+// eslint-disable-next-line @stylistic/quote-props
+import markdownlintConfigSchemaDefinition from "../schema/markdownlint-config-schema.json" with { type: "json" };
+// eslint-disable-next-line @stylistic/quote-props
+import markdownlintCli2ConfigSchemaDefinition from "../schema/markdownlint-cli2-config-schema.json" with { type: "json" };
 
 const outputFormatterLengthIs = (/** @type {import("node:test").TestContext} */ t, /** @type {number} */ length) => (/** @type {import("../markdownlint-cli2.mjs").OutputFormatterOptions} */ options) => {
   const { results } = options;
@@ -671,8 +674,12 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     const stdouts = [];
     return markdownlintCli2({
       "argv": [ "--help" ],
-      "logMessage": (/** @type {string} */ msg) => stdouts.push(msg),
-      "logError": (/** @type {string} */ msg) => t.assert.fail(`message logged: ${msg}`)
+      "logMessage": (/** @type {string} */ msg) => {
+        stdouts.push(msg);
+      },
+      "logError": (/** @type {string} */ msg) => {
+        t.assert.fail(`message logged: ${msg}`);
+      }
     }).
       then((exitCode) => {
         t.assert.equal(exitCode, 2);
@@ -686,8 +693,12 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     const stdouts = [];
     return markdownlintCli2({
       "argv": [ "README.md", "--help" ],
-      "logMessage": (/** @type {string} */ msg) => stdouts.push(msg),
-      "logError": (/** @type {string} */ msg) => t.assert.fail(`message logged: ${msg}`)
+      "logMessage": (/** @type {string} */ msg) => {
+        stdouts.push(msg);
+      },
+      "logError": (/** @type {string} */ msg) => {
+        t.assert.fail(`message logged: ${msg}`);
+      }
     }).
       then((exitCode) => {
         t.assert.equal(exitCode, 2);

@@ -86,9 +86,6 @@ const testCases = (/** @type {TestConfiguration} */ {
     } = options;
     const usesEnv = Boolean(env);
     const usesScript = Boolean(script);
-    const setup = (/** @type {string} */ fromDir, /** @type {string} */ toDir) => isolate ? copyDir(fromDir, toDir) : Promise.resolve();
-    const teardown = (/** @type {string} */ dir) => isolate ? removeDir(dir) : Promise.resolve();
-    const isolatedDir = `${name}-copy-${host}`;
     if (
       (noImport && !includeNoImport) ||
       (usesEnv && !includeEnv) ||
@@ -97,6 +94,9 @@ const testCases = (/** @type {TestConfiguration} */ {
     ) {
       return;
     }
+    const setup = (/** @type {string} */ fromDir, /** @type {string} */ toDir) => isolate ? copyDir(fromDir, toDir) : Promise.resolve();
+    const teardown = (/** @type {string} */ dir) => isolate ? removeDir(dir) : Promise.resolve();
+    const isolatedDir = `${name}-copy-${host}`;
     test(`${name} (${host})`, async (t) => {
       t.plan(3);
       const relative = (isolate && isolatedDir) || cwd || name;

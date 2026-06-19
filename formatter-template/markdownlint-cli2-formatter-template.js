@@ -34,7 +34,6 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
       "errorSeverity": result.severity
     };
 
-    // eslint-disable-next-line unicorn/consistent-function-scoping
     const replacer = (/** @type {string} */ match, /** @type {string} */ token, /** @type {string} */ type, /** @type {string} */ text) => {
       // @ts-ignore
       const value = tokenToResult[token];
@@ -56,6 +55,7 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
 
     let output = template;
     for (const tokenRe of tokenRes) {
+      // eslint-disable-next-line unicorn/no-unsafe-string-replacement
       output = output.replaceAll(tokenRe, replacer).replaceAll(tokenRe, replacer);
     }
     logError(output);

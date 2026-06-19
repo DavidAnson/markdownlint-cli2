@@ -26,6 +26,7 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
       testSuite().
       name(outputFormatterName).
       time(0);
+  // eslint-disable-next-line unicorn/no-duplicate-loops
   for (const errorInfo of results.filter((result) => !result.severity || (result.severity === "error"))) {
     const { fileName, lineNumber, ruleNames, ruleDescription, errorDetail, errorContext, errorRange } = errorInfo;
     const ruleName = ruleNames.join("/");

@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import * as globby from "globby";
-import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
+import { main as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 
@@ -37,8 +37,12 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
   return markdownlintCli2({
     "directory": path.posix.join(baseDir, relative),
     "argv": args,
-    "logMessage": (/** @type {string} */ msg) => stdout.push(msg),
-    "logError": (/** @type {string} */ err) => stderr.push(err),
+    "logMessage": (/** @type {string} */ msg) => {
+      stdout.push(msg);
+    },
+    "logError": (/** @type {string} */ err) => {
+      stderr.push(err);
+    },
     noImport,
     "fs": fsVirtual
   }).

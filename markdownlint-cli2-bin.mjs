@@ -2,7 +2,7 @@
 
 // @ts-check
 
-import { "main" as markdownlintCli2 } from "./markdownlint-cli2.mjs";
+import { main as markdownlintCli2 } from "./markdownlint-cli2.mjs";
 
 const params = {
   "argv": process.argv.slice(2),
