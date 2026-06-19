@@ -59,10 +59,16 @@ export default [
       "@stylistic/operator-linebreak": [ "error", "after", { "overrides": { "?": "before", ":": "before" } } ],
       "@stylistic/padded-blocks": "off",
 
+      "unicorn/consistent-boolean-name": "off",
+      "unicorn/default-export-style": [ "error", { "functions": "separate" } ],
+      "unicorn/max-nested-calls": "off",
+      "unicorn/name-replacements": "off",
+      "unicorn/no-asterisk-prefix-in-documentation-comments": "off",
       "unicorn/no-null": "off",
       "unicorn/prefer-string-raw": "off",
       "unicorn/prefer-string-replace-all": "off",
       "unicorn/prevent-abbreviations": "off",
+      "unicorn/prefer-await": "off",
       "unicorn/try-complexity": "off"
     }
   },

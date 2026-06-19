@@ -25,6 +25,7 @@ const packageJson = require("./package.json");
 
 /** @typedef {{ text: string }} SarifMessage */
 
+// eslint-disable-next-line unicorn/comment-content
 /** @typedef {{ uri: string }} SarifArtifactLocation */
 
 /** @typedef {{ artifactLocation: SarifArtifactLocation, region: SarifRegion }} SarifPhysicalLocation */
@@ -90,7 +91,9 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
     // Format rule name per SARIF validator rule SARIF2012
     const ruleName = ruleNames.
       join(" ").
+      // eslint-disable-next-line unicorn/no-unsafe-string-replacement
       replace(/\w/gu, toLower).
+      // eslint-disable-next-line unicorn/no-unsafe-string-replacement
       replace(/\b\w/gu, toUpper).
       replace(/[^\dA-Za-z]/gu, "");
     const errorDetailText = errorDetail ? `, ${errorDetail}` : "";

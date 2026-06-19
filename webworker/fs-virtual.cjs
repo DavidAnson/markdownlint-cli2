@@ -38,11 +38,12 @@ const dirent = (path, isDirectory) => {
 /**
  * Returns an fs.Stats for a path.
  * @param {boolean} isDirectory True iff a directory.
- * @param {string} [data] File data.
+ * @param {string} data File data.
  * @returns {Stats} fs.Stats.
  */
 const stats = (isDirectory, data) => {
   const size = data?.length || 0;
+  // eslint-disable-next-line unicorn/prefer-temporal
   const date = new Date(0);
   return {
     ...baseFsFunctions(isDirectory),
@@ -115,8 +116,9 @@ class FsVirtual {
         path = normalize(path);
         if (this.files.has(path)) {
           return Promise.resolve(stats(false, this.files.get(path)));
-        } else if (this.dirs.has(path)) {
-          return Promise.resolve(stats(true));
+        }
+        if (this.dirs.has(path)) {
+          return Promise.resolve(stats(true, ""));
         }
         return Promise.reject(new Error(`fs-virtual:promises.stat(${path})`));
       },
@@ -149,6 +151,7 @@ class FsVirtual {
       const names = [];
       const results = [];
       for (const file of this.files.keys()) {
+        // eslint-disable-next-line unicorn/prefer-continue
         if (file.startsWith(path)) {
           const [ name ] = file.slice(path.length).split("/");
           if (!names.includes(name)) {
@@ -172,6 +175,7 @@ class FsVirtual {
     };
   }
 
+  // eslint-disable-next-line unicorn/consistent-class-member-order
   static async mirrorDirectory(/** @type {import("../markdownlint-cli2.mjs").FsLike} */ fs, /** @type {string} */ directory, /** @type {import("globby")} */ globby, /** @type {string} */ virtualRoot) {
     const names = await globby.globby(
       "**",
@@ -181,6 +185,7 @@ class FsVirtual {
         fs
       }
     );
+    // eslint-disable-next-line unicorn/require-array-sort-compare
     names.sort();
     /** @type {[string, string][]} */
     const files = await Promise.all(

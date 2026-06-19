@@ -51,7 +51,7 @@ const throwForConfigurationFile = (/** @type {string} */ file, /** @type {Error 
   );
 };
 
-// Return a posix path (even on Windows)
+// Return a POSIX path (even on Windows)
 const posixPath = (/** @type {string} */ p) => p.split(pathDefault.sep).join(pathPosix.sep);
 
 // Resolves module paths relative to the specified directory
@@ -63,7 +63,8 @@ const resolveModulePaths = (/** @type {string} */ dir, /** @type {string[]} */ m
 const importModule = async (/** @type {string[] | string} */ dirOrDirs, /** @type {any} */ id, /** @type {boolean} */ noImport) => {
   if (typeof id !== "string") {
     return id;
-  } else if (noImport) {
+  }
+  if (noImport) {
     return null;
   }
   const dirs = Array.isArray(dirOrDirs) ? dirOrDirs : [ dirOrDirs ];
@@ -509,6 +510,7 @@ const enumerateParents = async (
   do {
     baseDirParents[baseDirParent] = true;
     baseDirParent = pathPosix.dirname(baseDirParent);
+  // eslint-disable-next-line unicorn/no-computed-property-existence-check
   } while (!baseDirParents[baseDirParent]);
 
   // Visit parents of each dirInfo
@@ -516,6 +518,7 @@ const enumerateParents = async (
     let { dir } = lastDirInfo;
     let lastDir = dir;
     while (
+      // eslint-disable-next-line unicorn/no-computed-property-existence-check
       !baseDirParents[dir] &&
       (dir = pathPosix.dirname(dir)) &&
       (dir !== lastDir)
@@ -613,6 +616,7 @@ const createDirInfos = async (
   }
   await Promise.all(tasks);
   for (const dirInfo of dirInfos) {
+    // eslint-disable-next-line unicorn/no-computed-property-existence-check
     while (dirInfo.parent && !dirToDirInfo[dirInfo.parent.dir]) {
       dirInfo.parent = dirInfo.parent.parent;
     }
@@ -678,7 +682,8 @@ const createDirInfos = async (
   /** @type {DirInfo[]} */
   const overrideDirInfos = [];
   for (const dirInfo of dirInfos) {
-    for (const override of (dirInfo.markdownlintOptions?.overrides || [])) {
+    const overrides = dirInfo.markdownlintOptions?.overrides || [];
+    for (const override of overrides) {
       const { filter, config, combine } = override;
       if (filter && (filter.length > 0) && config && ((combine === "merge") || (combine === "replace"))) {
         const filteredFiles = filterByGlobs(dirInfo.dir, dirInfo.files, filter);
@@ -735,12 +740,12 @@ const lintFiles = (
       }
     }
     // Create markdown-it factory
-    // eslint-disable-next-line unicorn/consistent-function-scoping
     const markdownItFactory = async () => {
       // eslint-disable-next-line no-inline-comments
       const module = await import(/* webpackMode: "eager" */ "markdown-it");
       const markdownIt = module.default({ "html": true });
-      for (const plugin of (markdownlintOptions?.markdownItPlugins || [])) {
+      const plugins = markdownlintOptions?.markdownItPlugins || [];
+      for (const plugin of plugins) {
         // @ts-ignore
         markdownIt.use(...plugin);
       }
@@ -851,6 +856,7 @@ const outputResults = async (
   /** @type {Logger} */ logError,
   /** @type {boolean} */ noImport
 ) => {
+  // eslint-disable-next-line unicorn/prefer-early-return
   if ((results.length > 0) || outputFormatters) {
     /** @type {OutputFormatterOptions} */
     const formatterOptions = {
@@ -911,6 +917,7 @@ export const main = async (/** @type {Parameters} */ params) => {
   const argvFiltered = (argv || []).filter((arg) => {
     if (sawDashDash) {
       return true;
+    // eslint-disable-next-line unicorn/no-useless-else
     } else if (configPath === null) {
       configPath = arg;
     } else if (configPointer === null) {
@@ -1027,6 +1034,7 @@ export const main = async (/** @type {Parameters} */ params) => {
     const fileCount = fileNames.length;
     if (baseMarkdownlintOptions.showFound) {
       fileNames.push("");
+      // eslint-disable-next-line unicorn/require-array-sort-compare
       fileNames.sort();
       logMessage(`Found:${fileNames.join("\n ")}`);
     }
@@ -1061,7 +1069,7 @@ export const main = async (/** @type {Parameters} */ params) => {
       modulePaths,
       logMessage,
       logError,
-      Boolean(noImport)
+      noImport
     );
   }
   // Return result

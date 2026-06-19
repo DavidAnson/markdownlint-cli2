@@ -1,7 +1,8 @@
 // @ts-check
 
 import test from "node:test";
-import packageJson from "../package.json" with { "type": "json" };
+// eslint-disable-next-line @stylistic/quote-props
+import packageJson from "../package.json" with { type: "json" };
 
 const exportMappings = new Map([
   [ ".", "../markdownlint-cli2.mjs" ],
@@ -19,6 +20,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
   test("exportMappings table", (t) => {
     t.assert.deepEqual(
       Object.keys(packageJson.exports),
+      // eslint-disable-next-line unicorn/prefer-iterator-to-array
       [ ...exportMappings.keys() ]
     );
   });
@@ -26,7 +28,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
   for (const [ exportName, exportPath ] of exportMappings) {
     test(exportName, async (t) => {
       const commonJs = exportPath.includes("helpers");
-      const importExportName = await import(exportName.replace(/^\./u, packageJson.name));
+      const importExportName = await import(exportName.replace(/^\./u, () => packageJson.name));
       const importExportPath = await import(exportPath);
       t.assert.deepEqual(
         commonJs ? importExportName.default : importExportName,
@@ -40,7 +42,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     /** @type {Record<string, object>} */
     const exportedNames = {};
     for (const [ exportName ] of exportMappings) {
-      const exportByName = exportName.replace(/^\./u, packageJson.name);
+      const exportByName = exportName.replace(/^\./u, () => packageJson.name);
       // eslint-disable-next-line no-await-in-loop
       const importExportByName = await import(exportByName);
       exportedNames[exportByName] = Object.keys(importExportByName);

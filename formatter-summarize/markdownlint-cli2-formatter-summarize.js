@@ -2,6 +2,8 @@
 
 "use strict";
 
+/* eslint-disable unicorn/prefer-iterator-to-array, unicorn/require-array-sort-compare */
+
 /** @typedef {import("../markdownlint-cli2.mjs").OutputFormatterOptions} OutputFormatterOptions */
 /** @typedef {import("../markdownlint-cli2.mjs").Logger} Logger */
 
@@ -21,8 +23,8 @@
  * @param {number} [indent] Indent.
  * @returns {void}
  */
-const logColumns = (log, countOrLabel, name, indent) => {
-  log(`${"".padEnd(indent || 0)}${countOrLabel.toString().padStart(5)} ${name}`);
+const logColumns = (log, countOrLabel, name, indent = 0) => {
+  log(`${"".padEnd(indent)}${countOrLabel.toString().padStart(5)} ${name}`);
 };
 
 // Summarize the results

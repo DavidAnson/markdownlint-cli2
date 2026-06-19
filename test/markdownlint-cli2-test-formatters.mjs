@@ -38,8 +38,12 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
       const messages = [];
       /** @type {string[]} */
       const errors = [];
-      const logMessage = (/** @type {string} */ msg) => messages.push(msg);
-      const logError = (/** @type {string} */ err) => errors.push(err);
+      const logMessage = (/** @type {string} */ msg) => {
+        messages.push(msg);
+      };
+      const logError = (/** @type {string} */ err) => {
+        errors.push(err);
+      };
       /** @type {LintResult} */
       const result = {
         "fileName": "file.name",

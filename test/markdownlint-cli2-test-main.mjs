@@ -4,7 +4,7 @@ import path from "node:path";
 import test from "node:test";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
 import { copyDir, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
-import { "main" as markdownlintCli2 } from "../markdownlint-cli2.mjs";
+import { main as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 
 const baseDir = import.meta.dirname;
 
@@ -17,8 +17,12 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
   return markdownlintCli2({
     directory,
     "argv": args,
-    "logMessage": (/** @type {string} */ msg) => stdout.push(msg),
-    "logError": (/** @type {string} */ msg) => stderr.push(msg),
+    "logMessage": (/** @type {string} */ msg) => {
+      stdout.push(msg);
+    },
+    "logError": (/** @type {string} */ msg) => {
+      stderr.push(msg);
+    },
     noImport
   }).
     then(
