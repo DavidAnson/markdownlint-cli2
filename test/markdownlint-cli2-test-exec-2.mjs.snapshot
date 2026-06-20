@@ -1,0 +1,1304 @@
+exports[`markdownlint-cli2-test-exec.mjs > all-ok (exec) 1`] = `
+{
+  "exitCode": 0,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md **/*.markdown",
+    "Linting: 5 file(s)",
+    "Summary: 0 error(s)"
+  ],
+  "stderr": [],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint-cli2.yaml-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 5 error(s)"
+  ],
+  "stderr": [
+    "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint.cjs-absolute-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 5 error(s)"
+  ],
+  "stderr": [
+    "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint.json-alternate-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 5 error(s)"
+  ],
+  "stderr": [
+    "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint.jsonc-alternate-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 5 error(s)"
+  ],
+  "stderr": [
+    "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint.mjs-alternate-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 5 error(s)"
+  ],
+  "stderr": [
+    "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint.toml-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 5 error(s)"
+  ],
+  "stderr": [
+    "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint.yaml-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 5 error(s)"
+  ],
+  "stderr": [
+    "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-config-nested.json-/string-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 11 error(s)"
+  ],
+  "stderr": [
+    "dir1/viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir1/viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "dir1/viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character",
+    "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-config.cjs-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 3 error(s)"
+  ],
+  "stderr": [
+    "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-config.toml-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 3 error(s)"
+  ],
+  "stderr": [
+    "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-config.yml-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 3 error(s)"
+  ],
+  "stderr": [
+    "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-invalid.markdownlint-cli2.cjs-invalid-arg (exec) 1`] = `
+{
+  "exitCode": 2,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-invalid.markdownlint.yaml-invalid-arg (exec) 1`] = `
+{
+  "exitCode": 2,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-files-options-nested.yaml-/nested-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 3 error(s)"
+  ],
+  "stderr": [
+    "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "dir2/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-first-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 11 error(s)"
+  ],
+  "stderr": [
+    "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:1:10 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:4 error MD032/blanks-around-lists Lists should be surrounded by blank lines [Context: \\"1. List\\"]",
+    "dir/about.md:5:1 error MD029/ol-prefix Ordered list item prefix [Expected: 2; Actual: 3; Style: 1/2/3]",
+    "dir/subdir/info.md:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "dir/subdir/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
+    "dir/subdir/info.md:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "dir/subdir/info.md:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "dir/subdir/info.md:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > config-last-arg (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 11 error(s)"
+  ],
+  "stderr": [
+    "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:1:10 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:4 error MD032/blanks-around-lists Lists should be surrounded by blank lines [Context: \\"1. List\\"]",
+    "dir/about.md:5:1 error MD029/ol-prefix Ordered list item prefix [Expected: 2; Actual: 3; Style: 1/2/3]",
+    "dir/subdir/info.md:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "dir/subdir/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
+    "dir/subdir/info.md:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "dir/subdir/info.md:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "dir/subdir/info.md:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > customRules (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 9 file(s)",
+    "Summary: 49 error(s)"
+  ],
+  "stderr": [
+    "dir/about.md:1 error first-line Rule that reports an error for the first line",
+    "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:1:10 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:3 error every-n-lines Rule that reports an error every N lines [Line number 3]",
+    "dir/about.md:4 error MD032/blanks-around-lists Lists should be surrounded by blank lines [Context: \\"1. List\\"]",
+    "dir/about.md:5:1 error MD029/ol-prefix Ordered list item prefix [Expected: 2; Actual: 3; Style: 1/2/3]",
+    "dir/about.md:6 error every-n-lines Rule that reports an error every N lines [Line number 6]",
+    "dir/subdir/hr.md:1:6 error extended-ascii Only extended ASCII characters are allowed [Blocked character: '✅']",
+    "dir/subdir/hr.md:1 error first-line Rule that reports an error for the first line",
+    "dir/subdir/hr.md:3 error sample-rule-commonjs Sample rule (commonjs) [Sample error for hr]",
+    "dir/subdir/hr.md:3 error sample-rule-module Sample rule (module) [Sample error for hr]",
+    "dir/subdir/info.md:1 error first-line Rule that reports an error for the first line",
+    "dir/subdir/info.md:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "dir/subdir/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
+    "dir/subdir/info.md:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "dir/subdir/info.md:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "dir/subdir/info.md:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "dir/subdir2/info.md:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "dir/subdir2/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
+    "dir/subdir2/info.md:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "dir/subdir2/info.md:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "dir/subdir2/info.md:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "dir/subdir3/info.md:1 error first-line Rule that reports an error for the first line",
+    "dir/subdir3/info.md:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "dir/subdir3/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
+    "dir/subdir3/info.md:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "dir/subdir3/info.md:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "dir/subdir3/info.md:3 error every-n-lines Rule that reports an error every N lines [Line number 3]",
+    "dir/subdir3/info.md:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "dir2/hr.md:3 error sample-rule-commonjs Sample rule (commonjs) [Sample error for hr]",
+    "dir2/hr.md:3 error sample-rule-module Sample rule (module) [Sample error for hr]",
+    "dir3/hr.md:1 error first-line Rule that reports an error for the first line",
+    "dir3/hr.md:2 error second-line Rule that reports an error for the second line",
+    "dir3/hr.md:3 error every-n-lines Rule that reports an error every N lines [Line number 3]",
+    "dir3/hr.md:3 error sample-rule-commonjs Sample rule (commonjs) [Sample error for hr]",
+    "dir3/hr.md:3 error sample-rule-module Sample rule (module) [Sample error for hr]",
+    "dir4/hr.md:3 error sample-rule-commonjs Sample rule (commonjs) [Sample error for hr]",
+    "dir4/hr.md:3 error sample-rule-module Sample rule (module) [Sample error for hr]",
+    "viewme.md:1 error first-line Rule that reports an error for the first line",
+    "viewme.md:3 error any-blockquote Rule that reports an error for any blockquote [Blockquote spans 1 line(s).] [Context: \\"> Tagli\\"]",
+    "viewme.md:3 error every-n-lines Rule that reports an error every N lines [Line number 3]",
+    "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:6 error every-n-lines Rule that reports an error every N lines [Line number 6]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:9 error every-n-lines Rule that reports an error every N lines [Line number 9]",
+    "viewme.md:12 error every-n-lines Rule that reports an error every N lines [Line number 12]",
+    "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > formatter-pretty (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 14 error(s)"
+  ],
+  "stderr": [
+    "\\u001b[35mdir/about.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m1\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m3\\u001b[39m \\u001b[90merror\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md021.md\\u0007MD021/no-multiple-space-closed-atx\\u001b]8;;\\u0007\\u001b[39m Multiple spaces inside hashes on closed atx style heading\\u001b[33m [Context: \\"#  About  #\\"]\\u001b[39m",
+    "\\u001b[35mdir/about.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m1\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m10\\u001b[39m \\u001b[90merror\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md021.md\\u0007MD021/no-multiple-space-closed-atx\\u001b]8;;\\u0007\\u001b[39m Multiple spaces inside hashes on closed atx style heading\\u001b[33m [Context: \\"#  About  #\\"]\\u001b[39m",
+    "\\u001b[35mdir/about.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m4\\u001b[39m \\u001b[90merror\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md032.md\\u0007MD032/blanks-around-lists\\u001b]8;;\\u0007\\u001b[39m Lists should be surrounded by blank lines\\u001b[33m [Context: \\"1. List\\"]\\u001b[39m",
+    "\\u001b[35mdir/about.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m5\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m1\\u001b[39m \\u001b[90merror\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md029.md\\u0007MD029/ol-prefix\\u001b]8;;\\u0007\\u001b[39m Ordered list item prefix\\u001b[33m [Expected: 2; Actual: 3; Style: 1/2/3]\\u001b[39m",
+    "\\u001b[35mdir/subdir/info.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m1\\u001b[39m \\u001b[90merror\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md022.md\\u0007MD022/blanks-around-headings\\u001b]8;;\\u0007\\u001b[39m Headings should be surrounded by blank lines\\u001b[33m [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]\\u001b[39m",
+    "\\u001b[35mdir/subdir/info.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m1\\u001b[39m \\u001b[90merror\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md041.md\\u0007MD041/first-line-heading/first-line-h1\\u001b]8;;\\u0007\\u001b[39m First line in a file should be a top-level heading\\u001b[33m [Context: \\"## Information\\"]\\u001b[39m",
+    "\\u001b[35mdir/subdir/info.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m2\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m7\\u001b[39m \\u001b[90merror\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md038.md\\u0007MD038/no-space-in-code\\u001b]8;;\\u0007\\u001b[39m Spaces inside code span elements\\u001b[33m [Context: \\"\` code1\`\\"]\\u001b[39m",
+    "\\u001b[35mdir/subdir/info.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m2\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m26\\u001b[39m \\u001b[90merror\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md038.md\\u0007MD038/no-space-in-code\\u001b]8;;\\u0007\\u001b[39m Spaces inside code span elements\\u001b[33m [Context: \\"\`code2 \`\\"]\\u001b[39m",
+    "\\u001b[35mdir/subdir/info.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m4\\u001b[39m \\u001b[90mwarning\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md012.md\\u0007MD012/no-multiple-blanks\\u001b]8;;\\u0007\\u001b[39m Multiple consecutive blank lines\\u001b[33m [Expected: 1; Actual: 2]\\u001b[39m",
+    "\\u001b[35mviewme.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m3\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m10\\u001b[39m \\u001b[90merror\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md009.md\\u0007MD009/no-trailing-spaces\\u001b]8;;\\u0007\\u001b[39m Trailing spaces\\u001b[33m [Expected: 0 or 2; Actual: 1]\\u001b[39m",
+    "\\u001b[35mviewme.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m5\\u001b[39m \\u001b[90mwarning\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md012.md\\u0007MD012/no-multiple-blanks\\u001b]8;;\\u0007\\u001b[39m Multiple consecutive blank lines\\u001b[33m [Expected: 1; Actual: 2]\\u001b[39m",
+    "\\u001b[35mviewme.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m6\\u001b[39m \\u001b[90merror\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md025.md\\u0007MD025/single-title/single-h1\\u001b]8;;\\u0007\\u001b[39m Multiple top-level headings in the same document\\u001b[33m [Context: \\"Description\\"]\\u001b[39m",
+    "\\u001b[35mviewme.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m12\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m4\\u001b[39m \\u001b[90merror\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md019.md\\u0007MD019/no-multiple-space-atx\\u001b]8;;\\u0007\\u001b[39m Multiple spaces after hash on atx style heading\\u001b[33m [Context: \\"##  Summary\\"]\\u001b[39m",
+    "\\u001b[35mviewme.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m14\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m14\\u001b[39m \\u001b[90mwarning\\u001b[39m \\u001b[33m\\u001b]8;;https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md047.md\\u0007MD047/single-trailing-newline\\u001b]8;;\\u0007\\u001b[39m Files should end with a single newline character\\u001b[33m\\u001b[39m"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > globs (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md !dir/about.md **/*.markdown",
+    "Linting: 2 file(s)",
+    "Summary: 10 error(s)"
+  ],
+  "stderr": [
+    "dir/subdir/info.markdown:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "dir/subdir/info.markdown:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
+    "dir/subdir/info.markdown:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "dir/subdir/info.markdown:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "dir/subdir/info.markdown:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > globs-and-args (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.markdown **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 14 error(s)"
+  ],
+  "stderr": [
+    "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:1:10 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:4 error MD032/blanks-around-lists Lists should be surrounded by blank lines [Context: \\"1. List\\"]",
+    "dir/about.md:5:1 error MD029/ol-prefix Ordered list item prefix [Expected: 2; Actual: 3; Style: 1/2/3]",
+    "dir/subdir/info.markdown:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "dir/subdir/info.markdown:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
+    "dir/subdir/info.markdown:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "dir/subdir/info.markdown:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "dir/subdir/info.markdown:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > ignores (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md **/*.markdown !*.md !dir*/*/*.md !dir7 !dir8/subdir",
+    "Linting: 13 file(s)",
+    "Summary: 23 error(s)"
+  ],
+  "stderr": [
+    "alt1/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "alt1/about.md:1:10 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "alt1/about.md:4 error MD032/blanks-around-lists Lists should be surrounded by blank lines [Context: \\"1. List\\"]",
+    "alt1/about.md:5:1 error MD029/ol-prefix Ordered list item prefix [Expected: 2; Actual: 3; Style: 1/2/3]",
+    "alt1/subdir/info.md:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "alt1/subdir/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
+    "alt1/subdir/info.md:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "alt1/subdir/info.md:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "alt1/subdir/info.md:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "alt2/subdir/info.md:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "alt2/subdir/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
+    "alt2/subdir/info.md:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "alt2/subdir/info.md:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "alt2/subdir/info.md:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:1:10 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:4 error MD032/blanks-around-lists Lists should be surrounded by blank lines [Context: \\"1. List\\"]",
+    "dir/about.md:5:1 error MD029/ol-prefix Ordered list item prefix [Expected: 2; Actual: 3; Style: 1/2/3]",
+    "dir4/subdir/info.markdown:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "dir4/subdir/info.markdown:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
+    "dir4/subdir/info.markdown:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "dir4/subdir/info.markdown:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "dir4/subdir/info.markdown:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > jsonc-trailing-comma (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 2 file(s)",
+    "Summary: 8 error(s)"
+  ],
+  "stderr": [
+    "dir/info.md:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "dir/info.md:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "dir/info.md:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "dir/info.md:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > literal-files-absolute (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: :[PATH]/dir(1)/(view)me.md sentinel/dir",
+    "Linting: 2 file(s)",
+    "Summary: 10 error(s)"
+  ],
+  "stderr": [
+    "sentinel/dir(1)/(view)me.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "sentinel/dir(1)/(view)me.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "sentinel/dir(1)/(view)me.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "sentinel/dir(1)/(view)me.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "sentinel/dir(1)/(view)me.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character",
+    "sentinel/dir/view(me).md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "sentinel/dir/view(me).md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "sentinel/dir/view(me).md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "sentinel/dir/view(me).md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "sentinel/dir/view(me).md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > markdownlint-cli2-cjs (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 10 error(s)"
+  ],
+  "stderr": [
+    "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:1:10 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:5:1 error MD029/ol-prefix Ordered list item prefix [Expected: 2; Actual: 3; Style: 1/2/3]",
+    "dir/subdir/info.md:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "dir/subdir/info.md:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "dir/subdir/info.md:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > markdownlint-cli2-jsonc (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 10 error(s)"
+  ],
+  "stderr": [
+    "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:1:10 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:5:1 error MD029/ol-prefix Ordered list item prefix [Expected: 2; Actual: 3; Style: 1/2/3]",
+    "dir/subdir/info.md:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "dir/subdir/info.md:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "dir/subdir/info.md:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > markdownlint-cli2-jsonc-invalid (exec) 1`] = `
+{
+  "exitCode": 2,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > markdownlint-cli2-jsonc-mismatch-config (exec) 1`] = `
+{
+  "exitCode": 2,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > markdownlint-cli2-mjs (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 10 error(s)"
+  ],
+  "stderr": [
+    "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:1:10 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:5:1 error MD029/ol-prefix Ordered list item prefix [Expected: 2; Actual: 3; Style: 1/2/3]",
+    "dir/subdir/info.md:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "dir/subdir/info.md:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "dir/subdir/info.md:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > markdownlint-json (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 3 file(s)",
+    "Summary: 11 error(s)"
+  ],
+  "stderr": [
+    "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:1:10 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
+    "dir/about.md:5:1 error MD029/ol-prefix Ordered list item prefix [Expected: 2; Actual: 3; Style: 1/2/3]",
+    "dir/subdir/info.md:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
+    "dir/subdir/info.md:2:7 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\` code1\`\\"]",
+    "dir/subdir/info.md:2:26 error MD038/no-space-in-code Spaces inside code span elements [Context: \\"\`code2 \`\\"]",
+    "dir/subdir/info.md:4 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
+    "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > markdownlint-jsonc (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 1 file(s)",
+    "Summary: 4 error(s)"
+  ],
+  "stderr": [
+    "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
+    "viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
+    "viewme.md:12:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Summary\\"]",
+    "viewme.md:14:14 error MD047/single-trailing-newline Files should end with a single newline character"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > markdownlint-mjs-invalid (exec) 1`] = `
+{
+  "exitCode": 2,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > markdownlint-yaml-mismatch-config (exec) 1`] = `
+{
+  "exitCode": 2,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > no-files (exec) 1`] = `
+{
+  "exitCode": 0,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: nothing-matches",
+    "Linting: 0 file(s)",
+    "Summary: 0 error(s)"
+  ],
+  "stderr": [],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > outputFormatters-file (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 1 file(s)",
+    "Summary: 5 error(s)"
+  ],
+  "stderr": [
+    "viewme.md 3 MD009/no-trailing-spaces",
+    "viewme.md 5 MD012/no-multiple-blanks",
+    "viewme.md 6 MD025/single-title/single-h1",
+    "viewme.md 12 MD019/no-multiple-space-atx",
+    "viewme.md 14 MD047/single-trailing-newline"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > outputFormatters-params (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 1 file(s)",
+    "Summary: 5 error(s)"
+  ],
+  "stderr": [
+    "::error file=viewme.md,line=3,col=10,title=MD009/no-trailing-spaces::Trailing spaces",
+    "::error file=viewme.md,line=5,title=MD012/no-multiple-blanks::Multiple consecutive blank lines",
+    "::error file=viewme.md,line=6,title=MD025/single-title/single-h1::Multiple top-level headings in the same document",
+    "::error file=viewme.md,line=12,col=4,title=MD019/no-multiple-space-atx::Multiple spaces after hash on atx style heading",
+    "::error file=viewme.md,line=14,col=14,title=MD047/single-trailing-newline::Files should end with a single newline character",
+    "##vso[task.logissue type=error;sourcepath=viewme.md;linenumber=3;columnumber=10;code=MD009/no-trailing-spaces]Trailing spaces",
+    "##vso[task.logissue type=error;sourcepath=viewme.md;linenumber=5;code=MD012/no-multiple-blanks]Multiple consecutive blank lines",
+    "##vso[task.logissue type=error;sourcepath=viewme.md;linenumber=6;code=MD025/single-title/single-h1]Multiple top-level headings in the same document",
+    "##vso[task.logissue type=error;sourcepath=viewme.md;linenumber=12;columnumber=4;code=MD019/no-multiple-space-atx]Multiple spaces after hash on atx style heading",
+    "##vso[task.logissue type=error;sourcepath=viewme.md;linenumber=14;columnumber=14;code=MD047/single-trailing-newline]Files should end with a single newline character",
+    "#Undefined=\${undefined}#Column=10#Column=10##Column=10#",
+    "#Undefined=\${undefined}#Column=##No column number#No column number#",
+    "#Undefined=\${undefined}#Column=##No column number#No column number#",
+    "#Undefined=\${undefined}#Column=4#Column=4##Column=4#",
+    "#Undefined=\${undefined}#Column=14#Column=14##Column=14#"
+  ],
+  "formatterCodeQuality": [
+    "[",
+    "  {",
+    "    \\"type\\": \\"issue\\",",
+    "    \\"check_name\\": \\"MD009/no-trailing-spaces\\",",
+    "    \\"description\\": \\"MD009/no-trailing-spaces: Trailing spaces [Expected: 0 or 2; Actual: 1]\\",",
+    "    \\"severity\\": \\"blocker\\",",
+    "    \\"fingerprint\\": \\"f34a01e4a119d7df262993933665d4c97cc601702eeca2814ccad9606a3ccb48\\",",
+    "    \\"location\\": {",
+    "      \\"path\\": \\"viewme.md\\",",
+    "      \\"lines\\": {",
+    "        \\"begin\\": 3",
+    "      }",
+    "    }",
+    "  },",
+    "  {",
+    "    \\"type\\": \\"issue\\",",
+    "    \\"check_name\\": \\"MD012/no-multiple-blanks\\",",
+    "    \\"description\\": \\"MD012/no-multiple-blanks: Multiple consecutive blank lines [Expected: 1; Actual: 2]\\",",
+    "    \\"severity\\": \\"blocker\\",",
+    "    \\"fingerprint\\": \\"a3d9b647ce8d929904e64fbbb0a47223617e8985d0a4d31e674b22f919f736fb\\",",
+    "    \\"location\\": {",
+    "      \\"path\\": \\"viewme.md\\",",
+    "      \\"lines\\": {",
+    "        \\"begin\\": 5",
+    "      }",
+    "    }",
+    "  },",
+    "  {",
+    "    \\"type\\": \\"issue\\",",
+    "    \\"check_name\\": \\"MD025/single-title/single-h1\\",",
+    "    \\"description\\": \\"MD025/single-title/single-h1: Multiple top-level headings in the same document\\",",
+    "    \\"severity\\": \\"blocker\\",",
+    "    \\"fingerprint\\": \\"47cd7b74ada622add8ce464681102cb50f7fe2a685f3436327ae39c0f13ef1e6\\",",
+    "    \\"location\\": {",
+    "      \\"path\\": \\"viewme.md\\",",
+    "      \\"lines\\": {",
+    "        \\"begin\\": 6",
+    "      }",
+    "    }",
+    "  },",
+    "  {",
+    "    \\"type\\": \\"issue\\",",
+    "    \\"check_name\\": \\"MD019/no-multiple-space-atx\\",",
+    "    \\"description\\": \\"MD019/no-multiple-space-atx: Multiple spaces after hash on atx style heading\\",",
+    "    \\"severity\\": \\"blocker\\",",
+    "    \\"fingerprint\\": \\"399bbfaf6a26399d5927b93a23b6d18705bb380e90b3e3e85956de34a22c9c5b\\",",
+    "    \\"location\\": {",
+    "      \\"path\\": \\"viewme.md\\",",
+    "      \\"lines\\": {",
+    "        \\"begin\\": 12",
+    "      }",
+    "    }",
+    "  },",
+    "  {",
+    "    \\"type\\": \\"issue\\",",
+    "    \\"check_name\\": \\"MD047/single-trailing-newline\\",",
+    "    \\"description\\": \\"MD047/single-trailing-newline: Files should end with a single newline character\\",",
+    "    \\"severity\\": \\"blocker\\",",
+    "    \\"fingerprint\\": \\"bf74eade0ee3301ccaa826907651e0d6925b60d517e1110c29b081c7b6ce1acf\\",",
+    "    \\"location\\": {",
+    "      \\"path\\": \\"viewme.md\\",",
+    "      \\"lines\\": {",
+    "        \\"begin\\": 14",
+    "      }",
+    "    }",
+    "  }",
+    "]"
+  ],
+  "formatterJson": [
+    "[",
+    " {",
+    "  \\"fileName\\": \\"viewme.md\\",",
+    "  \\"lineNumber\\": 3,",
+    "  \\"ruleNames\\": [",
+    "   \\"MD009\\",",
+    "   \\"no-trailing-spaces\\"",
+    "  ],",
+    "  \\"ruleDescription\\": \\"Trailing spaces\\",",
+    "  \\"ruleInformation\\": \\"https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md009.md\\",",
+    "  \\"errorDetail\\": \\"Expected: 0 or 2; Actual: 1\\",",
+    "  \\"errorContext\\": null,",
+    "  \\"errorRange\\": [",
+    "   10,",
+    "   1",
+    "  ],",
+    "  \\"fixInfo\\": {",
+    "   \\"editColumn\\": 10,",
+    "   \\"deleteCount\\": 1",
+    "  },",
+    "  \\"severity\\": \\"error\\"",
+    " },",
+    " {",
+    "  \\"fileName\\": \\"viewme.md\\",",
+    "  \\"lineNumber\\": 5,",
+    "  \\"ruleNames\\": [",
+    "   \\"MD012\\",",
+    "   \\"no-multiple-blanks\\"",
+    "  ],",
+    "  \\"ruleDescription\\": \\"Multiple consecutive blank lines\\",",
+    "  \\"ruleInformation\\": \\"https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md012.md\\",",
+    "  \\"errorDetail\\": \\"Expected: 1; Actual: 2\\",",
+    "  \\"errorContext\\": null,",
+    "  \\"errorRange\\": null,",
+    "  \\"fixInfo\\": {",
+    "   \\"deleteCount\\": -1",
+    "  },",
+    "  \\"severity\\": \\"error\\"",
+    " },",
+    " {",
+    "  \\"fileName\\": \\"viewme.md\\",",
+    "  \\"lineNumber\\": 6,",
+    "  \\"ruleNames\\": [",
+    "   \\"MD025\\",",
+    "   \\"single-title\\",",
+    "   \\"single-h1\\"",
+    "  ],",
+    "  \\"ruleDescription\\": \\"Multiple top-level headings in the same document\\",",
+    "  \\"ruleInformation\\": \\"https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md025.md\\",",
+    "  \\"errorDetail\\": null,",
+    "  \\"errorContext\\": \\"Description\\",",
+    "  \\"errorRange\\": null,",
+    "  \\"fixInfo\\": null,",
+    "  \\"severity\\": \\"error\\"",
+    " },",
+    " {",
+    "  \\"fileName\\": \\"viewme.md\\",",
+    "  \\"lineNumber\\": 12,",
+    "  \\"ruleNames\\": [",
+    "   \\"MD019\\",",
+    "   \\"no-multiple-space-atx\\"",
+    "  ],",
+    "  \\"ruleDescription\\": \\"Multiple spaces after hash on atx style heading\\",",
+    "  \\"ruleInformation\\": \\"https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md019.md\\",",
+    "  \\"errorDetail\\": null,",
+    "  \\"errorContext\\": \\"##  Summary\\",",
+    "  \\"errorRange\\": [",
+    "   4,",
+    "   1",
+    "  ],",
+    "  \\"fixInfo\\": {",
+    "   \\"editColumn\\": 4,",
+    "   \\"deleteCount\\": 1",
+    "  },",
+    "  \\"severity\\": \\"error\\"",
+    " },",
+    " {",
+    "  \\"fileName\\": \\"viewme.md\\",",
+    "  \\"lineNumber\\": 14,",
+    "  \\"ruleNames\\": [",
+    "   \\"MD047\\",",
+    "   \\"single-trailing-newline\\"",
+    "  ],",
+    "  \\"ruleDescription\\": \\"Files should end with a single newline character\\",",
+    "  \\"ruleInformation\\": \\"https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md047.md\\",",
+    "  \\"errorDetail\\": null,",
+    "  \\"errorContext\\": null,",
+    "  \\"errorRange\\": [",
+    "   14,",
+    "   1",
+    "  ],",
+    "  \\"fixInfo\\": {",
+    "   \\"editColumn\\": 15,",
+    "   \\"insertText\\": \\"\\\\n\\"",
+    "  },",
+    "  \\"severity\\": \\"error\\"",
+    " }",
+    "]"
+  ],
+  "formatterJunit": [
+    "<?xml version=\\"1.0\\" encoding=\\"UTF-8\\"?>",
+    "<testsuites tests=\\"5\\" failures=\\"5\\" errors=\\"0\\" skipped=\\"0\\">",
+    "  <testsuite name=\\"markdownlint-cli2-formatter-junit\\" time=\\"0\\" tests=\\"5\\" failures=\\"5\\" errors=\\"0\\" skipped=\\"0\\">",
+    "    <testcase classname=\\"viewme.md\\" name=\\"MD009/no-trailing-spaces\\" time=\\"0\\">",
+    "      <failure message=\\"Trailing spaces\\"><![CDATA[Line 3, Column 10, Expected: 0 or 2; Actual: 1]]></failure>",
+    "    </testcase>",
+    "    <testcase classname=\\"viewme.md\\" name=\\"MD012/no-multiple-blanks\\" time=\\"0\\">",
+    "      <failure message=\\"Multiple consecutive blank lines\\"><![CDATA[Line 5, Expected: 1; Actual: 2]]></failure>",
+    "    </testcase>",
+    "    <testcase classname=\\"viewme.md\\" name=\\"MD025/single-title/single-h1\\" time=\\"0\\">",
+    "      <failure message=\\"Multiple top-level headings in the same document\\"><![CDATA[Line 6, Context: \\"Description\\"]]></failure>",
+    "    </testcase>",
+    "    <testcase classname=\\"viewme.md\\" name=\\"MD019/no-multiple-space-atx\\" time=\\"0\\">",
+    "      <failure message=\\"Multiple spaces after hash on atx style heading\\"><![CDATA[Line 12, Column 4, Context: \\"##  Summary\\"]]></failure>",
+    "    </testcase>",
+    "    <testcase classname=\\"viewme.md\\" name=\\"MD047/single-trailing-newline\\" time=\\"0\\">",
+    "      <failure message=\\"Files should end with a single newline character\\"><![CDATA[Line 14, Column 14]]></failure>",
+    "    </testcase>",
+    "  </testsuite>",
+    "</testsuites>"
+  ],
+  "formatterSarif": [
+    "{",
+    "  \\"$schema\\": \\"https://json.schemastore.org/sarif-2.1.0.json\\",",
+    "  \\"version\\": \\"2.1.0\\",",
+    "  \\"runs\\": [",
+    "    {",
+    "      \\"tool\\": {",
+    "        \\"driver\\": {",
+    "          \\"name\\": \\"markdownlint-cli2\\",",
+    "          \\"version\\": \\"0.0.4\\",",
+    "          \\"informationUri\\": \\"https://github.com/DavidAnson/markdownlint-cli2\\",",
+    "          \\"rules\\": [",
+    "            {",
+    "              \\"id\\": \\"MD009\\",",
+    "              \\"name\\": \\"Md009NoTrailingSpaces\\",",
+    "              \\"shortDescription\\": {",
+    "                \\"text\\": \\"Trailing spaces\\"",
+    "              },",
+    "              \\"fullDescription\\": {",
+    "                \\"text\\": \\"Trailing spaces\\"",
+    "              },",
+    "              \\"helpUri\\": \\"https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md009.md\\"",
+    "            },",
+    "            {",
+    "              \\"id\\": \\"MD012\\",",
+    "              \\"name\\": \\"Md012NoMultipleBlanks\\",",
+    "              \\"shortDescription\\": {",
+    "                \\"text\\": \\"Multiple consecutive blank lines\\"",
+    "              },",
+    "              \\"fullDescription\\": {",
+    "                \\"text\\": \\"Multiple consecutive blank lines\\"",
+    "              },",
+    "              \\"helpUri\\": \\"https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md012.md\\"",
+    "            },",
+    "            {",
+    "              \\"id\\": \\"MD025\\",",
+    "              \\"name\\": \\"Md025SingleTitleSingleH1\\",",
+    "              \\"shortDescription\\": {",
+    "                \\"text\\": \\"Multiple top-level headings in the same document\\"",
+    "              },",
+    "              \\"fullDescription\\": {",
+    "                \\"text\\": \\"Multiple top-level headings in the same document\\"",
+    "              },",
+    "              \\"helpUri\\": \\"https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md025.md\\"",
+    "            },",
+    "            {",
+    "              \\"id\\": \\"MD019\\",",
+    "              \\"name\\": \\"Md019NoMultipleSpaceAtx\\",",
+    "              \\"shortDescription\\": {",
+    "                \\"text\\": \\"Multiple spaces after hash on atx style heading\\"",
+    "              },",
+    "              \\"fullDescription\\": {",
+    "                \\"text\\": \\"Multiple spaces after hash on atx style heading\\"",
+    "              },",
+    "              \\"helpUri\\": \\"https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md019.md\\"",
+    "            },",
+    "            {",
+    "              \\"id\\": \\"MD047\\",",
+    "              \\"name\\": \\"Md047SingleTrailingNewline\\",",
+    "              \\"shortDescription\\": {",
+    "                \\"text\\": \\"Files should end with a single newline character\\"",
+    "              },",
+    "              \\"fullDescription\\": {",
+    "                \\"text\\": \\"Files should end with a single newline character\\"",
+    "              },",
+    "              \\"helpUri\\": \\"https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md047.md\\"",
+    "            }",
+    "          ]",
+    "        }",
+    "      },",
+    "      \\"results\\": [",
+    "        {",
+    "          \\"ruleId\\": \\"MD009\\",",
+    "          \\"message\\": {",
+    "            \\"text\\": \\"Trailing spaces, Expected: 0 or 2; Actual: 1\\"",
+    "          },",
+    "          \\"locations\\": [",
+    "            {",
+    "              \\"physicalLocation\\": {",
+    "                \\"artifactLocation\\": {",
+    "                  \\"uri\\": \\"viewme.md\\"",
+    "                },",
+    "                \\"region\\": {",
+    "                  \\"startLine\\": 3,",
+    "                  \\"endLine\\": 3,",
+    "                  \\"startColumn\\": 10,",
+    "                  \\"endColumn\\": 11",
+    "                }",
+    "              }",
+    "            }",
+    "          ],",
+    "          \\"level\\": \\"error\\"",
+    "        },",
+    "        {",
+    "          \\"ruleId\\": \\"MD012\\",",
+    "          \\"message\\": {",
+    "            \\"text\\": \\"Multiple consecutive blank lines, Expected: 1; Actual: 2\\"",
+    "          },",
+    "          \\"locations\\": [",
+    "            {",
+    "              \\"physicalLocation\\": {",
+    "                \\"artifactLocation\\": {",
+    "                  \\"uri\\": \\"viewme.md\\"",
+    "                },",
+    "                \\"region\\": {",
+    "                  \\"startLine\\": 5,",
+    "                  \\"endLine\\": 5",
+    "                }",
+    "              }",
+    "            }",
+    "          ],",
+    "          \\"level\\": \\"error\\"",
+    "        },",
+    "        {",
+    "          \\"ruleId\\": \\"MD025\\",",
+    "          \\"message\\": {",
+    "            \\"text\\": \\"Multiple top-level headings in the same document, Context: \\\\\\"Description\\\\\\"\\"",
+    "          },",
+    "          \\"locations\\": [",
+    "            {",
+    "              \\"physicalLocation\\": {",
+    "                \\"artifactLocation\\": {",
+    "                  \\"uri\\": \\"viewme.md\\"",
+    "                },",
+    "                \\"region\\": {",
+    "                  \\"startLine\\": 6,",
+    "                  \\"endLine\\": 6",
+    "                }",
+    "              }",
+    "            }",
+    "          ],",
+    "          \\"level\\": \\"error\\"",
+    "        },",
+    "        {",
+    "          \\"ruleId\\": \\"MD019\\",",
+    "          \\"message\\": {",
+    "            \\"text\\": \\"Multiple spaces after hash on atx style heading, Context: \\\\\\"##  Summary\\\\\\"\\"",
+    "          },",
+    "          \\"locations\\": [",
+    "            {",
+    "              \\"physicalLocation\\": {",
+    "                \\"artifactLocation\\": {",
+    "                  \\"uri\\": \\"viewme.md\\"",
+    "                },",
+    "                \\"region\\": {",
+    "                  \\"startLine\\": 12,",
+    "                  \\"endLine\\": 12,",
+    "                  \\"startColumn\\": 4,",
+    "                  \\"endColumn\\": 5",
+    "                }",
+    "              }",
+    "            }",
+    "          ],",
+    "          \\"level\\": \\"error\\"",
+    "        },",
+    "        {",
+    "          \\"ruleId\\": \\"MD047\\",",
+    "          \\"message\\": {",
+    "            \\"text\\": \\"Files should end with a single newline character\\"",
+    "          },",
+    "          \\"locations\\": [",
+    "            {",
+    "              \\"physicalLocation\\": {",
+    "                \\"artifactLocation\\": {",
+    "                  \\"uri\\": \\"viewme.md\\"",
+    "                },",
+    "                \\"region\\": {",
+    "                  \\"startLine\\": 14,",
+    "                  \\"endLine\\": 14,",
+    "                  \\"startColumn\\": 14,",
+    "                  \\"endColumn\\": 15",
+    "                }",
+    "              }",
+    "            }",
+    "          ],",
+    "          \\"level\\": \\"error\\"",
+    "        }",
+    "      ]",
+    "    }",
+    "  ]",
+    "}"
+  ]
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > package-json-invalid (exec) 1`] = `
+{
+  "exitCode": 2,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > tilde-paths-commonjs (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: *.md",
+    "Linting: 3 file(s)",
+    "Summary: 10 error(s)"
+  ],
+  "stderr": [
+    "hr.md 3 sample-rule-commonjs",
+    "link.md 3 MD039/no-space-in-links",
+    "link.md 3 MD039/no-space-in-links",
+    "link.md 3 MD059/descriptive-link-text",
+    "viewme.md 3 any-blockquote",
+    "viewme.md 3 MD009/no-trailing-spaces",
+    "viewme.md 5 MD012/no-multiple-blanks",
+    "viewme.md 6 MD025/single-title/single-h1",
+    "viewme.md 12 MD019/no-multiple-space-atx",
+    "viewme.md 14 MD047/single-trailing-newline",
+    "cjs: hr.md 3 sample-rule-commonjs",
+    "cjs: link.md 3 MD039/no-space-in-links",
+    "cjs: link.md 3 MD039/no-space-in-links",
+    "cjs: link.md 3 MD059/descriptive-link-text",
+    "cjs: viewme.md 3 any-blockquote",
+    "cjs: viewme.md 3 MD009/no-trailing-spaces",
+    "cjs: viewme.md 5 MD012/no-multiple-blanks",
+    "cjs: viewme.md 6 MD025/single-title/single-h1",
+    "cjs: viewme.md 12 MD019/no-multiple-space-atx",
+    "cjs: viewme.md 14 MD047/single-trailing-newline"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;

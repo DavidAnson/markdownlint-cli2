@@ -33,18 +33,28 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
     catch((error) => error);
 };
 
-test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
+const shardExecSuite = (/** @type {number} */ shardIndex, /** @type {number} */ shardTotal) => {
 
-  testCases({
-    "host": "exec",
-    baseDir,
-    invoke,
-    copyDir,
-    removeDir,
-    "includeNoImport": false,
-    "includeEnv": true,
-    "includeScript": true,
-    "includeRequire": true
+  test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
+
+    testCases({
+      "host": "exec",
+      baseDir,
+      invoke,
+      copyDir,
+      removeDir,
+      "includeNoImport": false,
+      "includeEnv": true,
+      "includeScript": true,
+      "includeRequire": true,
+      shardIndex,
+      shardTotal
+    });
+
   });
 
-});
+};
+
+export {
+  shardExecSuite
+};
