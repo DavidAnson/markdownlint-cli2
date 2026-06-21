@@ -114,19 +114,21 @@ const importModuleIdsAndParams = (/** @type {string[]} */ dirs, /** @type {any[]
   ).then((results) => results.filter(Boolean))
 );
 
-// Extend a config object if it has 'extends' property
-const getExtendedConfig = (/** @type {ExecutionContext} */ context, /** @type {Configuration | undefined} */ config, /** @type {string} */ configPath) => {
+// Update a config object (in place) if it has an "extends" property
+const extendConfigObject = async (/** @type {ExecutionContext} */ context, /** @type {Configuration | undefined} */ config, /** @type {string} */ configPath) => {
   if (config?.extends) {
     const { fs, parsers } = context;
-    return extendConfig(
+    const extended = await extendConfig(
       config,
       configPath,
       parsers,
       fs
     );
+    for (const [ key, value ] of Object.entries(extended)) {
+      config[key] = value;
+    }
   }
-
-  return Promise.resolve(config);
+  return config;
 };
 
 // Read an options or config file in any format and return the object
@@ -143,13 +145,13 @@ const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** 
     } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
       options = await readYaml(configPath, fs);
     } else if (basename.endsWith(".markdownlint-cli2.cjs") || basename.endsWith(".markdownlint-cli2.mjs")) {
-      options = { ...await importModule(dirname, basename, noImport) };
+      options = mergeOptions(null, await importModule(dirname, basename, noImport));
     } else if (basename.endsWith(".markdownlint.jsonc") || basename.endsWith(".markdownlint.json")) {
       config = await readJsonc(configPath, fs);
     } else if (basename.endsWith(".markdownlint.yaml") || basename.endsWith(".markdownlint.yml")) {
       config = await readYaml(configPath, fs);
     } else if (basename.endsWith(".markdownlint.cjs") || basename.endsWith(".markdownlint.mjs")) {
-      config = { ...await importModule(dirname, basename, noImport) };
+      config = mergeOptions(null, await importModule(dirname, basename, noImport));
     } else if (basename.endsWith(".jsonc") || basename.endsWith(".json")) {
       unknown = await readJsonc(configPath, fs);
     } else if (basename.endsWith(".toml")) {
@@ -157,7 +159,7 @@ const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** 
     } else if (basename.endsWith(".yaml") || basename.endsWith(".yml")) {
       unknown = await readYaml(configPath, fs);
     } else if (basename.endsWith(".cjs") || basename.endsWith(".mjs")) {
-      unknown = { ...await importModule(dirname, basename, noImport) };
+      unknown = mergeOptions(null, await importModule(dirname, basename, noImport));
     } else {
       throw new Error(
         "Configuration file should be one of the supported names " +
@@ -182,12 +184,10 @@ const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** 
     }
   }
   if (options) {
-    if (options.config) {
-      options.config = await getExtendedConfig(context, options.config, configPath);
-    }
+    await extendConfigObject(context, options.config, configPath);
     return options;
   }
-  config = await getExtendedConfig(context, config, configPath);
+  await extendConfigObject(context, config, configPath);
   return { config };
 };
 
@@ -282,11 +282,11 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"`
 const readJsoncWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => readJsonc(file, fs);
 const readYamlWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => readYaml(file, fs);
 const importOptionsModuleWrapper = async (/** @type {ConfigurationHandlerParams} */ { dir, file, noImport }) =>
-  mergeOptions({}, await importModule(dir, file, noImport));
+  mergeOptions(null, await importModule(dir, file, noImport));
 // Configuration inputs need "extends" handled
 const readConfigWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs, parsers }) => readConfig(file, parsers, fs);
 const importConfigModuleWrapper = async (/** @type {ConfigurationHandlerParams} */ { context, dir, file, noImport }) =>
-  getExtendedConfig(context, await importModule(dir, file, noImport), file);
+  extendConfigObject(context, mergeOptions(null, await importModule(dir, file, noImport)), file);
 
 /** @type {ConfigurationFileAndHandler[] } */
 const optionsFiles = [
@@ -359,16 +359,12 @@ const getAndProcessDirInfo = (
         then((/** @type {Options | null} */ options) => {
           dirInfo.markdownlintOptions = options;
           return options &&
-            options.config &&
-            getExtendedConfig(
+            extendConfigObject(
               context,
               options.config,
               // Just need to identify the right directory
               pathPosix.join(dir, utf8)
-            ).
-              then((config) => {
-                options.config = config;
-              });
+            );
         }).
         catch((/** @type {Error} */ error) => {
           throwForConfigurationFile(cli2File, error);
