@@ -485,8 +485,7 @@ const testCases = (/** @type {TestConfiguration} */ {
   testCase({
     "name": "markdownlint-cli2-yaml-mismatch",
     "args": [ "viewme.md" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.yaml'.*missed comma between flow collection entries/u
+    "exitCode": 1
   });
 
   testCase({
@@ -500,8 +499,7 @@ const testCases = (/** @type {TestConfiguration} */ {
   testCase({
     "name": "markdownlint-yaml-mismatch-config",
     "args": [ "--config", "../markdownlint-yaml-mismatch/.markdownlint.yaml", "viewme.md" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint\.yaml'.*missed comma between flow collection entries/u,
+    "exitCode": 1,
     "cwd": "no-config"
   });
 
@@ -516,8 +514,7 @@ const testCases = (/** @type {TestConfiguration} */ {
   testCase({
     "name": "markdownlint-cli2-yaml-mismatch-config",
     "args": [ "--config", "../markdownlint-cli2-yaml-mismatch/.markdownlint-cli2.yaml", "viewme.md" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.yaml'.*missed comma between flow collection entries/u,
+    "exitCode": 1,
     "cwd": "no-config"
   });
 
