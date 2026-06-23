@@ -75,7 +75,7 @@
   ],
   "dependencies": {
     "globby": "16.2.0",
-    "js-yaml": "4.2.0",
+    "js-yaml": "5.1.0",
     "jsonc-parser": "3.3.1",
     "jsonpointer": "5.0.1",
     "markdownlint": "0.41.0",
