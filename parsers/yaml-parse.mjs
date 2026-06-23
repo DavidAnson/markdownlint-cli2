@@ -1,6 +1,6 @@
 // @ts-check
 
-import yaml from "js-yaml";
+import { load } from "js-yaml";
 
 /* eslint-disable arrow-body-style */
 
@@ -10,7 +10,7 @@ import yaml from "js-yaml";
  */
 const yamlParse = (text) => {
   // @ts-ignore
-  return yaml.load(text);
+  return load(text);
 };
 
 export default yamlParse;
