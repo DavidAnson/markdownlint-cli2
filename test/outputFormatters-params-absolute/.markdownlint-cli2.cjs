@@ -2,9 +2,10 @@
 
 "use strict";
 
-const path = require("path");
+const path = require("node:path");
+const { deepFreeze } = require("../deep-freeze.cjs");
 
-module.exports = {
+module.exports = deepFreeze({
   "outputFormatters": [
     [
       "../../formatter-codequality",
@@ -32,4 +33,4 @@ module.exports = {
       }
     ]
   ]
-};
+});

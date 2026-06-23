@@ -2,8 +2,10 @@
 
 "use strict";
 
-module.exports = Promise.resolve({
+const { deepFreeze } = require("../../../deep-freeze.cjs");
+
+module.exports = Promise.resolve(deepFreeze({
   "config": {
     "first-line-heading": false
   }
-});
+}));

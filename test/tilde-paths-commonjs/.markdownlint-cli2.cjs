@@ -2,15 +2,16 @@
 
 "use strict";
 
-const { homedir } = require("os");
-const { relative, resolve } = require("path");
+const { homedir } = require("node:os");
+const { relative, resolve } = require("node:path");
+const { deepFreeze } = require("../deep-freeze.cjs");
 
 const makeTildePath = (/** @type {string} */ script) => {
   const dir = resolve(__dirname, script);
   return `~/${relative(homedir(), dir)}`;
 };
 
-module.exports = {
+module.exports = deepFreeze({
   "customRules": [
     makeTildePath("scripts/any-blockquote.cjs"),
     "markdownlint-rule-sample-commonjs"
@@ -28,4 +29,4 @@ module.exports = {
     makeTildePath("../markdownItPlugins/module"),
     makeTildePath("../outputFormatters-module")
   ]
-};
+});

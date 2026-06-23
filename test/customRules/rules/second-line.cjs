@@ -2,8 +2,11 @@
 
 "use strict";
 
+const { deepFreeze } = require("../../deep-freeze.cjs");
+
 /** @type {import("markdownlint").Rule} */
-module.exports = {
+// @ts-ignore
+const rule = {
   "names": [ "second-line" ],
   "description": "Rule that reports an error for the second line",
   "tags": [ "test" ],
@@ -21,3 +24,5 @@ module.exports = {
     });
   }
 };
+
+module.exports = deepFreeze(rule);

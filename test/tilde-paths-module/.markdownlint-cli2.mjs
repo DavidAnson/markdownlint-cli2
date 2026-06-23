@@ -1,8 +1,9 @@
 // @ts-check
 
-import { homedir } from "os";
-import { dirname, relative, resolve } from "path";
-import { fileURLToPath } from "url";
+import { homedir } from "node:os";
+import { dirname, relative, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { deepFreeze } from "../deep-freeze.cjs";
 
 const makeTildePath = (/** @type {string} */ script) => {
   const dir = resolve(
@@ -12,7 +13,7 @@ const makeTildePath = (/** @type {string} */ script) => {
   return `~/${relative(homedir(), dir)}`;
 };
 
-const options = {
+const options = deepFreeze({
   "customRules": [
     makeTildePath("scripts/any-blockquote.mjs"),
     "markdownlint-rule-sample-commonjs"
@@ -30,6 +31,6 @@ const options = {
     makeTildePath("../markdownItPlugins/module"),
     makeTildePath("../outputFormatters-module")
   ]
-};
+});
 
 export default options;

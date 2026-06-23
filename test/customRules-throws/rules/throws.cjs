@@ -2,7 +2,11 @@
 
 "use strict";
 
-module.exports = {
+const { deepFreeze } = require("../../deep-freeze.cjs");
+
+/** @type {import("markdownlint").Rule} */
+// @ts-ignore
+const rule = {
   "names": [ "throws" ],
   "description": "Rule that throws during execution",
   "tags": [ "test" ],
@@ -10,3 +14,5 @@ module.exports = {
     throw new Error("Simulated bug");
   }
 };
+
+module.exports = deepFreeze(rule);

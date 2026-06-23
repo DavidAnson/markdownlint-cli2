@@ -1,5 +1,7 @@
 // @ts-check
 
+import { deepFreeze } from "../../deep-freeze.cjs";
+
 /** @type {import("markdownlint").Rule} */
 const rule = {
   "names": [ "any-blockquote" ],
@@ -14,14 +16,18 @@ const rule = {
     const blockquotes = params.parsers.markdownit.tokens.
       filter((token => token.type === "blockquote_open"));
     for (const blockquote of blockquotes) {
-      const lines = blockquote.map[1] - blockquote.map[0];
-      onError({
-        "lineNumber": blockquote.lineNumber,
-        "detail": "Blockquote spans " + lines + " line(s).",
-        "context": blockquote.line.substr(0, 7)
-      });
+      if (blockquote?.map?.length === 2) {
+        const lines = blockquote.map[1] - blockquote.map[0];
+        onError({
+          "lineNumber": blockquote.lineNumber,
+          "detail": "Blockquote spans " + lines + " line(s).",
+          "context": blockquote.line.substr(0, 7)
+        });
+      }
     }
   }
 };
 
-export default rule;
+const frozenRule = deepFreeze(rule);
+
+export default frozenRule;

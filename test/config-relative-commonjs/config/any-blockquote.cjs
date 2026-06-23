@@ -2,8 +2,10 @@
 
 "use strict";
 
+const { deepFreeze } = require("../../deep-freeze.cjs");
+
 /** @type {import("markdownlint").Rule} */
-module.exports = {
+const rule = {
   "names": [ "any-blockquote" ],
   "description": "Rule that reports an error for any blockquote",
   "information": new URL(
@@ -16,12 +18,16 @@ module.exports = {
     const blockquotes = params.parsers.markdownit.tokens.
       filter((token => token.type === "blockquote_open"));
     for (const blockquote of blockquotes) {
-      const lines = blockquote.map[1] - blockquote.map[0];
-      onError({
-        "lineNumber": blockquote.lineNumber,
-        "detail": "Blockquote spans " + lines + " line(s).",
-        "context": blockquote.line.substr(0, 7)
-      });
+      if (blockquote?.map?.length === 2) {
+        const lines = blockquote.map[1] - blockquote.map[0];
+        onError({
+          "lineNumber": blockquote.lineNumber,
+          "detail": "Blockquote spans " + lines + " line(s).",
+          "context": blockquote.line.substr(0, 7)
+        });
+      }
     }
   }
 };
+
+module.exports = deepFreeze(rule);

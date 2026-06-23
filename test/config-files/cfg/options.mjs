@@ -1,6 +1,8 @@
 // @ts-check
 
-const options = {
+import { deepFreeze } from "../../deep-freeze.cjs";
+
+const options = deepFreeze({
   "config": {
     "extends": "base.jsonc",
     "no-trailing-spaces": false,
@@ -8,6 +10,6 @@ const options = {
     "single-trailing-newline": false
   },
   "noBanner": true
-};
+});
 
 export default options;

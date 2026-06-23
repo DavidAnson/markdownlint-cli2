@@ -1,6 +1,8 @@
 // @ts-check
 
-const options = {
+import { deepFreeze } from "../../deep-freeze.cjs";
+
+const options = deepFreeze({
   "customRules": [
     (new URL(
       "../node_modules/markdownlint-rule-sample-commonjs/sample-rule.cjs",
@@ -11,6 +13,6 @@ const options = {
       import.meta.url
     )).toString()
   ]
-};
+});
 
 export default options;

@@ -3,8 +3,9 @@
 "use strict";
 
 const markdownItForInline = require("markdown-it-for-inline");
+const { deepFreeze } = require("../../deep-freeze.cjs");
 
-module.exports = {
+module.exports = deepFreeze({
   "config": {
     "assert-markdown-it-tokens": {
       "file": "pre-imported.json"
@@ -18,9 +19,9 @@ module.exports = {
       markdownItForInline,
       "trim_text_plugin",
       "text",
-      function iterator(tokens, index) {
+      function iterator(/** @type {import("markdownlint").MarkdownItToken[]} */ tokens, /** @type {number} */ index) {
         tokens[index].content = tokens[index].content.trim();
       }
     ]
   ]
-};
+});

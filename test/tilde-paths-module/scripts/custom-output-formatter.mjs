@@ -1,5 +1,9 @@
 // @ts-check
 
+import { deepFreeze } from "../../deep-freeze.cjs";
+
+/** @type {import("markdownlint-cli2").OutputFormatter} */
+
 const formatter = (options, params) => {
   const { logError, results } = options;
   for (const result of results) {
@@ -8,4 +12,6 @@ const formatter = (options, params) => {
   }
 };
 
-export default formatter;
+const frozenFormatter = deepFreeze(formatter);
+
+export default frozenFormatter;

@@ -143,13 +143,13 @@ const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** 
     } else if (basename.endsWith(".markdownlint-cli2.yaml")) {
       options = await readYaml(configPath, fs);
     } else if (basename.endsWith(".markdownlint-cli2.cjs") || basename.endsWith(".markdownlint-cli2.mjs")) {
-      options = await importModule(dirname, basename, noImport);
+      options = { ...await importModule(dirname, basename, noImport) };
     } else if (basename.endsWith(".markdownlint.jsonc") || basename.endsWith(".markdownlint.json")) {
       config = await readJsonc(configPath, fs);
     } else if (basename.endsWith(".markdownlint.yaml") || basename.endsWith(".markdownlint.yml")) {
       config = await readYaml(configPath, fs);
     } else if (basename.endsWith(".markdownlint.cjs") || basename.endsWith(".markdownlint.mjs")) {
-      config = await importModule(dirname, basename, noImport);
+      config = { ...await importModule(dirname, basename, noImport) };
     } else if (basename.endsWith(".jsonc") || basename.endsWith(".json")) {
       unknown = await readJsonc(configPath, fs);
     } else if (basename.endsWith(".toml")) {
@@ -157,7 +157,7 @@ const readOptionsOrConfig = async (/** @type {ExecutionContext} */ context, /** 
     } else if (basename.endsWith(".yaml") || basename.endsWith(".yml")) {
       unknown = await readYaml(configPath, fs);
     } else if (basename.endsWith(".cjs") || basename.endsWith(".mjs")) {
-      unknown = await importModule(dirname, basename, noImport);
+      unknown = { ...await importModule(dirname, basename, noImport) };
     } else {
       throw new Error(
         "Configuration file should be one of the supported names " +
@@ -281,7 +281,7 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"`
 const readJsoncWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => readJsonc(file, fs);
 const readYamlWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => readYaml(file, fs);
 const readConfigWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs, parsers }) => readConfig(file, parsers, fs);
-const importModuleWrapper = (/** @type {ConfigurationHandlerParams} */ { dir, file, noImport }) => importModule(dir, file, noImport);
+const importModuleWrapper = async (/** @type {ConfigurationHandlerParams} */ { dir, file, noImport }) => ({ ...await importModule(dir, file, noImport) });
 
 /** @type {ConfigurationFileAndHandler[] } */
 const optionsFiles = [

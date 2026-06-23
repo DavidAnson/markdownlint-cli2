@@ -3,8 +3,9 @@
 "use strict";
 
 const path = require("node:path");
+const { deepFreeze } = require("../../deep-freeze.cjs");
 
-module.exports = {
+module.exports = deepFreeze({
   "customRules": [
     "markdownlint-rule-sample-commonjs"
   ],
@@ -17,4 +18,4 @@ module.exports = {
     "../../no-config",
     "../../markdownItPlugins/module"
   ].map((dir) => path.resolve(__dirname, dir))
-};
+});

@@ -2,7 +2,9 @@
 
 "use strict";
 
-module.exports = {
+const { deepFreeze } = require("../../deep-freeze.cjs");
+
+module.exports = deepFreeze({
   "config": {
     "extends": "base.jsonc",
     "no-trailing-spaces": false,
@@ -10,4 +12,4 @@ module.exports = {
     "single-trailing-newline": false
   },
   "noBanner": true
-};
+});

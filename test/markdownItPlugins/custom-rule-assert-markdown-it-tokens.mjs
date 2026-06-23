@@ -3,9 +3,10 @@
 import { deepEqual } from "node:assert";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { deepFreeze } from "../deep-freeze.cjs";
 
 /** @type {import("markdownlint").Rule} */
-export default {
+const rule = {
   "names": [ "assert-markdown-it-tokens" ],
   "description": "Rule that asserts markdown-it tokens",
   "tags": [ "test" ],
@@ -35,3 +36,7 @@ export default {
     deepEqual(actual, expected);
   }
 };
+
+const frozenRule = deepFreeze(rule);
+
+export default frozenRule;
