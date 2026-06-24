@@ -112,7 +112,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
   });
 
   test("validateMarkdownlintConfigSchema", async (t) => {
-    t.plan(27);
+    t.plan(29);
 
     // Validate schema
     const ajv = new Ajv({
@@ -157,7 +157,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
   });
 
   test("validateMarkdownlintCli2ConfigSchema", async (t) => {
-    t.plan(111);
+    t.plan(112);
 
     // Validate schema
     const ajv = new Ajv({

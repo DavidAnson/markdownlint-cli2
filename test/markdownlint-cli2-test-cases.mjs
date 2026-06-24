@@ -340,6 +340,13 @@ const testCases = (/** @type {TestConfiguration} */ {
   });
 
   testCase({
+    "name": "extends",
+    "args": [ "**/*.md" ],
+    "exitCode": 1,
+    "usesRequire": true
+  });
+
+  testCase({
     "name": "globs",
     "args": [],
     "exitCode": 1

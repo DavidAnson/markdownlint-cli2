@@ -115,8 +115,8 @@ const importModuleIdsAndParams = (/** @type {string[]} */ dirs, /** @type {any[]
 );
 
 // Extend a config object if it has 'extends' property
-const getExtendedConfig = (/** @type {ExecutionContext} */ context, /** @type {Configuration} */ config, /** @type {string} */ configPath) => {
-  if (config.extends) {
+const getExtendedConfig = (/** @type {ExecutionContext} */ context, /** @type {Configuration | undefined} */ config, /** @type {string} */ configPath) => {
+  if (config?.extends) {
     const { fs, parsers } = context;
     return extendConfig(
       config,
@@ -278,17 +278,22 @@ $ markdownlint-cli2 "**/*.md" "#node_modules"`
 };
 
 // Helpers for getAndProcessDirInfo/handleFirstMatchingConfigurationFile
+// Options inputs do not need special handling
 const readJsoncWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => readJsonc(file, fs);
 const readYamlWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs }) => readYaml(file, fs);
+const importOptionsModuleWrapper = async (/** @type {ConfigurationHandlerParams} */ { dir, file, noImport }) =>
+  mergeOptions({}, await importModule(dir, file, noImport));
+// Configuration inputs need "extends" handled
 const readConfigWrapper = (/** @type {ConfigurationHandlerParams} */ { file, fs, parsers }) => readConfig(file, parsers, fs);
-const importModuleWrapper = async (/** @type {ConfigurationHandlerParams} */ { dir, file, noImport }) => ({ ...await importModule(dir, file, noImport) });
+const importConfigModuleWrapper = async (/** @type {ConfigurationHandlerParams} */ { context, dir, file, noImport }) =>
+  getExtendedConfig(context, await importModule(dir, file, noImport), file);
 
 /** @type {ConfigurationFileAndHandler[] } */
 const optionsFiles = [
   [ ".markdownlint-cli2.jsonc", readJsoncWrapper ],
   [ ".markdownlint-cli2.yaml", readYamlWrapper ],
-  [ ".markdownlint-cli2.cjs", importModuleWrapper ],
-  [ ".markdownlint-cli2.mjs", importModuleWrapper ]
+  [ ".markdownlint-cli2.cjs", importOptionsModuleWrapper ],
+  [ ".markdownlint-cli2.mjs", importOptionsModuleWrapper ]
 ];
 
 /** @type {ConfigurationFileAndHandler[] } */
@@ -297,8 +302,8 @@ const configurationFiles = [
   [ ".markdownlint.json", readConfigWrapper ],
   [ ".markdownlint.yaml", readConfigWrapper ],
   [ ".markdownlint.yml", readConfigWrapper ],
-  [ ".markdownlint.cjs", importModuleWrapper ],
-  [ ".markdownlint.mjs", importModuleWrapper ]
+  [ ".markdownlint.cjs", importConfigModuleWrapper ],
+  [ ".markdownlint.mjs", importConfigModuleWrapper ]
 ];
 
 /**
@@ -321,7 +326,7 @@ const processFirstMatchingConfigurationFile = (context, fileAndHandlers, dir, me
       /** @type {ConfigurationFileAndHandler} */
       const [ file, handler ] = values.find((result) => (result.status === "fulfilled"))?.value || [ "[UNUSED]", noop ];
       memoizeFile(file);
-      return handler({ dir, file, fs, noImport, parsers });
+      return handler({ context, dir, file, fs, noImport, parsers });
     });
 };
 
@@ -1118,6 +1123,7 @@ export const main = async (/** @type {Parameters} */ params) => {
 
 /**
  * @typedef ConfigurationHandlerParams
+ * @property {ExecutionContext} context Execution context.
  * @property {string} dir Configuration file directory.
  * @property {string} file Configuration file.
  * @property {FsLike} fs File system object.

@@ -2476,6 +2476,34 @@ exports[`markdownlint-cli2-test-main.mjs > dotfiles-nested (main) 1`] = `
 }
 `;
 
+exports[`markdownlint-cli2-test-main.mjs > extends (main) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: **/*.md",
+    "Linting: 10 file(s)",
+    "Summary: 10 error(s)"
+  ],
+  "stderr": [
+    "markdownlint-cjs/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "markdownlint-cli2-cjs/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "markdownlint-cli2-jsonc/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "markdownlint-cli2-mjs/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "markdownlint-cli2-yaml/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "markdownlint-json/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "markdownlint-jsonc/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "markdownlint-mjs/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "markdownlint-yaml/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]",
+    "markdownlint-yml/file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
 exports[`markdownlint-cli2-test-main.mjs > file-paths-as-args (main) 1`] = `
 {
   "exitCode": 1,

@@ -1,0 +1,6 @@
+{
+  "config": {
+    "extends": "../base.json",
+    "single-trailing-newline": false
+  }
+}

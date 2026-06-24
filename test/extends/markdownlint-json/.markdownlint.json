@@ -1,0 +1,4 @@
+{
+  "extends": "../base.yaml",
+  "single-trailing-newline": false
+}
