@@ -610,7 +610,7 @@ exports[`markdownlint-cli2-test-exec.mjs > extends-markdownlint-cli2-yaml (exec)
     "Summary: 1 error(s)"
   ],
   "stderr": [
-    "file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]"
+    "file.md:1:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Heading\\"]"
   ],
   "formatterCodeQuality": [],
   "formatterJson": [],

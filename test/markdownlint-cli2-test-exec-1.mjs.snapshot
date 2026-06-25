@@ -532,7 +532,7 @@ exports[`markdownlint-cli2-test-exec.mjs > extends-markdownlint-cli2-cjs (exec) 
     "Summary: 1 error(s)"
   ],
   "stderr": [
-    "file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]"
+    "file.md:1:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Heading\\"]"
   ],
   "formatterCodeQuality": [],
   "formatterJson": [],
@@ -551,7 +551,7 @@ exports[`markdownlint-cli2-test-exec.mjs > extends-markdownlint-cli2-jsonc (exec
     "Summary: 1 error(s)"
   ],
   "stderr": [
-    "file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]"
+    "file.md:1:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Heading\\"]"
   ],
   "formatterCodeQuality": [],
   "formatterJson": [],
@@ -567,10 +567,11 @@ exports[`markdownlint-cli2-test-exec.mjs > extends-markdownlint-json (exec) 1`] 
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: file.md",
     "Linting: 1 file(s)",
-    "Summary: 1 error(s)"
+    "Summary: 2 error(s)"
   ],
   "stderr": [
-    "file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]"
+    "file.md:1:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Heading\\"]",
+    "file.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"##  Heading \\"]"
   ],
   "formatterCodeQuality": [],
   "formatterJson": [],
@@ -586,10 +587,11 @@ exports[`markdownlint-cli2-test-exec.mjs > extends-markdownlint-yml (exec) 1`] =
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: file.md",
     "Linting: 1 file(s)",
-    "Summary: 1 error(s)"
+    "Summary: 2 error(s)"
   ],
   "stderr": [
-    "file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]"
+    "file.md:1:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Heading\\"]",
+    "file.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"##  Heading \\"]"
   ],
   "formatterCodeQuality": [],
   "formatterJson": [],
