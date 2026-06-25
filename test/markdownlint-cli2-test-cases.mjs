@@ -190,6 +190,22 @@ const testCases = (/** @type {TestConfiguration} */ {
     });
   };
 
+  const configFilesCJMTY = [
+    ".markdownlint-cli2.jsonc",
+    ".markdownlint-cli2.toml",
+    ".markdownlint-cli2.yaml",
+    ".markdownlint-cli2.cjs",
+    ".markdownlint-cli2.mjs",
+    ".markdownlint.jsonc",
+    ".markdownlint.json",
+    ".markdownlint.toml",
+    ".markdownlint.yaml",
+    ".markdownlint.yml",
+    ".markdownlint.cjs",
+    ".markdownlint.mjs"
+  ];
+  const configFilesCJMY = configFilesCJMTY.filter((n) => !n.endsWith("toml"));
+
   testCase({
     "name": "no-arguments",
     "args": [],
@@ -345,6 +361,18 @@ const testCases = (/** @type {TestConfiguration} */ {
     "exitCode": 1,
     "usesRequire": true
   });
+
+  for (const configFile of configFilesCJMY) {
+    const usesRequire = isModule(configFile);
+    const friendlyName = configFile.slice(1).replace(".", "-");
+    testCase({
+      "name": `extends-${friendlyName}`,
+      "args": [ "--config", `${friendlyName}/${configFile}`, "file.md" ],
+      "exitCode": 1,
+      "cwd": "extends",
+      usesRequire
+    });
+  }
 
   testCase({
     "name": "globs",
@@ -738,21 +766,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "cwd": "fix-default-true-override"
   });
 
-  const configFiles = [
-    ".markdownlint-cli2.jsonc",
-    ".markdownlint-cli2.toml",
-    ".markdownlint-cli2.yaml",
-    ".markdownlint-cli2.cjs",
-    ".markdownlint-cli2.mjs",
-    ".markdownlint.jsonc",
-    ".markdownlint.json",
-    ".markdownlint.toml",
-    ".markdownlint.yaml",
-    ".markdownlint.yml",
-    ".markdownlint.cjs",
-    ".markdownlint.mjs"
-  ];
-  for (const configFile of configFiles) {
+  for (const configFile of configFilesCJMTY) {
     const usesRequire = isModule(configFile);
     testCase({
       "name": `config-files-${configFile}-arg`,

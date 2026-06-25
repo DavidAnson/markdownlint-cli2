@@ -522,6 +522,82 @@ exports[`markdownlint-cli2-test-exec.mjs > dotfiles-explicit-literal (exec) 1`] 
 }
 `;
 
+exports[`markdownlint-cli2-test-exec.mjs > extends-markdownlint-cli2-cjs (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: file.md",
+    "Linting: 1 file(s)",
+    "Summary: 1 error(s)"
+  ],
+  "stderr": [
+    "file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > extends-markdownlint-cli2-jsonc (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: file.md",
+    "Linting: 1 file(s)",
+    "Summary: 1 error(s)"
+  ],
+  "stderr": [
+    "file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > extends-markdownlint-json (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: file.md",
+    "Linting: 1 file(s)",
+    "Summary: 1 error(s)"
+  ],
+  "stderr": [
+    "file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > extends-markdownlint-yml (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: file.md",
+    "Linting: 1 file(s)",
+    "Summary: 1 error(s)"
+  ],
+  "stderr": [
+    "file.md:1:3 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"#  Heading\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
 exports[`markdownlint-cli2-test-exec.mjs > fix-last-arg (exec) 1`] = `
 {
   "exitCode": 1,
