@@ -11,6 +11,7 @@ module.exports = deepFreeze({
     {
       "filter": [ "*.md" ],
       "config": {
+        "extends": "../nest.yaml",
         "first-line-heading": false
       },
       "combine": "merge"

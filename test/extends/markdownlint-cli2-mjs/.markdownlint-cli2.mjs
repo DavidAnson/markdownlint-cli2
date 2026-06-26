@@ -11,6 +11,7 @@ export default deepFreeze({
     {
       "filter": [ "*.md" ],
       "config": {
+        "extends": "../nest.json",
         "first-line-heading": false
       },
       "combine": "merge"

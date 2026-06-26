@@ -422,7 +422,6 @@ supported by the `--format` command-line parameter. When `--format` is set:
           matching `Override` is used
       - `config`: `markdownlint` `config` object (as defined for parent object
         above)
-        - If an `extends` property is present on this object, it is ignored
       - `combine`: `String` value `merge` or `replace`:
         - `merge`: Merges override `config` values with parent config
         - `replace`: Replaces parent `config` values with override config
