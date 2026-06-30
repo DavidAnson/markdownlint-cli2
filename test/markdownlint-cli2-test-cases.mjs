@@ -205,6 +205,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     ".markdownlint.mjs"
   ];
   const configFilesCJMY = configFilesCJMTY.filter((n) => !n.endsWith("toml"));
+  const configFilesCLI2 = configFilesCJMY.filter((n) => n.includes("-cli2."));
 
   testCase({
     "name": "no-arguments",
@@ -371,6 +372,17 @@ const testCases = (/** @type {TestConfiguration} */ {
       "exitCode": 1,
       "cwd": "extends",
       usesRequire
+    });
+  }
+
+  for (const configFile of configFilesCLI2) {
+    const friendlyName = configFile.slice(1).replace(".", "-");
+    testCase({
+      "name": `importModuleIds-${friendlyName}`,
+      "args": [ "*.md" ],
+      "exitCode": 1,
+      "cwd": path.join("importModuleIds", friendlyName),
+      "usesRequire": true
     });
   }
 

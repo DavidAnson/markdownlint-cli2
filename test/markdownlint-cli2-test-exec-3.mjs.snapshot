@@ -696,6 +696,26 @@ exports[`markdownlint-cli2-test-exec.mjs > formatter-pretty-appendLink (exec) 1`
 }
 `;
 
+exports[`markdownlint-cli2-test-exec.mjs > importModuleIds-markdownlint-cli2-yaml (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: *.md",
+    "Linting: 1 file(s)",
+    "Summary: 2 error(s)"
+  ],
+  "stderr": [
+    "file.md 1 first-line",
+    "file.md 1 MD009/no-trailing-spaces"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
 exports[`markdownlint-cli2-test-exec.mjs > markdownItPlugins-missing (exec) 1`] = `
 {
   "exitCode": 2,

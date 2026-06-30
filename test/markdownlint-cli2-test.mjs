@@ -157,7 +157,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
   });
 
   test("validateMarkdownlintCli2ConfigSchema", async (t) => {
-    t.plan(112);
+    t.plan(113);
 
     // Validate schema
     const ajv = new Ajv({

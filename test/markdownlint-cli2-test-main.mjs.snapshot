@@ -3261,6 +3261,86 @@ exports[`markdownlint-cli2-test-main.mjs > ignores (main) 1`] = `
 }
 `;
 
+exports[`markdownlint-cli2-test-main.mjs > importModuleIds-markdownlint-cli2-cjs (main) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: *.md",
+    "Linting: 1 file(s)",
+    "Summary: 2 error(s)"
+  ],
+  "stderr": [
+    "file.md 1 first-line",
+    "file.md 1 MD009/no-trailing-spaces"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-main.mjs > importModuleIds-markdownlint-cli2-jsonc (main) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: *.md",
+    "Linting: 1 file(s)",
+    "Summary: 2 error(s)"
+  ],
+  "stderr": [
+    "file.md 1 first-line",
+    "file.md 1 MD009/no-trailing-spaces"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-main.mjs > importModuleIds-markdownlint-cli2-mjs (main) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: *.md",
+    "Linting: 1 file(s)",
+    "Summary: 2 error(s)"
+  ],
+  "stderr": [
+    "file.md 1 first-line",
+    "file.md 1 MD009/no-trailing-spaces"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-main.mjs > importModuleIds-markdownlint-cli2-yaml (main) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: *.md",
+    "Linting: 1 file(s)",
+    "Summary: 2 error(s)"
+  ],
+  "stderr": [
+    "file.md 1 first-line",
+    "file.md 1 MD009/no-trailing-spaces"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
 exports[`markdownlint-cli2-test-main.mjs > jsonc-trailing-comma (main) 1`] = `
 {
   "exitCode": 1,
