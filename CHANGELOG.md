@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.23.0
+
+- Add `overrides` configuration option
+- Improve options/configuration file handling
+- Update dependencies (including `markdownlint`)
+- Remove support for end-of-life Node 20
+
 ## 0.22.1
 
 - Update dependencies
