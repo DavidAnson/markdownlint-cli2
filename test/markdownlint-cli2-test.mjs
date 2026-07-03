@@ -112,7 +112,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
   });
 
   test("validateMarkdownlintConfigSchema", async (t) => {
-    t.plan(29);
+    t.plan(44);
 
     // Validate schema
     const ajv = new Ajv({
@@ -131,7 +131,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     // Validate instances
     const files = await globby.globby(
       [
-        "**/*.markdownlint.(json|jsonc)",
+        "**/*.markdownlint.(json|jsonc|yaml|yml)",
         "!node_modules/**",
         "!**/*-copy-*/**",
         "!**/*invalid/**",
@@ -146,8 +146,8 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     );
     await Promise.all(files.map(async (file) => {
       const content = await fs.readFile(file, "utf8");
-      const json = jsoncParse(content);
-      const instanceResult = validateConfigSchema(json);
+      const data = /ya?ml$/iu.test(file) ? yamlParse(content) : jsoncParse(content);
+      const instanceResult = validateConfigSchema(data);
       t.assert.equal(
         instanceResult,
         true,
@@ -157,7 +157,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
   });
 
   test("validateMarkdownlintCli2ConfigSchema", async (t) => {
-    t.plan(113);
+    t.plan(122);
 
     // Validate schema
     const ajv = new Ajv({
@@ -178,7 +178,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     // Validate instances
     const files = await globby.globby(
       [
-        "**/*.markdownlint-cli2.(json|jsonc)",
+        "**/*.markdownlint-cli2.(json|jsonc|yaml|yml)",
         "!node_modules/**",
         "!**/*-copy-*/**",
         "!**/*invalid/**",
@@ -196,8 +196,8 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     );
     await Promise.all(files.map(async (file) => {
       const content = await fs.readFile(file, "utf8");
-      const json = jsoncParse(content);
-      const instanceResult = validateConfigSchema(json);
+      const data = /ya?ml$/iu.test(file) ? yamlParse(content) : jsoncParse(content);
+      const instanceResult = validateConfigSchema(data);
       t.assert.equal(
         instanceResult,
         true,
