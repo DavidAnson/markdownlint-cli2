@@ -45,7 +45,7 @@ const readToml = (/** @type {string} */ file, /** @type {FsLike} */ fs) => fs.pr
 const readYaml = (/** @type {string} */ file, /** @type {FsLike} */ fs) => fs.promises.readFile(file, utf8).then(yamlParse);
 
 // Pluralizes a noun (if necessary)
-const pluralize = (/** @type {number} */ count, /** @type {string} */ noun) => `${count} ${noun}${count === 1 ? "" : "s"}`;
+const pluralize = (/** @type {number} */ count, /** @type {string} */ noun) => `${count} ${noun}${count === 1 ? "" : (noun.endsWith("x") ? "es" : "s")}`;
 
 // Throws a meaningful exception for an unusable configuration file
 const throwForConfigurationFile = (/** @type {string} */ file, /** @type {Error | any} */ error) => {
@@ -725,6 +725,7 @@ const lintFiles = (
   /** @type {FormattingContext} */ formattingContext
 ) => {
   const { fs, parsers } = context;
+  /** @type {Promise<LintTaskResult>[]} */
   const tasks = [];
   // For each dirInfo
   for (const dirInfo of dirInfos) {
@@ -780,19 +781,32 @@ const lintFiles = (
       fs
     };
     // Invoke markdownlint
-    let task = lint(options);
+    /** @type {Promise<LintTaskResult>} */
+    let task = lint(options).then((results) => ({
+      results,
+      "filesAttempted": 0,
+      "issuesAttempted": 0
+    }));
     if (formattingContext.formatting) {
       // Apply fixes to stdin input
-      task = task.then((results) => {
+      task = task.then((taskResult) => {
+        const { results } = taskResult;
         const [ [ id, original ] ] = Object.entries(filteredStrings);
         const errorInfos = results[id];
         formattingContext.formatted = applyFixes(original, errorInfos);
-        return {};
+        return {
+          ...taskResult,
+          "results": {}
+        };
       });
     } else if (markdownlintOptions?.fix) {
       // For any fixable errors, read file, apply fixes, write it back, and re-lint
-      task = task.then((results) => {
-        options.files = [];
+      task = task.then((taskResult) => {
+        const { results } = taskResult;
+        let issuesToFix = 0;
+        /** @type {string[]} */
+        const filesToFix = [];
+        options.files = filesToFix;
         const subTasks = [];
         const errorFiles = Object.keys(results).
           filter((result) => filteredFiles.includes(result));
@@ -800,8 +814,8 @@ const lintFiles = (
           const errorInfos = results[fileName].
             filter((errorInfo) => errorInfo.fixInfo);
           if (errorInfos.length > 0) {
-            delete results[fileName];
-            options.files.push(fileName);
+            issuesToFix += errorInfos.length;
+            filesToFix.push(fileName);
             subTasks.push(fs.promises.readFile(fileName, utf8).
               then((/** @type {string} */ original) => {
                 const fixed = applyFixes(original, errorInfos);
@@ -813,8 +827,12 @@ const lintFiles = (
         return Promise.all(subTasks).
           then(() => lint(options)).
           then((fixResults) => ({
-            ...results,
-            ...fixResults
+            "results": {
+              ...results,
+              ...fixResults
+            },
+            "filesAttempted": filesToFix.length,
+            "issuesAttempted": issuesToFix
           }));
       });
     }
@@ -825,35 +843,50 @@ const lintFiles = (
   return Promise.all(tasks);
 };
 
-// Create list of results
-const createResults = (/** @type {string} */ baseDir, /** @type {LintResults[]} */ taskResults) => {
+// Create flat list of results
+const flattenTaskResults = (/** @type {string} */ baseDir, /** @type {LintTaskResult[]} */ taskResults) => {
   /** @type {LintResult[]} */
-  const results = [];
+  const lintResults = [];
+  let totalIssuesReported = 0;
+  let totalFilesReported = 0;
+  let totalIssuesAttempted = 0;
+  let totalFilesAttempted = 0;
   /** @type {Map<LintResult, number>} */
   const resultToCounter = new Map();
-  let counter = 0;
   for (const taskResult of taskResults) {
-    for (const [ fileName, errorInfos ] of Object.entries(taskResult)) {
+    const { results, filesAttempted, issuesAttempted } = taskResult;
+    const resultsEntries = Object.entries(results).
+      filter(([ , errorInfos ]) => errorInfos.length > 0);
+    for (const [ fileName, errorInfos ] of resultsEntries) {
       for (const errorInfo of errorInfos) {
         const fileNameRelative = pathPosix.relative(baseDir, fileName);
         const result = {
           "fileName": fileNameRelative,
           ...errorInfo
         };
-        results.push(result);
-        resultToCounter.set(result, counter);
-        counter++;
+        lintResults.push(result);
+        resultToCounter.set(result, totalIssuesReported);
+        totalIssuesReported++;
       }
     }
+    totalFilesReported += resultsEntries.length;
+    totalIssuesAttempted += issuesAttempted;
+    totalFilesAttempted += filesAttempted;
   }
-  results.sort((a, b) => (
+  lintResults.sort((a, b) => (
     a.fileName.localeCompare(b.fileName) ||
     (a.lineNumber - b.lineNumber) ||
     a.ruleNames[0].localeCompare(b.ruleNames[0]) ||
     // @ts-ignore
     (resultToCounter.get(a) - resultToCounter.get(b))
   ));
-  return results;
+  return {
+    lintResults,
+    "issuesReported": totalIssuesReported,
+    "filesReported": totalFilesReported,
+    "issuesAttempted": totalIssuesAttempted,
+    "filesAttempted": totalFilesAttempted
+  };
 };
 
 // Output summary via formatters
@@ -1054,14 +1087,12 @@ export const main = async (/** @type {Parameters} */ params) => {
   // Lint files
   const taskResults = await lintFiles(context, dirInfos, resolvedFileContents, formattingContext);
   // Output summary
-  const lintResults = createResults(baseDir, taskResults);
+  const { lintResults, issuesReported, filesReported, filesAttempted, issuesAttempted } = flattenTaskResults(baseDir, taskResults);
   if (showProgress) {
-    const issuesFound = lintResults.length;
-    const filesWithIssues = taskResults.reduce(
-      (count, results) => count + Object.values(results).filter((errors) => errors.length > 0).length,
-      0
-    );
-    logMessage(`Summary: ${pluralize(issuesFound, "issue")} in ${pluralize(filesWithIssues, "file")}`);
+    if (issuesAttempted > 0) {
+      logMessage(`Attempted: ${pluralize(issuesAttempted, "fix")} in ${pluralize(filesAttempted, "file")}`);
+    }
+    logMessage(`Summary: ${pluralize(issuesReported, "issue")} in ${pluralize(filesReported, "file")}`);
   }
   if (formattingContext.formatting) {
     const { pipeline } = await import("node:stream/promises");
@@ -1090,7 +1121,7 @@ export const main = async (/** @type {Parameters} */ params) => {
   }
   // Return result
   const errorsPresent = taskResults.flatMap(
-    (lintResult) => Object.values(lintResult).flatMap(
+    (taskResult) => Object.values(taskResult.results).flatMap(
       (lintErrors) => lintErrors.filter(
         (lintError) => lintError.severity !== "warning"
       )
@@ -1168,6 +1199,8 @@ export const main = async (/** @type {Parameters} */ params) => {
 /** @typedef {[OutputFormatter, ...any]} OutputFormatterConfiguration */
 
 /** @typedef {import("markdownlint").Rule} Rule */
+
+/** @typedef {{ "results": LintResults, "filesAttempted": number, "issuesAttempted": number }} LintTaskResult */
 
 /**
  * @typedef Options

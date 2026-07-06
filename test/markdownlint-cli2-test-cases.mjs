@@ -974,6 +974,29 @@ const testCases = (/** @type {TestConfiguration} */ {
   });
 
   testCase({
+    "name": "pluralize-1-1-1",
+    "args": [ "MD047.md" ],
+    "exitCode": 1,
+    "cwd": "pluralize"
+  });
+
+  testCase({
+    "name": "pluralize-2-1-1-0-0",
+    "shadow": "pluralize",
+    "args": [ "--fix", "MD047.md", "empty.md" ],
+    "exitCode": 0,
+    "isolate": true
+  });
+
+  testCase({
+    "name": "pluralize-3-2-2-1-1",
+    "shadow": "pluralize",
+    "args": [ "--fix", "MD047.md", "MD041.md", "MD019.md" ],
+    "exitCode": 1,
+    "isolate": true
+  });
+
+  testCase({
     "name": "pyproject-toml",
     "args": [ "--config", "pyproject.toml", "--configPointer", "/tool/markdownlint-cli2", "**/*.md" ],
     "exitCode": 1

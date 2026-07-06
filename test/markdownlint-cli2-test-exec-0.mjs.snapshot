@@ -607,6 +607,7 @@ exports[`markdownlint-cli2-test-exec.mjs > fix-scenarios (exec) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 4 files",
+    "Attempted: 6 fixes in 2 files",
     "Summary: 6 issues in 2 files"
   ],
   "stderr": [
@@ -2721,6 +2722,26 @@ exports[`markdownlint-cli2-test-exec.mjs > outputFormatters-severity (exec) 1`] 
     "  ]",
     "}"
   ]
+}
+`;
+
+exports[`markdownlint-cli2-test-exec.mjs > pluralize-3-2-2-1-1 (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: MD047.md MD041.md MD019.md",
+    "Linting: 3 files",
+    "Attempted: 2 fixes in 2 files",
+    "Summary: 1 issue in 1 file"
+  ],
+  "stderr": [
+    "MD041.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## MD041\\"]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
 }
 `;
 

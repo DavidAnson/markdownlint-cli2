@@ -609,6 +609,7 @@ exports[`markdownlint-cli2-test-exec.mjs > fix-last-arg (exec) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 3 files",
+    "Attempted: 12 fixes in 3 files",
     "Summary: 2 issues in 2 files"
   ],
   "stderr": [
@@ -629,6 +630,7 @@ exports[`markdownlint-cli2-test-exec.mjs > fix-multiple-arg (exec) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 3 files",
+    "Attempted: 12 fixes in 3 files",
     "Summary: 2 issues in 2 files"
   ],
   "stderr": [
@@ -1871,6 +1873,7 @@ exports[`markdownlint-cli2-test-exec.mjs > package-json-fix (exec) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 3 files",
+    "Attempted: 9 fixes in 3 files",
     "Summary: 1 issue in 1 file"
   ],
   "stderr": [
@@ -1890,6 +1893,7 @@ exports[`markdownlint-cli2-test-exec.mjs > pyproject-toml-fix (exec) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 3 files",
+    "Attempted: 9 fixes in 3 files",
     "Summary: 1 issue in 1 file"
   ],
   "stderr": [

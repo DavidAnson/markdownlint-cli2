@@ -441,6 +441,7 @@ exports[`markdownlint-cli2-test-exec.mjs > fix-default-true-arg (exec) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 7 files",
+    "Attempted: 16 fixes in 4 files",
     "Summary: 19 issues in 7 files"
   ],
   "stderr": [
@@ -478,6 +479,7 @@ exports[`markdownlint-cli2-test-exec.mjs > fix-first-arg (exec) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 3 files",
+    "Attempted: 12 fixes in 3 files",
     "Summary: 2 issues in 2 files"
   ],
   "stderr": [

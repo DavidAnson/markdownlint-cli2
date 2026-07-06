@@ -1593,6 +1593,7 @@ exports[`markdownlint-cli2-test-fs.mjs > config-with-fix-arg (fs) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: viewme.md info.md",
     "Linting: 2 files",
+    "Attempted: 8 fixes in 2 files",
     "Summary: 0 issues in 0 files"
   ],
   "stderr": [],
@@ -2011,6 +2012,7 @@ exports[`markdownlint-cli2-test-fs.mjs > fix (fs) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 4 files",
+    "Attempted: 12 fixes in 3 files",
     "Summary: 7 issues in 3 files"
   ],
   "stderr": [
@@ -2036,6 +2038,7 @@ exports[`markdownlint-cli2-test-fs.mjs > fix-and-config-arg (fs) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 3 files",
+    "Attempted: 12 fixes in 3 files",
     "Summary: 1 issue in 1 file"
   ],
   "stderr": [
@@ -2055,6 +2058,7 @@ exports[`markdownlint-cli2-test-fs.mjs > fix-default-true-arg (fs) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 7 files",
+    "Attempted: 16 fixes in 4 files",
     "Summary: 19 issues in 7 files"
   ],
   "stderr": [
@@ -2115,6 +2119,7 @@ exports[`markdownlint-cli2-test-fs.mjs > fix-first-arg (fs) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 3 files",
+    "Attempted: 12 fixes in 3 files",
     "Summary: 2 issues in 2 files"
   ],
   "stderr": [
@@ -2135,6 +2140,7 @@ exports[`markdownlint-cli2-test-fs.mjs > fix-last-arg (fs) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 3 files",
+    "Attempted: 12 fixes in 3 files",
     "Summary: 2 issues in 2 files"
   ],
   "stderr": [
@@ -2155,6 +2161,7 @@ exports[`markdownlint-cli2-test-fs.mjs > fix-multiple-arg (fs) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 3 files",
+    "Attempted: 12 fixes in 3 files",
     "Summary: 2 issues in 2 files"
   ],
   "stderr": [
@@ -2175,6 +2182,7 @@ exports[`markdownlint-cli2-test-fs.mjs > fix-scenarios (fs) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 4 files",
+    "Attempted: 6 fixes in 2 files",
     "Summary: 6 issues in 2 files"
   ],
   "stderr": [
@@ -3725,6 +3733,7 @@ exports[`markdownlint-cli2-test-fs.mjs > package-json-fix (fs) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 3 files",
+    "Attempted: 9 fixes in 3 files",
     "Summary: 1 issue in 1 file"
   ],
   "stderr": [
@@ -3742,6 +3751,63 @@ exports[`markdownlint-cli2-test-fs.mjs > package-json-invalid (fs) 1`] = `
   "exitCode": 2,
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-fs.mjs > pluralize-1-1-1 (fs) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: MD047.md",
+    "Linting: 1 file",
+    "Summary: 1 issue in 1 file"
+  ],
+  "stderr": [
+    "MD047.md:1:7 error MD047/single-trailing-newline Files should end with a single newline character"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-fs.mjs > pluralize-2-1-1-0-0 (fs) 1`] = `
+{
+  "exitCode": 0,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: MD047.md empty.md",
+    "Linting: 2 files",
+    "Attempted: 1 fix in 1 file",
+    "Summary: 0 issues in 0 files"
+  ],
+  "stderr": [],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
+exports[`markdownlint-cli2-test-fs.mjs > pluralize-3-2-2-1-1 (fs) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: MD047.md MD041.md MD019.md",
+    "Linting: 3 files",
+    "Attempted: 2 fixes in 2 files",
+    "Summary: 1 issue in 1 file"
+  ],
+  "stderr": [
+    "MD041.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## MD041\\"]"
   ],
   "formatterCodeQuality": [],
   "formatterJson": [],
@@ -3785,6 +3851,7 @@ exports[`markdownlint-cli2-test-fs.mjs > pyproject-toml-fix (fs) 1`] = `
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
     "Linting: 3 files",
+    "Attempted: 9 fixes in 3 files",
     "Summary: 1 issue in 1 file"
   ],
   "stderr": [
