@@ -1,6 +1,7 @@
 // @ts-check
 
 import js from "@eslint/js";
+import eslintNodeTest from "eslint-node-test";
 import eslintPluginJsdoc from "eslint-plugin-jsdoc";
 import eslintPluginNode from "eslint-plugin-n";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
@@ -8,6 +9,7 @@ import eslintPluginUnicorn from "eslint-plugin-unicorn";
 
 export default [
   js.configs.all,
+  eslintNodeTest.configs.all,
   eslintPluginJsdoc.configs["flat/recommended"],
   eslintPluginNode.configs["flat/recommended"],
   eslintPluginStylistic.configs.customize({
@@ -58,6 +60,15 @@ export default [
       "@stylistic/dot-location": [ "error", "object" ],
       "@stylistic/operator-linebreak": [ "error", "after", { "overrides": { "?": "before", ":": "before" } } ],
       "@stylistic/padded-blocks": "off",
+
+      "node-test/consistent-test-filename": "off",
+      "node-test/consistent-test-it": "off",
+      "node-test/max-assertions": "off",
+      "node-test/no-conditional-assertion": "off",
+      "node-test/no-conditional-in-test": "off",
+      "node-test/prefer-async-await": "off",
+      "node-test/prefer-lowercase-title": "off",
+      "node-test/prefer-strict-assert": "off",
 
       "unicorn/consistent-boolean-name": "off",
       "unicorn/default-export-style": [ "error", { "functions": "separate" } ],

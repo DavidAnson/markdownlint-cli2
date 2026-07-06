@@ -43,7 +43,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     t.assert.equal(statDir.isFile(), false);
     t.assert.equal(statDir.isSocket(), false);
     t.assert.equal(statDir.isSymbolicLink(), false);
-    await t.assert.rejects(() => fsLstat(missingFile));
+    await t.assert.rejects(() => fsLstat(missingFile), /^Error:/u);
   });
 
   test("fsVirtual.readdir", async (t) => {
@@ -89,9 +89,9 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     // @ts-ignore
     t.assert.equal(content.length > 0, true);
     // @ts-ignore
-    await t.assert.rejects(() => fsAccess(missingFile));
+    await t.assert.rejects(() => fsAccess(missingFile), /^Error:/u);
     // @ts-ignore
-    await t.assert.rejects(() => fsReadFile(missingFile, "utf8"));
+    await t.assert.rejects(() => fsReadFile(missingFile, "utf8"), /^Error:/u);
   });
 
   test("fsVirtual.promises.*", async (t) => {
@@ -99,12 +99,12 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     const fs = new FsVirtual(virtualFiles);
     const tempName = "fs-virtual.tmp";
     const tempFile = nodePath.posix.join(basePath, tempName);
-    await t.assert.rejects(() => fs.promises.access(tempFile));
+    await t.assert.rejects(() => fs.promises.access(tempFile), /^Error:/u);
     await fs.promises.writeFile(tempFile, tempFile, "utf8");
     await fs.promises.access(tempFile);
     await fs.promises.stat(tempFile);
     t.assert.equal(await fs.promises.readFile(tempFile, "utf8"), tempFile);
-    await t.assert.rejects(() => fs.promises.readFile(missingFile, "utf8"));
+    await t.assert.rejects(() => fs.promises.readFile(missingFile, "utf8"), /^Error:/u);
   });
 
   /** @type {[string, string][]} */

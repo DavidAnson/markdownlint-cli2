@@ -62,6 +62,7 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
 
 test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
 
+  // eslint-disable-next-line node-test/require-hook
   testCases({
     "host": "fs",
     baseDir,

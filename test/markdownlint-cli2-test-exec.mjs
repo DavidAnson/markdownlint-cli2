@@ -37,6 +37,7 @@ const shardExecSuite = (/** @type {number} */ shardIndex, /** @type {number} */ 
 
   test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
 
+    // eslint-disable-next-line node-test/require-hook
     testCases({
       "host": "exec",
       baseDir,
@@ -55,6 +56,7 @@ const shardExecSuite = (/** @type {number} */ shardIndex, /** @type {number} */ 
 
 };
 
+// eslint-disable-next-line node-test/no-export
 export {
   shardExecSuite
 };
