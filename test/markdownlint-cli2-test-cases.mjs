@@ -699,6 +699,12 @@ const testCases = (/** @type {TestConfiguration} */ {
   });
 
   testCase({
+    "name": "severity",
+    "args": [ "**/*.md" ],
+    "exitCode": 1
+  });
+
+  testCase({
     "name": "showFound",
     "args": [ "**/*.md" ],
     "exitCode": 1

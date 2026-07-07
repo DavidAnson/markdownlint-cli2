@@ -1049,11 +1049,16 @@ export const main = async (/** @type {Parameters} */ params) => {
     logMessage(`Linting: ${fileCount} file(s)`);
   }
   // Lint files
-  const lintResults = await lintFiles(context, dirInfos, resolvedFileContents, formattingContext);
+  const taskResults = await lintFiles(context, dirInfos, resolvedFileContents, formattingContext);
   // Output summary
-  const results = createResults(baseDir, lintResults);
+  const lintResults = createResults(baseDir, taskResults);
   if (showProgress) {
-    logMessage(`Summary: ${results.length} error(s)`);
+    const issuesFound = lintResults.length;
+    const filesWithIssues = taskResults.reduce(
+      (count, results) => count + Object.values(results).filter((errors) => errors.length > 0).length,
+      0
+    );
+    logMessage(`Summary: ${issuesFound} issue(s) in ${filesWithIssues} file(s)`);
   }
   if (formattingContext.formatting) {
     const { pipeline } = await import("node:stream/promises");
@@ -1072,7 +1077,7 @@ export const main = async (/** @type {Parameters} */ params) => {
     await outputResults(
       baseDir,
       relativeDir,
-      results,
+      lintResults,
       outputFormatters,
       modulePaths,
       logMessage,
@@ -1081,7 +1086,7 @@ export const main = async (/** @type {Parameters} */ params) => {
     );
   }
   // Return result
-  const errorsPresent = lintResults.flatMap(
+  const errorsPresent = taskResults.flatMap(
     (lintResult) => Object.values(lintResult).flatMap(
       (lintErrors) => lintErrors.filter(
         (lintError) => lintError.severity !== "warning"

@@ -342,7 +342,7 @@ supported by the `--format` command-line parameter. When `--format` is set:
     when linting
     - Relative paths are resolved based on the location of the `JSONC` file
     - Search [`markdownlint-rule` on npm][markdownlint-rule]
-  - `fix`: `Boolean` value to enable fixing of linting errors reported by rules
+  - `fix`: `Boolean` value to enable fixing of linting issues reported by rules
     that emit fix information
     - Fixes are made directly to the relevant file(s); no backup is created
   - `frontMatter`: `String` defining the [`RegExp`][regexp] used to match and
