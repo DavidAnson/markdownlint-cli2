@@ -44,6 +44,9 @@ const readToml = (/** @type {string} */ file, /** @type {FsLike} */ fs) => fs.pr
 // Reads and parses a YAML file
 const readYaml = (/** @type {string} */ file, /** @type {FsLike} */ fs) => fs.promises.readFile(file, utf8).then(yamlParse);
 
+// Pluralizes a noun (if necessary)
+const pluralize = (/** @type {number} */ count, /** @type {string} */ noun) => `${count} ${noun}${count === 1 ? "" : "s"}`;
+
 // Throws a meaningful exception for an unusable configuration file
 const throwForConfigurationFile = (/** @type {string} */ file, /** @type {Error | any} */ error) => {
   throw new Error(
@@ -1046,7 +1049,7 @@ export const main = async (/** @type {Parameters} */ params) => {
       fileNames.sort();
       logMessage(`Found:${fileNames.join("\n ")}`);
     }
-    logMessage(`Linting: ${fileCount} file(s)`);
+    logMessage(`Linting: ${pluralize(fileCount, "file")}`);
   }
   // Lint files
   const taskResults = await lintFiles(context, dirInfos, resolvedFileContents, formattingContext);
@@ -1058,7 +1061,7 @@ export const main = async (/** @type {Parameters} */ params) => {
       (count, results) => count + Object.values(results).filter((errors) => errors.length > 0).length,
       0
     );
-    logMessage(`Summary: ${issuesFound} issue(s) in ${filesWithIssues} file(s)`);
+    logMessage(`Summary: ${pluralize(issuesFound, "issue")} in ${pluralize(filesWithIssues, "file")}`);
   }
   if (formattingContext.formatting) {
     const { pipeline } = await import("node:stream/promises");

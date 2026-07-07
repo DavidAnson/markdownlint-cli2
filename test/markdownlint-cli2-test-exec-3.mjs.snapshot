@@ -16,8 +16,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint-cli2.cjs-a
   "exitCode": 1,
   "stdout": [
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 5 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 5 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
@@ -38,8 +38,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint-cli2.cjs-a
   "exitCode": 1,
   "stdout": [
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 5 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 5 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
@@ -60,8 +60,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint-cli2.jsonc
   "exitCode": 1,
   "stdout": [
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 5 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 5 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
@@ -82,8 +82,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint-cli2.jsonc
   "exitCode": 1,
   "stdout": [
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 5 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 5 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
@@ -104,8 +104,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint-cli2.mjs-a
   "exitCode": 1,
   "stdout": [
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 5 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 5 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
@@ -126,8 +126,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint-cli2.yaml-
   "exitCode": 1,
   "stdout": [
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 5 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 5 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
@@ -148,8 +148,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint-cli2.yaml-
   "exitCode": 1,
   "stdout": [
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 5 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 5 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
@@ -171,8 +171,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint.cjs-altern
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 5 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 5 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
@@ -194,8 +194,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint.json-arg (
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 5 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 5 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
@@ -217,8 +217,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint.json-redun
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: *.md",
-    "Linting: 1 file(s)",
-    "Summary: 4 issue(s) in 1 file(s)"
+    "Linting: 1 file",
+    "Summary: 4 issues in 1 file"
   ],
   "stderr": [
     "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
@@ -239,8 +239,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint.mjs-arg (e
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 5 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 5 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
@@ -262,8 +262,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint.toml-alter
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 5 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 5 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
@@ -285,8 +285,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint.yml-altern
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 5 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 5 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
@@ -308,8 +308,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-.markdownlint.yml-arg (e
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 5 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 5 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:5 error MD012/no-multiple-blanks Multiple consecutive blank lines [Expected: 1; Actual: 2]",
@@ -331,8 +331,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-config-nested-nested.jso
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 11 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 11 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
@@ -360,8 +360,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-config-nested.json-/nest
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 11 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 11 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
@@ -389,8 +389,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-config-nested.json-/numb
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 11 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 11 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
@@ -418,8 +418,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-config.mjs-arg (exec) 1`
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 3 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 3 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
@@ -452,8 +452,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-options-nested-nested.ya
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 11 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 11 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
@@ -481,8 +481,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-options-nested.yaml-/str
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 11 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 11 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
@@ -509,8 +509,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-options.jsonc-arg (exec)
   "exitCode": 1,
   "stdout": [
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 3 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 3 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
@@ -529,8 +529,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-files-options.yaml-arg (exec) 
   "exitCode": 1,
   "stdout": [
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 3 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 3 issues in 3 files"
   ],
   "stderr": [
     "dir1/viewme.md:6 error MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: \\"Description\\"]",
@@ -550,8 +550,8 @@ exports[`markdownlint-cli2-test-exec.mjs > config-with-fix-arg (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: viewme.md info.md",
-    "Linting: 2 file(s)",
-    "Summary: 0 issue(s) in 0 file(s)"
+    "Linting: 2 files",
+    "Summary: 0 issues in 0 files"
   ],
   "stderr": [],
   "formatterCodeQuality": [],
@@ -567,7 +567,7 @@ exports[`markdownlint-cli2-test-exec.mjs > customRules-invalid (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: .*",
-    "Linting: 1 file(s)"
+    "Linting: 1 file"
   ],
   "formatterCodeQuality": [],
   "formatterJson": [],
@@ -582,8 +582,8 @@ exports[`markdownlint-cli2-test-exec.mjs > customRules-pre-imported (exec) 1`] =
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 1 file(s)",
-    "Summary: 6 issue(s) in 1 file(s)"
+    "Linting: 1 file",
+    "Summary: 6 issues in 1 file"
   ],
   "stderr": [
     "viewme.md:3 error any-blockquote Rule that reports an error for any blockquote [Blockquote spans 1 line(s).] [Context: \\"> Tagli\\"]",
@@ -606,8 +606,8 @@ exports[`markdownlint-cli2-test-exec.mjs > extends-markdownlint-cli2-yaml (exec)
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: file.md",
-    "Linting: 1 file(s)",
-    "Summary: 1 issue(s) in 1 file(s)"
+    "Linting: 1 file",
+    "Summary: 1 issue in 1 file"
   ],
   "stderr": [
     "file.md:1:4 error MD019/no-multiple-space-atx Multiple spaces after hash on atx style heading [Context: \\"##  Heading!\\"]"
@@ -625,8 +625,8 @@ exports[`markdownlint-cli2-test-exec.mjs > fix (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 4 file(s)",
-    "Summary: 7 issue(s) in 3 file(s)"
+    "Linting: 4 files",
+    "Summary: 7 issues in 3 files"
   ],
   "stderr": [
     "dir/subdir/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]",
@@ -650,8 +650,8 @@ exports[`markdownlint-cli2-test-exec.mjs > fix-and-config-arg (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 1 issue(s) in 1 file(s)"
+    "Linting: 3 files",
+    "Summary: 1 issue in 1 file"
   ],
   "stderr": [
     "dir/subdir/info.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: \\"## Information\\"]"
@@ -669,8 +669,8 @@ exports[`markdownlint-cli2-test-exec.mjs > formatter-pretty-appendLink (exec) 1`
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 15 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 15 issues in 3 files"
   ],
   "stderr": [
     "\\u001b[35mdir/about.md\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m1\\u001b[39m\\u001b[36m:\\u001b[39m\\u001b[32m3\\u001b[39m \\u001b[90merror\\u001b[39m \\u001b[33mMD021/no-multiple-space-closed-atx\\u001b[39m Multiple spaces inside hashes on closed atx style heading\\u001b[33m [Context: \\"#  About  #\\"]\\u001b[39m\\u001b[94m https://github.com/DavidAnson/markdownlint/blob/vX.Y.Z/doc/md021.md\\u001b[39m",
@@ -702,8 +702,8 @@ exports[`markdownlint-cli2-test-exec.mjs > importModuleIds-markdownlint-cli2-yam
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: *.md",
-    "Linting: 1 file(s)",
-    "Summary: 2 issue(s) in 1 file(s)"
+    "Linting: 1 file",
+    "Summary: 2 issues in 1 file"
   ],
   "stderr": [
     "file.md 1 first-line",
@@ -762,8 +762,8 @@ exports[`markdownlint-cli2-test-exec.mjs > markdownlint-cli2-extends (exec) 1`] 
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 4 file(s)",
-    "Summary: 8 issue(s) in 4 file(s)"
+    "Linting: 4 files",
+    "Summary: 8 issues in 4 files"
   ],
   "stderr": [
     "cjs/viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
@@ -788,8 +788,8 @@ exports[`markdownlint-cli2-test-exec.mjs > markdownlint-cli2-yaml (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 10 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 10 issues in 3 files"
   ],
   "stderr": [
     "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
@@ -831,8 +831,8 @@ exports[`markdownlint-cli2-test-exec.mjs > markdownlint-cli2-yaml-mismatch (exec
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: viewme.md",
-    "Linting: 1 file(s)",
-    "Summary: 5 issue(s) in 1 file(s)"
+    "Linting: 1 file",
+    "Summary: 5 issues in 1 file"
   ],
   "stderr": [
     "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
@@ -854,8 +854,8 @@ exports[`markdownlint-cli2-test-exec.mjs > markdownlint-json-extends (exec) 1`] 
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 11 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 11 issues in 3 files"
   ],
   "stderr": [
     "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
@@ -896,8 +896,8 @@ exports[`markdownlint-cli2-test-exec.mjs > markdownlint-json-null (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 1 file(s)",
-    "Summary: 5 issue(s) in 1 file(s)"
+    "Linting: 1 file",
+    "Summary: 5 issues in 1 file"
   ],
   "stderr": [
     "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
@@ -919,8 +919,8 @@ exports[`markdownlint-cli2-test-exec.mjs > markdownlint-mjs (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 11 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 11 issues in 3 files"
   ],
   "stderr": [
     "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
@@ -948,8 +948,8 @@ exports[`markdownlint-cli2-test-exec.mjs > markdownlint-yaml-mismatch (exec) 1`]
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: viewme.md",
-    "Linting: 1 file(s)",
-    "Summary: 0 issue(s) in 0 file(s)"
+    "Linting: 1 file",
+    "Summary: 0 issues in 0 files"
   ],
   "stderr": [],
   "formatterCodeQuality": [],
@@ -965,8 +965,8 @@ exports[`markdownlint-cli2-test-exec.mjs > nested-directories (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: ** !a a/b !a/b/c a/b/c/d",
-    "Linting: 3 file(s)",
-    "Summary: 15 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 15 issues in 3 files"
   ],
   "stderr": [
     "a/b/c/d/viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
@@ -998,8 +998,8 @@ exports[`markdownlint-cli2-test-exec.mjs > nested-files (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 2 file(s)",
-    "Summary: 8 issue(s) in 2 file(s)"
+    "Linting: 2 files",
+    "Summary: 8 issues in 2 files"
   ],
   "stderr": [
     "markdownlint-cli2-jsonc/dir/subdir/info.md:1 error MD022/blanks-around-headings Headings should be surrounded by blank lines [Expected: 1; Actual: 0; Below] [Context: \\"## Information\\"]",
@@ -1024,8 +1024,8 @@ exports[`markdownlint-cli2-test-exec.mjs > no-config (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **",
-    "Linting: 4 file(s)",
-    "Summary: 19 issue(s) in 4 file(s)"
+    "Linting: 4 files",
+    "Summary: 19 issues in 4 files"
   ],
   "stderr": [
     "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
@@ -1061,8 +1061,8 @@ exports[`markdownlint-cli2-test-exec.mjs > no-config-ignore-only-other (exec) 1`
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: !dir",
-    "Linting: 0 file(s)",
-    "Summary: 0 issue(s) in 0 file(s)"
+    "Linting: 0 files",
+    "Summary: 0 issues in 0 files"
   ],
   "stderr": [],
   "formatterCodeQuality": [],
@@ -1078,8 +1078,8 @@ exports[`markdownlint-cli2-test-exec.mjs > no-config-ignore-other (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: *.md !dir",
-    "Linting: 1 file(s)",
-    "Summary: 5 issue(s) in 1 file(s)"
+    "Linting: 1 file",
+    "Summary: 5 issues in 1 file"
   ],
   "stderr": [
     "viewme.md:3:10 error MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]",
@@ -1101,8 +1101,8 @@ exports[`markdownlint-cli2-test-exec.mjs > no-files-exclamation (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: !",
-    "Linting: 0 file(s)",
-    "Summary: 0 issue(s) in 0 file(s)"
+    "Linting: 0 files",
+    "Summary: 0 issues in 0 files"
   ],
   "stderr": [],
   "formatterCodeQuality": [],
@@ -1175,8 +1175,8 @@ exports[`markdownlint-cli2-test-exec.mjs > overrides-scenarios (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 33 file(s)",
-    "Summary: 54 issue(s) in 33 file(s)"
+    "Linting: 33 files",
+    "Summary: 54 issues in 33 files"
   ],
   "stderr": [
     "all-overridden/copy.md:1:11 error MD047/single-trailing-newline Files should end with a single newline character",
@@ -1247,8 +1247,8 @@ exports[`markdownlint-cli2-test-exec.mjs > package-json (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: **/*.md",
-    "Linting: 3 file(s)",
-    "Summary: 10 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 10 issues in 3 files"
   ],
   "stderr": [
     "dir/about.md:1:3 error MD021/no-multiple-space-closed-atx Multiple spaces inside hashes on closed atx style heading [Context: \\"#  About  #\\"]",
@@ -1275,8 +1275,8 @@ exports[`markdownlint-cli2-test-exec.mjs > tilde-paths-module (exec) 1`] = `
   "stdout": [
     "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
     "Finding: *.md",
-    "Linting: 3 file(s)",
-    "Summary: 10 issue(s) in 3 file(s)"
+    "Linting: 3 files",
+    "Summary: 10 issues in 3 files"
   ],
   "stderr": [
     "hr.md 3 sample-rule-commonjs",
