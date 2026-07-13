@@ -13,6 +13,8 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 10
+      exclude:
+        - "markdownlint"
     target-branch: "next"
     versioning-strategy: "increase"
   - package-ecosystem: "npm"
