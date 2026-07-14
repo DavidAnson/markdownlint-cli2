@@ -61,6 +61,8 @@ export default [
       "@stylistic/operator-linebreak": [ "error", "after", { "overrides": { "?": "before", ":": "before" } } ],
       "@stylistic/padded-blocks": "off",
 
+      "node-test/no-constant-assertion": "off",
+      "node-test/consistent-assert-throws-callback-style": "off",
       "node-test/consistent-test-filename": "off",
       "node-test/consistent-test-it": "off",
       "node-test/max-assertions": "off",
