@@ -75,7 +75,7 @@
     "schema/ValidatingConfiguration.md"
   ],
   "dependencies": {
-    "globby": "16.2.0",
+    "globby": "16.2.1",
     "js-yaml": "5.2.1",
     "jsonc-parser": "3.3.1",
     "jsonpointer": "5.0.1",
