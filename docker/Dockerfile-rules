@@ -9,6 +9,7 @@ USER 0
 RUN npm install --global --no-package-lock --omit=dev \
     @github/markdownlint-github \
     @johnzook/sentences-per-line \
+    markdownlint-rule-complete \
     markdownlint-rule-enhanced-proper-names \
     markdownlint-rule-extended-ascii \
     markdownlint-rule-force-align-table-columns \
