@@ -97,7 +97,7 @@
     "eslint-node-test": "0.2.0",
     "eslint-plugin-jsdoc": "63.0.11",
     "eslint-plugin-n": "18.2.1",
-    "eslint-plugin-unicorn": "70.0.0",
+    "eslint-plugin-unicorn": "71.0.0",
     "execa": "9.6.1",
     "junit-report-builder": "5.1.2",
     "markdown-it-emoji": "3.0.0",
