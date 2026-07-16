@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.23.1
+
+- Show attempted fix counts after fixing
+- Update dependencies (including `markdownlint`)
+
 ## 0.23.0
 
 - Add `overrides` configuration option
