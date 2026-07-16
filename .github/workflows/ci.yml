@@ -41,7 +41,7 @@ jobs:
     - name: Use pnpm latest
       uses: pnpm/action-setup@v6
       with:
-        version: 11.11
+        version: latest
     - name: Install dependencies
       run: pnpm install
     - name: Run CI Tests
