@@ -96,7 +96,7 @@
     "eslint": "10.6.0",
     "eslint-node-test": "0.2.0",
     "eslint-plugin-jsdoc": "63.0.13",
-    "eslint-plugin-n": "18.2.1",
+    "eslint-plugin-n": "18.2.2",
     "eslint-plugin-unicorn": "71.1.0",
     "execa": "9.6.1",
     "junit-report-builder": "5.1.2",
