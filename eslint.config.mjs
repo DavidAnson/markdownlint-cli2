@@ -62,6 +62,7 @@ export default [
       "@stylistic/padded-blocks": "off",
 
       "node-test/no-constant-assertion": "off",
+      "node-test/no-import-test-files": "off",
       "node-test/consistent-assert-throws-callback-style": "off",
       "node-test/consistent-test-filename": "off",
       "node-test/consistent-test-it": "off",
