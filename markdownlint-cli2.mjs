@@ -532,6 +532,7 @@ const enumerateParents = async (
       // eslint-disable-next-line unicorn/no-computed-property-existence-check
       !baseDirParents[dir] &&
       (dir = pathPosix.dirname(dir)) &&
+      // eslint-disable-next-line unicorn/prefer-simple-condition-first
       (dir !== lastDir)
     ) {
       lastDir = dir;
@@ -696,7 +697,7 @@ const createDirInfos = async (
     const overrides = dirInfo.markdownlintOptions?.overrides || [];
     for (const override of overrides) {
       const { filter, config, combine } = override;
-      if (filter && (filter.length > 0) && config && ((combine === "merge") || (combine === "replace"))) {
+      if (filter && config && (filter.length > 0) && ((combine === "merge") || (combine === "replace"))) {
         const filteredFiles = filterByGlobs(dirInfo.dir, dirInfo.files, filter);
         if (filteredFiles.length > 0) {
           dirInfo.files = dirInfo.files.filter((file) => !filteredFiles.includes(file));
@@ -901,7 +902,7 @@ const outputResults = async (
   /** @type {boolean} */ noImport
 ) => {
   // eslint-disable-next-line unicorn/prefer-early-return
-  if ((results.length > 0) || outputFormatters) {
+  if (outputFormatters || (results.length > 0)) {
     /** @type {OutputFormatterOptions} */
     const formatterOptions = {
       "directory": baseDir,
@@ -1021,8 +1022,8 @@ export const main = async (/** @type {Parameters} */ params) => {
     }
   }
   if (
-    ((globPatterns.length === 0) && !useStdin && !nonFileContents) ||
-    (configPath === null)
+    (configPath === null) ||
+    (!useStdin && !nonFileContents && (globPatterns.length === 0))
   ) {
     return showHelp(logMessage, false);
   }
