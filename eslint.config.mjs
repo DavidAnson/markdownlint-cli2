@@ -3,6 +3,7 @@
 import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 import eslintNodeTest from "eslint-node-test";
+import eslintPackageJson from "eslint-package-json";
 import eslintPluginJsdoc from "eslint-plugin-jsdoc";
 import eslintPluginN from "eslint-plugin-n";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
@@ -10,6 +11,9 @@ import eslintPluginUnicorn from "eslint-plugin-unicorn";
 
 export default defineConfig(
   {
+    "ignores": [
+      "**/package.json"
+    ],
     "plugins": {
       js,
       "jsdoc": eslintPluginJsdoc,
@@ -123,6 +127,37 @@ export default defineConfig(
     },
     "rules": {
       "unicorn/prefer-module": "off"
+    }
+  },
+  {
+    "files": [
+      "**/package.json"
+    ],
+    "plugins": {
+      "package-json": eslintPackageJson
+    },
+    "extends": [
+      "package-json/all"
+    ],
+    "rules": {
+      "package-json/dependency-version-range": [ "error", { "range": "exact" } ],
+      "package-json/no-redundant-files": "off",
+      "package-json/peer-dependencies-as-dev-dependencies": "off",
+      "package-json/prefer-side-effects-field": "off",
+      "package-json/require-private": "off",
+      "package-json/sort-dependencies": "off",
+      "package-json/sort-files": "off",
+      "package-json/sort-properties": "off"
+    }
+  },
+  {
+    "files": [
+      "formatter-*/package.json"
+    ],
+    "rules": {
+      "package-json/prefer-exports": "off",
+      "package-json/prefer-type-module": "off",
+      "package-json/require-engines": "off"
     }
   }
 );

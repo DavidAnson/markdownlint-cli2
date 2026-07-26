@@ -2,18 +2,11 @@
   "name": "markdownlint-cli2-formatter-summarize",
   "version": "0.0.8",
   "description": "An output formatter for markdownlint-cli2 that summarizes the results",
-  "author": {
-    "name": "David Anson",
-    "url": "https://dlaa.me/"
-  },
+  "author": "David Anson (https://dlaa.me/)",
   "license": "MIT",
-  "main": "markdownlint-cli2-formatter-summarize.js",
+  "main": "./markdownlint-cli2-formatter-summarize.js",
   "homepage": "https://github.com/DavidAnson/markdownlint-cli2",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DavidAnson/markdownlint-cli2.git"
-  },
-  "bugs": "https://github.com/DavidAnson/markdownlint-cli2/issues",
+  "repository": "github:DavidAnson/markdownlint-cli2",
   "funding": "https://github.com/sponsors/DavidAnson",
   "files": [
     "markdownlint-cli2-formatter-summarize.js"

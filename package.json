@@ -2,10 +2,7 @@
   "name": "markdownlint-cli2",
   "version": "0.23.1",
   "description": "A fast, flexible, configuration-based command-line interface for linting Markdown/CommonMark files with the `markdownlint` library",
-  "author": {
-    "name": "David Anson",
-    "url": "https://dlaa.me/"
-  },
+  "author": "David Anson (https://dlaa.me/)",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -19,14 +16,10 @@
     "./parsers/yaml": "./parsers/yaml-parse.mjs"
   },
   "bin": {
-    "markdownlint-cli2": "markdownlint-cli2-bin.mjs"
+    "markdownlint-cli2": "./markdownlint-cli2-bin.mjs"
   },
   "homepage": "https://github.com/DavidAnson/markdownlint-cli2",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DavidAnson/markdownlint-cli2.git"
-  },
-  "bugs": "https://github.com/DavidAnson/markdownlint-cli2/issues",
+  "repository": "github:DavidAnson/markdownlint-cli2",
   "funding": "https://github.com/sponsors/DavidAnson",
   "scripts": {
     "build-docker-image": "VERSION=$(node -e \"process.stdout.write(require('./package.json').version)\") && docker build -t davidanson/markdownlint-cli2:v$VERSION -f docker/Dockerfile --label org.opencontainers.image.version=v$VERSION .",
@@ -58,15 +51,15 @@
     "CHANGELOG.md",
     "clone-options.mjs",
     "constants.mjs",
-    "export-markdownlint.mjs",
     "export-markdownlint-helpers.mjs",
     "export-markdownlint-promise.mjs",
+    "export-markdownlint.mjs",
     "LICENSE",
-    "markdownlint-cli2.mjs",
     "markdownlint-cli2-bin.mjs",
+    "markdownlint-cli2.mjs",
     "merge-options.mjs",
-    "parsers/parsers.mjs",
     "parsers/jsonc-parse.mjs",
+    "parsers/parsers.mjs",
     "parsers/toml-parse.mjs",
     "parsers/yaml-parse.mjs",
     "README.md",
@@ -79,9 +72,9 @@
     "js-yaml": "5.2.2",
     "jsonc-parser": "3.3.1",
     "jsonpointer": "5.0.1",
-    "markdownlint": "0.41.1",
-    "markdownlint-cli2-formatter-default": "0.0.6",
     "markdown-it": "14.3.0",
+    "markdownlint-cli2-formatter-default": "0.0.6",
+    "markdownlint": "0.41.1",
     "micromatch": "4.0.8",
     "smol-toml": "1.7.0"
   },
@@ -91,13 +84,14 @@
     "@stylistic/eslint-plugin": "5.10.0",
     "ajv": "8.20.0",
     "concurrently": "10.0.3",
-    "cpy": "13.2.2",
     "cpy-cli": "7.0.0",
-    "eslint": "10.7.0",
+    "cpy": "13.2.2",
     "eslint-node-test": "0.3.0",
+    "eslint-package-json": "0.3.0",
     "eslint-plugin-jsdoc": "63.0.13",
     "eslint-plugin-n": "18.2.2",
     "eslint-plugin-unicorn": "71.1.0",
+    "eslint": "10.7.0",
     "execa": "9.6.1",
     "junit-report-builder": "5.1.2",
     "markdown-it-emoji": "3.0.0",
@@ -117,7 +111,7 @@
     "lint",
     "cli",
     "md",
-    "CommonMark",
+    "commonmark",
     "markdownlint"
   ]
 }
