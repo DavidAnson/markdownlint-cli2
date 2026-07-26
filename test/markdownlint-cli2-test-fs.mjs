@@ -46,13 +46,11 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
     noImport,
     "fs": fsVirtual
   }).
-    then(
-      (exitCode) => exitCode,
-      (error) => {
-        stderr.push(error.message);
-        return 2;
-      }
-    ).
+    then((exitCode) => exitCode).
+    catch((error) => {
+      stderr.push(error.message);
+      return 2;
+    }).
     then((exitCode) => ({
       exitCode,
       stdout,

@@ -153,7 +153,7 @@ class FsVirtual {
       for (const file of this.files.keys()) {
         // eslint-disable-next-line unicorn/prefer-continue
         if (file.startsWith(path)) {
-          const [ name ] = file.slice(path.length).split("/");
+          const [ name ] = file.slice(path.length).split("/", 1);
           if (!names.includes(name)) {
             names.push(name);
             if (options?.withFileTypes) {
