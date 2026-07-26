@@ -23,7 +23,9 @@ const testDirectory = import.meta.filename.replace(/\..+$/u, "");
 test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
 
   test.before(async () => {
+    // eslint-disable-next-line n/no-process-env
     process.env.FORCE_COLOR = "1";
+    // eslint-disable-next-line n/no-process-env
     process.env.FORCE_HYPERLINK = "1";
     await mkdir(testDirectory);
   });

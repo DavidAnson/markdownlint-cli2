@@ -1,35 +1,39 @@
 // @ts-check
 
+import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 import eslintNodeTest from "eslint-node-test";
 import eslintPluginJsdoc from "eslint-plugin-jsdoc";
-import eslintPluginNode from "eslint-plugin-n";
+import eslintPluginN from "eslint-plugin-n";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 
-export default [
-  js.configs.all,
-  eslintNodeTest.configs.all,
-  eslintPluginJsdoc.configs["flat/recommended"],
-  eslintPluginNode.configs["flat/recommended"],
-  eslintPluginStylistic.configs.customize({
-    "arrowParens": true,
-    "braceStyle": "1tbs",
-    "commaDangle": "never",
-    "jsx": false,
-    "quoteProps": "always",
-    "quotes": "double",
-    "semi": true
-  }),
-  eslintPluginUnicorn.configs["flat/all"],
+export default defineConfig(
   {
-    "ignores": [
-      "test/*/**",
-      "webworker/markdownlint-cli2-webworker.cjs",
-      "webworker/setImmediate.cjs"
-    ]
-  },
-  {
+    "plugins": {
+      js,
+      "jsdoc": eslintPluginJsdoc,
+      "n": eslintPluginN,
+      "node-test": eslintNodeTest,
+      "unicorn": eslintPluginUnicorn,
+      "@stylistic": eslintPluginStylistic
+    },
+    "extends": [
+      "js/all",
+      "jsdoc/recommended",
+      "n/all",
+      "node-test/all",
+      "unicorn/all",
+      eslintPluginStylistic.configs.customize({
+        "arrowParens": true,
+        "braceStyle": "1tbs",
+        "commaDangle": "never",
+        "jsx": false,
+        "quoteProps": "always",
+        "quotes": "double",
+        "semi": true
+      })
+    ],
     "linterOptions": {
       "reportUnusedDisableDirectives": true
     },
@@ -61,6 +65,8 @@ export default [
       "@stylistic/operator-linebreak": [ "error", "after", { "overrides": { "?": "before", ":": "before" } } ],
       "@stylistic/padded-blocks": "off",
 
+      "n/no-top-level-await": [ "error", { "ignoreBin": true } ],
+
       "node-test/no-constant-assertion": "off",
       "node-test/no-import-test-files": "off",
       "node-test/consistent-assert-throws-callback-style": "off",
@@ -85,6 +91,13 @@ export default [
       "unicorn/prefer-await": "off",
       "unicorn/try-complexity": "off"
     }
+  },
+  {
+    "ignores": [
+      "test/*/**",
+      "webworker/markdownlint-cli2-webworker.cjs",
+      "webworker/setImmediate.cjs"
+    ]
   },
   {
     "files": [
@@ -112,4 +125,4 @@ export default [
       "unicorn/prefer-module": "off"
     }
   }
-];
+);
