@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.23.2
+
+- Update dependencies
+
 ## 0.23.1
 
 - Show attempted fix counts after fixing
