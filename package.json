@@ -88,7 +88,7 @@
     "cpy": "13.2.2",
     "eslint-node-test": "0.3.0",
     "eslint-package-json": "0.3.0",
-    "eslint-plugin-jsdoc": "63.1.0",
+    "eslint-plugin-jsdoc": "63.2.0",
     "eslint-plugin-n": "18.2.2",
     "eslint-plugin-unicorn": "72.0.0",
     "eslint": "10.7.0",
