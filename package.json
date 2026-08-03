@@ -94,7 +94,7 @@
     "eslint": "10.7.0",
     "execa": "10.0.0",
     "junit-report-builder": "5.1.2",
-    "markdown-it-emoji": "3.0.0",
+    "markdown-it-emoji": "3.1.0",
     "markdown-it-for-inline": "2.0.1",
     "markdownlint-cli2-formatter-codequality": "0.0.7",
     "markdownlint-cli2-formatter-json": "0.0.9",
