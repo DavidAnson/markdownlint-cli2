@@ -3,53 +3,64 @@
 Interested in contributing? Great! Here are some suggestions to make it a good
 experience:
 
-Start by [opening an issue][github-issues], whether to identify a problem or
-suggest a change. That issue should be used to discuss the situation and agree
-on a plan of action before writing code or sending a pull request. Maybe the
-problem isn't really a problem, or maybe there are other things to consider. If
-so, it's best to realize that before spending time and effort writing code that
-may not get used.
+Start by [opening an issue][issues], whether to identify a problem or outline a
+change. That issue should be used to discuss the situation and agree on a plan
+of action before writing code or sending a pull request. Maybe the problem isn't
+really a problem, or maybe there are more things to consider. If so, it's best
+to realize that before spending time and effort writing code that gets rejected.
 
 Match the coding style of the files you edit. Although everyone has their own
 preferences and opinions, a pull request is not the right forum to debate them.
 
+Do not add new [`dependencies` to `package.json`][deps].
+
 Package versions for `dependencies` and `devDependencies` should be specified
-exactly (also known as "pinning"). The short explanation is that doing otherwise
-eventually leads to inconsistent behavior and broken functionality. (See [Why I
-pin dependency versions in Node.js packages][version-pinning] for a longer
-explanation.)
+exactly (also known as "pinning"). Doing otherwise causes inconsistent behavior
+and broken functionality. (See [Why I pin dependency versions in Node.js
+packages][pinning] for a longer explanation.)
 
-Add tests for all new/changed functionality. Test positive and negative
-scenarios. Try to break the code now, or else it will get broken later.
+Add tests for all new/changed functionality. Test both positive and negative
+scenarios. Try to break the new code now, or it will get broken later. This
+project maintains 100% code coverage.
 
-Run tests via `npm test`. Lint by running `npm run lint`. Run the continuous
-integration suite via `npm run ci`. CI tests must pass on all platforms with
-100% code coverage.
+Run tests before sending a pull request via `npm test`. Tests need to pass on
+all platforms. Test cases are implemented in `test/*.mjs`. To update test
+snapshots (for example, after modifying a test file), use `npm run
+update-snapshots` and include the updated snapshot files with the pull request.
 
-Pull requests should contain a single commit that addresses a single issue.
+Run a full continuous integration pass before opening a pull request via `npm
+run ci`. As part of the continuous integration run, generated files may get
+updated and fail the run - commit those changes and rerun.
 
-Open pull requests against the `next` branch. Include the text "(fixes #??)." at
-the end of the commit message so it will be associated with the corresponding
-issue. Once merged, the tag `fixed in next` will be added to the issue. When the
-commit is merged to the `main` branch during the release process, the issue will
-get closed automatically. (See [the GitHub documentation][linking-pull-request]
-for details.)
+Pull requests should contain a single commit with a commit message that is a
+brief sentence with punctuation. Include the text "(fixes #??)" at the end of
+the commit message so the pull request will be associated with the relevant
+issue. Squash multiple commits before creating the pull request or when making
+updates. (See [Git Tools - Rewriting History][rewriting] for details.)
 
-Please refrain from using slang or meaningless placeholder words. Sample content
-can be "text", "code", "heading", or the like. Sample URLs should use
-[example.com][example-com] which is safe for this purpose. Profanity is not
-allowed.
+Create all pull requests for the `next` branch which contains the latest changes
+ready for release.  Once accepted, the tag `fixed in next` will be added to the
+issue. When that commit is merged to the `main` branch during the release
+process, the issue will be closed automatically.
 
-In order to maintain the permissive MIT license this project uses, all
-contributions must be your own and released under that license. Code you add
-should be an original work and should not be copied from elsewhere. Taking code
-from a different project, Stack Overflow, or the like is not allowed. The use of
-tools such as GitHub Copilot, ChatGPT, LLMs (large language models), etc. that
-incorporate code from other projects is not allowed.
+Refrain from using slang or meaningless placeholder text in code, documentation,
+or tests. Sample content can be "text", "code", "heading", etc.. URLs should use
+[example.com][example]. Profanity is not allowed.
+
+In order to maintain the permissive [MIT license][mit] this project has, all
+contributions must be your own and released under the MIT license. Code you add
+should be an original work and should not be copied from elsewhere. Reusing code
+from a different project, Stack Overflow, etc. is not allowed. The use of tools
+such as Copilot, ChatGPT, Claude, etc. that produce output from a [large
+language model (LLM)][llm] is not allowed because LLMs reuse code from other
+projects.
 
 Thank you!
 
-[example-com]: https://wikipedia.org/wiki/Example.com
-[github-issues]: https://github.com/DavidAnson/markdownlint-cli2/issues
-[linking-pull-request]: https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword
-[version-pinning]: https://dlaa.me/blog/post/versionpinning
+[deps]: https://docs.npmjs.com/cli/v11/configuring-npm/package-json#dependencies
+[example]: https://wikipedia.org/wiki/Example.com
+[issues]: https://github.com/DavidAnson/markdownlint-cli2/issues
+[llm]: https://wikipedia.org/wiki/Large_language_model
+[mit]: https://choosealicense.com/licenses/mit/
+[rewriting]: https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
+[pinning]: https://dlaa.me/blog/post/versionpinning
