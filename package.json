@@ -69,7 +69,7 @@
   ],
   "dependencies": {
     "globby": "16.2.2",
-    "js-yaml": "5.2.2",
+    "js-yaml": "5.2.3",
     "jsonc-parser": "3.3.1",
     "jsonpointer": "5.0.1",
     "markdown-it": "15.0.0",
