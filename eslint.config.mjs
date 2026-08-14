@@ -83,16 +83,19 @@ export default defineConfig(
       "node-test/prefer-lowercase-title": "off",
       "node-test/prefer-strict-assert": "off",
 
+      "unicorn/consistent-arrow-return-style": "off",
       "unicorn/consistent-boolean-name": "off",
       "unicorn/default-export-style": [ "error", { "functions": "separate" } ],
       "unicorn/max-nested-calls": "off",
       "unicorn/name-replacements": "off",
       "unicorn/no-asterisk-prefix-in-documentation-comments": "off",
+      "unicorn/no-barrel-files": "off",
       "unicorn/no-null": "off",
       "unicorn/prefer-string-raw": "off",
       "unicorn/prefer-string-replace-all": "off",
       "unicorn/prevent-abbreviations": "off",
       "unicorn/prefer-await": "off",
+      "unicorn/single-line-block-comment-style": [ "error", "multiline", { "ignore": [ /^@type(?:def)? /u ] } ],
       "unicorn/try-complexity": "off"
     }
   },
