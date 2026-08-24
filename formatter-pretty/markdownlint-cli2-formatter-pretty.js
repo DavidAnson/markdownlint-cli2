@@ -2,7 +2,7 @@
 
 "use strict";
 
-const { styleText } = require("node:util");
+const { styleText } = process.getBuiltinModule("node:util");
 
 /** @typedef {import("../markdownlint-cli2.mjs").OutputFormatterOptions} OutputFormatterOptions */
 
