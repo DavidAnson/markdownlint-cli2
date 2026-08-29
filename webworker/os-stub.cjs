@@ -4,5 +4,7 @@
 
 module.exports = {
   "cpus": () => [ {} ],
-  "platform": () => null
+  "EOL": "\n",
+  "homedir": () => "/homedir",
+  "platform": () => "webworker"
 };

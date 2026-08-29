@@ -39,7 +39,7 @@ module.exports = {
     new webpack.NormalModuleReplacementPlugin(
       /^stream\/(?:consumers|promises)$/u,
       (resource) => {
-        resource.request = require.resolve("./module-empty.cjs");
+        resource.request = require.resolve("./stream-promises-stub.cjs");
       }
     ),
     // Intercept existing "unicorn-magic" package to provide missing import
@@ -65,7 +65,7 @@ module.exports = {
       "process": require.resolve("./process-stub.cjs"),
       "process-wrapper": require.resolve("./process-stub.cjs"),
       "stream": require.resolve("stream-browserify"),
-      "url": require.resolve("./module-empty.cjs")
+      "url": require.resolve("./url-stub.cjs")
     }
   },
   "ignoreWarnings": [
