@@ -25,7 +25,6 @@ const packageJson = require("./package.json");
 
 /** @typedef {{ text: string }} SarifMessage */
 
-// eslint-disable-next-line unicorn/comment-content
 /** @typedef {{ uri: string }} SarifArtifactLocation */
 
 /** @typedef {{ artifactLocation: SarifArtifactLocation, region: SarifRegion }} SarifPhysicalLocation */
