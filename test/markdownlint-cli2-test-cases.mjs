@@ -192,881 +192,881 @@ const testCases = (/** @type {TestConfiguration} */ {
     });
   };
 
-  const configFilesCJMTY = [
-    ".markdownlint-cli2.jsonc",
-    ".markdownlint-cli2.toml",
-    ".markdownlint-cli2.yaml",
-    ".markdownlint-cli2.cjs",
-    ".markdownlint-cli2.mjs",
-    ".markdownlint.jsonc",
-    ".markdownlint.json",
-    ".markdownlint.toml",
-    ".markdownlint.yaml",
-    ".markdownlint.yml",
-    ".markdownlint.cjs",
-    ".markdownlint.mjs"
-  ];
-  const configFilesCJMY = configFilesCJMTY.filter((n) => !n.endsWith("toml"));
-  const configFilesCLI2 = configFilesCJMY.filter((n) => n.includes("-cli2."));
-
-  testCase({
-    "name": "no-arguments",
-    "args": [],
-    "exitCode": 2,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "no-arguments-config-arg",
-    "args": [ "--config" ],
-    "exitCode": 2,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "missing-argument-config-arg",
-    "args": [ "**", "--config" ],
-    "exitCode": 2,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "one-argument-config-arg",
-    "args": [ "--config", "../config-files/cfg/.markdownlint-cli2.jsonc" ],
-    "exitCode": 2,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "no-files",
-    "args": [ "nothing-matches" ],
-    "exitCode": 0,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "no-files-exclamation",
-    "args": [ "!" ],
-    "exitCode": 0,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "no-files-octothorpe",
-    "args": [ "#" ],
-    "exitCode": 0,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "all-ok",
-    "args": [ "**/*.md", "**/*.markdown" ],
-    "exitCode": 0
-  });
-
-  testCase({
-    "name": "no-config",
-    "args": [ "**" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "no-config-ignore-violation",
-    "args": [ "*.md", "!viewme.md" ],
-    "exitCode": 0,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "no-config-ignore-other",
-    "args": [ "*.md", "!dir" ],
-    "exitCode": 1,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "no-config-ignore-only-violation",
-    "args": [ "!viewme.md" ],
-    "exitCode": 0,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "no-config-ignore-only-other",
-    "args": [ "!dir" ],
-    "exitCode": 0,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "no-config-unignore",
-    "args": [ "**", "!dir", "dir/subdir" ],
-    "exitCode": 1,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "no-config-ignore-hash",
-    "args": [ "**", "#dir" ],
-    "exitCode": 1,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "file-paths-as-args",
-    "args": [ "viewme.md", "./dir/subdir/info.md" ],
-    "exitCode": 1,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "dot",
-    "args": [ "." ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "dotfiles",
-    "args": [ "**" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "dotfiles-exclude",
-    "args": [ "**", "!.dir", "!**/.info.md" ],
-    "exitCode": 1,
-    "cwd": "dotfiles"
-  });
-
-  testCase({
-    "name": "dotfiles-explicit",
-    "args": [ "--config", ".dotfiles-explicit.markdownlint-cli2.jsonc", "viewme.md", "dir/about.md", ".dir/about.md", "dir/subdir/info.md", ".dir/subdir/info.md", "dir/.subdir/info.md", ".dir/.subdir/info.md" ],
-    "exitCode": 0,
-    "cwd": "dotfiles"
-  });
-
-  testCase({
-    "name": "dotfiles-explicit-literal",
-    "args": [ "--config", ".dotfiles-explicit.markdownlint-cli2.jsonc", ":viewme.md", ":dir/about.md", ":.dir/about.md", ":dir/subdir/info.md", ":.dir/subdir/info.md", ":dir/.subdir/info.md", ":.dir/.subdir/info.md" ],
-    "exitCode": 0,
-    "cwd": "dotfiles"
-  });
-
-  testCase({
-    "name": "dotfiles-nested",
-    "args": [ "**/*.md" ],
-    "exitCode": 0
-  });
-
-  testCase({
-    "name": "extends",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
-
-  for (const configFile of configFilesCJMY) {
-    const usesRequire = isModule(configFile);
-    const friendlyName = configFile.slice(1).replace(".", "-");
-    testCase({
-      "name": `extends-${friendlyName}`,
-      "args": [ "--config", `${friendlyName}/${configFile}`, "file.md" ],
-      "exitCode": 1,
-      "cwd": "extends",
-      usesRequire
-    });
-  }
-
-  for (const configFile of configFilesCLI2) {
-    const friendlyName = configFile.slice(1).replace(".", "-");
-    testCase({
-      "name": `importModuleIds-${friendlyName}`,
-      "args": [ "*.md" ],
-      "exitCode": 1,
-      "cwd": path.join("importModuleIds", friendlyName),
-      "usesRequire": true
-    });
-  }
-
-  testCase({
-    "name": "globs",
-    "args": [],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "globs-and-args",
-    "args": [ "**/*.markdown" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "no-globs-and-args",
-    "args": [ "--no-globs", "dir/about.md", "dir/**/*.markdown" ],
-    "exitCode": 1,
-    "cwd": "globs-and-args"
-  });
-
-  testCase({
-    "name": "no-globs-and-empty-args",
-    "args": [ "--no-globs" ],
-    "exitCode": 2,
-    "cwd": "globs-and-args"
-  });
-
-  testCase({
-    "name": "globs-and-ignores",
-    "args": [],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-json",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-json-extends",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-jsonc",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-json-null",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-json-number",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-yaml",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-yml",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-cjs",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "markdownlint-mjs",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "markdownlint-json-yaml",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-json-invalid",
-    "args": [ ".*" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint\.json'.*Unable to parse JSONC content/su
-  });
-
-  testCase({
-    "name": "markdownlint-yaml-invalid",
-    "args": [ ".*" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint\.yaml'.*duplicated mapping key/su
-  });
-
-  testCase({
-    "name": "markdownlint-cjs-invalid",
-    "args": [ ".*" ],
-    "exitCode": 2,
-    "stderrRe": /Unable to import module '.*\.markdownlint\.cjs'/su,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "markdownlint-mjs-invalid",
-    "args": [ ".*" ],
-    "exitCode": 2,
-    "stderrRe": /Unable to import module '.*\.markdownlint\.mjs'/su,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "markdownlint-json-mismatch",
-    "args": [ "viewme.md" ],
-    "exitCode": 0
-  });
-
-  testCase({
-    "name": "markdownlint-yaml-mismatch",
-    "args": [ "viewme.md" ],
-    "exitCode": 0
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-jsonc-mismatch",
-    "args": [ "viewme.md" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.jsonc'.*Unable to parse JSONC content/u
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-yaml-mismatch",
-    "args": [ "viewme.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-json-mismatch-config",
-    "args": [ "--config", "../markdownlint-json-mismatch/.markdownlint.json", "viewme.md" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint\.json'.*Unable to parse JSONC content/u,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "markdownlint-yaml-mismatch-config",
-    "args": [ "--config", "../markdownlint-yaml-mismatch/.markdownlint.yaml", "viewme.md" ],
-    "exitCode": 1,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-jsonc-mismatch-config",
-    "args": [ "--config", "../markdownlint-cli2-jsonc-mismatch/.markdownlint-cli2.jsonc", "viewme.md" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.jsonc'.*Unable to parse JSONC content/u,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-yaml-mismatch-config",
-    "args": [ "--config", "../markdownlint-cli2-yaml-mismatch/.markdownlint-cli2.yaml", "viewme.md" ],
-    "exitCode": 1,
-    "cwd": "no-config"
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-jsonc",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-jsonc-example",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "isolate": true,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-jsonc-invalid",
-    "args": [ ".*" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.jsonc'.*Unable to parse JSONC content/su
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-jsonc-null",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-jsonc-number",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-yaml",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-yaml-example",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "isolate": true,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-yaml-invalid",
-    "args": [ ".*" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.yaml'.*duplicated mapping key/su
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-cjs",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-mjs",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-cjs-invalid",
-    "args": [ ".*" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.cjs'.*Unable to import module '/su,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-mjs-invalid",
-    "args": [ ".*" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.mjs'.*Unable to import module '/su,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "markdownlint-cli2-extends",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "config-option-extends",
-    "args": [
-      "--config",
-      "configs/.markdownlint-cli2.jsonc",
-      "viewme.md"
-    ],
-    "exitCode": 0
-  });
-
-  testCase({
-    "name": "config-overrides-options",
-    "args": [ "viewme.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "ignores",
-    "args": [ "**/*.md", "**/*.markdown" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "sibling-directory",
-    "args": [ "../markdownlint-json/**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "sibling-directory-options",
-    "args": [ "../no-config/**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "noInlineConfig",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "severity",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "showFound",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "frontMatter",
-    "args": [ "**/*.md" ],
-    "exitCode": 0
-  });
-
-  testCase({
-    "name": "gitignore",
-    "args": [ "**/*.{md,MD}" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "gitignore-root-only",
-    "args": [ "**/*.{md,MD}" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "literal-files",
-    "args": [
-      ":view(me).md",
-      ":dir/view(me).md",
-      ":dir(1)/viewme.md",
-      ":dir(1)/(view)me.md"
-    ],
-    "exitCode": 1,
-    "cwd": "literal-files/sentinel"
-  });
-
-  const literalFilesAbsoluteFile = path.join(
-    baseDir,
-    "literal-files",
-    "sentinel/dir(1)/(view)me.md"
-  ).
-    split(path.sep).
-    join(path.posix.sep);
-  testCase({
-    "name": "literal-files-absolute",
-    "args": [
-      `:${literalFilesAbsoluteFile}`,
-      "sentinel/dir"
-    ],
-    "exitCode": 1,
-    "cwd": "literal-files"
-  });
-
-  testCase({
-    "name": "fix",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "isolate": true
-  });
-
-  testCase({
-    "name": "fix-scenarios",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "isolate": true
-  });
-
-  testCase({
-    "name": "fix-default-true-arg",
-    "shadow": "fix-default-true",
-    "args": [ "--fix", "**/*.md" ],
-    "exitCode": 1,
-    "isolate": true
-  });
-
-  testCase({
-    "name": "fix-default-true-override-arg",
-    "args": [ "--fix", "**/*.md" ],
-    "exitCode": 1,
-    "cwd": "fix-default-true-override"
-  });
-
-  for (const configFile of configFilesCJMTY) {
-    const usesRequire = isModule(configFile);
-    testCase({
-      "name": `config-files-${configFile}-arg`,
-      "args": [ "--config", `cfg/${configFile}`, "**/*.md" ],
-      "exitCode": 1,
-      "cwd": "config-files",
-      usesRequire
-    });
-    testCase({
-      "name": `config-files-${configFile}-alternate-arg`,
-      "args": [ "--config", `cfg/alternate${configFile}`, "**/*.md" ],
-      "exitCode": 1,
-      "cwd": "config-files",
-      usesRequire
-    });
-    const ambiguousFile = configFile.
-      replace(".markdownlint-cli2", "options").
-      replace(".markdownlint", "config");
-    testCase({
-      "name": `config-files-${ambiguousFile}-arg`,
-      "args": [ "--config", `cfg/${ambiguousFile}`, "**/*.md" ],
-      "exitCode": 1,
-      "cwd": "config-files",
-      usesRequire
-    });
-    testCase({
-      "name": `config-files-${configFile}-absolute-arg`,
-      "args": [
-        "--config",
-        path.join(baseDir, "config-files", `cfg/${configFile}`),
-        "**/*.md"
-      ],
-      "exitCode": 1,
-      "cwd": "config-files",
-      usesRequire
-    });
-  }
-
-  /** @type { [ string, string, number, RegExp | undefined ][] } */
-  const configPointerFiles = [
-    [ "config.json", "invalid", 2, /Invalid JSON pointer./u ],
-    [ "config.json", "", 1, undefined ],
-    [ "config.json", "/extra", 1, undefined ],
-    [ "config.json", "/null", 1, undefined ],
-    [ "config.json", "/number", 1, undefined ],
-    [ "config.json", "/string", 1, undefined ],
-    [ "config-nested.json", "invalid", 2, /Invalid JSON pointer./u ],
-    [ "config-nested.json", "/nested", 1, undefined ],
-    [ "config-nested.json", "/nested/extra", 1, undefined ],
-    [ "config-nested.json", "/null", 1, undefined ],
-    [ "config-nested.json", "/number", 1, undefined ],
-    [ "config-nested.json", "/string", 1, undefined ],
-    [ "config-nested-nested.json", "/missing", 1, undefined ],
-    [ "config-nested-nested.json", "/outer/inner", 1, undefined ],
-    [ "config-nested-nested.json", "/outer/inner/extra", 1, undefined ],
-    [ "options-nested.yaml", "invalid", 2, /Invalid JSON pointer./u ],
-    [ "options-nested.yaml", "/nested", 1, undefined ],
-    [ "options-nested.yaml", "/nested/extra", 1, undefined ],
-    [ "options-nested.yaml", "/null", 1, undefined ],
-    [ "options-nested.yaml", "/number", 1, undefined ],
-    [ "options-nested.yaml", "/string", 1, undefined ],
-    [ "options-nested-nested.yaml", "/missing", 1, undefined ],
-    [ "options-nested-nested.yaml", "/outer/inner", 1, undefined ],
-    [ "options-nested-nested.yaml", "/outer/inner/extra", 1, undefined ]
-  ];
-  for (const [ configPointerFile, configPointer, exitCode, stderrRe ] of configPointerFiles) {
-    testCase({
-      "name": `config-files-${configPointerFile}-${configPointer}-arg`,
-      "args": [ "--config", `cfg/${configPointerFile}`, "--configPointer", configPointer, "**/*.md" ],
-      exitCode,
-      stderrRe,
-      "cwd": "config-files"
-    });
-  }
-
-  const unableToParseJsonc = "Unable to parse JSONC content";
-  const unableToParseYaml = "duplicated mapping key";
-  const unableToRequireOrImport = "Unable to import module";
-  const invalidConfigFiles = [
-    [ "invalid.markdownlint-cli2.jsonc", unableToParseJsonc ],
-    [ "invalid.markdownlint-cli2.yaml", unableToParseYaml ],
-    [ "invalid.markdownlint-cli2.cjs", unableToRequireOrImport ],
-    [ "invalid.markdownlint-cli2.mjs", unableToRequireOrImport ],
-    [ "invalid.markdownlint.json", unableToParseJsonc ],
-    [ "invalid.markdownlint.jsonc", unableToParseJsonc ],
-    [ "invalid.markdownlint.yaml", unableToParseYaml ],
-    [ "invalid.markdownlint.yml", unableToParseYaml ],
-    [ "invalid.markdownlint.cjs", unableToRequireOrImport ],
-    [ "invalid.markdownlint.mjs", unableToRequireOrImport ]
-  ];
-  for (const [ invalidConfigFile, stderrRe ] of invalidConfigFiles) {
-    const usesRequire = isModule(invalidConfigFile);
-    testCase({
-      "name": `config-files-${invalidConfigFile}-invalid-arg`,
-      "args": [ "--config", `cfg/${invalidConfigFile}`, "**/*.md" ],
-      "exitCode": 2,
-      "stderrRe": new RegExp(`'[^']*${invalidConfigFile.replace(".", "\\.")}'.*${stderrRe}`, "u"),
-      "cwd": "config-files",
-      usesRequire
-    });
-  }
-
-  const redundantConfigFiles = [
-    ".markdownlint-cli2.jsonc",
-    ".markdownlint.json",
-    ".markdownlint.cjs"
-  ];
-  for (const redundantConfigFile of redundantConfigFiles) {
-    const usesRequire = isModule(redundantConfigFile);
-    testCase({
-      "name": `config-files-${redundantConfigFile}-redundant-arg`,
-      "args": [ "--config", redundantConfigFile, "*.md" ],
-      "exitCode": 1,
-      "cwd": redundantConfigFile.slice(1).replace(".", "-"),
-      usesRequire
-    });
-  }
-
-  testCase({
-    "name": "config-file-unrecognized-arg",
-    "args": [ "--config", "cfg/unrecognized.txt", "**/*.md" ],
-    "exitCode": 2,
-    "stderrRe":
-      /Unable to use configuration file '[^']*cfg\/unrecognized\.txt'; Configuration file should be one of the supported names \(e\.g\., '\.markdownlint-cli2\.jsonc'\) or a prefix with a supported name \(e\.g\., 'example\.markdownlint-cli2\.jsonc'\) or have a supported extension \(e.g., jsonc, json, yaml, yml, cjs, mjs\)\./u,
-    "cwd": "config-files"
-  });
-
-  testCase({
-    "name": "config-relative-commonjs-arg",
-    "args": [
-      "--config",
-      "config/.markdownlint-cli2.jsonc",
-      "viewme.md",
-      "link.md"
-    ],
-    "exitCode": 1,
-    "cwd": "config-relative-commonjs",
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "config-relative-module-arg",
-    "args": [
-      "--config",
-      "config/.markdownlint-cli2.jsonc",
-      "viewme.md",
-      "link.md"
-    ],
-    "exitCode": 1,
-    "cwd": "config-relative-module",
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "config-with-fix-arg",
-    "shadow": "config-with-fix",
-    "args": [
-      "--config",
-      "config/.markdownlint-cli2.jsonc",
-      "viewme.md",
-      "info.md"
-    ],
-    "exitCode": 0,
-    "isolate": true
-  });
-
-  testCase({
-    "name": "package-json",
-    "args": [ "--config", "package.json", "--configPointer", "/markdownlint-cli2", "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "package-json-fix",
-    "args": [ "--config", "package.json", "--configPointer", "/markdownlint-cli2", "**/*.md" ],
-    "exitCode": 1,
-    "isolate": true
-  });
-
-  testCase({
-    "name": "package-json-invalid",
-    "args": [ "--config", "package.json", "--configPointer", "/markdownlint-cli2", "**/*.md" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*package\.json'.*Unable to parse JSONC content/su
-  });
-
-  testCase({
-    "name": "pluralize-1-1-1",
-    "args": [ "MD047.md" ],
-    "exitCode": 1,
-    "cwd": "pluralize"
-  });
-
-  testCase({
-    "name": "pluralize-2-1-1-0-0",
-    "shadow": "pluralize",
-    "args": [ "--fix", "MD047.md", "empty.md" ],
-    "exitCode": 0,
-    "isolate": true
-  });
-
-  testCase({
-    "name": "pluralize-3-2-2-1-1",
-    "shadow": "pluralize",
-    "args": [ "--fix", "MD047.md", "MD041.md", "MD019.md" ],
-    "exitCode": 1,
-    "isolate": true
-  });
-
-  testCase({
-    "name": "pyproject-toml",
-    "args": [ "--config", "pyproject.toml", "--configPointer", "/tool/markdownlint-cli2", "**/*.md" ],
-    "exitCode": 1
-  });
-
-  testCase({
-    "name": "pyproject-toml-fix",
-    "args": [ "--config", "pyproject.toml", "--configPointer", "/tool/markdownlint-cli2", "**/*.md" ],
-    "exitCode": 1,
-    "isolate": true
-  });
-
-  testCase({
-    "name": "pyproject-toml-invalid",
-    "args": [ "--config", "pyproject.toml", "--configPointer", "/tool/markdownlint-cli2", "**/*.md" ],
-    "exitCode": 2,
-    "stderrRe": /'[^']*pyproject\.toml'.*Invalid TOML document/su
-  });
-
-  testCase({
-    "name": "customRules",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "customRules-pre-imported",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "customRules-missing",
-    "args": [ ".*" ],
-    "exitCode": 2,
-    "stderrRe": /Unable to import module 'missing-package'\./u,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "customRules-invalid",
-    "args": [ ".*" ],
-    "exitCode": 2,
-    "stderrRe": /Property 'names' of custom rule at index 0 is incorrect: 'undefined'\./u,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "customRules-throws",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "markdownItPlugins",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
-
-  testCase({
-    "name": "markdownItPlugins-missing",
-    "args": [ ".*" ],
-    "exitCode": 2,
-    "stderrRe": /Unable to import module 'missing-package'\./u,
-    "usesRequire": true
-  });
+  // const configFilesCJMTY = [
+  //   ".markdownlint-cli2.jsonc",
+  //   ".markdownlint-cli2.toml",
+  //   ".markdownlint-cli2.yaml",
+  //   ".markdownlint-cli2.cjs",
+  //   ".markdownlint-cli2.mjs",
+  //   ".markdownlint.jsonc",
+  //   ".markdownlint.json",
+  //   ".markdownlint.toml",
+  //   ".markdownlint.yaml",
+  //   ".markdownlint.yml",
+  //   ".markdownlint.cjs",
+  //   ".markdownlint.mjs"
+  // ];
+  // const configFilesCJMY = configFilesCJMTY.filter((n) => !n.endsWith("toml"));
+  // const configFilesCLI2 = configFilesCJMY.filter((n) => n.includes("-cli2."));
+
+  // testCase({
+  //   "name": "no-arguments",
+  //   "args": [],
+  //   "exitCode": 2,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "no-arguments-config-arg",
+  //   "args": [ "--config" ],
+  //   "exitCode": 2,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "missing-argument-config-arg",
+  //   "args": [ "**", "--config" ],
+  //   "exitCode": 2,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "one-argument-config-arg",
+  //   "args": [ "--config", "../config-files/cfg/.markdownlint-cli2.jsonc" ],
+  //   "exitCode": 2,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "no-files",
+  //   "args": [ "nothing-matches" ],
+  //   "exitCode": 0,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "no-files-exclamation",
+  //   "args": [ "!" ],
+  //   "exitCode": 0,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "no-files-octothorpe",
+  //   "args": [ "#" ],
+  //   "exitCode": 0,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "all-ok",
+  //   "args": [ "**/*.md", "**/*.markdown" ],
+  //   "exitCode": 0
+  // });
+
+  // testCase({
+  //   "name": "no-config",
+  //   "args": [ "**" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "no-config-ignore-violation",
+  //   "args": [ "*.md", "!viewme.md" ],
+  //   "exitCode": 0,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "no-config-ignore-other",
+  //   "args": [ "*.md", "!dir" ],
+  //   "exitCode": 1,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "no-config-ignore-only-violation",
+  //   "args": [ "!viewme.md" ],
+  //   "exitCode": 0,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "no-config-ignore-only-other",
+  //   "args": [ "!dir" ],
+  //   "exitCode": 0,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "no-config-unignore",
+  //   "args": [ "**", "!dir", "dir/subdir" ],
+  //   "exitCode": 1,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "no-config-ignore-hash",
+  //   "args": [ "**", "#dir" ],
+  //   "exitCode": 1,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "file-paths-as-args",
+  //   "args": [ "viewme.md", "./dir/subdir/info.md" ],
+  //   "exitCode": 1,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "dot",
+  //   "args": [ "." ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "dotfiles",
+  //   "args": [ "**" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "dotfiles-exclude",
+  //   "args": [ "**", "!.dir", "!**/.info.md" ],
+  //   "exitCode": 1,
+  //   "cwd": "dotfiles"
+  // });
+
+  // testCase({
+  //   "name": "dotfiles-explicit",
+  //   "args": [ "--config", ".dotfiles-explicit.markdownlint-cli2.jsonc", "viewme.md", "dir/about.md", ".dir/about.md", "dir/subdir/info.md", ".dir/subdir/info.md", "dir/.subdir/info.md", ".dir/.subdir/info.md" ],
+  //   "exitCode": 0,
+  //   "cwd": "dotfiles"
+  // });
+
+  // testCase({
+  //   "name": "dotfiles-explicit-literal",
+  //   "args": [ "--config", ".dotfiles-explicit.markdownlint-cli2.jsonc", ":viewme.md", ":dir/about.md", ":.dir/about.md", ":dir/subdir/info.md", ":.dir/subdir/info.md", ":dir/.subdir/info.md", ":.dir/.subdir/info.md" ],
+  //   "exitCode": 0,
+  //   "cwd": "dotfiles"
+  // });
+
+  // testCase({
+  //   "name": "dotfiles-nested",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 0
+  // });
+
+  // testCase({
+  //   "name": "extends",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
+
+  // for (const configFile of configFilesCJMY) {
+  //   const usesRequire = isModule(configFile);
+  //   const friendlyName = configFile.slice(1).replace(".", "-");
+  //   testCase({
+  //     "name": `extends-${friendlyName}`,
+  //     "args": [ "--config", `${friendlyName}/${configFile}`, "file.md" ],
+  //     "exitCode": 1,
+  //     "cwd": "extends",
+  //     usesRequire
+  //   });
+  // }
+
+  // for (const configFile of configFilesCLI2) {
+  //   const friendlyName = configFile.slice(1).replace(".", "-");
+  //   testCase({
+  //     "name": `importModuleIds-${friendlyName}`,
+  //     "args": [ "*.md" ],
+  //     "exitCode": 1,
+  //     "cwd": path.join("importModuleIds", friendlyName),
+  //     "usesRequire": true
+  //   });
+  // }
+
+  // testCase({
+  //   "name": "globs",
+  //   "args": [],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "globs-and-args",
+  //   "args": [ "**/*.markdown" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "no-globs-and-args",
+  //   "args": [ "--no-globs", "dir/about.md", "dir/**/*.markdown" ],
+  //   "exitCode": 1,
+  //   "cwd": "globs-and-args"
+  // });
+
+  // testCase({
+  //   "name": "no-globs-and-empty-args",
+  //   "args": [ "--no-globs" ],
+  //   "exitCode": 2,
+  //   "cwd": "globs-and-args"
+  // });
+
+  // testCase({
+  //   "name": "globs-and-ignores",
+  //   "args": [],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-json",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-json-extends",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-jsonc",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-json-null",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-json-number",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-yaml",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-yml",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cjs",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-mjs",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-json-yaml",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-json-invalid",
+  //   "args": [ ".*" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /'[^']*\.markdownlint\.json'.*Unable to parse JSONC content/su
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-yaml-invalid",
+  //   "args": [ ".*" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /'[^']*\.markdownlint\.yaml'.*duplicated mapping key/su
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cjs-invalid",
+  //   "args": [ ".*" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /Unable to import module '.*\.markdownlint\.cjs'/su,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-mjs-invalid",
+  //   "args": [ ".*" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /Unable to import module '.*\.markdownlint\.mjs'/su,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-json-mismatch",
+  //   "args": [ "viewme.md" ],
+  //   "exitCode": 0
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-yaml-mismatch",
+  //   "args": [ "viewme.md" ],
+  //   "exitCode": 0
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-jsonc-mismatch",
+  //   "args": [ "viewme.md" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /'[^']*\.markdownlint-cli2\.jsonc'.*Unable to parse JSONC content/u
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-yaml-mismatch",
+  //   "args": [ "viewme.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-json-mismatch-config",
+  //   "args": [ "--config", "../markdownlint-json-mismatch/.markdownlint.json", "viewme.md" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /'[^']*\.markdownlint\.json'.*Unable to parse JSONC content/u,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-yaml-mismatch-config",
+  //   "args": [ "--config", "../markdownlint-yaml-mismatch/.markdownlint.yaml", "viewme.md" ],
+  //   "exitCode": 1,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-jsonc-mismatch-config",
+  //   "args": [ "--config", "../markdownlint-cli2-jsonc-mismatch/.markdownlint-cli2.jsonc", "viewme.md" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /'[^']*\.markdownlint-cli2\.jsonc'.*Unable to parse JSONC content/u,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-yaml-mismatch-config",
+  //   "args": [ "--config", "../markdownlint-cli2-yaml-mismatch/.markdownlint-cli2.yaml", "viewme.md" ],
+  //   "exitCode": 1,
+  //   "cwd": "no-config"
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-jsonc",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-jsonc-example",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-jsonc-invalid",
+  //   "args": [ ".*" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /'[^']*\.markdownlint-cli2\.jsonc'.*Unable to parse JSONC content/su
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-jsonc-null",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-jsonc-number",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-yaml",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-yaml-example",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-yaml-invalid",
+  //   "args": [ ".*" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /'[^']*\.markdownlint-cli2\.yaml'.*duplicated mapping key/su
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-cjs",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-mjs",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-cjs-invalid",
+  //   "args": [ ".*" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /'[^']*\.markdownlint-cli2\.cjs'.*Unable to import module '/su,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-mjs-invalid",
+  //   "args": [ ".*" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /'[^']*\.markdownlint-cli2\.mjs'.*Unable to import module '/su,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "markdownlint-cli2-extends",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "config-option-extends",
+  //   "args": [
+  //     "--config",
+  //     "configs/.markdownlint-cli2.jsonc",
+  //     "viewme.md"
+  //   ],
+  //   "exitCode": 0
+  // });
+
+  // testCase({
+  //   "name": "config-overrides-options",
+  //   "args": [ "viewme.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "ignores",
+  //   "args": [ "**/*.md", "**/*.markdown" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "sibling-directory",
+  //   "args": [ "../markdownlint-json/**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "sibling-directory-options",
+  //   "args": [ "../no-config/**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "noInlineConfig",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "severity",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "showFound",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "frontMatter",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 0
+  // });
+
+  // testCase({
+  //   "name": "gitignore",
+  //   "args": [ "**/*.{md,MD}" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "gitignore-root-only",
+  //   "args": [ "**/*.{md,MD}" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "literal-files",
+  //   "args": [
+  //     ":view(me).md",
+  //     ":dir/view(me).md",
+  //     ":dir(1)/viewme.md",
+  //     ":dir(1)/(view)me.md"
+  //   ],
+  //   "exitCode": 1,
+  //   "cwd": "literal-files/sentinel"
+  // });
+
+  // const literalFilesAbsoluteFile = path.join(
+  //   baseDir,
+  //   "literal-files",
+  //   "sentinel/dir(1)/(view)me.md"
+  // ).
+  //   split(path.sep).
+  //   join(path.posix.sep);
+  // testCase({
+  //   "name": "literal-files-absolute",
+  //   "args": [
+  //     `:${literalFilesAbsoluteFile}`,
+  //     "sentinel/dir"
+  //   ],
+  //   "exitCode": 1,
+  //   "cwd": "literal-files"
+  // });
+
+  // testCase({
+  //   "name": "fix",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true
+  // });
+
+  // testCase({
+  //   "name": "fix-scenarios",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true
+  // });
+
+  // testCase({
+  //   "name": "fix-default-true-arg",
+  //   "shadow": "fix-default-true",
+  //   "args": [ "--fix", "**/*.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true
+  // });
+
+  // testCase({
+  //   "name": "fix-default-true-override-arg",
+  //   "args": [ "--fix", "**/*.md" ],
+  //   "exitCode": 1,
+  //   "cwd": "fix-default-true-override"
+  // });
+
+  // for (const configFile of configFilesCJMTY) {
+  //   const usesRequire = isModule(configFile);
+  //   testCase({
+  //     "name": `config-files-${configFile}-arg`,
+  //     "args": [ "--config", `cfg/${configFile}`, "**/*.md" ],
+  //     "exitCode": 1,
+  //     "cwd": "config-files",
+  //     usesRequire
+  //   });
+  //   testCase({
+  //     "name": `config-files-${configFile}-alternate-arg`,
+  //     "args": [ "--config", `cfg/alternate${configFile}`, "**/*.md" ],
+  //     "exitCode": 1,
+  //     "cwd": "config-files",
+  //     usesRequire
+  //   });
+  //   const ambiguousFile = configFile.
+  //     replace(".markdownlint-cli2", "options").
+  //     replace(".markdownlint", "config");
+  //   testCase({
+  //     "name": `config-files-${ambiguousFile}-arg`,
+  //     "args": [ "--config", `cfg/${ambiguousFile}`, "**/*.md" ],
+  //     "exitCode": 1,
+  //     "cwd": "config-files",
+  //     usesRequire
+  //   });
+  //   testCase({
+  //     "name": `config-files-${configFile}-absolute-arg`,
+  //     "args": [
+  //       "--config",
+  //       path.join(baseDir, "config-files", `cfg/${configFile}`),
+  //       "**/*.md"
+  //     ],
+  //     "exitCode": 1,
+  //     "cwd": "config-files",
+  //     usesRequire
+  //   });
+  // }
+
+  // /** @type { [ string, string, number, RegExp | undefined ][] } */
+  // const configPointerFiles = [
+  //   [ "config.json", "invalid", 2, /Invalid JSON pointer./u ],
+  //   [ "config.json", "", 1, undefined ],
+  //   [ "config.json", "/extra", 1, undefined ],
+  //   [ "config.json", "/null", 1, undefined ],
+  //   [ "config.json", "/number", 1, undefined ],
+  //   [ "config.json", "/string", 1, undefined ],
+  //   [ "config-nested.json", "invalid", 2, /Invalid JSON pointer./u ],
+  //   [ "config-nested.json", "/nested", 1, undefined ],
+  //   [ "config-nested.json", "/nested/extra", 1, undefined ],
+  //   [ "config-nested.json", "/null", 1, undefined ],
+  //   [ "config-nested.json", "/number", 1, undefined ],
+  //   [ "config-nested.json", "/string", 1, undefined ],
+  //   [ "config-nested-nested.json", "/missing", 1, undefined ],
+  //   [ "config-nested-nested.json", "/outer/inner", 1, undefined ],
+  //   [ "config-nested-nested.json", "/outer/inner/extra", 1, undefined ],
+  //   [ "options-nested.yaml", "invalid", 2, /Invalid JSON pointer./u ],
+  //   [ "options-nested.yaml", "/nested", 1, undefined ],
+  //   [ "options-nested.yaml", "/nested/extra", 1, undefined ],
+  //   [ "options-nested.yaml", "/null", 1, undefined ],
+  //   [ "options-nested.yaml", "/number", 1, undefined ],
+  //   [ "options-nested.yaml", "/string", 1, undefined ],
+  //   [ "options-nested-nested.yaml", "/missing", 1, undefined ],
+  //   [ "options-nested-nested.yaml", "/outer/inner", 1, undefined ],
+  //   [ "options-nested-nested.yaml", "/outer/inner/extra", 1, undefined ]
+  // ];
+  // for (const [ configPointerFile, configPointer, exitCode, stderrRe ] of configPointerFiles) {
+  //   testCase({
+  //     "name": `config-files-${configPointerFile}-${configPointer}-arg`,
+  //     "args": [ "--config", `cfg/${configPointerFile}`, "--configPointer", configPointer, "**/*.md" ],
+  //     exitCode,
+  //     stderrRe,
+  //     "cwd": "config-files"
+  //   });
+  // }
+
+  // const unableToParseJsonc = "Unable to parse JSONC content";
+  // const unableToParseYaml = "duplicated mapping key";
+  // const unableToRequireOrImport = "Unable to import module";
+  // const invalidConfigFiles = [
+  //   [ "invalid.markdownlint-cli2.jsonc", unableToParseJsonc ],
+  //   [ "invalid.markdownlint-cli2.yaml", unableToParseYaml ],
+  //   [ "invalid.markdownlint-cli2.cjs", unableToRequireOrImport ],
+  //   [ "invalid.markdownlint-cli2.mjs", unableToRequireOrImport ],
+  //   [ "invalid.markdownlint.json", unableToParseJsonc ],
+  //   [ "invalid.markdownlint.jsonc", unableToParseJsonc ],
+  //   [ "invalid.markdownlint.yaml", unableToParseYaml ],
+  //   [ "invalid.markdownlint.yml", unableToParseYaml ],
+  //   [ "invalid.markdownlint.cjs", unableToRequireOrImport ],
+  //   [ "invalid.markdownlint.mjs", unableToRequireOrImport ]
+  // ];
+  // for (const [ invalidConfigFile, stderrRe ] of invalidConfigFiles) {
+  //   const usesRequire = isModule(invalidConfigFile);
+  //   testCase({
+  //     "name": `config-files-${invalidConfigFile}-invalid-arg`,
+  //     "args": [ "--config", `cfg/${invalidConfigFile}`, "**/*.md" ],
+  //     "exitCode": 2,
+  //     "stderrRe": new RegExp(`'[^']*${invalidConfigFile.replace(".", "\\.")}'.*${stderrRe}`, "u"),
+  //     "cwd": "config-files",
+  //     usesRequire
+  //   });
+  // }
+
+  // const redundantConfigFiles = [
+  //   ".markdownlint-cli2.jsonc",
+  //   ".markdownlint.json",
+  //   ".markdownlint.cjs"
+  // ];
+  // for (const redundantConfigFile of redundantConfigFiles) {
+  //   const usesRequire = isModule(redundantConfigFile);
+  //   testCase({
+  //     "name": `config-files-${redundantConfigFile}-redundant-arg`,
+  //     "args": [ "--config", redundantConfigFile, "*.md" ],
+  //     "exitCode": 1,
+  //     "cwd": redundantConfigFile.slice(1).replace(".", "-"),
+  //     usesRequire
+  //   });
+  // }
+
+  // testCase({
+  //   "name": "config-file-unrecognized-arg",
+  //   "args": [ "--config", "cfg/unrecognized.txt", "**/*.md" ],
+  //   "exitCode": 2,
+  //   "stderrRe":
+  //     /Unable to use configuration file '[^']*cfg\/unrecognized\.txt'; Configuration file should be one of the supported names \(e\.g\., '\.markdownlint-cli2\.jsonc'\) or a prefix with a supported name \(e\.g\., 'example\.markdownlint-cli2\.jsonc'\) or have a supported extension \(e.g., jsonc, json, yaml, yml, cjs, mjs\)\./u,
+  //   "cwd": "config-files"
+  // });
+
+  // testCase({
+  //   "name": "config-relative-commonjs-arg",
+  //   "args": [
+  //     "--config",
+  //     "config/.markdownlint-cli2.jsonc",
+  //     "viewme.md",
+  //     "link.md"
+  //   ],
+  //   "exitCode": 1,
+  //   "cwd": "config-relative-commonjs",
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "config-relative-module-arg",
+  //   "args": [
+  //     "--config",
+  //     "config/.markdownlint-cli2.jsonc",
+  //     "viewme.md",
+  //     "link.md"
+  //   ],
+  //   "exitCode": 1,
+  //   "cwd": "config-relative-module",
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "config-with-fix-arg",
+  //   "shadow": "config-with-fix",
+  //   "args": [
+  //     "--config",
+  //     "config/.markdownlint-cli2.jsonc",
+  //     "viewme.md",
+  //     "info.md"
+  //   ],
+  //   "exitCode": 0,
+  //   "isolate": true
+  // });
+
+  // testCase({
+  //   "name": "package-json",
+  //   "args": [ "--config", "package.json", "--configPointer", "/markdownlint-cli2", "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "package-json-fix",
+  //   "args": [ "--config", "package.json", "--configPointer", "/markdownlint-cli2", "**/*.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true
+  // });
+
+  // testCase({
+  //   "name": "package-json-invalid",
+  //   "args": [ "--config", "package.json", "--configPointer", "/markdownlint-cli2", "**/*.md" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /'[^']*package\.json'.*Unable to parse JSONC content/su
+  // });
+
+  // testCase({
+  //   "name": "pluralize-1-1-1",
+  //   "args": [ "MD047.md" ],
+  //   "exitCode": 1,
+  //   "cwd": "pluralize"
+  // });
+
+  // testCase({
+  //   "name": "pluralize-2-1-1-0-0",
+  //   "shadow": "pluralize",
+  //   "args": [ "--fix", "MD047.md", "empty.md" ],
+  //   "exitCode": 0,
+  //   "isolate": true
+  // });
+
+  // testCase({
+  //   "name": "pluralize-3-2-2-1-1",
+  //   "shadow": "pluralize",
+  //   "args": [ "--fix", "MD047.md", "MD041.md", "MD019.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true
+  // });
+
+  // testCase({
+  //   "name": "pyproject-toml",
+  //   "args": [ "--config", "pyproject.toml", "--configPointer", "/tool/markdownlint-cli2", "**/*.md" ],
+  //   "exitCode": 1
+  // });
+
+  // testCase({
+  //   "name": "pyproject-toml-fix",
+  //   "args": [ "--config", "pyproject.toml", "--configPointer", "/tool/markdownlint-cli2", "**/*.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true
+  // });
+
+  // testCase({
+  //   "name": "pyproject-toml-invalid",
+  //   "args": [ "--config", "pyproject.toml", "--configPointer", "/tool/markdownlint-cli2", "**/*.md" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /'[^']*pyproject\.toml'.*Invalid TOML document/su
+  // });
+
+  // testCase({
+  //   "name": "customRules",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "customRules-pre-imported",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "customRules-missing",
+  //   "args": [ ".*" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /Unable to import module 'missing-package'\./u,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "customRules-invalid",
+  //   "args": [ ".*" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /Property 'names' of custom rule at index 0 is incorrect: 'undefined'\./u,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "customRules-throws",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "markdownItPlugins",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
+
+  // testCase({
+  //   "name": "markdownItPlugins-missing",
+  //   "args": [ ".*" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /Unable to import module 'missing-package'\./u,
+  //   "usesRequire": true
+  // });
 
   testCase({
     "name": "outputFormatters",
@@ -1076,308 +1076,308 @@ const testCases = (/** @type {TestConfiguration} */ {
     "usesRequire": true
   });
 
-  testCase({
-    "name": "outputFormatters-npm",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "isolate": true,
-    "env": {
-      "FORCE_COLOR": "1",
-      "FORCE_HYPERLINK": "1"
-    },
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "outputFormatters-npm",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true,
+  //   "env": {
+  //     "FORCE_COLOR": "1",
+  //     "FORCE_HYPERLINK": "1"
+  //   },
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "outputFormatters-params",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "isolate": true,
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "outputFormatters-params",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true,
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "outputFormatters-params-absolute",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "isolate": true,
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "outputFormatters-params-absolute",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true,
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "outputFormatters-severity",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "isolate": true,
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "outputFormatters-severity",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true,
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "outputFormatters-pre-imported",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "isolate": true,
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "outputFormatters-pre-imported",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true,
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "outputFormatters-clean",
-    "args": [ "**/*.md" ],
-    "exitCode": 0,
-    "isolate": true,
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "outputFormatters-clean",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 0,
+  //   "isolate": true,
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "outputFormatters-file",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "outputFormatters-file",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "outputFormatters-module",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "outputFormatters-module",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "outputFormatters-missing",
-    "args": [ ".*" ],
-    "exitCode": 2,
-    "stderrRe": /Unable to import module 'missing-package'\./u,
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "outputFormatters-missing",
+  //   "args": [ ".*" ],
+  //   "exitCode": 2,
+  //   "stderrRe": /Unable to import module 'missing-package'\./u,
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "formatter-summarize",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "formatter-summarize",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "formatter-pretty",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "env": {
-      "FORCE_COLOR": "1",
-      "FORCE_HYPERLINK": "1"
-    }
-  });
+  // testCase({
+  //   "name": "formatter-pretty",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "env": {
+  //     "FORCE_COLOR": "1",
+  //     "FORCE_HYPERLINK": "1"
+  //   }
+  // });
 
-  testCase({
-    "name": "formatter-pretty-appendLink",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "env": {
-      "FORCE_COLOR": "1"
-    }
-  });
+  // testCase({
+  //   "name": "formatter-pretty-appendLink",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "env": {
+  //     "FORCE_COLOR": "1"
+  //   }
+  // });
 
-  testCase({
-    "name": "formatter-template",
-    "args": [ "*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "formatter-template",
+  //   "args": [ "*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "nested-files",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
+  // testCase({
+  //   "name": "nested-files",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
 
-  testCase({
-    "name": "nested-directories",
-    "args": [ "**", "!a", "a/b", "#a/b/c", "a/b/c/d" ],
-    "exitCode": 1
-  });
+  // testCase({
+  //   "name": "nested-directories",
+  //   "args": [ "**", "!a", "a/b", "#a/b/c", "a/b/c/d" ],
+  //   "exitCode": 1
+  // });
 
-  testCase({
-    "name": "nested-options-config",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "nested-options-config",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "markdownlint-cjs-no-require",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "cwd": "markdownlint-cjs",
-    "noImport": true
-  });
+  // testCase({
+  //   "name": "markdownlint-cjs-no-require",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "cwd": "markdownlint-cjs",
+  //   "noImport": true
+  // });
 
-  testCase({
-    "name": "markdownlint-mjs-no-require",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "cwd": "markdownlint-mjs",
-    "noImport": true
-  });
+  // testCase({
+  //   "name": "markdownlint-mjs-no-require",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "cwd": "markdownlint-mjs",
+  //   "noImport": true
+  // });
 
-  testCase({
-    "name": "markdownlint-cli2-cjs-no-require",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "cwd": "markdownlint-cli2-cjs",
-    "noImport": true
-  });
+  // testCase({
+  //   "name": "markdownlint-cli2-cjs-no-require",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "cwd": "markdownlint-cli2-cjs",
+  //   "noImport": true
+  // });
 
-  testCase({
-    "name": "markdownlint-cli2-mjs-no-require",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "cwd": "markdownlint-cli2-mjs",
-    "noImport": true
-  });
+  // testCase({
+  //   "name": "markdownlint-cli2-mjs-no-require",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "cwd": "markdownlint-cli2-mjs",
+  //   "noImport": true
+  // });
 
-  testCase({
-    "name": "customRules-no-require",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "cwd": "customRules",
-    "noImport": true
-  });
+  // testCase({
+  //   "name": "customRules-no-require",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "cwd": "customRules",
+  //   "noImport": true
+  // });
 
-  testCase({
-    "name": "markdownItPlugins-no-require",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "cwd": "markdownItPlugins",
-    "noImport": true
-  });
+  // testCase({
+  //   "name": "markdownItPlugins-no-require",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "cwd": "markdownItPlugins",
+  //   "noImport": true
+  // });
 
-  testCase({
-    "name": "overrides",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
+  // testCase({
+  //   "name": "overrides",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
 
-  testCase({
-    "name": "overrides-scenarios",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
+  // testCase({
+  //   "name": "overrides-scenarios",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
 
-  if (sameFileSystem) {
+  // if (sameFileSystem) {
 
-    testCase({
-      "name": "tilde-paths-commonjs",
-      "args": [ "*.md" ],
-      "exitCode": 1,
-      "usesRequire": true
-    });
+  //   testCase({
+  //     "name": "tilde-paths-commonjs",
+  //     "args": [ "*.md" ],
+  //     "exitCode": 1,
+  //     "usesRequire": true
+  //   });
 
-    testCase({
-      "name": "tilde-paths-module",
-      "args": [ "*.md" ],
-      "exitCode": 1,
-      "usesRequire": true
-    });
+  //   testCase({
+  //     "name": "tilde-paths-module",
+  //     "args": [ "*.md" ],
+  //     "exitCode": 1,
+  //     "usesRequire": true
+  //   });
 
-  }
+  // }
 
-  testCase({
-    "name": "no-arg",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "cwd": "no-config"
-  });
+  // testCase({
+  //   "name": "no-arg",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "cwd": "no-config"
+  // });
 
-  testCase({
-    "name": "config-first-arg",
-    "args": [
-      "--config",
-      "../config-files/cfg/.markdownlint-cli2.jsonc",
-      "**/*.md"
-    ],
-    "exitCode": 1,
-    "cwd": "no-config"
-  });
+  // testCase({
+  //   "name": "config-first-arg",
+  //   "args": [
+  //     "--config",
+  //     "../config-files/cfg/.markdownlint-cli2.jsonc",
+  //     "**/*.md"
+  //   ],
+  //   "exitCode": 1,
+  //   "cwd": "no-config"
+  // });
 
-  testCase({
-    "name": "config-last-arg",
-    "args": [
-      "**/*.md",
-      "--config",
-      "../config-files/cfg/.markdownlint-cli2.jsonc"
-    ],
-    "exitCode": 1,
-    "cwd": "no-config"
-  });
+  // testCase({
+  //   "name": "config-last-arg",
+  //   "args": [
+  //     "**/*.md",
+  //     "--config",
+  //     "../config-files/cfg/.markdownlint-cli2.jsonc"
+  //   ],
+  //   "exitCode": 1,
+  //   "cwd": "no-config"
+  // });
 
-  testCase({
-    "name": "config-last-used-arg",
-    "args": [
-      "--config",
-      "../config-files/cfg/invalid.markdownlint-cli2.jsonc",
-      "**/*.md",
-      "--config",
-      "../config-files/cfg/.markdownlint-cli2.jsonc"
-    ],
-    "exitCode": 1,
-    "cwd": "no-config"
-  });
+  // testCase({
+  //   "name": "config-last-used-arg",
+  //   "args": [
+  //     "--config",
+  //     "../config-files/cfg/invalid.markdownlint-cli2.jsonc",
+  //     "**/*.md",
+  //     "--config",
+  //     "../config-files/cfg/.markdownlint-cli2.jsonc"
+  //   ],
+  //   "exitCode": 1,
+  //   "cwd": "no-config"
+  // });
 
-  testCase({
-    "name": "fix-first-arg",
-    "shadow": "no-config",
-    "args": [ "--fix", "**/*.md" ],
-    "exitCode": 1,
-    "isolate": true
-  });
+  // testCase({
+  //   "name": "fix-first-arg",
+  //   "shadow": "no-config",
+  //   "args": [ "--fix", "**/*.md" ],
+  //   "exitCode": 1,
+  //   "isolate": true
+  // });
 
-  testCase({
-    "name": "fix-last-arg",
-    "shadow": "no-config",
-    "args": [ "**/*.md", "--fix" ],
-    "exitCode": 1,
-    "isolate": true
-  });
+  // testCase({
+  //   "name": "fix-last-arg",
+  //   "shadow": "no-config",
+  //   "args": [ "**/*.md", "--fix" ],
+  //   "exitCode": 1,
+  //   "isolate": true
+  // });
 
-  testCase({
-    "name": "fix-multiple-arg",
-    "shadow": "no-config",
-    "args": [ "--fix", "**/*.md", "--fix" ],
-    "exitCode": 1,
-    "isolate": true
-  });
+  // testCase({
+  //   "name": "fix-multiple-arg",
+  //   "shadow": "no-config",
+  //   "args": [ "--fix", "**/*.md", "--fix" ],
+  //   "exitCode": 1,
+  //   "isolate": true
+  // });
 
-  testCase({
-    "name": "fix-and-config-arg",
-    "shadow": "no-config",
-    "args": [
-      "--fix",
-      "**/*.md",
-      "--config",
-      "../config-with-fix/.markdownlint-cli2.jsonc"
-    ],
-    "exitCode": 1,
-    "isolate": true
-  });
+  // testCase({
+  //   "name": "fix-and-config-arg",
+  //   "shadow": "no-config",
+  //   "args": [
+  //     "--fix",
+  //     "**/*.md",
+  //     "--config",
+  //     "../config-with-fix/.markdownlint-cli2.jsonc"
+  //   ],
+  //   "exitCode": 1,
+  //   "isolate": true
+  // });
 
-  testCase({
-    "name": "modulePaths",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "modulePaths",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "modulePaths-non-root",
-    "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
-  });
+  // testCase({
+  //   "name": "modulePaths-non-root",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1,
+  //   "usesRequire": true
+  // });
 
-  testCase({
-    "name": "jsonc-trailing-comma",
-    "args": [ "**/*.md" ],
-    "exitCode": 1
-  });
+  // testCase({
+  //   "name": "jsonc-trailing-comma",
+  //   "args": [ "**/*.md" ],
+  //   "exitCode": 1
+  // });
 
 };
 

@@ -70,6 +70,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     "includeNoImport": true,
     "includeEnv": false,
     "includeScript": false,
+    // Remove?
     "includeRequire": false
   });
 
