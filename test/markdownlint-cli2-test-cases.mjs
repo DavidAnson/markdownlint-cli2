@@ -30,6 +30,7 @@ import { newLineRe as newlineRe } from "markdownlint/helpers";
  * @property {boolean} includeEnv Include environment-based tests.
  * @property {boolean} includeScript Include script-based tests.
  * @property {boolean} includeRequire Include require-based tests.
+ * @property {boolean} needsIsolation Needs directory isolation.
  * @property {number} [shardIndex] Shard index.
  * @property {number} [shardTotal] Shard total.
  */
@@ -76,6 +77,7 @@ const testCases = (/** @type {TestConfiguration} */ {
   includeEnv,
   includeScript,
   includeRequire,
+  needsIsolation,
   shardIndex = 0,
   shardTotal = 1
 }) => {
@@ -90,7 +92,6 @@ const testCases = (/** @type {TestConfiguration} */ {
       cwd,
       env,
       stderrRe,
-      isolate,
       noImport,
       usesRequire
     } = options;
@@ -98,6 +99,7 @@ const testCases = (/** @type {TestConfiguration} */ {
       // Skip test due to sharding
       return;
     }
+    const isolate = needsIsolation && options.isolate;
     const usesEnv = Boolean(env);
     const usesScript = Boolean(script);
     if (
@@ -114,7 +116,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     // eslint-disable-next-line node-test/require-top-level-describe
     test(`${name} (${host})`, async (t) => {
       t.plan(3);
-      const relative = (isolate && isolatedDir) || cwd || name;
+      const relative = (isolate && isolatedDir) || cwd || shadow || name;
       const directory = path.join(import.meta.dirname, relative);
       await setup(shadow || name, isolatedDir).
         then(invoke(relative, args, noImport, env, script)).

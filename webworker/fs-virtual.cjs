@@ -64,7 +64,11 @@ const stats = (isDirectory, data) => {
     "atime": date,
     "mtime": date,
     "ctime": date,
-    "birthtime": date
+    "birthtime": date,
+    "atimeInstant": 0,
+    "mtimeInstant": 0,
+    "ctimeInstant": 0,
+    "birthtimeInstant": 0
   };
 };
 

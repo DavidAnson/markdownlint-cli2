@@ -48,6 +48,7 @@ const shardExecSuite = (/** @type {number} */ shardIndex, /** @type {number} */ 
       "includeEnv": true,
       "includeScript": true,
       "includeRequire": true,
+      "needsIsolation": true,
       shardIndex,
       shardTotal
     });

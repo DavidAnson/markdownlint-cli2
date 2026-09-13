@@ -11,29 +11,16 @@ import FsVirtual from "../webworker/fs-virtual.cjs";
 const directory = import.meta.dirname;
 const baseDir = "/virtual";
 const files = await FsVirtual.mirrorDirectory(fs, directory, globby, baseDir);
-const fsVirtual = new FsVirtual(files);
 
-const copyDir = (/** @type {string} */ fromDir, /** @type {string} */ toDir) => {
-  const fromPrefix = `${baseDir}/${fromDir}/`;
-  const toPrefix = `${baseDir}/${toDir}/`;
-  /** @type {[string, string][]} */
-  const toFiles = [];
-  for (const [ file, data ] of files) {
-    if (file.startsWith(fromPrefix)) {
-      toFiles.push([ `${toPrefix}${file.slice(fromPrefix.length)}`, data ]);
-    }
-  }
-  fsVirtual.updateFiles(toFiles);
-  return Promise.resolve();
-};
-
-const removeDir = () => Promise.resolve();
+const copyDir = () => Promise.reject(new Error("UNUSED"));
+const removeDir = copyDir;
 
 const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
   /** @type {string[]} */
   const stdout = [];
   /** @type {string[]} */
   const stderr = [];
+  const fsVirtual = new FsVirtual(files);
   return markdownlintCli2({
     "directory": path.posix.join(baseDir, relative),
     "argv": args,
@@ -70,7 +57,8 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     "includeNoImport": true,
     "includeEnv": false,
     "includeScript": false,
-    "includeRequire": false
+    "includeRequire": false,
+    "needsIsolation": false
   });
 
 });
