@@ -2,7 +2,6 @@
 
 "use strict";
 
-const fs = require("node:fs").promises;
 const path = require("node:path");
 const junitReportBuilder = require("junit-report-builder");
 
@@ -15,7 +14,7 @@ const junitReportBuilder = require("junit-report-builder");
 
 // Writes markdownlint-cli2 results to a file in JUnit XML format
 const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
-  const { directory, results } = options;
+  const { directory, fsPromises, results } = options;
   const { name } = (params || {});
   // Get a new builder instance because the default builder is shared
   // @ts-ignore
@@ -50,7 +49,7 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
       time(0);
   }
   const content = builder.build();
-  return fs.writeFile(
+  return fsPromises.writeFile(
     path.resolve(
       directory,
       name || "markdownlint-cli2-junit.xml"

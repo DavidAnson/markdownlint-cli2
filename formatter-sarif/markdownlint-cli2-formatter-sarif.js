@@ -2,7 +2,6 @@
 
 "use strict";
 
-const fs = require("node:fs").promises;
 const path = require("node:path");
 const packageJson = require("./package.json");
 
@@ -54,7 +53,7 @@ const toUpper = (/** @type {string} */ s) => s.toUpperCase();
 // Writes markdownlint-cli2 results to a file in Static Analysis Results
 // Interchange Format/SARIF
 const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
-  const { directory, results } = options;
+  const { directory, fsPromises, results } = options;
   const { name } = (params || {});
 
   // Create SARIF object
@@ -154,7 +153,7 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
 
   // Write SARIF object
   const content = JSON.stringify(sarif, null, 2);
-  return fs.writeFile(
+  return fsPromises.writeFile(
     path.resolve(
       directory,
       name || "markdownlint-cli2-sarif.sarif"

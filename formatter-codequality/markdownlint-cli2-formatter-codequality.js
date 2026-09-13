@@ -2,7 +2,6 @@
 
 "use strict";
 
-const fs = require("node:fs").promises;
 const path = require("node:path");
 const { createHash } = require("node:crypto");
 
@@ -29,7 +28,7 @@ const createFingerprint = function createFingerprint(violation) {
 // Writes markdownlint-cli2 results to a GitLab Code Quality report JSON file.
 // See: https://docs.gitlab.com/ci/testing/code_quality/#code-quality-report-format
 const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
-  const { directory, results } = options;
+  const { directory, fsPromises, results } = options;
   const { name, severity, severityError, severityWarning } = (params || {});
   const issues = [];
 
@@ -67,7 +66,7 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
   }
 
   const content = JSON.stringify(issues, null, 2);
-  return fs.writeFile(
+  return fsPromises.writeFile(
     path.resolve(
       directory,
       name || "markdownlint-cli2-codequality.json"

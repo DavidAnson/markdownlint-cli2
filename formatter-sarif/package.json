@@ -12,7 +12,7 @@
     "markdownlint-cli2-formatter-sarif.js"
   ],
   "peerDependencies": {
-    "markdownlint-cli2": ">=0.0.4"
+    "markdownlint-cli2": ">=0.24.0"
   },
   "keywords": [
     "markdownlint-cli2-formatter"

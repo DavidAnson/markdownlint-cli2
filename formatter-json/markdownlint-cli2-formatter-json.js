@@ -2,7 +2,6 @@
 
 "use strict";
 
-const fs = require("node:fs").promises;
 const path = require("node:path");
 
 /** @typedef {import("../markdownlint-cli2.mjs").OutputFormatterOptions} OutputFormatterOptions */
@@ -15,10 +14,10 @@ const path = require("node:path");
 
 // Writes markdownlint-cli2 results to a file in JSON format
 const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
-  const { directory, results } = options;
+  const { directory, fsPromises, results } = options;
   const { name, spaces } = (params || {});
   const content = JSON.stringify(results, null, spaces || 2);
-  return fs.writeFile(
+  return fsPromises.writeFile(
     path.resolve(
       directory,
       name || "markdownlint-cli2-results.json"

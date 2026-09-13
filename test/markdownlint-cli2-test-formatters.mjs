@@ -1,6 +1,6 @@
 // @ts-check
 
-import { mkdir, readFile, rm } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 
@@ -87,7 +87,8 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
         "directory": testDirectory,
         results,
         logMessage,
-        logError
+        logError,
+        "fsPromises": { writeFile }
       };
       // eslint-disable-next-line unicorn/no-await-expression-member
       const instance = (await import(`../formatter-${formatter}/markdownlint-cli2-formatter-${formatter}.js`)).default;
