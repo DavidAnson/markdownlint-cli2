@@ -5,7 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import { execa } from "execa";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
-import { copyDir, removeDir } from "./markdownlint-cli2-test-helpers.mjs";
+import { copyDir, removeDir, readFile } from "./markdownlint-cli2-test-helpers.mjs";
 
 const baseDir = import.meta.dirname;
 
@@ -44,6 +44,7 @@ const shardExecSuite = (/** @type {number} */ shardIndex, /** @type {number} */ 
       invoke,
       copyDir,
       removeDir,
+      readFile,
       "includeNoImport": false,
       "includeEnv": true,
       "includeScript": true,

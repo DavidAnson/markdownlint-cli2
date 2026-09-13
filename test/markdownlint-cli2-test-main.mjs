@@ -9,7 +9,6 @@ import testCases from "./markdownlint-cli2-test-cases.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 
 const baseDir = import.meta.dirname;
-// const baseDir = "/virtual";
 const files = await FsVirtual.mirrorDirectory(fs, import.meta.dirname, globby, baseDir);
 const fsVirtual = new FsVirtual(files);
 
@@ -28,6 +27,8 @@ const copyDir = (/** @type {string} */ fromDir, /** @type {string} */ toDir) => 
 };
 
 const removeDir = () => Promise.resolve();
+
+const readFile = fsVirtual.promises.readFile;
 
 const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
   const directory = path.join(baseDir, relative);
@@ -68,6 +69,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     invoke,
     copyDir,
     removeDir,
+    readFile,
     "includeNoImport": true,
     "includeEnv": false,
     "includeScript": false,

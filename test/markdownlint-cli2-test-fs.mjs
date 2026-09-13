@@ -29,6 +29,8 @@ const copyDir = (/** @type {string} */ fromDir, /** @type {string} */ toDir) => 
 
 const removeDir = () => Promise.resolve();
 
+const readFile = fsVirtual.promises.readFile;
+
 const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport) => () => {
   /** @type {string[]} */
   const stdout = [];
@@ -67,6 +69,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     invoke,
     copyDir,
     removeDir,
+    readFile,
     "includeNoImport": true,
     "includeEnv": false,
     "includeScript": false,

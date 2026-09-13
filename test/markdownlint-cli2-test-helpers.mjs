@@ -16,7 +16,10 @@ const copyDir = (/** @type {string} */ fromDir, /** @type {string} */ toDir) => 
 const removeDir = (/** @type {string} */ dir) =>
   fs.rm(path.join(import.meta.dirname, dir), { "recursive": true });
 
+const readFile = fs.readFile;
+
 export {
   copyDir,
-  removeDir
+  removeDir,
+  readFile
 };
