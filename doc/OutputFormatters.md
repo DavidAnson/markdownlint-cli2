@@ -28,8 +28,11 @@ Where `options` is an object that looks like:
   standard output
 - `logError`: `Function` that takes a single `String` argument and logs it to
   standard error
+- `fsPromises`: `Object` that presents a subset of the `node:fs/promises` file
+  system module
 
-And `params` is an object containing formatter parameters from configuration.
+And `params` is an object containing the formatter's custom parameters from the
+provided configuration array.
 
 For a `.markdownlint-cli2.jsonc` like:
 

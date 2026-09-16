@@ -1,9 +1,12 @@
 // @ts-check
 
-import { mkdir, readFile, rm } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
+import { main as markdownlintCli2 } from "../markdownlint-cli2.mjs";
+import FsVirtual from "../webworker/fs-virtual.cjs";
 
+/** @typedef {import("../markdownlint-cli2.mjs").FsPromisesLike} FsPromisesLike */
 /** @typedef {import("../markdownlint-cli2.mjs").OutputFormatterOptions} OutputFormatterOptions */
 /** @typedef {import("../markdownlint-cli2.mjs").LintResult} LintResult */
 
@@ -82,12 +85,15 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
         // @ts-ignore
         transform((res) => delete res.severity)
       ];
+      /** @type {FsPromisesLike} */
+      const fsPromises = { readFile, writeFile };
       /** @type {OutputFormatterOptions} */
       const options = {
         "directory": testDirectory,
         results,
         logMessage,
-        logError
+        logError,
+        fsPromises
       };
       // eslint-disable-next-line unicorn/no-await-expression-member
       const instance = (await import(`../formatter-${formatter}/markdownlint-cli2-formatter-${formatter}.js`)).default;
@@ -99,5 +105,29 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
       });
     });
   }
+
+  test("fsPromises", async (t) => {
+    t.plan(3);
+    const fs = new FsVirtual([]);
+    /** @type {import("../markdownlint-cli2.mjs").OutputFormatter} */
+    const formatter = async (options) => {
+      const { fsPromises } = options;
+      const { "readFile": fspReadFile, "writeFile": fspWriteFile } = fsPromises;
+      const file = "/file.txt";
+      const data = "Hello world.";
+      await fspWriteFile(file, data, "utf8");
+      t.assert.equal(await fspReadFile(file, "utf8"), data);
+      t.assert.equal(await fs.promises.readFile(file, "utf8"), data);
+    };
+    await markdownlintCli2({
+      "argv": [ "../README.md" ],
+      "optionsOverride": {
+        "outputFormatters": [ [ formatter ] ]
+      },
+      fs
+    }).then((exitCode) => {
+      t.assert.equal(exitCode, 0);
+    });
+  });
 
 });

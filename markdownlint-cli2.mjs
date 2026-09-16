@@ -892,7 +892,7 @@ const flattenTaskResults = (/** @type {string} */ baseDir, /** @type {LintTaskRe
 
 // Output summary via formatters
 const outputResults = async (
-  /** @type {string} */ baseDir,
+  /** @type {ExecutionContext} */ context,
   /** @type {string | null} */ relativeDir,
   /** @type {LintResult[]} */ results,
   /** @type {OutputFormatterConfiguration[] | undefined} */ outputFormatters,
@@ -903,12 +903,19 @@ const outputResults = async (
 ) => {
   // eslint-disable-next-line unicorn/prefer-early-return
   if (outputFormatters || (results.length > 0)) {
+    const { baseDir, fs } = context;
+    /** @type {FsPromisesLike} */
+    const fsPromises = {
+      "readFile": fs.promises.readFile,
+      "writeFile": fs.promises.writeFile
+    };
     /** @type {OutputFormatterOptions} */
     const formatterOptions = {
       "directory": baseDir,
       results,
       logMessage,
-      logError
+      logError,
+      fsPromises
     };
     const dir = relativeDir || baseDir;
     const dirs = [ dir, ...modulePaths ];
@@ -1110,7 +1117,7 @@ export const main = async (/** @type {Parameters} */ params) => {
       baseMarkdownlintOptions.modulePaths || []
     );
     await outputResults(
-      baseDir,
+      context,
       relativeDir,
       lintResults,
       outputFormatters,
@@ -1256,4 +1263,15 @@ export const main = async (/** @type {Parameters} */ params) => {
  * @property {LintResult[]} results Lint results.
  * @property {Logger} logMessage Message logger.
  * @property {Logger} logError Error logger.
+ * @property {FsPromisesLike} fsPromises File system promises object.
+ */
+
+/** @typedef {(file: string, options: "utf8") => Promise<string>} FsPromisesReadFileLike */
+
+/** @typedef {(file: string, data: string, options: "utf8") => Promise<void>} FsPromisesWriteFileLike */
+
+/**
+ * @typedef {object} FsPromisesLike
+ * @property {FsPromisesReadFileLike} readFile Implementation of node:fs/promises.readFile.
+ * @property {FsPromisesWriteFileLike} writeFile Implementation of node:fs/promises.writeFile.
  */

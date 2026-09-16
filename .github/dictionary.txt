@@ -8,6 +8,7 @@ CommonMark
 config
 dotfiles
 formatter
+formatter's
 formatters
 Formatters
 GitLab
