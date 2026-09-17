@@ -30,7 +30,11 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
       ...subprocess,
       "exitCode": 0
     })).
-    catch((error) => error);
+    catch((error) => error).
+    then((result) => ({
+      ...result,
+      "readFile": fs.readFile
+    }));
 };
 
 const shardExecSuite = (/** @type {number} */ shardIndex, /** @type {number} */ shardTotal) => {
@@ -47,8 +51,7 @@ const shardExecSuite = (/** @type {number} */ shardIndex, /** @type {number} */ 
       "includeNoImport": false,
       "includeEnv": true,
       "includeScript": true,
-      "includeRequire": true,
-      "needsIsolation": true,
+      "usesVirtualFs": false,
       shardIndex,
       shardTotal
     });

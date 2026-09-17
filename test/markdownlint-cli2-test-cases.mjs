@@ -1,7 +1,6 @@
 // @ts-check
 
 import { createHash } from "node:crypto";
-import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -12,6 +11,7 @@ import { newLineRe as newlineRe } from "markdownlint/helpers";
  * @property {number} exitCode Exit code.
  * @property {string[]} stderr Standard error.
  * @property {string[]} stdout Standard output.
+ * @property {(file: string, options: "utf8") => Promise<string>} readFile Read file.
  */
 
 /**
@@ -29,8 +29,7 @@ import { newLineRe as newlineRe } from "markdownlint/helpers";
  * @property {boolean} includeNoImport Include no-import-based tests.
  * @property {boolean} includeEnv Include environment-based tests.
  * @property {boolean} includeScript Include script-based tests.
- * @property {boolean} includeRequire Include require-based tests.
- * @property {boolean} needsIsolation Needs directory isolation.
+ * @property {boolean} usesVirtualFs Uses (ephemeral) virtual file system.
  * @property {number} [shardIndex] Shard index.
  * @property {number} [shardTotal] Shard total.
  */
@@ -46,8 +45,8 @@ import { newLineRe as newlineRe } from "markdownlint/helpers";
  * @property {Record<string, string>} [env] Environment.
  * @property {RegExp} [stderrRe] Standard error regular expression.
  * @property {boolean} [isolate] Isolate test directory.
- * @property {boolean} [noImport] No import.
- * @property {boolean} [usesRequire] Uses require.
+ * @property {boolean} [noImport] Set noImport option.
+ * @property {boolean} [failsVirtualFs] Fails with virtual file system.
  */
 
 /** @typedef {[ InvokeResult, string | null, string | null, string | null, string | null, string | null, string | null, string | null, string | null ]} TestOutput */
@@ -60,7 +59,6 @@ const sanitize = (/** @type {string[]} */ strs) =>
   );
 const splitSanitize = (/** @type {string | null} */ str) => str ? sanitize(str.split(newlineRe)) : [];
 const sameFileSystem = (path.relative(os.homedir(), import.meta.dirname) !== import.meta.dirname);
-const isModule = (/** @type {string} */ file) => file.endsWith(".cjs") || file.endsWith(".mjs");
 const stableRandomNumber = (/** @type {string} */ identifier) => {
   const hash = createHash("md5");
   hash.update(identifier);
@@ -76,8 +74,7 @@ const testCases = (/** @type {TestConfiguration} */ {
   includeNoImport,
   includeEnv,
   includeScript,
-  includeRequire,
-  needsIsolation,
+  usesVirtualFs,
   shardIndex = 0,
   shardTotal = 1
 }) => {
@@ -93,20 +90,20 @@ const testCases = (/** @type {TestConfiguration} */ {
       env,
       stderrRe,
       noImport,
-      usesRequire
+      failsVirtualFs
     } = options;
     if ((shardTotal > 1) && ((stableRandomNumber(name) % shardTotal) !== shardIndex)) {
       // Skip test due to sharding
       return;
     }
-    const isolate = needsIsolation && options.isolate;
+    const isolate = !usesVirtualFs && options.isolate;
     const usesEnv = Boolean(env);
     const usesScript = Boolean(script);
     if (
       (noImport && !includeNoImport) ||
       (usesEnv && !includeEnv) ||
-      (usesRequire && !includeRequire) ||
-      (usesScript && !includeScript)
+      (usesScript && !includeScript) ||
+      (failsVirtualFs && usesVirtualFs)
     ) {
       return;
     }
@@ -122,35 +119,35 @@ const testCases = (/** @type {TestConfiguration} */ {
         then(invoke(relative, args, noImport, env, script)).
         then((/** @type {InvokeResult} */ result) => Promise.all([
           result,
-          fs.readFile(
+          result.readFile(
             path.join(directory, "markdownlint-cli2-codequality.json"),
             "utf8"
           ).catch(empty),
-          fs.readFile(
+          result.readFile(
             path.join(directory, "custom-name-codequality.json"),
             "utf8"
           ).catch(empty),
-          fs.readFile(
+          result.readFile(
             path.join(directory, "markdownlint-cli2-results.json"),
             "utf8"
           ).catch(empty),
-          fs.readFile(
+          result.readFile(
             path.join(directory, "custom-name-results.json"),
             "utf8"
           ).catch(empty),
-          fs.readFile(
+          result.readFile(
             path.join(directory, "markdownlint-cli2-junit.xml"),
             "utf8"
           ).catch(empty),
-          fs.readFile(
+          result.readFile(
             path.join(directory, "custom-name-junit.xml"),
             "utf8"
           ).catch(empty),
-          fs.readFile(
+          result.readFile(
             path.join(directory, "markdownlint-cli2-sarif.sarif"),
             "utf8"
           ).catch(empty),
-          fs.readFile(
+          result.readFile(
             path.join(directory, "custom-name-sarif.sarif"),
             "utf8"
           ).catch(empty)
@@ -363,19 +360,16 @@ const testCases = (/** @type {TestConfiguration} */ {
   testCase({
     "name": "extends",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   for (const configFile of configFilesCJMY) {
-    const usesRequire = isModule(configFile);
     const friendlyName = configFile.slice(1).replace(".", "-");
     testCase({
       "name": `extends-${friendlyName}`,
       "args": [ "--config", `${friendlyName}/${configFile}`, "file.md" ],
       "exitCode": 1,
-      "cwd": "extends",
-      usesRequire
+      "cwd": "extends"
     });
   }
 
@@ -385,8 +379,7 @@ const testCases = (/** @type {TestConfiguration} */ {
       "name": `importModuleIds-${friendlyName}`,
       "args": [ "*.md" ],
       "exitCode": 1,
-      "cwd": path.join("importModuleIds", friendlyName),
-      "usesRequire": true
+      "cwd": path.join("importModuleIds", friendlyName)
     });
   }
 
@@ -467,15 +460,13 @@ const testCases = (/** @type {TestConfiguration} */ {
   testCase({
     "name": "markdownlint-cjs",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownlint-mjs",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
@@ -502,16 +493,14 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "markdownlint-cjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to import module '.*\.markdownlint\.cjs'/su,
-    "usesRequire": true
+    "stderrRe": /Unable to import module '.*\.markdownlint\.cjs'/su
   });
 
   testCase({
     "name": "markdownlint-mjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to import module '.*\.markdownlint\.mjs'/su,
-    "usesRequire": true
+    "stderrRe": /Unable to import module '.*\.markdownlint\.mjs'/su
   });
 
   testCase({
@@ -579,8 +568,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "markdownlint-cli2-jsonc-example",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "isolate": true,
-    "usesRequire": true
+    "isolate": true
   });
 
   testCase({
@@ -612,8 +600,7 @@ const testCases = (/** @type {TestConfiguration} */ {
     "name": "markdownlint-cli2-yaml-example",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "isolate": true,
-    "usesRequire": true
+    "isolate": true
   });
 
   testCase({
@@ -626,38 +613,35 @@ const testCases = (/** @type {TestConfiguration} */ {
   testCase({
     "name": "markdownlint-cli2-cjs",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownlint-cli2-mjs",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownlint-cli2-cjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.cjs'.*Unable to import module '/su,
-    "usesRequire": true
+    "stderrRe": /'[^']*\.markdownlint-cli2\.cjs'.*Unable to import module '/su
   });
 
   testCase({
     "name": "markdownlint-cli2-mjs-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /'[^']*\.markdownlint-cli2\.mjs'.*Unable to import module '/su,
-    "usesRequire": true
+    "stderrRe": /'[^']*\.markdownlint-cli2\.mjs'.*Unable to import module '/su
   });
 
   testCase({
     "name": "markdownlint-cli2-extends",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "usesRequire": true
+    // Fails on virtual file system attempting to read contents of a package in node_modules
+    "failsVirtualFs": true
   });
 
   testCase({
@@ -789,20 +773,17 @@ const testCases = (/** @type {TestConfiguration} */ {
   });
 
   for (const configFile of configFilesCJMTY) {
-    const usesRequire = isModule(configFile);
     testCase({
       "name": `config-files-${configFile}-arg`,
       "args": [ "--config", `cfg/${configFile}`, "**/*.md" ],
       "exitCode": 1,
-      "cwd": "config-files",
-      usesRequire
+      "cwd": "config-files"
     });
     testCase({
       "name": `config-files-${configFile}-alternate-arg`,
       "args": [ "--config", `cfg/alternate${configFile}`, "**/*.md" ],
       "exitCode": 1,
-      "cwd": "config-files",
-      usesRequire
+      "cwd": "config-files"
     });
     const ambiguousFile = configFile.
       replace(".markdownlint-cli2", "options").
@@ -811,8 +792,7 @@ const testCases = (/** @type {TestConfiguration} */ {
       "name": `config-files-${ambiguousFile}-arg`,
       "args": [ "--config", `cfg/${ambiguousFile}`, "**/*.md" ],
       "exitCode": 1,
-      "cwd": "config-files",
-      usesRequire
+      "cwd": "config-files"
     });
     testCase({
       "name": `config-files-${configFile}-absolute-arg`,
@@ -822,8 +802,7 @@ const testCases = (/** @type {TestConfiguration} */ {
         "**/*.md"
       ],
       "exitCode": 1,
-      "cwd": "config-files",
-      usesRequire
+      "cwd": "config-files"
     });
   }
 
@@ -880,14 +859,12 @@ const testCases = (/** @type {TestConfiguration} */ {
     [ "invalid.markdownlint.mjs", unableToRequireOrImport ]
   ];
   for (const [ invalidConfigFile, stderrRe ] of invalidConfigFiles) {
-    const usesRequire = isModule(invalidConfigFile);
     testCase({
       "name": `config-files-${invalidConfigFile}-invalid-arg`,
       "args": [ "--config", `cfg/${invalidConfigFile}`, "**/*.md" ],
       "exitCode": 2,
       "stderrRe": new RegExp(`'[^']*${invalidConfigFile.replace(".", "\\.")}'.*${stderrRe}`, "u"),
-      "cwd": "config-files",
-      usesRequire
+      "cwd": "config-files"
     });
   }
 
@@ -897,13 +874,11 @@ const testCases = (/** @type {TestConfiguration} */ {
     ".markdownlint.cjs"
   ];
   for (const redundantConfigFile of redundantConfigFiles) {
-    const usesRequire = isModule(redundantConfigFile);
     testCase({
       "name": `config-files-${redundantConfigFile}-redundant-arg`,
       "args": [ "--config", redundantConfigFile, "*.md" ],
       "exitCode": 1,
-      "cwd": redundantConfigFile.slice(1).replace(".", "-"),
-      usesRequire
+      "cwd": redundantConfigFile.slice(1).replace(".", "-")
     });
   }
 
@@ -925,8 +900,7 @@ const testCases = (/** @type {TestConfiguration} */ {
       "link.md"
     ],
     "exitCode": 1,
-    "cwd": "config-relative-commonjs",
-    "usesRequire": true
+    "cwd": "config-relative-commonjs"
   });
 
   testCase({
@@ -938,8 +912,7 @@ const testCases = (/** @type {TestConfiguration} */ {
       "link.md"
     ],
     "exitCode": 1,
-    "cwd": "config-relative-module",
-    "usesRequire": true
+    "cwd": "config-relative-module"
   });
 
   testCase({
@@ -1021,61 +994,53 @@ const testCases = (/** @type {TestConfiguration} */ {
   testCase({
     "name": "customRules",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
     "name": "customRules-pre-imported",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
     "name": "customRules-missing",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to import module 'missing-package'\./u,
-    "usesRequire": true
+    "stderrRe": /Unable to import module 'missing-package'\./u
   });
 
   testCase({
     "name": "customRules-invalid",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Property 'names' of custom rule at index 0 is incorrect: 'undefined'\./u,
-    "usesRequire": true
+    "stderrRe": /Property 'names' of custom rule at index 0 is incorrect: 'undefined'\./u
   });
 
   testCase({
     "name": "customRules-throws",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownItPlugins",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
     "name": "markdownItPlugins-missing",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to import module 'missing-package'\./u,
-    "usesRequire": true
+    "stderrRe": /Unable to import module 'missing-package'\./u
   });
 
   testCase({
     "name": "outputFormatters",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "isolate": true,
-    "usesRequire": true
+    "isolate": true
   });
 
   testCase({
@@ -1086,77 +1051,67 @@ const testCases = (/** @type {TestConfiguration} */ {
     "env": {
       "FORCE_COLOR": "1",
       "FORCE_HYPERLINK": "1"
-    },
-    "usesRequire": true
+    }
   });
 
   testCase({
     "name": "outputFormatters-params",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "isolate": true,
-    "usesRequire": true
+    "isolate": true
   });
 
   testCase({
     "name": "outputFormatters-params-absolute",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "isolate": true,
-    "usesRequire": true
+    "isolate": true
   });
 
   testCase({
     "name": "outputFormatters-severity",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "isolate": true,
-    "usesRequire": true
+    "isolate": true
   });
 
   testCase({
     "name": "outputFormatters-pre-imported",
     "args": [ "**/*.md" ],
     "exitCode": 1,
-    "isolate": true,
-    "usesRequire": true
+    "isolate": true
   });
 
   testCase({
     "name": "outputFormatters-clean",
     "args": [ "**/*.md" ],
     "exitCode": 0,
-    "isolate": true,
-    "usesRequire": true
+    "isolate": true
   });
 
   testCase({
     "name": "outputFormatters-file",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
     "name": "outputFormatters-module",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
     "name": "outputFormatters-missing",
     "args": [ ".*" ],
     "exitCode": 2,
-    "stderrRe": /Unable to import module 'missing-package'\./u,
-    "usesRequire": true
+    "stderrRe": /Unable to import module 'missing-package'\./u
   });
 
   testCase({
     "name": "formatter-summarize",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
@@ -1181,8 +1136,7 @@ const testCases = (/** @type {TestConfiguration} */ {
   testCase({
     "name": "formatter-template",
     "args": [ "*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
@@ -1200,8 +1154,7 @@ const testCases = (/** @type {TestConfiguration} */ {
   testCase({
     "name": "nested-options-config",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
@@ -1269,15 +1222,13 @@ const testCases = (/** @type {TestConfiguration} */ {
     testCase({
       "name": "tilde-paths-commonjs",
       "args": [ "*.md" ],
-      "exitCode": 1,
-      "usesRequire": true
+      "exitCode": 1
     });
 
     testCase({
       "name": "tilde-paths-module",
       "args": [ "*.md" ],
-      "exitCode": 1,
-      "usesRequire": true
+      "exitCode": 1
     });
 
   }
@@ -1364,15 +1315,13 @@ const testCases = (/** @type {TestConfiguration} */ {
   testCase({
     "name": "modulePaths",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({
     "name": "modulePaths-non-root",
     "args": [ "**/*.md" ],
-    "exitCode": 1,
-    "usesRequire": true
+    "exitCode": 1
   });
 
   testCase({

@@ -1,5 +1,6 @@
 // @ts-check
 
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import testCases from "./markdownlint-cli2-test-cases.mjs";
@@ -25,7 +26,6 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
     },
     noImport
   }).
-    then((exitCode) => exitCode).
     catch((error) => {
       stderr.push(error.message);
       return 2;
@@ -33,7 +33,8 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
     then((exitCode) => ({
       exitCode,
       stdout,
-      stderr
+      stderr,
+      readFile
     }));
 };
 
@@ -49,8 +50,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     "includeNoImport": true,
     "includeEnv": false,
     "includeScript": false,
-    "includeRequire": true,
-    "needsIsolation": true
+    "usesVirtualFs": false
   });
 
 });

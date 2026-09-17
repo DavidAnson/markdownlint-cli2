@@ -9,7 +9,7 @@ import testCases from "./markdownlint-cli2-test-cases.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 
 const directory = import.meta.dirname;
-const baseDir = "/virtual";
+const baseDir = directory.replaceAll("\\", "/").replace(/^[^/]*/u, "");
 const files = await FsVirtual.mirrorDirectory(fs, directory, globby, baseDir);
 
 const copyDir = () => Promise.reject(new Error("UNUSED"));
@@ -33,7 +33,6 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
     noImport,
     "fs": fsVirtual
   }).
-    then((exitCode) => exitCode).
     catch((error) => {
       stderr.push(error.message);
       return 2;
@@ -41,7 +40,8 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
     then((exitCode) => ({
       exitCode,
       stdout,
-      stderr
+      stderr,
+      "readFile": fsVirtual.promises.readFile
     }));
 };
 
@@ -57,8 +57,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     "includeNoImport": true,
     "includeEnv": false,
     "includeScript": false,
-    "includeRequire": false,
-    "needsIsolation": false
+    "usesVirtualFs": true
   });
 
 });
