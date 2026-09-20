@@ -1,6 +1,6 @@
 {
   "name": "markdownlint-cli2-formatter-json",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "An output formatter for markdownlint-cli2 that writes results to a file in JSON format",
   "author": "David Anson (https://dlaa.me/)",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "markdownlint-cli2-formatter-json.js"
   ],
   "peerDependencies": {
-    "markdownlint-cli2": ">=0.0.4"
+    "markdownlint-cli2": ">=0.23.3"
   },
   "keywords": [
     "markdownlint-cli2-formatter"

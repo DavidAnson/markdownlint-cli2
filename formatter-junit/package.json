@@ -1,6 +1,6 @@
 {
   "name": "markdownlint-cli2-formatter-junit",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "An output formatter for markdownlint-cli2 that writes results to a file in JUnit XML format",
   "author": "David Anson (https://dlaa.me/)",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "markdownlint-cli2-formatter-junit.js"
   ],
   "peerDependencies": {
-    "markdownlint-cli2": ">=0.0.4"
+    "markdownlint-cli2": ">=0.23.3"
   },
   "dependencies": {
     "junit-report-builder": "5.1.2"
