@@ -3,6 +3,7 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
+import { newLineRe as newlineRe } from "markdownlint/helpers";
 import { main as markdownlintCli2 } from "../markdownlint-cli2.mjs";
 import FsVirtual from "../webworker/fs-virtual.cjs";
 
@@ -101,7 +102,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
       t.assert.snapshot({
         messages,
         errors,
-        "output": output ? await readFile(path.join(testDirectory, output), "utf8").catch(() => "") : ""
+        "output": (output ? await readFile(path.join(testDirectory, output), "utf8").catch(() => "") : "").split(newlineRe)
       });
     });
   }
