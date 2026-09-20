@@ -9,20 +9,24 @@ USER 0
 RUN npm install --global --no-package-lock --omit=dev \
     @github/markdownlint-github \
     @johnzook/sentences-per-line \
+    @pchalin/markdownlint-rule-link-pattern \
     markdownlint-rule-complete \
     markdownlint-rule-enhanced-proper-names \
     markdownlint-rule-extended-ascii \
+    markdownlint-rule-extra-fixes \
     markdownlint-rule-force-align-table-columns \
     markdownlint-rule-github-admonition \
     markdownlint-rule-github-internal-links \
     markdownlint-rule-header-id \
     markdownlint-rule-list-duplicates \
     markdownlint-rule-max-one-sentence-per-line \
+    markdownlint-rule-no-shortcut-ref-link \
     markdownlint-rule-no-trailing-slash-in-links \
     markdownlint-rule-numbered-headings-unique \
     markdownlint-rule-olstart \
     markdownlint-rule-relative-links \
     markdownlint-rule-search-replace \
+    markdownlint-rule-sembr \
     markdownlint-rule-table-format \
     markdownlint-rule-title-case-style \
     markdownlint-rule-titlecase \
