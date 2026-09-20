@@ -1743,7 +1743,7 @@ exports[`markdownlint-cli2-test-exec.mjs > outputFormatters-npm (exec) 1`] = `
     "      \\"tool\\": {",
     "        \\"driver\\": {",
     "          \\"name\\": \\"markdownlint-cli2\\",",
-    "          \\"version\\": \\"0.0.4\\",",
+    "          \\"version\\": \\"0.0.5\\",",
     "          \\"informationUri\\": \\"https://github.com/DavidAnson/markdownlint-cli2\\",",
     "          \\"rules\\": [",
     "            {",
