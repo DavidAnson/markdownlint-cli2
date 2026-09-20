@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.23.3
+
+- Update dependencies
+
 ## 0.23.2
 
 - Update dependencies
