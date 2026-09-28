@@ -87,7 +87,7 @@
     "cpy-cli": "7.0.0",
     "cpy": "13.2.3",
     "eslint-node-test": "0.4.0",
-    "eslint-package-json": "0.3.0",
+    "eslint-package-json": "1.0.0",
     "eslint-plugin-jsdoc": "64.5.3",
     "eslint-plugin-n": "18.3.0",
     "eslint-plugin-unicorn": "74.0.0",
