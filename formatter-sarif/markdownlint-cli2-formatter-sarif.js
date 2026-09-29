@@ -111,6 +111,7 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
           "text": ruleDescription
         }
       };
+      // eslint-disable-next-line unicorn/no-immediate-mutation
       if (ruleInformation) {
         sarifRule.helpUri = ruleInformation;
       }
@@ -145,6 +146,7 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
         }
       ]
     };
+    // eslint-disable-next-line unicorn/no-immediate-mutation
     if (severity) {
       sarifResult.level = severity;
     }

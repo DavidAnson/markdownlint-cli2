@@ -85,6 +85,7 @@ const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @typ
       logColumns(logMessage, total, "[Total]", 2);
     }
   }
+  // eslint-disable-next-line unicorn/prefer-early-return
   if (byRuleByFile) {
     const rules = [ ...countByRuleByFile.keys() ];
     rules.sort();

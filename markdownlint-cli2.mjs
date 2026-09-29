@@ -226,11 +226,9 @@ const processArgv = (/** @type {string[]} */ argv) => {
       // Escape RegExp special characters recognized by fast-glob
       // https://github.com/mrmlnc/fast-glob#advanced-syntax
       const specialCharacters = /\\(?![$()*+?[\]^])/gu;
-      if (glob.startsWith("\\:")) {
-        return `\\:${glob.slice(2).replace(specialCharacters, "/")}`;
-      }
-      return (glob.startsWith("#") ? `!${glob.slice(1)}` : glob).
-        replace(specialCharacters, "/");
+      return (glob.startsWith("\\:"))
+        ? `\\:${glob.slice(2).replace(specialCharacters, "/")}`
+        : (glob.startsWith("#") ? `!${glob.slice(1)}` : glob).replace(specialCharacters, "/");
     }
   );
   if ((globPatterns.length === 1) && (globPatterns[0] === ".")) {
@@ -697,6 +695,7 @@ const createDirInfos = async (
     const overrides = dirInfo.markdownlintOptions?.overrides || [];
     for (const override of overrides) {
       const { filter, config, combine } = override;
+      // eslint-disable-next-line unicorn/prefer-continue
       if (filter && config && (filter.length > 0) && ((combine === "merge") || (combine === "replace"))) {
         const filteredFiles = filterByGlobs(dirInfo.dir, dirInfo.files, filter);
         if (filteredFiles.length > 0) {
@@ -809,11 +808,10 @@ const lintFiles = (
         const filesToFix = [];
         options.files = filesToFix;
         const subTasks = [];
-        const errorFiles = Object.keys(results).
-          filter((result) => filteredFiles.includes(result));
+        const errorFiles = Object.keys(results).filter((result) => filteredFiles.includes(result));
         for (const fileName of errorFiles) {
-          const errorInfos = results[fileName].
-            filter((errorInfo) => errorInfo.fixInfo);
+          const errorInfos = results[fileName].filter((errorInfo) => errorInfo.fixInfo);
+          // eslint-disable-next-line unicorn/prefer-continue
           if (errorInfos.length > 0) {
             issuesToFix += errorInfos.length;
             filesToFix.push(fileName);

@@ -99,20 +99,18 @@ class FsVirtual {
       // Used by: markdownlint-cli2(lint)
       "access": (/** @type {string} */ path) => {
         path = normalize(path);
-        if (this.files.has(path)) {
-          return Promise.resolve();
-        }
-        return Promise.reject(new Error(`fs-virtual:promises.access(${path})`));
+        return (this.files.has(path))
+          ? Promise.resolve()
+          : Promise.reject(new Error(`fs-virtual:promises.access(${path})`));
       },
 
       // Used by: markdownlint-cli2(lint/fix)
       // eslint-disable-next-line no-unused-vars
       "readFile": (/** @type {string} */ path, /** @type {NodeJS.BufferEncoding=} */ options) => {
         path = normalize(path);
-        if (this.files.has(path)) {
-          return Promise.resolve(this.files.get(path));
-        }
-        return Promise.reject(new Error(`fs-virtual:promises.readFile(${path})`));
+        return (this.files.has(path))
+          ? Promise.resolve(this.files.get(path))
+          : Promise.reject(new Error(`fs-virtual:promises.readFile(${path})`));
       },
 
       // Used by: globby(globbing)
@@ -121,10 +119,9 @@ class FsVirtual {
         if (this.files.has(path)) {
           return Promise.resolve(stats(false, this.files.get(path)));
         }
-        if (this.dirs.has(path)) {
-          return Promise.resolve(stats(true, ""));
-        }
-        return Promise.reject(new Error(`fs-virtual:promises.stat(${path})`));
+        return (this.dirs.has(path))
+          ? Promise.resolve(stats(true, ""))
+          : Promise.reject(new Error(`fs-virtual:promises.stat(${path})`));
       },
 
       // Used by: markdownlint-cli2(fix)

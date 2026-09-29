@@ -68,6 +68,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     }
     // @ts-ignore
     const [ direntDir ] = await fsReaddir("/", { "withFileTypes": true });
+    // eslint-disable-next-line unicorn/prefer-early-return
     if (typeof direntDir !== "string") {
       t.assert.equal(direntDir.name, expectedDir[0]);
       t.assert.equal(direntDir.parentPath, "/");
