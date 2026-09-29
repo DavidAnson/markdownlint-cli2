@@ -34,6 +34,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     t.plan(3);
     const logMessage = (/** @type {string} */ msg) => {
       const match = (/^(?<name>\S+)\sv(?<version>\S+)\s/u).exec(msg);
+      // eslint-disable-next-line unicorn/prefer-early-return
       if (match) {
         // @ts-ignore
         const { name, version } = match.groups;
