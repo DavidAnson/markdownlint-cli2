@@ -144,9 +144,11 @@ export default defineConfig(
     ],
     "rules": {
       "package-json/dependency-version-range": [ "error", { "range": "exact" } ],
+      "package-json/no-absolute-paths-in-scripts": "off",
       "package-json/no-redundant-files": "off",
       "package-json/peer-dependencies-as-dev-dependencies": "off",
       "package-json/prefer-side-effects-field": "off",
+      "package-json/require-bin-executable": "off",
       "package-json/require-private": "off",
       "package-json/sort-dependencies": "off",
       "package-json/sort-files": "off",
