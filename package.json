@@ -89,7 +89,7 @@
     "eslint-node-test": "0.4.0",
     "eslint-package-json": "1.0.0",
     "eslint-plugin-jsdoc": "64.5.4",
-    "eslint-plugin-n": "18.3.0",
+    "eslint-plugin-n": "18.4.0",
     "eslint-plugin-unicorn": "76.0.0",
     "eslint": "10.11.0",
     "execa": "10.0.1",
