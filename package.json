@@ -86,7 +86,7 @@
     "concurrently": "10.0.5",
     "cpy-cli": "7.0.0",
     "cpy": "13.2.3",
-    "eslint-node-test": "0.4.0",
+    "eslint-node-test": "1.0.1",
     "eslint-package-json": "2.0.0",
     "eslint-plugin-jsdoc": "65.1.0",
     "eslint-plugin-n": "18.4.1",
