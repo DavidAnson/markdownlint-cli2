@@ -349,7 +349,7 @@ supported by the `--format` command-line parameter. When `--format` is set:
     ignore any [front matter][front-matter] at the beginning of a document
     - The `String` is passed as the `pattern` parameter to the
       [`RegExp` constructor][regexp-constructor]
-    - For example: `(^---\s*$[^]*?^---\s*$)(\r\n|\r|\n|$)`
+    - For example: `(^---\s*$[\s\S]*?^---\s*$)(\r\n|\r|\n|$)`
   - `gitignore`: `Boolean` or `String` value to automatically ignore files
     referenced by `.gitignore` (or similar) when linting
     - When the value `true` is specified, all `.gitignore` files in the tree
