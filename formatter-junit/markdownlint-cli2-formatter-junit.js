@@ -15,6 +15,7 @@ const junitReportBuilder = require("junit-report-builder");
 // Writes markdownlint-cli2 results to a file in JUnit XML format
 const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
   const { directory, fsPromises, results } = options;
+  // eslint-disable-next-line unicorn/prefer-default-parameters
   const { name } = (params || {});
   // Get a new builder instance because the default builder is shared
   // @ts-ignore

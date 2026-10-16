@@ -9,6 +9,7 @@ import eslintPluginN from "eslint-plugin-n";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 
+// eslint-disable-next-line unicorn/no-top-level-side-effects
 export default defineConfig(
   {
     "ignores": [

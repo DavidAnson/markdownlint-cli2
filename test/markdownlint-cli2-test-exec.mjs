@@ -11,6 +11,7 @@ const baseDir = import.meta.dirname;
 
 const repositoryPath = (/** @type {string} */ name) => path.join(baseDir, "..", name);
 
+// eslint-disable-next-line unicorn/prefer-default-parameters
 const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /** @type {boolean | undefined} */ noImport, /** @type {Record<string, string> | undefined} */ env, /** @type {string | undefined} */ script) => async () => {
   const directory = path.join(baseDir, relative);
   await fs.access(directory);
