@@ -10,7 +10,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     t.plan(1);
     const obj = null;
     const clone = cloneOptions(obj);
-    t.assert.deepEqual(clone, obj);
+    t.assert.equal(clone, obj);
   });
 
   test("empty object", (t) => {

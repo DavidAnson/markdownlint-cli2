@@ -110,7 +110,6 @@ const testCases = (/** @type {TestConfiguration} */ {
     const setup = (/** @type {string} */ fromDir, /** @type {string} */ toDir) => isolate ? copyDir(fromDir, toDir) : Promise.resolve();
     const teardown = (/** @type {string} */ dir) => isolate ? removeDir(dir) : Promise.resolve();
     const isolatedDir = `${name}-copy-${host}`;
-    // eslint-disable-next-line node-test/require-top-level-describe
     test(`${name} (${host})`, async (t) => {
       t.plan(3);
       const relative = (isolate && isolatedDir) || cwd || shadow || name;
