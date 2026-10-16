@@ -74,7 +74,7 @@
     "jsonpointer": "5.0.1",
     "markdown-it": "15.0.2",
     "markdownlint-cli2-formatter-default": "0.0.6",
-    "markdownlint": "0.41.1",
+    "markdownlint": "0.42.0",
     "micromatch": "4.0.8",
     "smol-toml": "1.9.0"
   },
