@@ -38,25 +38,25 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
   test("undefined", (t) => {
     t.plan(1);
     const expected = undefined;
-    t.assert.deepEqual(deepFreeze(expected), expected);
+    t.assert.equal(deepFreeze(expected), expected);
   });
 
   test("null", (t) => {
     t.plan(1);
     const expected = null;
-    t.assert.deepEqual(deepFreeze(expected), expected);
+    t.assert.equal(deepFreeze(expected), expected);
   });
 
   test("number", (t) => {
     t.plan(1);
     const expected = 5;
-    t.assert.deepEqual(deepFreeze(expected), expected);
+    t.assert.equal(deepFreeze(expected), expected);
   });
 
   test("string", (t) => {
     t.plan(1);
     const expected = "hello";
-    t.assert.deepEqual(deepFreeze(expected), expected);
+    t.assert.equal(deepFreeze(expected), expected);
   });
 
   test("array", (t) => {
