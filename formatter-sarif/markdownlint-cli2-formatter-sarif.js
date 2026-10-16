@@ -54,6 +54,7 @@ const toUpper = (/** @type {string} */ s) => s.toUpperCase();
 // Interchange Format/SARIF
 const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
   const { directory, fsPromises, results } = options;
+  // eslint-disable-next-line unicorn/prefer-default-parameters
   const { name } = (params || {});
 
   // Create SARIF object

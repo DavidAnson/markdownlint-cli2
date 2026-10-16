@@ -29,6 +29,7 @@ const createFingerprint = function createFingerprint(violation) {
 // See: https://docs.gitlab.com/ci/testing/code_quality/#code-quality-report-format
 const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
   const { directory, fsPromises, results } = options;
+  // eslint-disable-next-line unicorn/prefer-default-parameters
   const { name, severity, severityError, severityWarning } = (params || {});
   const issues = [];
 

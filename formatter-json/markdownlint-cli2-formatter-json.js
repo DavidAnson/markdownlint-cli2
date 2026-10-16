@@ -15,6 +15,7 @@ const path = require("node:path");
 // Writes markdownlint-cli2 results to a file in JSON format
 const outputFormatter = (/** @type {OutputFormatterOptions} */ options, /** @type {Parameters} */ params) => {
   const { directory, fsPromises, results } = options;
+  // eslint-disable-next-line unicorn/prefer-default-parameters
   const { name, spaces } = (params || {});
   const content = JSON.stringify(results, null, spaces || 2);
   return fsPromises.writeFile(
