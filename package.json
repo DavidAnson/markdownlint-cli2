@@ -76,7 +76,7 @@
     "markdownlint-cli2-formatter-default": "0.0.6",
     "markdownlint": "0.42.0",
     "micromatch": "4.0.8",
-    "smol-toml": "1.9.0"
+    "smol-toml": "1.9.1"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
