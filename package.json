@@ -72,7 +72,7 @@
     "js-yaml": "5.4.1",
     "jsonc-parser": "3.3.1",
     "jsonpointer": "5.0.1",
-    "markdown-it": "15.0.1",
+    "markdown-it": "15.0.2",
     "markdownlint-cli2-formatter-default": "0.0.6",
     "markdownlint": "0.41.1",
     "micromatch": "4.0.8",
