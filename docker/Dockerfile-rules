@@ -27,11 +27,13 @@ RUN npm install --global --no-package-lock --omit=dev \
     markdownlint-rule-relative-links \
     markdownlint-rule-search-replace \
     markdownlint-rule-sembr \
+    markdownlint-rule-single-line-paragraphs \
     markdownlint-rule-table-format \
     markdownlint-rule-title-case-style \
     markdownlint-rule-titlecase \
     markdownlint-rule-trace-template-headers \
     markdownlint-rule-unique-table-numbering \
+    markdownlint-rule-visimark \
     markdownlint-rules-foliant \
     markdownlint-rules-grav-pages \
     markdownlint-shell \
