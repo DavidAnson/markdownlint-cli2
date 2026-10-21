@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.24.0
+
+- Update dependencies (including `markdownlint`)
+
 ## 0.23.3
 
 - Update dependencies

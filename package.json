@@ -1,6 +1,6 @@
 {
   "name": "markdownlint-cli2",
-  "version": "0.23.3",
+  "version": "0.24.0",
   "description": "A fast, flexible, configuration-based command-line interface for linting Markdown/CommonMark files with the `markdownlint` library",
   "author": "David Anson (https://dlaa.me/)",
   "license": "MIT",
