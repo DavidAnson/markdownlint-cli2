@@ -1,6 +1,5 @@
 // @ts-check
 
-import { createHash } from "node:crypto";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -30,8 +29,6 @@ import { newLineRe as newlineRe } from "markdownlint/helpers";
  * @property {boolean} includeEnv Include environment-based tests.
  * @property {boolean} includeScript Include script-based tests.
  * @property {boolean} usesVirtualFs Uses (ephemeral) virtual file system.
- * @property {number} [shardIndex] Shard index.
- * @property {number} [shardTotal] Shard total.
  */
 
 /**
@@ -59,11 +56,6 @@ const sanitize = (/** @type {string[]} */ strs) =>
   );
 const splitSanitize = (/** @type {string | null} */ str) => str ? sanitize(str.split(newlineRe)) : [];
 const sameFileSystem = (path.relative(os.homedir(), import.meta.dirname) !== import.meta.dirname);
-const stableRandomNumber = (/** @type {string} */ identifier) => {
-  const hash = createHash("md5");
-  hash.update(identifier);
-  return hash.digest().readUInt8();
-};
 
 const testCases = (/** @type {TestConfiguration} */ {
   host,
@@ -74,9 +66,7 @@ const testCases = (/** @type {TestConfiguration} */ {
   includeNoImport,
   includeEnv,
   includeScript,
-  usesVirtualFs,
-  shardIndex = 0,
-  shardTotal = 1
+  usesVirtualFs
 }) => {
 
   const testCase = (/** @type {TestDefinition} */ options) => {
@@ -92,10 +82,6 @@ const testCases = (/** @type {TestConfiguration} */ {
       noImport,
       failsVirtualFs
     } = options;
-    if ((shardTotal > 1) && ((stableRandomNumber(name) % shardTotal) !== shardIndex)) {
-      // Skip test due to sharding
-      return;
-    }
     const isolate = !usesVirtualFs && options.isolate;
     const usesEnv = Boolean(env);
     const usesScript = Boolean(script);

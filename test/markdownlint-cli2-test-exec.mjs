@@ -38,30 +38,19 @@ const invoke = (/** @type {string} */ relative, /** @type {string[]} */ args, /*
     }));
 };
 
-const shardExecSuite = (/** @type {number} */ shardIndex, /** @type {number} */ shardTotal) => {
+test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
 
-  test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
-
-    // eslint-disable-next-line node-test/require-hook
-    testCases({
-      "host": "exec",
-      baseDir,
-      invoke,
-      copyDir,
-      removeDir,
-      "includeNoImport": false,
-      "includeEnv": true,
-      "includeScript": true,
-      "usesVirtualFs": false,
-      shardIndex,
-      shardTotal
-    });
-
+  // eslint-disable-next-line node-test/require-hook
+  testCases({
+    "host": "exec",
+    baseDir,
+    invoke,
+    copyDir,
+    removeDir,
+    "includeNoImport": false,
+    "includeEnv": true,
+    "includeScript": true,
+    "usesVirtualFs": false
   });
 
-};
-
-// eslint-disable-next-line node-test/no-export
-export {
-  shardExecSuite
-};
+});
