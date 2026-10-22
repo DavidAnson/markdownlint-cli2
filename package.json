@@ -104,7 +104,8 @@
     "markdownlint-cli2-formatter-summarize": "0.0.8",
     "markdownlint-cli2-formatter-template": "0.0.4",
     "markdownlint-rule-extended-ascii": "0.2.1",
-    "terminal-link": "5.0.0"
+    "terminal-link": "5.0.0",
+    "workerpool": "10.0.3"
   },
   "keywords": [
     "markdown",
