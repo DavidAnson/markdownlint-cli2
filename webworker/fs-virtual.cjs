@@ -134,6 +134,7 @@ class FsVirtual {
     };
 
     // Used by: markdownlint(config)
+    // eslint-disable-next-line unicorn/prefer-default-parameters
     this.access = (/** @type {string} */ path, /** @type {((err: NodeJS.ErrnoException) => void)} */ mode, /** @type {((err: NodeJS.ErrnoException) => void)=} */ callback) => {
       // @ts-ignore
       this.promises.access(path).then(callback || mode).catch(callback || mode);
@@ -146,6 +147,7 @@ class FsVirtual {
     };
 
     // Used by: globby(globbing)
+    // eslint-disable-next-line unicorn/prefer-default-parameters
     this.readdir = (/** @type {string} */ path, /** @type {{ "withFileTypes": boolean}=} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: (string | Dirent)[]) => void)} */ callback) => {
       path = normalize(path).replace(/(?<!\/)$/u, "/");
       /** @type {string[]} */

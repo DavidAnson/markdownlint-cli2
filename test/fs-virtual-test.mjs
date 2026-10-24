@@ -206,6 +206,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
         // @ts-ignore
         callback(null, stats);
       };
+      // eslint-disable-next-line unicorn/prefer-default-parameters
       this.readdir = (/** @type {string} */ path, /** @type {{ "withFileTypes": boolean}=} */ options, /** @type {((err: NodeJS.ErrnoException | null, names: (string | import("fs").Dirent)[]) => void)} */ callback) => {
         const dirent = {
           "isDirectory": () => false,
