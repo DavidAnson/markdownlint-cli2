@@ -1,6 +1,6 @@
 # hadolint global ignore=DL3016
 
-ARG VERSION
+ARG VERSION=latest
 FROM davidanson/markdownlint-cli2:${VERSION}
 
 USER 0
