@@ -90,7 +90,7 @@
     "eslint-package-json": "3.0.0",
     "eslint-plugin-jsdoc": "65.4.2",
     "eslint-plugin-n": "18.5.0",
-    "eslint-plugin-unicorn": "78.0.0",
+    "eslint-plugin-unicorn": "79.0.0",
     "eslint": "10.13.0",
     "execa": "10.2.1",
     "junit-report-builder": "5.1.2",
