@@ -4947,6 +4947,26 @@ exports[`markdownlint-cli2-test-fs.mjs > noInlineConfig (fs) 1`] = `
 }
 `;
 
+exports[`markdownlint-cli2-test-fs.mjs > null-prototype (fs) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: viewme.md dir/about.md",
+    "Linting: 2 files",
+    "Summary: 2 issues in 2 files"
+  ],
+  "stderr": [
+    "dir/about.md:1 error report-config Rule that reports its config [{\\"null\\":null,\\"number\\":2,\\"string\\":\\"t\\",\\"array\\":[null,2,\\"t\\"],\\"object\\":{\\"key2\\":\\"value2\\"}}]",
+    "viewme.md:1 error report-config Rule that reports its config [{\\"null\\":null,\\"number\\":1,\\"string\\":\\"s\\",\\"array\\":[null,1,\\"s\\"],\\"object\\":{\\"key\\":\\"value\\"}}]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
 exports[`markdownlint-cli2-test-fs.mjs > one-argument-config-arg (fs) 1`] = `
 {
   "exitCode": 2,

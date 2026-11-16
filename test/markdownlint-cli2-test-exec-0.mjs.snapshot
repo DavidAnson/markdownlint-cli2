@@ -1083,6 +1083,26 @@ exports[`markdownlint-cli2-test-exec.mjs > no-globs-and-args (exec) 1`] = `
 }
 `;
 
+exports[`markdownlint-cli2-test-exec.mjs > null-prototype (exec) 1`] = `
+{
+  "exitCode": 1,
+  "stdout": [
+    "markdownlint-cli2 vX.Y.Z (markdownlint vX.Y.Z)",
+    "Finding: viewme.md dir/about.md",
+    "Linting: 2 files",
+    "Summary: 2 issues in 2 files"
+  ],
+  "stderr": [
+    "dir/about.md:1 error report-config Rule that reports its config [{\\"null\\":null,\\"number\\":2,\\"string\\":\\"t\\",\\"array\\":[null,2,\\"t\\"],\\"object\\":{\\"key2\\":\\"value2\\"}}]",
+    "viewme.md:1 error report-config Rule that reports its config [{\\"null\\":null,\\"number\\":1,\\"string\\":\\"s\\",\\"array\\":[null,1,\\"s\\"],\\"object\\":{\\"key\\":\\"value\\"}}]"
+  ],
+  "formatterCodeQuality": [],
+  "formatterJson": [],
+  "formatterJunit": [],
+  "formatterSarif": []
+}
+`;
+
 exports[`markdownlint-cli2-test-exec.mjs > outputFormatters-clean (exec) 1`] = `
 {
   "exitCode": 0,

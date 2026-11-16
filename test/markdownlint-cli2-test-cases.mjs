@@ -684,6 +684,12 @@ const testCases = (/** @type {TestConfiguration} */ {
   });
 
   testCase({
+    "name": "null-prototype",
+    "args": [ "viewme.md", "dir/about.md" ],
+    "exitCode": 1
+  });
+
+  testCase({
     "name": "severity",
     "args": [ "**/*.md" ],
     "exitCode": 1
