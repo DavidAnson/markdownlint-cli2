@@ -590,6 +590,7 @@ test.suite(import.meta.url.replace(/^.*?\/(?<name>[^/]*)$/u, "$<name>"), () => {
     ];
     /** @type {[string, string][]} */
     const files = names.map((name) =>
+      // eslint-disable-next-line @stylistic/list-style
       [ `/dir/${name.replace(/^:/u, "").replace(/^\\:/u, ":")}`, "# Heading" ]
     );
     return markdownlintCli2({

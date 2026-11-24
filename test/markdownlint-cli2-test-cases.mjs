@@ -55,6 +55,7 @@ const empty = () => null;
 const sanitize = (/** @type {string[]} */ strs) =>
   strs.map((str) => str.
     replace(/\bv\d+\.\d+\.\d+\b/gu, "vX.Y.Z").
+    // eslint-disable-next-line @stylistic/list-style
     replace(/ :.+[/\\]sentinel/gu, " :[PATH]")
   );
 const splitSanitize = (/** @type {string | null} */ str) => str ? sanitize(str.split(newlineRe)) : [];
