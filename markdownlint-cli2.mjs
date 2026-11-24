@@ -143,6 +143,7 @@ const extendOptionsObject = (/** @type {ExecutionContext} */ context, /** @type 
       context,
       config,
       configPath
+      // eslint-disable-next-line @stylistic/list-style
     ))
   );
 };
@@ -286,8 +287,7 @@ Cross-platform compatibility:
 - On any platform, passing the parameter "--" causes all remaining parameters to be treated literally
 
 The most compatible syntax for cross-platform support:
-$ markdownlint-cli2 "**/*.md" "#node_modules"`
-  );
+$ markdownlint-cli2 "**/*.md" "#node_modules"`);
   return 2;
 };
 
@@ -819,6 +819,7 @@ const lintFiles = (
               then((/** @type {string} */ original) => {
                 const fixed = applyFixes(original, errorInfos);
                 return fs.promises.writeFile(fileName, fixed, utf8);
+                // eslint-disable-next-line @stylistic/list-style
               })
             );
           }
