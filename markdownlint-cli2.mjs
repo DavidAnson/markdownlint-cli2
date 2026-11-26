@@ -486,7 +486,7 @@ const enumerateFiles = async (
       : literalFiles;
   // Process glob patterns
   const files = [
-    ...await globby(filteredGlobPatterns, globbyOptions),
+    ...(await globby(filteredGlobPatterns, globbyOptions)),
     ...filteredLiteralFiles
   ];
   for (const file of files) {
